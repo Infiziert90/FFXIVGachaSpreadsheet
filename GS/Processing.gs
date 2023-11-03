@@ -17,13 +17,6 @@ function cacheCofferSheet(dataSheetName, target) {
     for (let i = 1; i < dataSheet.length; i++) {
         let [coffer, item, amount] = [dataSheet[i][0], dataSheet[i][1], dataSheet[i][2]]
 
-        // Old data from sanctuary does not contain coffer id
-        if (target === 41667) {
-            amount = item
-            item = coffer
-            coffer = 41667
-        }
-
         content.push([coffer, item, amount])
     }
 

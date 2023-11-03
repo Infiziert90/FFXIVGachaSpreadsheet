@@ -12,7 +12,7 @@ function coffer() {
     getBoxData("Coffer", "Grand Company", 36635)
     getBoxData("Coffer", "Grand Company", 36636, 8)
     getBoxData("Coffer", "Venture", 32161)
-    getBoxData("Sanctuary", "Sanctuary", 41667)
+    getBoxData("Coffer", "Sanctuary", 41667)
 
     // Lockboxes
     getBoxData("Bozja", "Bozja", 31357)
