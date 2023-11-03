@@ -2,7 +2,7 @@
     cacheItemNames()
 
     coffer()
-    //bunny()
+    bunny()
 
     setTime()
 }
@@ -39,7 +39,18 @@ function coffer() {
 }
 
 function bunny() {
-    getBunnyData("Bunny Data", "Bnuuy Pagos", 763, 2009532, 4)
-    getBunnyData("Bunny Data", "Bnuuy Pagos", 763, 2009531, 8)
-    getBunnyData("Bunny Data", "Bnuuy Pagos", 763, 2009530, 12)
+    // Pagos
+    getBunnyData("Bunny", "Bnuuy Pagos", 763, 2009532, 4)
+    getBunnyData("Bunny", "Bnuuy Pagos", 763, 2009531, 8)
+    getBunnyData("Bunny", "Bnuuy Pagos", 763, 2009530, 12)
+
+    // Pyros
+    getBunnyData("Bunny", "Bnuuy Pyros", 795, 2009532, 4)
+    getBunnyData("Bunny", "Bnuuy Pyros", 795, 2009531, 8)
+    getBunnyData("Bunny", "Bnuuy Pyros", 795, 2009530, 12)
+
+    // Hydatos
+    getBunnyData("Bunny", "Bnuuy Hydatos", 827, 2009532, 4)
+    getBunnyData("Bunny", "Bnuuy Hydatos", 827, 2009531, 8)
+    getBunnyData("Bunny", "Bnuuy Hydatos", 827, 2009530, 12)
 }

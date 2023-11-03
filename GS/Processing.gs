@@ -34,9 +34,9 @@ function cacheBunnySheet(dataSheetName) {
     let content = []
     let dataSheet = DataSpreadsheet.getSheetByName(dataSheetName).getDataRange().getValues()
     for (let i = 1; i < dataSheet.length; i++) {
-        let [territory, rarity, item, amount] = [dataSheet[i][0], dataSheet[i][1], dataSheet[i][2], dataSheet[i][3]]
+        let [territory, rarity, items] = [dataSheet[i][0], dataSheet[i][1], dataSheet[i][2]]
 
-        content.push([territory, rarity, item, amount])
+        content.push([territory, rarity, JSON.parse(items)])
     }
 
     DataSheets[dataSheetName] = content
@@ -63,4 +63,9 @@ function setFormatAndSort(outputSheetName, valueArray, column, autoWidth) {
     }
 
     sheet.getRange(2, column, valueArray.length, 3).sort(column + 1)
+}
+
+function setTotal(outputSheetName, column, rarity, total) {
+    let sheet = ActiveSpreadsheet.getSheetByName(outputSheetName)
+    sheet.getRange(2009534 - rarity, column).setValue(total)
 }
