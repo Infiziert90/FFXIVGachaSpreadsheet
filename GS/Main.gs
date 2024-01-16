@@ -25,6 +25,9 @@ function coffer() {
     getBoxData("Eureka", "Hydatos", 24848)
     getBoxData("Eureka", "Hydatos", 24849, 8)
 
+    // Logograms
+    procressLogograms();
+
     // Deep Dungeons
     getBoxData("Deep Dungeon", "PotD", 16170, 4)
     getBoxData("Deep Dungeon", "PotD", 16171, 8)
@@ -40,17 +43,17 @@ function coffer() {
 
 function bunny() {
     // Pagos
-    getBunnyData("Bunny", "Bnuuy Pagos", 763, 2009532, 4)
-    getBunnyData("Bunny", "Bnuuy Pagos", 763, 2009531, 8)
-    getBunnyData("Bunny", "Bnuuy Pagos", 763, 2009530, 12)
+    getBunnyData("Bunny", "Bnuuy PA", 763, 2009532, 4)
+    getBunnyData("Bunny", "Bnuuy PA", 763, 2009531, 8)
+    getBunnyData("Bunny", "Bnuuy PA", 763, 2009530, 12)
 
     // Pyros
-    getBunnyData("Bunny", "Bnuuy Pyros", 795, 2009532, 4)
-    getBunnyData("Bunny", "Bnuuy Pyros", 795, 2009531, 8)
-    getBunnyData("Bunny", "Bnuuy Pyros", 795, 2009530, 12)
+    getBunnyData("Bunny", "Bnuuy PY", 795, 2009532, 4)
+    getBunnyData("Bunny", "Bnuuy PY", 795, 2009531, 8)
+    getBunnyData("Bunny", "Bnuuy PY", 795, 2009530, 12)
 
     // Hydatos
-    getBunnyData("Bunny", "Bnuuy Hydatos", 827, 2009532, 4)
-    getBunnyData("Bunny", "Bnuuy Hydatos", 827, 2009531, 8)
-    getBunnyData("Bunny", "Bnuuy Hydatos", 827, 2009530, 12)
+    getBunnyData("Bunny", "Bnuuy HY", 827, 2009532, 4)
+    getBunnyData("Bunny", "Bnuuy HY", 827, 2009531, 8)
+    getBunnyData("Bunny", "Bnuuy HY", 827, 2009530, 12)
 }

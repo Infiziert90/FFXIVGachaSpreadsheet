@@ -44,6 +44,40 @@ function processData(outputSheetName, dict, total) {
     return valueArray
 }
 
+function procressLogograms() {
+    Logger.log(`Processing Logogram`)
+    let data = DataSpreadsheet.getSheetByName("Logogram").getDataRange().getValues();
+
+    let dict = {};
+    for (let i = 1; i < data.length; i++) {
+        if (data[i][0] in dict) {
+            dict[data[i][0]].push(data[i][1])
+        } else {
+            dict[data[i][0]] = [data[i][1]]
+        }
+    }
+
+    let valueArray = [["Logogram", "Item", "Obtained", "Percentage"]]
+    for (const [key, value] of Object.entries(dict).sort()) {
+        var l = value.length;
+        const counts = {};
+
+        for (const num of value) {
+            counts[num] = counts[num] ? counts[num] + 1 : 1;
+        }
+
+        for (const [item, count] of Object.entries(counts).sort()) {
+            valueArray.push([ItemNames[key], ItemNames[item], count, count / l])
+        }
+    }
+
+    let sheet = ActiveSpreadsheet.getSheetByName("Logogram")
+    sheet.getRange(1, 1, valueArray.length, 4).setValues(valueArray)
+    sheet.getRange(1, 1 + 3, 1000).setNumberFormat("##0.00%")
+
+    sheet.autoResizeColumns(1, 1+3)
+}
+
 function setFormatAndSort(outputSheetName, valueArray, column, autoWidth) {
     let sheet = ActiveSpreadsheet.getSheetByName(outputSheetName)
     sheet.getRange(1, column, valueArray.length, 3).setValues(valueArray)
