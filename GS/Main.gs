@@ -26,7 +26,8 @@ function coffer() {
     getBoxData("Eureka", "Hydatos", 24849, 8)
 
     // Logograms
-    procressLogograms();
+    processLogograms();
+    processFragments();
 
     // Deep Dungeons
     getBoxData("Deep Dungeon", "PotD", 16170, 4)
