@@ -18,7 +18,7 @@ public class DatabaseContext : DbContext
     }
 }
 
-public class Program
+public static class EntryPoint
 {
     public static async Task Main()
     {
@@ -37,10 +37,11 @@ public class Program
         await exporter.ExportBozjaData(result.Data);
         await exporter.ExportCofferData(result.Data);
         await exporter.ExportDeepDungeonData(result.Data);
-        await exporter.ExportLogogramData(result.Data);
         await exporter.ExportFragmentData(result.Data);
 
         await exporter.ExportBunnyData(context);
+
+        exporter.SheetHandler.SetTime();
     }
 }
 
@@ -49,7 +50,13 @@ public class Exporter
     private readonly CsvConfiguration CsvConfig = new(CultureInfo.InvariantCulture) { HasHeaderRecord = false };
     private readonly CsvConfiguration CsvReaderConfig = new(CultureInfo.InvariantCulture) { HasHeaderRecord = true };
 
+    public SheetHandler SheetHandler;
     private DirectoryInfo? Directory;
+
+    public Exporter()
+    {
+        SheetHandler = new SheetHandler();
+    }
 
     public async Task<bool> ExportSubmarineData(DatabaseContext context)
     {
@@ -108,7 +115,13 @@ public class Exporter
             return;
         }
 
-        await WriteCsv("Eureka", result);
+        SheetHandler.GachaHandler.ReadCofferData(result, "Anemos", 22508);
+        SheetHandler.GachaHandler.ReadCofferData(result, "Pagos", 23142);
+        SheetHandler.GachaHandler.ReadCofferData(result, "Pagos", 23379, 7);
+        SheetHandler.GachaHandler.ReadCofferData(result, "Pyros", 24141);
+        SheetHandler.GachaHandler.ReadCofferData(result, "Pyros", 24142, 7);
+        SheetHandler.GachaHandler.ReadCofferData(result, "Hydatos", 24848);
+        SheetHandler.GachaHandler.ReadCofferData(result, "Hydatos", 24849, 7);
         Console.WriteLine("Done exporting eureka data...");
     }
 
@@ -124,7 +137,8 @@ public class Exporter
             return;
         }
 
-        await WriteCsv("Bozja", result);
+        SheetHandler.GachaHandler.ReadCofferData(result, "Bozja", 31357);
+        SheetHandler.GachaHandler.ReadCofferData(result, "Bozja", 33797, 7);
         Console.WriteLine("Done exporting Bozja data...");
     }
 
@@ -140,7 +154,10 @@ public class Exporter
             return;
         }
 
-        await WriteCsv("Coffer", result);
+        SheetHandler.GachaHandler.ReadCofferData(result, "Grand Company", 36635);
+        SheetHandler.GachaHandler.ReadCofferData(result, "Grand Company", 36636, 7);
+        SheetHandler.GachaHandler.ReadCofferData(result, "Venture", 32161);
+        SheetHandler.GachaHandler.ReadCofferData(result, "Sanctuary", 41667);
         Console.WriteLine("Done exporting coffer data...");
     }
 
@@ -156,24 +173,17 @@ public class Exporter
             return;
         }
 
-        await WriteCsv("DeepDungeon", result);
+        SheetHandler.GachaHandler.ReadCofferData(result, "PotD", 16170, 3);
+        SheetHandler.GachaHandler.ReadCofferData(result, "PotD", 16171, 7);
+        SheetHandler.GachaHandler.ReadCofferData(result, "PotD", 16172, 11);
+        SheetHandler.GachaHandler.ReadCofferData(result, "PotD", 16173, 15);
+        SheetHandler.GachaHandler.ReadCofferData(result, "HoH", 23223, 3);
+        SheetHandler.GachaHandler.ReadCofferData(result, "HoH", 23224, 7);
+        SheetHandler.GachaHandler.ReadCofferData(result, "HoH", 23225, 11);
+        SheetHandler.GachaHandler.ReadCofferData(result, "EO", 38945, 3);
+        SheetHandler.GachaHandler.ReadCofferData(result, "EO", 38946, 7);
+        SheetHandler.GachaHandler.ReadCofferData(result, "EO", 38947, 11);
         Console.WriteLine("Done exporting deep dungeon data...");
-    }
-
-    public async Task ExportLogogramData(List<Models.Gacha> data)
-    {
-        Console.WriteLine("Exporting logogram data");
-        uint[] validCoffers = [24007, 24008, 24009, 24010, 24011, 24012, 24013, 24014, 24809];
-        var result = data.Where(l => validCoffers.Contains(l.Coffer)).OrderBy(l => l.Id).ToArray();
-
-        if (result.Length == 0)
-        {
-            Console.WriteLine("No records found");
-            return;
-        }
-
-        await WriteCsv("Logogram", result);
-        Console.WriteLine("Done exporting logogram data...");
     }
 
     public async Task ExportFragmentData(List<Models.Gacha> data)
@@ -188,23 +198,36 @@ public class Exporter
             return;
         }
 
-        await WriteCsv("Fragment", result);
+        SheetHandler.GachaHandler.ReadFragmentData(result);
         Console.WriteLine("Done exporting fragment data...");
     }
 
     public async Task ExportBunnyData(DatabaseContext context)
     {
         Console.WriteLine("Exporting bunny data");
-        var result = await context.Bunny.OrderBy(l => l.Id).ToListAsync();
+        var result = await context.Bunny.OrderBy(l => l.Id).ToArrayAsync();
 
-        Console.WriteLine($"Rows found {result.Count}");
-        if (result.Count == 0)
+        Console.WriteLine($"Rows found {result.Length}");
+        if (result.Length == 0)
         {
             Console.WriteLine("No records found");
             return;
         }
 
-        await WriteCsv("Bunny", result, new Models.BnuuyMap());
+        // Pagos
+        SheetHandler.BunnyHandler.ReadBunnyData(result, "Bnuuy PA", 763, 2009532);
+        SheetHandler.BunnyHandler.ReadBunnyData(result, "Bnuuy PA", 763, 2009531, 7);
+        SheetHandler.BunnyHandler.ReadBunnyData(result, "Bnuuy PA", 763, 2009530, 11);
+
+        // Pyros
+        SheetHandler.BunnyHandler.ReadBunnyData(result, "Bnuuy PY", 795, 2009532);
+        SheetHandler.BunnyHandler.ReadBunnyData(result, "Bnuuy PY", 795, 2009531, 7);
+        SheetHandler.BunnyHandler.ReadBunnyData(result, "Bnuuy PY", 795, 2009530, 11);
+
+        // Hydatos
+        SheetHandler.BunnyHandler.ReadBunnyData(result, "Bnuuy HY", 827, 2009532);
+        SheetHandler.BunnyHandler.ReadBunnyData(result, "Bnuuy HY", 827, 2009531, 7);
+        SheetHandler.BunnyHandler.ReadBunnyData(result, "Bnuuy HY", 827, 2009530, 11);
         Console.WriteLine("Done exporting bunny data...");
     }
 
@@ -234,4 +257,23 @@ public class Exporter
 
         return csv.GetRecords<T>().ToArray();
     }
+
+    #region Done
+    [Obsolete("Not used anymore, enough data collected")]
+    public async Task ExportLogogramData(List<Models.Gacha> data)
+    {
+        Console.WriteLine("Exporting logogram data");
+        uint[] validCoffers = [24007, 24008, 24009, 24010, 24011, 24012, 24013, 24014, 24809];
+        var result = data.Where(l => validCoffers.Contains(l.Coffer)).OrderBy(l => l.Id).ToArray();
+
+        if (result.Length == 0)
+        {
+            Console.WriteLine("No records found");
+            return;
+        }
+
+        await WriteCsv("Logogram", result);
+        Console.WriteLine("Done exporting logogram data...");
+    }
+    #endregion
 }

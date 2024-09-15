@@ -9,6 +9,10 @@
 
     <ItemGroup>
       <PackageReference Include="CsvHelper" Version="32.0.3" />
+      <PackageReference Include="Google.Apis.Auth" Version="1.68.0" />
+      <PackageReference Include="Google.Apis.Sheets.v4" Version="1.68.0.3525" />
+      <PackageReference Include="Lumina" Version="4.2.1" />
+      <PackageReference Include="Lumina.Excel" Version="7.0.1" />
       <PackageReference Include="Npgsql" Version="8.0.3" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
     </ItemGroup>
