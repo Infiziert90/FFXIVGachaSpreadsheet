@@ -1,0 +1,157 @@
+* {
+    box-sizing: border-box;
+    font-family: "Noto Sans Mono", monospace;
+    margin: 0%;
+    padding: 0%;
+}
+
+.content {
+    padding-bottom: 5%;
+    padding-top: 8%;
+}
+
+.content div {
+    align-items: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+}
+
+.contenthead {
+    padding: 3px;
+}
+
+.contentheading {
+    display: flex;
+    font-family: inherit;
+    font-size: 20px;
+    justify-content: center;
+    margin: 0%;
+    padding: 5px;
+    text-shadow: 0 0 3px #fff;
+}
+
+.animatedText {
+    font-size: 18px;
+    height: 5vh;
+    padding-bottom: 10px;
+    text-shadow: 0 0 5px #fff;
+    width: 100%;
+}
+
+/* Style for both button and anchor */
+.contentbtn button,
+.contentbtn a {
+    border-radius: 5px;
+    display: inline-block; /* Ensure consistent spacing */
+    letter-spacing: .025em;
+    margin-bottom: 20px;
+    text-decoration: none; /* Remove default underline on anchor elements */
+    text-shadow: 0 0 1px #fff;
+    transition: all .15s ease;
+    width: 100%;
+}
+
+.contentbtn button:hover,
+.contentbtn a:hover {
+    background-color: #fff;
+    color: black;
+}
+
+footer {
+    align-items: center;
+    background-color: transparent;
+    bottom: 0;
+    display: flex;
+    font-family: system-ui, -apple-system, sans-serif;
+    height: 50px;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    right: 0;
+    width: 100%;
+}
+
+footer p {
+    color: whitesmoke;
+    margin: 0;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: grey;
+}
+
+* {
+    box-sizing: border-box
+}
+
+th.sortable {
+    cursor: pointer;
+}
+
+th.sorted-asc::after {
+    content: ' ↑';
+}
+
+th.sorted-desc::after {
+    content: ' ↓';
+}
+
+td.icon {
+    width: 5%;
+}
+
+td.number {
+    width: 10%;
+}
+
+td.percentage {
+    width: 18%;
+}
+
+/* Style the tab */
+.tab {
+    /*float: left;*/
+    background-color: #f1f1f1;
+    width: 100%
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+    display: block;
+    background-color: inherit;
+    color: black;
+    padding: 5px 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current "tab button" class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    float: left;
+    padding: 0px 12px;
+    border-left: none;
+    width: 100%
+}

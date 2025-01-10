@@ -106,4 +106,44 @@ public class Models
             Map(m => m.Items).Index(2).Name("Items").Convert(l => $"[{string.Join(",", l.Value.Items)}]");
         }
     }
+
+    [Table("Ventures")]
+    public class Venture
+    {
+        [Column("id")]
+        [Ignore]
+        public uint Id { get; set; }
+
+        [Column("venture_type")]
+        public ushort VentureType { get; set; }
+
+        [Column("primary_id")]
+        public uint PrimaryId { get; set; }
+
+        [Column("primary_count")]
+        public short PrimaryCount { get; set; }
+
+        [Column("primary_hq")]
+        public bool PrimaryHq { get; set; }
+
+        [Column("additional_id")]
+        public uint AdditionalId { get; set; }
+
+        [Column("additional_count")]
+        public short AdditionalCount { get; set; }
+
+        [Column("additional_hq")]
+        public bool AdditionalHq { get; set; }
+
+        [Column("max_level")]
+        public bool MaxLevel { get; set; }
+
+        [Column("quick_venture")]
+        public bool QuickVenture { get; set; }
+
+        [Column("version")]
+        public string Version { get; set; } = "";
+
+        public Venture() {}
+    }
 }

@@ -4,3 +4,6 @@ obj/
 bin/
 .git/
 *.user
+
+Website/public/
+Website/resources/

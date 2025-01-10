@@ -1,0 +1,170 @@
+{{ define "main" -}}
+    {{ $data := dict }}
+    {{ $json := resources.Get "data/VentureData.json"}}
+    {{ with $json | transform.Unmarshal }}
+        {{ $data = . }}
+    {{ end }}
+    <script>
+        function openTab(evt, category, task_type) {
+            // Declare all variables
+            var i, tablinks;
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the link that opened the tab
+            document.getElementById('tabcontent').style.display = "block";
+            document.getElementById(`${category}${task_type}-tab`).className += " active";
+
+            fetch('{{$json.RelPermalink}}').then(async (response) => {
+                const data = await response.json();
+
+                let table1 = document.getElementById('table1');
+                let loadedData = data.find((e) => e.Category === category);
+                let taskData = loadedData.Tasks.find((e) => e.TaskType === task_type);
+                makeSortableTable(table1, taskData.Items, [
+                    {
+                        header: '',
+                        sortable: false,
+                        templateRenderer: (row) => `<img width="42" height="42" src="/images/${row.Icon}.png">`,
+                        classExtension: ['icon']
+                    },
+                    {header: 'Name', field: 'Name'},
+                    {header: 'Obtained', field: 'Amount', classExtension: ['number', 'text-center']},
+                    {header: 'Total', field: 'Total', classExtension: ['number', 'text-center']},
+                    {
+                        header: 'Min-Max',
+                        field: 'Min',
+                        valueRenderer: (row) => `${row.Min}–${row.Max}`,
+                        classExtension: ['number', 'text-center']
+                    },
+                    {
+                        header: 'Percentage',
+                        field: 'Percentage',
+                        defaultSort: 'asc',
+                        valueRenderer: (row) => `${(row.Percentage * 100).toFixed(2)}%`,
+                        classExtension: ['percentage', 'text-end']
+                    },
+                ]);
+
+                let table2 = document.getElementById('table2');
+                table2.style.display = 'none';
+                let additionals = taskData.Additionals;
+                if (additionals.length) {
+                    table2.style.display = 'block';
+                    makeSortableTable(document.getElementById('table2'), additionals, [
+                        {
+                            header: '',
+                            sortable: false,
+                            templateRenderer: (row) => `<img width="42" height="42" src="/images/${row.Icon}.png">`,
+                            classExtension: ['icon']
+                        },
+                        {header: 'Name', field: 'Name'},
+                        {header: 'Obtained', field: 'Amount', classExtension: ['number', 'text-center']},
+                        {header: 'Total', field: 'Total', classExtension: ['number', 'text-center']},
+                        {
+                            header: 'Min-Max',
+                            field: 'Min',
+                            valueRenderer: (row) => `${row.Min}–${row.Max}`,
+                            classExtension: ['number', 'text-center']
+                        },
+                        {
+                            header: 'Percentage',
+                            field: 'Percentage',
+                            defaultSort: 'asc',
+                            valueRenderer: (row) => `${(row.Percentage * 100).toFixed(2)}%`,
+                            classExtension: ['percentage', 'text-end']
+                        },
+                    ]);
+                }
+
+                let stats = document.getElementById('stats');
+
+                const fragment = new DocumentFragment();
+                const div = document.createElement('div');
+                div.classList.add("card");
+
+                const innerDiv = document.createElement('div');
+                innerDiv.classList.add("card-header");
+                innerDiv.innerText = `${loadedData.Name} Stats`;
+
+                const ul = document.createElement('ul');
+                ul.classList.add("list-group", "list-group-flush");
+
+                const li1 = document.createElement('li');
+                li1.classList.add("list-group-item")
+                li1.innerText = `${taskData.TaskName}`
+
+                const li2 = document.createElement('li');
+                li2.classList.add("list-group-item")
+                li2.innerText = `${taskData.TaskTotal.toLocaleString()}`
+
+                const li3 = document.createElement('li');
+                li3.classList.add("list-group-item");
+                li3.innerText = "Something else";
+
+                ul.append(li1, li2, li3);
+                div.append(innerDiv, ul);
+
+                fragment.appendChild(div);
+
+                stats.innerHTML = '';
+                stats.appendChild(fragment);
+            });
+        }
+
+        window.addEventListener("load", (event) => {
+            {{ $firstData := (index $data 1) }}
+            openTab(event, {{ $firstData.Category }}, {{ (index $firstData.Tasks 0).TaskType }})
+
+            {{ range $data }}
+            var element = document.getElementById('{{ .Category }}-button');
+            element.classList.add("collapsed");
+            {{ end }}
+
+            let collapseActive = document.getElementById('{{ $firstData.Category }}-collapse');
+            collapseActive.classList.add("show");
+
+            let collapseButton = document.getElementById('{{ $firstData.Category }}-button');
+            collapseButton.classList.remove("collapsed");
+            collapseButton.setAttribute("aria-expanded", "true")
+        });
+    </script>
+
+    <div class="col col-lg-3 col-md-4 d-none d-md-block sidebar-overflow">
+        <div class="accordion" id="accordionExample">
+            {{ range $category := $data }}
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button id="{{ $category.Category }}-button" class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $category.Category }}-collapse" aria-expanded="false" aria-controls="{{ $category.Category }}-collapse">
+                            {{ $category.Name}}
+                        </button>
+                    </h2>
+                    <div id="{{ $category.Category }}-collapse" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                        <div class="accordion-body px-1 pb-1 pt-0">
+                            {{ range .Tasks }}
+                                <div class="tab">
+                                    <button id="{{ $category.Category }}{{ .TaskType }}-tab" class="tablinks" onclick="openTab(event, {{ $category.Category }}, {{ .TaskType }})">{{ .TaskName }}</button>
+                                </div>
+                            {{ end }}
+                        </div>
+                    </div>
+                </div>
+            {{ end }}
+        </div>
+    </div>
+    <div class="col-11 col-lg-7 col-md-6">
+        <div id="tabcontent" class="tabcontent">
+            <table id="table1" class="table table-sm table-striped table-bordered border-dark align-middle"></table>
+            <table id="table2" class="table table-sm table-striped table-bordered border-dark align-middle"></table>
+        </div>
+    </div>
+    <div class="col-1 col-lg-2 col-md-2">
+        <div id="stats" class="stats">
+
+        </div>
+    </div>
+{{ end -}}

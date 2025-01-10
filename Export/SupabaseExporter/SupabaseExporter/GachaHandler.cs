@@ -6,8 +6,8 @@ namespace SupabaseExporter;
 
 public class GachaHandler(SheetHandler SheetHandler)
 {
-    private static readonly uint[] Fireworks = [38540, 39502, 40393, 41501];
-    private static readonly uint[] Lockboxes = [31357, 33797, 22508, 23142, 23379, 24141, 24142, 24848, 24849, 31357, 33797];
+    public static readonly uint[] Fireworks = [38540, 39502, 40393, 41501];
+    public static readonly uint[] Lockboxes = [31357, 33797, 22508, 23142, 23379, 24141, 24142, 24848, 24849, 31357, 33797];
 
     public void ReadCofferData(Models.Gacha[] data, string sheetName, uint target, int column = 0)
     {
@@ -70,8 +70,8 @@ public class GachaHandler(SheetHandler SheetHandler)
                 {
                     Values = new List<CellData>
                     {
-                        new() { UserEnteredValue = StringValue(SheetHandler.ItemSheet.GetRow(fragment)!.Name) },
-                        new() { UserEnteredValue = StringValue(SheetHandler.ItemSheet.GetRow(item)!.Name) },
+                        new() { UserEnteredValue = StringValue(Sheets.ItemSheet.GetRow(fragment).Name.ExtractText()) },
+                        new() { UserEnteredValue = StringValue(Sheets.ItemSheet.GetRow(item).Name.ExtractText()) },
                         new() { UserEnteredValue = NumberValue(amount) },
                         new() { UserEnteredValue = NumberValue(amount / entries.Count), UserEnteredFormat = PercentageFormat },
                     }

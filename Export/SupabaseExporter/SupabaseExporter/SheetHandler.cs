@@ -4,8 +4,7 @@ using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Lumina;
 using Lumina.Excel;
-using Lumina.Excel.GeneratedSheets;
-
+using Lumina.Excel.Sheets;
 using static SupabaseExporter.Utils;
 using static Google.Apis.Sheets.v4.SpreadsheetsResource.ValuesResource.UpdateRequest;
 
@@ -21,9 +20,6 @@ public class SheetHandler
     internal readonly SheetsService Service;
     internal readonly Spreadsheet Spreadsheet;
 
-    private readonly GameData Lumina;
-    internal readonly ExcelSheet<Item> ItemSheet;
-
     public SheetHandler()
     {
         var credential = GoogleCredential.FromJson(Environment.GetEnvironmentVariable("google_auth")).CreateScoped(SheetsService.Scope.Spreadsheets);
@@ -34,9 +30,6 @@ public class SheetHandler
         });
 
         Spreadsheet = Service.Spreadsheets.Get(SpreadsheetId).Execute();
-
-        Lumina = new GameData(Environment.GetEnvironmentVariable("game_path")!);
-        ItemSheet = Lumina.GetExcelSheet<Item>()!;
 
         GachaHandler = new GachaHandler(this);
         BunnyHandler = new BunnyHandler(this);
@@ -67,7 +60,7 @@ public class SheetHandler
             {
                 Values = new List<CellData>
                 {
-                    new() { UserEnteredValue = StringValue(ItemSheet.GetRow(key)!.Name) },
+                    new() { UserEnteredValue = StringValue(Sheets.ItemSheet.GetRow(key).Name.ExtractText()) },
                     new() { UserEnteredValue = NumberValue(value) },
                     new() { UserEnteredValue = NumberValue(value / total), UserEnteredFormat = PercentageFormat },
                 }

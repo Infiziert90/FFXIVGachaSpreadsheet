@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+{{- partial "head.html" . -}}
+<body>
+<nav class="navbar navbar-expand-lg sticky-top bg-dark border-bottom border-body" data-bs-theme="dark">
+    <div class="container-fluid">
+        <!-- Menu Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Main Menu -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="menu-main navbar-nav me-auto mb-2 mb-lg-0">
+                {{- $current := . -}}
+                {{- $section := $current.Section -}}
+                {{ range .Site.Menus.main -}}
+                    {{- $active := or ($current.IsMenuCurrent "main" .) ($current.HasMenuCurrent "main" .) -}}
+                    {{- $active = or $active (eq .Name $current.LinkTitle) -}}
+                    {{- $active = or $active (and (eq .Name ($section | humanize)) (eq $current.Section $section)) -}}
+                    {{- $active = or $active (and (eq .Name "Blog") (eq $current.Section "blog" "contributors")) -}}
+                    {{ if .HasChildren }}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ .Name }}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                {{ range .Children -}}
+                                    {{- $active = eq .Name $current.LinkTitle -}}
+                                    <li>
+                                        <a class="dropdown-item{{ if $active }} active{{ end }}" href="{{ .URL | relLangURL }}" {{ if $active }}aria-current="true" {{ end }}>
+                                            {{ .Name }}
+                                        </a>
+                                    </li>
+                                {{ end -}}
+                            </ul>
+                        </li>
+                    {{ else }}
+                        <li class="nav-item">
+                            <a class="nav-link{{ if $active }} active{{ end }}" aria-current="page" href="{{ .URL | relLangURL }}"{{ with .Title }} title='{{ . }}' aria-label='{{ . }}'{{ end }}>{{ .Name }}</a>
+                        </li>
+                    {{ end }}
+                {{ end -}}
+            </ul>
+
+            <!-- Social Menu -->
+            {{ if isset .Site.Menus "social" }}
+                <div class="menu-social d-flex">
+                    <ul class="navbar-nav">
+                        {{ range .Site.Menus.social -}}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ .URL | relLangURL }}" target='{{ if in .URL "https://" }}_blank{{ else }}_self{{ end }}'{{ with .Title }} title='{{ . }}' aria-label='{{ . }}'{{ end }}>
+                                    {{ .Name | safeHTML }}
+                                </a>
+                            </li>
+                        {{ end -}}
+                    </ul>
+                </div>
+            {{ end }}
+
+        </div>
+    </div>
+</nav>
+
+
+<div class="container bg-secondary min-vh-100">
+    <div class="row g-0 p-3 bg-secondary">
+      {{- block "main" . }}{{- end }}
+      {{- partial "footer.html" . -}}
+    </div>
+</div>
+</body>
+</html>
