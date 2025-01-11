@@ -12,15 +12,15 @@
   {{ else }}
     <link rel="icon" type="image/x-icon" href="{{ relURL "favicon.png"}}">
   {{ end }}
-  <link rel="stylesheet" href="{{ "/css/main.css" | relURL }}">
-  <script type="text/javascript" src="{{ "/js/table.js" | relURL }}"></script>
+  <link rel="stylesheet" href="{{  relUR "css/main.css" }}">
+  <script type="text/javascript" src="{{ relURL "js/table.js" }}"></script>
   <title>{{ .Site.Params.title }}</title>
 
   <style>
     .sprite {
       border: none;
       background-color: transparent;
-      background-image: url("/spritesheet/spritesheet.webp");
+      background-image: url("{{relURL "spritesheet/spritesheet.webp"}}");
       background-repeat: no-repeat;
     }
   </style>
