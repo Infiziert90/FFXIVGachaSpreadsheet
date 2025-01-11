@@ -13,8 +13,8 @@ This website is a collection of data on gacha elements that the game FFXIV provi
 > Keep in mind that every draw is based on RNG, so values can vary slightly for each individual
 
 ### Content
-{{< buttonLink "Gacha Coffer" >}}/coffer/{{< /buttonLink >}}
-{{< buttonLink "Lockboxes" >}}/lockbox/{{< /buttonLink >}}
-{{< buttonLink "Ventures" >}}/venture/{{< /buttonLink >}}
-{{< buttonLink "Eureka Bunny Coffer" >}}/bunny/{{< /buttonLink >}}
-{{< buttonLink "Deep Dungeons" >}}/deep/{{< /buttonLink >}}
+{{< buttonLink "Gacha Coffer" >}}coffer/{{< /buttonLink >}}
+{{< buttonLink "Lockboxes" >}}lockbox/{{< /buttonLink >}}
+{{< buttonLink "Ventures" >}}venture/{{< /buttonLink >}}
+{{< buttonLink "Eureka Bunny Coffer" >}}bunny/{{< /buttonLink >}}
+{{< buttonLink "Deep Dungeons" >}}deep/{{< /buttonLink >}}

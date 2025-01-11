@@ -80,7 +80,6 @@ function makeSortableTable(element, items, columns) {
 
         // update classes on <th> nodes
         for (const th of thead.childNodes[0].childNodes) {
-            console.log(th)
             th.classList.remove('sorted-asc', 'sorted-desc');
             if (th.dataset.field && th.dataset.field === sort.field) {
                 th.classList.add(sort.direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
