@@ -26,7 +26,6 @@ concurrency:
 defaults:
   run:
     shell: bash
-    working-directory: Website/
 
 jobs:
   # Build job
@@ -48,6 +47,7 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
       - name: Build with Hugo
+        working-directory: Website/
         env:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
           HUGO_ENVIRONMENT: production
