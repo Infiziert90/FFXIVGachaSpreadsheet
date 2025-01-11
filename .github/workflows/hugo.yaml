@@ -26,11 +26,9 @@ concurrency:
 defaults:
   run:
     shell: bash
+    working-directory: ./Website
 
 jobs:
-  defaults:
-    run:
-      working-directory: ./Website
   # Build job
   build:
     runs-on: ubuntu-latest
