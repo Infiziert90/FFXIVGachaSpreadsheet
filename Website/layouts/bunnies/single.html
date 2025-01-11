@@ -1,28 +1,42 @@
 {{ define "main" -}}
     {{ $data := dict }}
     {{ $json := resources.Get (.Param "data") }}
+    {{ $spriteSheet := resources.Get "data/SpritesheetOffsets.json"}}
     {{ with $json | transform.Unmarshal }}
         {{ $data = . }}
     {{ end }}
     <script>
-        function openTab(evt, territory, coffer) {
+        function openTab(evt, territory, coffer, addQuery) {
+            if (addQuery)
+            {
+                const url = new URL(window.location)
+                url.searchParams.set('territory', territory);
+                url.searchParams.set('coffer', coffer);
+
+                history.pushState(null, '', url)
+            }
+
             // Declare all variables
             var i, tablinks;
 
             // Get all elements with class="tablinks" and remove the class "active"
             tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            for (const element of tablinks) {
+                element.classList.remove('active');
             }
 
             // Show the current tab, and add an "active" class to the link that opened the tab
             document.getElementById('tabcontent').style.display = "block";
-            document.getElementById(`${territory}${coffer}-tab`).className += " active";
+            document.getElementById(`${territory}${coffer}-tab`).classList.add('active');
 
-            fetch('{{$json.RelPermalink}}').then(async (response) => {
-                const data = await response.json();
+            Promise.all([
+                fetch('{{$json.RelPermalink}}'),
+                fetch('{{$spriteSheet.RelPermalink}}')
+            ]).then(async (response) => {
+                const mappedData = await Promise.all(response.map(result => result.json()));
+                const data = mappedData[0];
+                const spritesheetOffsets = mappedData[1];
 
-                console.log(data)
                 let table1 = document.getElementById('table1');
                 let loadedData = data.find((e) => e.Territory === territory);
                 let cofferData = loadedData.Coffers.find((e) => e.CofferId === coffer)
@@ -30,7 +44,10 @@
                     {
                         header: '',
                         sortable: false,
-                        templateRenderer: (row) => `<img width="42" height="42" src="/images/${row.Icon}.png">`,
+                        templateRenderer: (row) => {
+                            let offsets = spritesheetOffsets[row.Icon];
+                            return `<img class="sprite" width="40" height="40" style="background-position: -${offsets.Width}px -${offsets.Height}px">`
+                        },
                         classExtension: ['icon']
                     },
                     {header: 'Name', field: 'Name'},
@@ -44,7 +61,7 @@
                     },
                 ]);
 
-                let stats = document.getElementById('stats');
+                const stats = document.getElementById('stats');
 
                 const fragment = new DocumentFragment();
                 const div = document.createElement('div');
@@ -52,7 +69,7 @@
 
                 const innerDiv = document.createElement('div');
                 innerDiv.classList.add("card-header");
-                innerDiv.innerText = `${loadedData.Name} Stats`;
+                innerDiv.innerHTML = `<strong>${loadedData.Name} Stats</strong>`;
 
                 const ul = document.createElement('ul');
                 ul.classList.add("list-group", "list-group-flush");
@@ -67,7 +84,7 @@
 
                 const li3 = document.createElement('li');
                 li3.classList.add("list-group-item");
-                li3.innerText = "Something else";
+                li3.innerText = " ";
 
                 ul.append(li1, li2, li3);
                 div.append(innerDiv, ul);
@@ -81,22 +98,31 @@
 
         window.addEventListener("load", (event) => {
             {{ $firstData := (index $data 0) }}
-            openTab(event, {{ $firstData.Territory }}, {{ (index $firstData.Coffers 0).CofferId }})
+            let territory = {{ $firstData.Territory }};
+            let coffer = {{ (index $firstData.Coffers 0).CofferId }};
+
+            const url = new URL(window.location.href);
+            if (url.searchParams.has('territory') && url.searchParams.has('coffer')) {
+                territory = parseInt(url.searchParams.get('territory'));
+                coffer = parseInt(url.searchParams.get('coffer'));
+            }
+
+            openTab(event, territory, coffer, false)
 
             {{ range $data }}
-            var element = document.getElementById('{{ .Territory }}-button');
-            element.classList.add("collapsed");
+                var element = document.getElementById('{{ .Territory }}-button');
+                element.classList.add("collapsed");
             {{ end }}
 
-            let collapseActive = document.getElementById('{{ $firstData.Territory }}-collapse');
+            let collapseActive = document.getElementById(`${territory}-collapse`);
             collapseActive.classList.add("show");
 
-            let collapseButton = document.getElementById('{{ $firstData.Territory }}-button');
+            let collapseButton = document.getElementById(`${territory}-button`);
             collapseButton.classList.remove("collapsed");
             collapseButton.setAttribute("aria-expanded", "true")
         });
     </script>
-    <div class="col col-lg-3 col-md-4 d-none d-md-block sidebar-overflow">
+    <div class="col-6 col-lg-3 order-0 order-lg-1">
         <div class="accordion" id="accordionExample">
             {{ range $category := $data }}
             <div class="accordion-item">
@@ -106,10 +132,10 @@
                     </button>
                 </h2>
                 <div id="{{ $category.Territory | int }}-collapse" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                    <div class="accordion-body px-1 pb-1 pt-0">
+                    <div class="accordion-body">
                         {{ range .Coffers }}
                         <div class="tab">
-                        <button id="{{ $category.Territory | int }}{{ .CofferId | int }}-tab" class="tablinks" onclick="openTab(event, {{ $category.Territory | int }}, {{ .CofferId | int }})">{{ .CofferName }}</button>
+                        <button id="{{ $category.Territory | int }}{{ .CofferId | int }}-tab" class="tablinks" onclick="openTab(event, {{ $category.Territory | int }}, {{ .CofferId | int }}, true)">{{ .CofferName }}</button>
                         </div>
                         {{ end }}
                     </div>
@@ -118,14 +144,12 @@
             {{ end }}
         </div>
     </div>
-    <div class="col-11 col-lg-7 col-md-6">
-        <div id="tabcontent" class="tabcontent">
-            <table id="table1" class="table table-sm table-striped table-bordered border-dark align-middle"></table>
-        </div>
+    <div class="col-6 col-lg-2 order-0 order-lg-3">
+        <div id="stats" class="stats"></div>
     </div>
-    <div class="col-1 col-lg-2 col-md-2">
-        <div id="stats" class="stats">
-
+    <div class="col-12 col-lg-7 order-0 order-lg-2">
+        <div id="tabcontent">
+            <table id="table1" class="table table-sm table-striped table-bordered border-dark align-middle"></table>
         </div>
     </div>
 {{ end -}}

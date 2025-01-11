@@ -1,26 +1,41 @@
 {{ define "main" -}}
     {{ $data := dict }}
     {{ $json := resources.Get "data/VentureData.json"}}
+    {{ $spriteSheet := resources.Get "data/SpritesheetOffsets.json"}}
     {{ with $json | transform.Unmarshal }}
         {{ $data = . }}
     {{ end }}
     <script>
-        function openTab(evt, category, task_type) {
+        function openTab(evt, category, task_type, addQuery) {
+            if (addQuery)
+            {
+                const url = new URL(window.location)
+                url.searchParams.set('category', category);
+                url.searchParams.set('task_type', task_type);
+
+                history.pushState(null, '', url)
+            }
+
             // Declare all variables
             var i, tablinks;
 
             // Get all elements with class="tablinks" and remove the class "active"
             tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            for (const element of tablinks) {
+                element.classList.remove('active');
             }
 
             // Show the current tab, and add an "active" class to the link that opened the tab
             document.getElementById('tabcontent').style.display = "block";
-            document.getElementById(`${category}${task_type}-tab`).className += " active";
+            document.getElementById(`${category}${task_type}-tab`).classList.add('active');
 
-            fetch('{{$json.RelPermalink}}').then(async (response) => {
-                const data = await response.json();
+            Promise.all([
+                fetch('{{$json.RelPermalink}}'),
+                fetch('{{$spriteSheet.RelPermalink}}')
+            ]).then(async (response) => {
+                const mappedData = await Promise.all(response.map(result => result.json()));
+                const data = mappedData[0];
+                const spritesheetOffsets = mappedData[1];
 
                 let table1 = document.getElementById('table1');
                 let loadedData = data.find((e) => e.Category === category);
@@ -29,7 +44,10 @@
                     {
                         header: '',
                         sortable: false,
-                        templateRenderer: (row) => `<img width="42" height="42" src="/images/${row.Icon}.png">`,
+                        templateRenderer: (row) => {
+                            let offsets = spritesheetOffsets[row.Icon];
+                            return `<img class="sprite" width="40" height="40" style="background-position: -${offsets.Width}px -${offsets.Height}px">`
+                        },
                         classExtension: ['icon']
                     },
                     {header: 'Name', field: 'Name'},
@@ -59,7 +77,10 @@
                         {
                             header: '',
                             sortable: false,
-                            templateRenderer: (row) => `<img width="42" height="42" src="/images/${row.Icon}.png">`,
+                            templateRenderer: (row) => {
+                                let offsets = spritesheetOffsets[row.Icon];
+                                return `<img class="sprite" width="40" height="40" style="background-position: -${offsets.Width}px -${offsets.Height}px">`
+                            },
                             classExtension: ['icon']
                         },
                         {header: 'Name', field: 'Name'},
@@ -81,7 +102,7 @@
                     ]);
                 }
 
-                let stats = document.getElementById('stats');
+                const stats = document.getElementById('stats');
 
                 const fragment = new DocumentFragment();
                 const div = document.createElement('div');
@@ -89,7 +110,7 @@
 
                 const innerDiv = document.createElement('div');
                 innerDiv.classList.add("card-header");
-                innerDiv.innerText = `${loadedData.Name} Stats`;
+                innerDiv.innerHTML = `<strong>${loadedData.Name} Stats</strong>`;
 
                 const ul = document.createElement('ul');
                 ul.classList.add("list-group", "list-group-flush");
@@ -104,7 +125,7 @@
 
                 const li3 = document.createElement('li');
                 li3.classList.add("list-group-item");
-                li3.innerText = "Something else";
+                li3.innerText = " ";
 
                 ul.append(li1, li2, li3);
                 div.append(innerDiv, ul);
@@ -118,23 +139,32 @@
 
         window.addEventListener("load", (event) => {
             {{ $firstData := (index $data 1) }}
-            openTab(event, {{ $firstData.Category }}, {{ (index $firstData.Tasks 0).TaskType }})
+            let category = {{ $firstData.Category }};
+            let task_type = {{ (index $firstData.Tasks 0).TaskType }};
+
+            const url = new URL(window.location.href);
+            if (url.searchParams.has('category') && url.searchParams.has('task_type')) {
+                category = parseInt(url.searchParams.get('category'));
+                task_type = parseInt(url.searchParams.get('task_type'));
+            }
+
+            openTab(event, category, task_type, false)
 
             {{ range $data }}
-            var element = document.getElementById('{{ .Category }}-button');
-            element.classList.add("collapsed");
+                var element = document.getElementById('{{ .Category }}-button');
+                element.classList.add("collapsed");
             {{ end }}
 
-            let collapseActive = document.getElementById('{{ $firstData.Category }}-collapse');
+            let collapseActive = document.getElementById(`${category}-collapse`);
             collapseActive.classList.add("show");
 
-            let collapseButton = document.getElementById('{{ $firstData.Category }}-button');
+            let collapseButton = document.getElementById(`${category}-button`);
             collapseButton.classList.remove("collapsed");
             collapseButton.setAttribute("aria-expanded", "true")
         });
     </script>
 
-    <div class="col col-lg-3 col-md-4 d-none d-md-block sidebar-overflow">
+    <div class="col-6 col-lg-3 order-0 order-lg-1">
         <div class="accordion" id="accordionExample">
             {{ range $category := $data }}
                 <div class="accordion-item">
@@ -144,10 +174,10 @@
                         </button>
                     </h2>
                     <div id="{{ $category.Category }}-collapse" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                        <div class="accordion-body px-1 pb-1 pt-0">
+                        <div class="accordion-body">
                             {{ range .Tasks }}
                                 <div class="tab">
-                                    <button id="{{ $category.Category }}{{ .TaskType }}-tab" class="tablinks" onclick="openTab(event, {{ $category.Category }}, {{ .TaskType }})">{{ .TaskName }}</button>
+                                    <button id="{{ $category.Category }}{{ .TaskType }}-tab" class="tablinks" onclick="openTab(event, {{ $category.Category }}, {{ .TaskType }}, true)">{{ .TaskName }}</button>
                                 </div>
                             {{ end }}
                         </div>
@@ -156,15 +186,13 @@
             {{ end }}
         </div>
     </div>
-    <div class="col-11 col-lg-7 col-md-6">
-        <div id="tabcontent" class="tabcontent">
+    <div class="col-6 col-lg-2 order-0 order-lg-3">
+        <div id="stats" class="stats"></div>
+    </div>
+    <div class="col-12 col-lg-7 order-0 order-lg-2">
+        <div id="tabcontent">
             <table id="table1" class="table table-sm table-striped table-bordered border-dark align-middle"></table>
             <table id="table2" class="table table-sm table-striped table-bordered border-dark align-middle"></table>
-        </div>
-    </div>
-    <div class="col-1 col-lg-2 col-md-2">
-        <div id="stats" class="stats">
-
         </div>
     </div>
 {{ end -}}

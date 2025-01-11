@@ -1,6 +1,5 @@
 ---
 title: "Deep Dungeons"
-draft: true
 type: bunnies
 layout: single
 params:

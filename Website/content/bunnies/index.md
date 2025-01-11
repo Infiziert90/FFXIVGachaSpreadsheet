@@ -1,6 +1,5 @@
 ---
 title: "Bnuuuy"
-draft: true
 type: bunnies
 layout: single
 params:

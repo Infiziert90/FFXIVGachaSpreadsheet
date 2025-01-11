@@ -13,29 +13,34 @@ target = "assets"
 
 SectionPagesMenu = "main"
 [[menu.main]]
+name = "Home"
+url = "/"
+weight = 1
+
+[[menu.main]]
 name = "Coffers"
 url = "/coffers/"
-weight = 1
+weight = 2
 
 [[menu.main]]
 name = "Lockboxes"
 url = "/lockbox/"
-weight = 2
+weight = 3
 
 [[menu.main]]
 name = "Ventures"
 url = "/ventures/"
-weight = 3
+weight = 4
 
 [[menu.main]]
 name = "Bnuuuy"
 url = "/bunnies/"
-weight = 4
+weight = 5
 
 [[menu.main]]
 name = "Deep Dungeons"
 url = "/deep/"
-weight = 5
+weight = 6
 
 [[menu.social]]
 name = 'About'

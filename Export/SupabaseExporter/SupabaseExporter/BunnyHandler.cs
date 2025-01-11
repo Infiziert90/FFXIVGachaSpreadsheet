@@ -4,7 +4,7 @@ namespace SupabaseExporter;
 
 public class BunnyHandler(SheetHandler SheetHandler)
 {
-    public void ReadBunnyData(Models.Bnuuy[] data, string sheetName, uint terri, uint target, int column = 3) {
+    public void ReadBunnyData(List<Models.Bnuuy> data, string sheetName, uint terri, uint target, int column = 3) {
         var total = 0.0;
         Dictionary<uint, double> dict = [];
         foreach (var entry in data)
