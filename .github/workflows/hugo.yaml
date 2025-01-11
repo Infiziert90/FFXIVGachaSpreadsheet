@@ -26,7 +26,7 @@ concurrency:
 defaults:
   run:
     shell: bash
-    working-directory: ./Website
+    working-directory: Website/
 
 jobs:
   # Build job
