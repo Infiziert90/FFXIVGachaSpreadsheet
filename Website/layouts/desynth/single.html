@@ -81,6 +81,13 @@
 
             let button = document.getElementById(`${id}`);
             button.classList.add("btn-success")
+
+            const url = new URL(window.location)
+            // delete the opposite search param
+            url.searchParams.delete(statsType !== 'Desynths' ? 'source' : 'reward')
+            // set the correct search param based on our stats string
+            url.searchParams.set(statsType === 'Desynths' ? 'source' : 'reward', id);
+            history.pushState(null, '', url)
         }
 
         function getKeyByValue(object, value) {
@@ -115,7 +122,7 @@
         }
 
         window.addEventListener("load", (event) => {
-            Promise.all([
+            let promise = Promise.all([
                 fetch('{{$json.RelPermalink}}'),
                 fetch('{{$spriteSheet.RelPermalink}}')
             ]).then(async (response) => {
@@ -141,6 +148,31 @@
 
                 inputChecker(inputEvent, data.Rewards, data.RewardToName, 'Received', 'rewardSearchResult');
             });
+
+            // Process the search param if one is set
+            promise.finally(() => {
+                let event = new Event('input', {bubbles: true,});
+
+                let id;
+                const url = new URL(window.location.href);
+                if (url.searchParams.has('source')) {
+                    id = parseInt(url.searchParams.get('source'));
+
+                    sourceInput.value = data.SourceToName[id];
+                    sourceInput.dispatchEvent(event);
+
+                    onButtonClick(id, data.Sources, data.SourceToName, 'Desynths')
+                }
+
+                if (url.searchParams.has('reward')) {
+                    id = parseInt(url.searchParams.get('reward'));
+
+                    rewardInput.value = data.RewardToName[id];
+                    rewardInput.dispatchEvent(event);
+
+                    onButtonClick(id, data.Rewards, data.RewardToName, 'Received')
+                }
+            })
         });
     </script>
     <div class="col-6 col-lg-3 order-0 order-lg-1">
