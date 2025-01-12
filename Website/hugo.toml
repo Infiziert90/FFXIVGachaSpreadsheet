@@ -42,6 +42,11 @@ name = "Deep Dungeons"
 url = "/deep/"
 weight = 6
 
+[[menu.main]]
+name = "Desynthesis"
+url = "/desynth/"
+weight = 7
+
 [[menu.social]]
 name = 'About'
 url = "/about/"

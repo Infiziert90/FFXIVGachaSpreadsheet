@@ -89,6 +89,48 @@ public class DataHandler
     };
 
     /// <summary>
+    /// A simple helper class for named JSON keys.
+    /// </summary>
+    public class DesynthData
+    {
+        public Dictionary<uint, History> Sources = new();
+        public Dictionary<uint, History> Rewards = new();
+
+        public Dictionary<uint, string> SourceToName = new();
+        public Dictionary<uint, string> RewardToName = new();
+    }
+
+    /// <summary>
+    /// A simple helper class for named JSON keys.
+    /// </summary>
+    public struct History
+    {
+        public uint Records;
+        public List<Result> Results;
+
+        public struct Result
+        {
+            public uint Item;
+            public uint Icon;
+            public string Name;
+            public byte Min;
+            public byte Max;
+            public uint Received;
+            public double Percentage;
+
+            public Result(Item item, long min, long max, long received)
+            {
+                Item = item.RowId;
+                Icon = item.Icon;
+                Name = item.Name.ExtractText();
+                Min = (byte) min;
+                Max = (byte) max;
+                Received = (uint)received;
+            }
+        }
+    }
+
+    /// <summary>
     /// A simple helper struct for data collection before processing.
     /// </summary>
     public struct VentureTemp
@@ -520,13 +562,120 @@ public class DataHandler
         Console.WriteLine("Done exporting lockbox data...");
     }
 
+    public async Task ReadDesynthData(List<Models.Desynthesis> data)
+    {
+        Console.WriteLine("Exporting desynth data");
+
+        var records = new Dictionary<uint, uint>();
+        var final = new Dictionary<uint, Dictionary<uint, VentureTemp.ItemResult>>();
+
+        foreach (var import in data)
+        {
+            if (import.Source > Sheets.MaxItemId)
+            {
+                await Console.Error.WriteLineAsync($"Invalid source data found, ID: {import.Id}");
+                continue;
+            }
+
+            var sourceItem = Sheets.ItemSheet.GetRow(import.Source);
+            if (sourceItem.Desynth == 0)
+            {
+                await Console.Error.WriteLineAsync($"Source doesn't allow desynthesis? ID: {import.Id}");
+                continue;
+            }
+
+            if (!records.TryAdd(import.Source, 1))
+                records[import.Source]++;
+
+            var rewards = import.GetRewards();
+            for (var i = 0; i < rewards.Length / 2; i++)
+            {
+                var item = rewards[2 * i];
+                var amount = rewards[(2 * i) + 1];
+
+                if (item == 0)
+                    continue;
+
+                if (item > Sheets.MaxItemId)
+                {
+                    await Console.Error.WriteLineAsync($"Invalid reward data found, ID: {import.Id}");
+                    break;
+                }
+
+                final.TryAdd(import.Source, new Dictionary<uint, VentureTemp.ItemResult>());
+
+                var t = final[import.Source];
+                if (!t.TryAdd(item, new VentureTemp.ItemResult { Amount = 1, Min = amount, Max = amount }))
+                {
+                    var minMax = t[item];
+                    minMax.Amount++;
+                    minMax.Min = Math.Min(amount, minMax.Min);
+                    minMax.Max = Math.Max(amount, minMax.Max);
+                    t[item] = minMax;
+                }
+            }
+        }
+
+        var sourcedData = new DesynthData();
+        foreach (var (source, rewards) in final)
+        {
+            var sourceItem = Sheets.ItemSheet.GetRow(source);
+            if (!sourcedData.SourceToName.ContainsKey(source))
+                sourcedData.SourceToName[source] = sourceItem.Name.ExtractText();
+
+            var results = new List<History.Result>();
+            foreach (var (reward, minMax) in rewards)
+            {
+                var rewardItem = Sheets.ItemSheet.GetRow(reward);
+                if (!sourcedData.RewardToName.ContainsKey(reward))
+                    sourcedData.RewardToName[reward] = rewardItem.Name.ExtractText();
+
+                IconHelper.AddIcon(rewardItem);
+                results.Add(new History.Result(rewardItem, minMax.Min, minMax.Max, minMax.Amount));
+                if (!sourcedData.Rewards.TryAdd(reward, new History { Records = (uint)minMax.Amount, Results = [new History.Result(sourceItem, minMax.Min, minMax.Max, minMax.Amount)] }))
+                {
+                    var tmpHistory = sourcedData.Rewards[reward];
+                    tmpHistory.Records += (uint)minMax.Amount;
+                    tmpHistory.Results.Add(new History.Result(sourceItem, minMax.Min, minMax.Max, minMax.Amount));
+                    sourcedData.Rewards[reward] = tmpHistory;
+                }
+            }
+
+            for (var i = 0; i < results.Count; i++)
+            {
+                var r = results[i];
+                r.Percentage = (double) r.Received / records[source];
+                results[i] = r;
+            }
+
+            IconHelper.AddIcon(sourceItem);
+            sourcedData.Sources.Add(source, new History {
+                Records = records[source],
+                Results = results
+            });
+        }
+
+        foreach (var history in sourcedData.Rewards.Values)
+        {
+            for (var i = 0; i < history.Results.Count; i++)
+            {
+                var r = history.Results[i];
+                r.Percentage = (double) r.Received / history.Records;
+                history.Results[i] = r;
+            }
+        }
+
+        await WriteDataJson("DesynthesisData.json", sourcedData);
+        Console.WriteLine("Done exporting desynth data...");
+    }
+
     public async Task WriteTimeData()
     {
         var lastUpdate = DateTime.UtcNow.ToString("R");
         await WriteDataJson("LastUpdate.json", lastUpdate);
     }
 
-    public static async Task WriteDataJson<T>(string filename, IEnumerable<T> data)
+    public static async Task WriteDataJson<T>(string filename, T data)
     {
         await File.WriteAllTextAsync($"{WebsitePath}/{AssetsPath}/{filename}", JsonConvert.SerializeObject(data));
     }

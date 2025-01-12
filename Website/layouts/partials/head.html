@@ -8,15 +8,27 @@
     <link rel="icon" type="image/x-icon" href="{{ relURL "favicon.png"}}">
   {{ end }}
 
-  <link rel="stylesheet" href="{{  relURL "css/main.css" }}">
   <link rel="stylesheet" href="{{  relURL "css/fontawesome/all.css" }}">
   <link rel="stylesheet" href="{{  relURL "css/bootstrap/bootstrap.min.css" }}">
-  <script type="text/javascript" src="{{ relURL "js/table.js" }}"></script>
   <script type="text/javascript" src="{{ relURL "js/bootstrap/bootstrap.bundle.min.js" }}"></script>
 
-  <title>{{ .Site.Title }}</title>
-  <meta property="og:title" content="{{ .Site.Title }}" />
-  <meta property="og:url" content="{{ .Page.Permalink }}" />
+
+  <link rel="stylesheet" href="{{  relURL "css/main.css" }}">
+  <script type="text/javascript" src="{{ relURL "js/table.js" }}"></script>
+
+  {{- with or site.Title site.Params.title | plainify }}
+    <title>{{ . }}</title>
+  {{- end }}
+
+  <meta property="og:url" content="{{ .Permalink }}">
+  {{- with or site.Title site.Params.title | plainify }}
+    <meta property="og:site_name" content="{{ . }}">
+  {{- end }}
+
+  {{- with or .Title site.Title site.Params.title | plainify }}
+    <meta property="og:title" content="{{ . }}">
+  {{- end }}
+  <meta property="og:type" content="website">
   <meta property="og:description" content="This website is a collection of data on gacha elements that the game FFXIV provides." />
 
   <style>

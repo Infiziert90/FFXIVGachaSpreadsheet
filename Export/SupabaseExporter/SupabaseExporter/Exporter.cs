@@ -2,7 +2,6 @@
 using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.EntityFrameworkCore;
-
 namespace SupabaseExporter;
 
 public class DatabaseContext : DbContext
@@ -11,6 +10,7 @@ public class DatabaseContext : DbContext
     public DbSet<Models.Gacha> Gacha { get; set; }
     public DbSet<Models.Bnuuy> Bunny { get; set; }
     public DbSet<Models.Venture> Ventures { get; set; }
+    public DbSet<Models.Desynthesis> Desynthesis { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -43,6 +43,10 @@ public static class EntryPoint
         if (!bunnyResult.Success)
             return;
 
+        var desynthResult = await exporter.LoadDesynthData(context);
+        if (!desynthResult.Success)
+            return;
+
         // Spreadsheet Data Export
 
         await exporter.ExportEurekaData(gachaResult.Data);
@@ -62,6 +66,7 @@ public static class EntryPoint
         await dataHandler.ReadCofferData(gachaResult.Data);
         await dataHandler.ReadDeepDungeonData(gachaResult.Data);
         await dataHandler.ReadLockboxData(gachaResult.Data);
+        await dataHandler.ReadDesynthData(desynthResult.Data);
 
         // Generate spritesheet with all icons used
         await IconHelper.CreateSpriteSheet();
@@ -156,6 +161,25 @@ public class Exporter
         }
 
         Console.WriteLine("Loading gacha data finished...");
+        return (true, result);
+    }
+
+    public async Task<(bool Success, List<Models.Desynthesis> Data)> LoadDesynthData(DatabaseContext context)
+    {
+        Console.WriteLine("Loading desynth data");
+        var previous = ReadCsv<Models.Desynthesis>("SourceData");
+        var result = await context.Desynthesis.ToListAsync();
+
+        result = previous.Concat(result).ToList();
+
+        Console.WriteLine($"Rows found {result.Count}");
+        if (result.Count == previous.Length)
+        {
+            Console.WriteLine("No new records found");
+            return (false, []);
+        }
+
+        Console.WriteLine("Loading desynth data finished...");
         return (true, result);
     }
 

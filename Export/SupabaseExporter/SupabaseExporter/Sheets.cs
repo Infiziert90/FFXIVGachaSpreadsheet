@@ -12,6 +12,8 @@ public static class Sheets
     public static readonly ExcelSheet<GCSupplyDutyReward> GCSupplySheet;
     public static readonly ExcelSheet<RetainerTask> RetainerTaskSheet;
 
+    public static readonly uint MaxItemId;
+
     static Sheets()
     {
         Lumina = new GameData(Environment.GetEnvironmentVariable("game_path")!);
@@ -19,5 +21,7 @@ public static class Sheets
         ItemSheet = Lumina.GetExcelSheet<Item>()!;
         GCSupplySheet = Lumina.GetExcelSheet<GCSupplyDutyReward>()!;
         RetainerTaskSheet = Lumina.GetExcelSheet<RetainerTask>()!;
+
+        MaxItemId = ItemSheet.MaxBy(i => i.RowId).RowId;
     }
 }

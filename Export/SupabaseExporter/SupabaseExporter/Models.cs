@@ -2,7 +2,6 @@
 using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
 
-
 namespace SupabaseExporter;
 
 public class Models
@@ -145,5 +144,42 @@ public class Models
         public string Version { get; set; } = "";
 
         public Venture() {}
+    }
+
+    [Table("Desynthesis")]
+    public class Desynthesis
+    {
+        [Name("id")]
+        [Column("id")]
+        public uint Id { get; set; }
+        [Name("source")]
+        [Column("source")]
+        public uint Source { get; set; }
+
+        [Name("rewards")]
+        [NotMapped]
+        public string Rewards { get; set; } = "";
+
+        [Column("rewards")]
+        [Ignore]
+        public uint[] RewardArray { get; set; } = [];
+
+        public Desynthesis() {}
+
+        public uint[] GetRewards()
+        {
+            if (RewardArray.Length > 0)
+                return RewardArray;
+
+            var spl = Rewards.Trim('{', '}').Split(",");
+            var length = spl.Length / 2;
+            if (length > 3)
+            {
+                Console.Error.WriteLine($"Invalid length found, ID: {Id}");
+                return [];
+            }
+
+            return spl.Select(uint.Parse).ToArray();
+        }
     }
 }
