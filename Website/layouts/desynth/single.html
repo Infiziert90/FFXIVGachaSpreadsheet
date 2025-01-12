@@ -91,7 +91,7 @@
             const first10 = [];
 
             let toName = Object.values(usedToName);
-            toName.find(e => (e.includes(event.target.value) && first10.push(e), first10.length >= 10));
+            toName.find(e => (e.toLowerCase().includes(event.target.value.toLowerCase()) && first10.push(e), first10.length >= 10));
 
             let element = document.getElementById(resultElement);
             element.innerHTML = '';
