@@ -4,11 +4,12 @@ title = "FFXIV Gacha"
 
 **Last Update**: {{< getLastUpdate >}}
 
-This website is a collection of data on gacha elements that the game FFXIV provides.  
+A collection of data on gacha elements that FFXIV provides the user.  
 
-> "Name" - Name of the obtainable item  
-> "Obtained" - Number of records that obtained this item  
-> "Percentage" - % in relation to all records    
+> "Name" - Name of the item  
+> "Obtained" - Number of times the item was received
+> "Total" - Total number of items received
+> "Chance" - % in relation to all records    
 > 
 > Keep in mind that every draw is based on RNG, so values can vary slightly for each individual
 
