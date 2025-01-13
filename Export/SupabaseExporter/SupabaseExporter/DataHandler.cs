@@ -96,8 +96,19 @@ public class DataHandler
         public Dictionary<uint, History> Sources = new();
         public Dictionary<uint, History> Rewards = new();
 
-        public Dictionary<uint, string> SourceToName = new();
-        public Dictionary<uint, string> RewardToName = new();
+        public Dictionary<uint, ItemInfo> ToItem = new();
+
+        public record ItemInfo
+        {
+            public uint Icon;
+            public string Name;
+
+            public ItemInfo(Item item)
+            {
+                Name = item.Name.ExtractText();
+                Icon = item.Icon;
+            }
+        };
     }
 
     /// <summary>
@@ -105,25 +116,20 @@ public class DataHandler
     /// </summary>
     public struct History
     {
-        public uint Icon;
         public uint Records;
         public List<Result> Results;
 
         public struct Result
         {
             public uint Item;
-            public uint Icon;
-            public string Name;
             public byte Min;
             public byte Max;
             public uint Received;
             public double Percentage;
 
-            public Result(Item item, long min, long max, long received)
+            public Result(uint itemId, long min, long max, long received)
             {
-                Item = item.RowId;
-                Icon = item.Icon;
-                Name = item.Name.ExtractText();
+                Item = itemId;
                 Min = (byte) min;
                 Max = (byte) max;
                 Received = (uint)received;
@@ -603,17 +609,20 @@ public class DataHandler
                     break;
                 }
 
-                final.TryAdd(import.Source, new Dictionary<uint, VentureTemp.ItemResult>());
+                if (!final.ContainsKey(import.Source))
+                    final[import.Source] = new Dictionary<uint, VentureTemp.ItemResult>();
 
                 var t = final[import.Source];
-                if (!t.TryAdd(item, new VentureTemp.ItemResult { Amount = 1, Min = amount, Max = amount }))
+                if (!t.TryGetValue(item, out var minMax))
                 {
-                    var minMax = t[item];
-                    minMax.Amount++;
-                    minMax.Min = Math.Min(amount, minMax.Min);
-                    minMax.Max = Math.Max(amount, minMax.Max);
-                    t[item] = minMax;
+                    t[item] = new VentureTemp.ItemResult { Amount = 1, Min = amount, Max = amount };
+                    continue;
                 }
+
+                minMax.Amount++;
+                minMax.Min = Math.Min(amount, minMax.Min);
+                minMax.Max = Math.Max(amount, minMax.Max);
+                t[item] = minMax;
             }
         }
 
@@ -621,23 +630,23 @@ public class DataHandler
         foreach (var (source, rewards) in final)
         {
             var sourceItem = Sheets.ItemSheet.GetRow(source);
-            if (!sourcedData.SourceToName.ContainsKey(source))
-                sourcedData.SourceToName[source] = sourceItem.Name.ExtractText();
+            if (!sourcedData.ToItem.ContainsKey(source))
+                sourcedData.ToItem[source] = new DesynthData.ItemInfo(sourceItem);
 
             var results = new List<History.Result>();
             foreach (var (reward, minMax) in rewards)
             {
                 var rewardItem = Sheets.ItemSheet.GetRow(reward);
-                if (!sourcedData.RewardToName.ContainsKey(reward))
-                    sourcedData.RewardToName[reward] = rewardItem.Name.ExtractText();
+                if (!sourcedData.ToItem.ContainsKey(reward))
+                    sourcedData.ToItem[reward] = new DesynthData.ItemInfo(rewardItem);
 
                 IconHelper.AddIcon(rewardItem);
-                results.Add(new History.Result(rewardItem, minMax.Min, minMax.Max, minMax.Amount));
-                if (!sourcedData.Rewards.TryAdd(reward, new History { Icon = rewardItem.Icon, Records = (uint)minMax.Amount, Results = [new History.Result(sourceItem, minMax.Min, minMax.Max, minMax.Amount)] }))
+                results.Add(new History.Result(reward, minMax.Min, minMax.Max, minMax.Amount));
+                if (!sourcedData.Rewards.TryAdd(reward, new History { Records = (uint)minMax.Amount, Results = [new History.Result(source, minMax.Min, minMax.Max, minMax.Amount)] }))
                 {
                     var tmpHistory = sourcedData.Rewards[reward];
                     tmpHistory.Records += (uint)minMax.Amount;
-                    tmpHistory.Results.Add(new History.Result(sourceItem, minMax.Min, minMax.Max, minMax.Amount));
+                    tmpHistory.Results.Add(new History.Result(source, minMax.Min, minMax.Max, minMax.Amount));
                     sourcedData.Rewards[reward] = tmpHistory;
                 }
             }
@@ -651,19 +660,18 @@ public class DataHandler
 
             IconHelper.AddIcon(sourceItem);
             sourcedData.Sources.Add(source, new History {
-                Icon = sourceItem.Icon,
                 Records = records[source],
                 Results = results
             });
         }
 
-        foreach (var history in sourcedData.Rewards.Values)
+        foreach (var (rewardItemId, history) in sourcedData.Rewards)
         {
             for (var i = 0; i < history.Results.Count; i++)
             {
-                var r = history.Results[i];
-                r.Percentage = (double) r.Received / history.Records;
-                history.Results[i] = r;
+                var historyResult = history.Results[i];
+                historyResult.Percentage = sourcedData.Sources[historyResult.Item].Results.Find(r => r.Item == rewardItemId).Percentage;
+                history.Results[i] = historyResult;
             }
         }
 

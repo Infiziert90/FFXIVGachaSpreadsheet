@@ -1,15 +1,11 @@
 {{ define "main" -}}
-    {{ $data := dict }}
     {{ $json := resources.Get (.Param "data") }}
     {{ $spriteSheet := resources.Get "data/SpritesheetOffsets.json"}}
-    {{ with $json | transform.Unmarshal }}
-        {{ $data = . }}
-    {{ end }}
     <script>
         let data;
         let spritesheetOffsets;
 
-        function onButtonClick(id, usedData, toName, statsType) {
+        function onButtonClick(id, usedData, statsType) {
             let table1 = document.getElementById('table1');
             let loadedData = usedData[id];
 
@@ -18,12 +14,12 @@
                     header: '',
                     sortable: false,
                     templateRenderer: (row) => {
-                        let offsets = spritesheetOffsets[row.Icon];
+                        let offsets = spritesheetOffsets[data.ToItem[row.Item].Icon];
                         return `<div class="sprite" style="background-position: -${offsets.Width}px -${offsets.Height}px; width: 40px; height: 40px;"></div>`
                     },
                     classExtension: ['icon']
                 },
-                {header: 'Name', field: 'Name'},
+                {header: 'Name', field: 'Name', valueRenderer: (row) => data.ToItem[row.Item].Name}, // TODO Fix sorting for field not existing
                 {header: 'Obtained', field: 'Received', classExtension: ['number', 'text-center']},
                 {
                     header: 'Min-Max',
@@ -49,7 +45,7 @@
 
             const innerDiv = document.createElement('div');
             innerDiv.classList.add("card-header");
-            innerDiv.innerHTML = `<strong>${toName[id]} Stats</strong>`;
+            innerDiv.innerHTML = `<strong>${data.ToItem[id].Name} Stats</strong>`;
 
             const ul = document.createElement('ul');
             ul.classList.add("list-group", "list-group-flush");
@@ -90,22 +86,21 @@
             history.pushState(null, '', url)
         }
 
-        function getKeyByValue(object, value) {
-            return Object.keys(object).find(key => object[key] === value);
+        function getKeyByItemName(object, value) {
+            return Object.keys(object).find(key => object[key].Name === value);
         }
 
-        function inputChecker(event, usedData, usedToName, statsType, resultElement) {
+        function inputChecker(event, usedData, statsType, resultElement) {
             const first10 = [];
-
-            let toName = Object.values(usedToName);
-            toName.find(e => (e.toLowerCase().includes(event.target.value.toLowerCase()) && first10.push(e), first10.length >= 10));
+            Object.keys(usedData).find(e => (data.ToItem[e].Name.toLowerCase().includes(event.target.value.toLowerCase()) && first10.push(e), first10.length >= 10));
 
             let element = document.getElementById(resultElement);
             element.innerHTML = '';
             if (first10.length > 0) {
-                for (let name of first10) {
-                    let id = getKeyByValue(usedToName, name);
-                    let offsets = spritesheetOffsets[usedData[id].Icon]
+                for (let id of first10) {
+                    let itemInfo = data.ToItem[id];
+                    let name = itemInfo.Name;
+                    let offsets = spritesheetOffsets[itemInfo.Icon]
 
                     let iconDiv = document.createElement('div');
                     iconDiv.classList.add("sprite", "icon-small");
@@ -119,7 +114,7 @@
                     button.id = id;
                     button.classList.add("btn", "btn-primary", "btn-sm", "resultButton");
                     button.type = 'button';
-                    button.onclick = function(){onButtonClick(id, usedData, usedToName, statsType)}
+                    button.onclick = function(){onButtonClick(id, usedData, statsType)}
 
                     button.append(iconDiv, nameSpan);
                     element.appendChild(button);
@@ -146,7 +141,7 @@
                     return;
                 }
 
-                inputChecker(inputEvent, data.Sources, data.SourceToName, 'Desynths', 'sourceSearchResult');
+                inputChecker(inputEvent, data.Sources, 'Desynths', 'sourceSearchResult');
             });
 
             const rewardInput = document.getElementById("rewardSearchInput");
@@ -155,31 +150,30 @@
                     return;
                 }
 
-                inputChecker(inputEvent, data.Rewards, data.RewardToName, 'Received', 'rewardSearchResult');
+                inputChecker(inputEvent, data.Rewards, 'Received', 'rewardSearchResult');
             });
 
             // Process the search param if one is set
             promise.finally(() => {
                 let event = new Event('input', {bubbles: true,});
 
-                let id;
                 const url = new URL(window.location.href);
                 if (url.searchParams.has('source')) {
-                    id = parseInt(url.searchParams.get('source'));
+                    let id = parseInt(url.searchParams.get('source'));
 
-                    sourceInput.value = data.SourceToName[id];
+                    sourceInput.value = data.ToItem[id].Name;
                     sourceInput.dispatchEvent(event);
 
-                    onButtonClick(id, data.Sources, data.SourceToName, 'Desynths')
+                    onButtonClick(id, data.Sources, 'Desynths')
                 }
 
                 if (url.searchParams.has('reward')) {
-                    id = parseInt(url.searchParams.get('reward'));
+                    let id = parseInt(url.searchParams.get('reward'));
 
-                    rewardInput.value = data.RewardToName[id];
+                    rewardInput.value = data.ToItem[id].Name;
                     rewardInput.dispatchEvent(event);
 
-                    onButtonClick(id, data.Rewards, data.RewardToName, 'Received')
+                    onButtonClick(id, data.Rewards, 'Received')
                 }
             })
         });
