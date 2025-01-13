@@ -19,7 +19,7 @@
                     sortable: false,
                     templateRenderer: (row) => {
                         let offsets = spritesheetOffsets[row.Icon];
-                        return `<img class="sprite" width="40" height="40" style="background-position: -${offsets.Width}px -${offsets.Height}px">`
+                        return `<div class="sprite" style="background-position: -${offsets.Width}px -${offsets.Height}px; width: 40px; height: 40px;"></div>`
                     },
                     classExtension: ['icon']
                 },
@@ -105,14 +105,23 @@
             if (first10.length > 0) {
                 for (let name of first10) {
                     let id = getKeyByValue(usedToName, name);
+                    let offsets = spritesheetOffsets[usedData[id].Icon]
+
+                    let iconDiv = document.createElement('div');
+                    iconDiv.classList.add("sprite", "icon-small");
+                    iconDiv.style = `background-position: -${offsets.Width}px -${offsets.Height}px; width: 40px; height: 40px; float: left;`;
+
+                    let nameSpan = document.createElement('span');
+                    nameSpan.style = 'position: relative; top: 0.2rem;';
+                    nameSpan.innerText = name;
 
                     let button = document.createElement('button');
                     button.id = id;
                     button.classList.add("btn", "btn-primary", "btn-sm", "resultButton");
                     button.type = 'button';
-                    button.innerText = name;
                     button.onclick = function(){onButtonClick(id, usedData, usedToName, statsType)}
 
+                    button.append(iconDiv, nameSpan);
                     element.appendChild(button);
                 }
             }
@@ -186,7 +195,7 @@
                 <div id="source-collapse" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <div class="input-group mb-3">
-                            <input id="sourceSearchInput" type="text" class="form-control" placeholder="Source Item" aria-label="Username" aria-describedby="basic-addon1">
+                            <input id="sourceSearchInput" type="text" class="form-control" placeholder="Search a source item ..." aria-label="Username" aria-describedby="basic-addon1">
                         </div>
                         <div id="sourceSearchResult" class="d-grid gap-1"></div>
                     </div>
@@ -201,7 +210,7 @@
                 <div id="reward-collapse" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <div class="input-group mb-3">
-                            <input id="rewardSearchInput" type="text" class="form-control" placeholder="Reward Item" aria-label="Username" aria-describedby="basic-addon1">
+                            <input id="rewardSearchInput" type="text" class="form-control" placeholder="Search a reward item ..." aria-label="Username" aria-describedby="basic-addon1">
                         </div>
                         <div id="rewardSearchResult" class="d-grid gap-1"></div>
                     </div>

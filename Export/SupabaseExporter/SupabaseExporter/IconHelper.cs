@@ -33,8 +33,9 @@ public static class IconHelper
     {
         var iconOffsets = new Dictionary<ushort, Offset>();
 
-        var width = 40 * 300; // 300 icons
-        var height = 40 * (int)Math.Ceiling(UsedIcons.Count / 300.0);
+        // 2 pixel transparent padding for each item
+        var width = 42 * 300; // 300 icons
+        var height = 42 * (int)Math.Ceiling(UsedIcons.Count / 300.0);
 
         var offsetX = 0;
         var offsetY = 0;
@@ -44,7 +45,7 @@ public static class IconHelper
             if (idx % 300 == 0 && idx != 0)
             {
                 offsetX = 0;
-                offsetY += 40;
+                offsetY += 42;
             }
 
             var texFile = Sheets.Lumina.GetIcon(icon);
@@ -55,7 +56,7 @@ public static class IconHelper
                 iconOffsets.Add(icon, new Offset(offsetX, offsetY));
 
                 // move our draw cursor
-                offsetX += texFile.Header.Width;
+                offsetX += texFile.Header.Width + 2; // 2 pixel padding
             }
         }
 

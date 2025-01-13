@@ -105,6 +105,7 @@ public class DataHandler
     /// </summary>
     public struct History
     {
+        public uint Icon;
         public uint Records;
         public List<Result> Results;
 
@@ -632,7 +633,7 @@ public class DataHandler
 
                 IconHelper.AddIcon(rewardItem);
                 results.Add(new History.Result(rewardItem, minMax.Min, minMax.Max, minMax.Amount));
-                if (!sourcedData.Rewards.TryAdd(reward, new History { Records = (uint)minMax.Amount, Results = [new History.Result(sourceItem, minMax.Min, minMax.Max, minMax.Amount)] }))
+                if (!sourcedData.Rewards.TryAdd(reward, new History { Icon = rewardItem.Icon, Records = (uint)minMax.Amount, Results = [new History.Result(sourceItem, minMax.Min, minMax.Max, minMax.Amount)] }))
                 {
                     var tmpHistory = sourcedData.Rewards[reward];
                     tmpHistory.Records += (uint)minMax.Amount;
@@ -650,6 +651,7 @@ public class DataHandler
 
             IconHelper.AddIcon(sourceItem);
             sourcedData.Sources.Add(source, new History {
+                Icon = sourceItem.Icon,
                 Records = records[source],
                 Results = results
             });
