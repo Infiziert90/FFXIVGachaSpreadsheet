@@ -80,7 +80,6 @@ public class Exporter
     private readonly CsvConfiguration CsvReaderConfig = new(CultureInfo.InvariantCulture) { HasHeaderRecord = true };
 
     public SheetHandler SheetHandler;
-    private DirectoryInfo? Directory;
 
     public Exporter()
     {
@@ -100,9 +99,6 @@ public class Exporter
         }
 
         var lastId = result.Last().Id.ToString();
-
-        Directory = new DirectoryInfo(lastId);
-        Directory.Create();
 
         await WriteCsv(lastId, result);
 
@@ -304,7 +300,7 @@ public class Exporter
 
     private async Task WriteCsv<T>(string fileName, IEnumerable<T> result, ClassMap<T>? classMap = null)
     {
-        await using var writer = new StreamWriter(Path.Combine(Directory!.FullName, $"{fileName}.csv"));
+        await using var writer = new StreamWriter(Path.Combine($"{fileName}.csv"));
         await using var csv = new CsvWriter(writer, CsvConfig);
 
         csv.Context.UnregisterClassMap();
@@ -321,7 +317,7 @@ public class Exporter
         }
     }
 
-    public T[] ReadCsv<T>(string fileName)
+    private T[] ReadCsv<T>(string fileName)
     {
         using var reader = new StreamReader($"{fileName}.csv");
         using var csv = new CsvReader(reader, CsvReaderConfig);
