@@ -113,7 +113,7 @@ public class Exporter
     public async Task<(bool Success, List<Models.Gacha> Data)> LoadGachaData(DatabaseContext context)
     {
         Console.WriteLine("Loading gacha data");
-        var previous = ReadCsv<Models.Gacha>("Gacha");
+        var previous = ReadCsv<Models.Gacha>("LocalCache/Gacha");
         var result = await context.Gacha.ToListAsync();
 
         result = previous.Concat(result).ToList();
@@ -132,7 +132,10 @@ public class Exporter
     public async Task<(bool Success, List<Models.Venture> Data)> LoadVentureData(DatabaseContext context)
     {
         Console.WriteLine("Loading venture data");
-        var result = await context.Ventures.Where(l => l.Version != "1.5.6.0").OrderBy(l => l.Id).ToListAsync();
+        var previous = ReadCsv<Models.Venture>("LocalCache/Ventures");
+        var result = await context.Ventures.OrderBy(l => l.Id).ToListAsync();
+
+        result = previous.Concat(result).ToList();
 
         Console.WriteLine($"Ventures found {result.Count:N0}");
         if (result.Count == 0)
@@ -148,7 +151,10 @@ public class Exporter
     public async Task<(bool Success, List<Models.Bnuuy> Data)> LoadBunnyData(DatabaseContext context)
     {
         Console.WriteLine("Loading bunny data");
+        var previous = ReadCsv<Models.Bnuuy>("LocalCache/Bnuuy");
         var result = await context.Bunny.OrderBy(l => l.Id).ToListAsync();
+
+        result = previous.Concat(result).ToList();
 
         Console.WriteLine($"Rows found {result.Count}");
         if (result.Count == 0)
@@ -164,7 +170,7 @@ public class Exporter
     public async Task<(bool Success, List<Models.Desynthesis> Data)> LoadDesynthData(DatabaseContext context)
     {
         Console.WriteLine("Loading desynth data");
-        var previous = ReadCsv<Models.Desynthesis>("SourceData");
+        var previous = ReadCsv<Models.Desynthesis>("LocalCache/Desynthesis");
         var result = await context.Desynthesis.ToListAsync();
 
         result = previous.Concat(result).ToList();

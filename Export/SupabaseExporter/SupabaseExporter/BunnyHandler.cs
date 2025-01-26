@@ -13,7 +13,7 @@ public class BunnyHandler(SheetHandler SheetHandler)
                 continue;
 
             total++;
-            foreach (var item in entry.Items)
+            foreach (var item in entry.GetItems())
                 if (!dict.TryAdd(item, 1))
                     dict[item]++;
         }
