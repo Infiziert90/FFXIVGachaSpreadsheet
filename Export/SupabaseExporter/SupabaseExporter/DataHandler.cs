@@ -344,7 +344,7 @@ public class DataHandler
             var cofferRarity =  tmp.Coffers[bunny.Coffer];
 
             cofferRarity.Total += 1;
-            foreach (var item in bunny.Items)
+            foreach (var item in bunny.GetItems())
                 if (!cofferRarity.Items.TryAdd(item, 1))
                     cofferRarity.Items[item] += 1;
 
