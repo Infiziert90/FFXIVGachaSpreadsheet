@@ -685,6 +685,11 @@ public class DataHandler
         await WriteDataJson("LastUpdate.json", lastUpdate);
     }
 
+    public static async Task<T?> ReadDataJson<T>(string filename)
+    {
+        return JsonConvert.DeserializeObject<T>(await File.ReadAllTextAsync($"{WebsitePath}/{AssetsPath}/{filename}"));
+    }
+
     public static async Task WriteDataJson<T>(string filename, T data)
     {
         await File.WriteAllTextAsync($"{WebsitePath}/{AssetsPath}/{filename}", JsonConvert.SerializeObject(data));

@@ -1,7 +1,6 @@
 ﻿using System.Numerics;
 using Lumina.Excel.Sheets;
 using Lumina.Extensions;
-using Newtonsoft.Json;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Webp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -19,7 +18,7 @@ public static class IconHelper
     /// <summary>
     /// All icons used.
     /// </summary>
-    private static HashSet<ushort> UsedIcons = [];
+    private static readonly HashSet<ushort> UsedIcons = [];
 
     /// <summary>
     /// A simple helper for named JSON keys.
@@ -31,6 +30,21 @@ public static class IconHelper
     /// </summary>
     public static async Task CreateSpriteSheet()
     {
+        var existingOffsets = await DataHandler.ReadDataJson<Dictionary<ushort, Offset>>("SpritesheetOffsets.json");
+        if (existingOffsets != null)
+        {
+            var existingIcons = existingOffsets.Select(pair => pair.Key).ToHashSet();
+            if (UsedIcons.SetEquals(existingIcons))
+            {
+                Console.WriteLine("Icons equal, skip building spritesheet.");
+                return;
+            }
+
+            // Print out new icons for debug purpose
+            foreach (var icon in existingIcons.Where(icon => !UsedIcons.Contains(icon)))
+                Console.WriteLine($"New icon found: {icon}");
+        }
+
         var iconOffsets = new Dictionary<ushort, Offset>();
 
         // 2 pixel transparent padding for each item
