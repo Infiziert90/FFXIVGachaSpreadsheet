@@ -82,7 +82,7 @@ public class Exporter
     private readonly CsvConfiguration CsvConfig = new(CultureInfo.InvariantCulture) { HasHeaderRecord = false };
     private readonly CsvConfiguration CsvReaderConfig = new(CultureInfo.InvariantCulture) { HasHeaderRecord = true };
 
-    public SheetHandler SheetHandler;
+    public readonly SheetHandler SheetHandler;
 
     public Exporter()
     {
