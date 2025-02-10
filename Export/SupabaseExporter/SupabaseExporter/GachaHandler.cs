@@ -4,20 +4,17 @@ using static SupabaseExporter.Utils;
 
 namespace SupabaseExporter;
 
-public class GachaHandler(SheetHandler SheetHandler)
+public class GachaHandler(SheetHandler sheetHandler)
 {
-    public static readonly uint[] Fireworks = [38540, 39502, 40393, 41501];
-    public static readonly uint[] Lockboxes = [31357, 33797, 22508, 23142, 23379, 24141, 24142, 24848, 24849, 31357, 33797];
+    private static readonly HashSet<uint> Fireworks = [38540, 39502, 40393, 41501];
+    private static readonly HashSet<uint> Lockboxes = [31357, 33797, 22508, 23142, 23379, 24141, 24142, 24848, 24849, 31357, 33797];
 
     public void ReadCofferData(Models.Gacha[] data, string sheetName, uint target, int column = 0)
     {
         var total = 0.0;
         var dict = new Dictionary<uint, double>();
-        foreach (var entry in data)
+        foreach (var entry in data.Where(g => g.Coffer == target))
         {
-            if (entry.Coffer != target)
-                continue;
-
             var amount = entry.Amount;
             if (target == 32161 && entry.ItemId != 8841)
                 amount /= 2;
@@ -31,8 +28,8 @@ public class GachaHandler(SheetHandler SheetHandler)
                 dict[entry.ItemId] += amount;
         }
 
-        var rows = SheetHandler.CreateRowDataList(dict, total);
-        SheetHandler.SetDataAndFormat(sheetName, rows, column);
+        var rows = sheetHandler.CreateRowDataList(dict, total);
+        sheetHandler.SetDataAndFormat(sheetName, rows, column);
     }
 
     public void ReadFragmentData(Models.Gacha[] data) {
@@ -79,7 +76,7 @@ public class GachaHandler(SheetHandler SheetHandler)
             }
         }
 
-        var sheet = SheetHandler.Spreadsheet.Sheets.First(s => s.Properties.Title == "Fragment");
+        var sheet = sheetHandler.Spreadsheet.Sheets.First(s => s.Properties.Title == "Fragment");
         var batch = new BatchUpdateSpreadsheetRequest
         {
             Requests = new List<Request>
@@ -104,7 +101,7 @@ public class GachaHandler(SheetHandler SheetHandler)
             }
         };
 
-        var batchRequest = SheetHandler.Service.Spreadsheets.BatchUpdate(batch, SheetHandler.SpreadsheetId);
+        var batchRequest = sheetHandler.Service.Spreadsheets.BatchUpdate(batch, SheetHandler.SpreadsheetId);
         batchRequest.Execute();
     }
 }

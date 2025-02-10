@@ -191,7 +191,7 @@ public class Exporter
     public async Task ExportEurekaData(List<Models.Gacha> data)
     {
         Console.WriteLine("Exporting eureka data");
-        uint[] validCoffers = [22508, 23142, 23379, 24141, 24142, 24848, 24849];
+        HashSet<uint> validCoffers = [22508, 23142, 23379, 24141, 24142, 24848, 24849];
         var result = data.Where(l => validCoffers.Contains(l.Coffer)).OrderBy(l => l.Id).ToArray();
 
         if (result.Length == 0)
@@ -213,7 +213,7 @@ public class Exporter
     public async Task ExportBozjaData(List<Models.Gacha> data)
     {
         Console.WriteLine("Exporting Bozja data");
-        uint[] validCoffers = [31357, 33797];
+        HashSet<uint> validCoffers = [31357, 33797];
         var result = data.Where(l => validCoffers.Contains(l.Coffer)).OrderBy(l => l.Id).ToArray();
 
         if (result.Length == 0)
@@ -230,7 +230,7 @@ public class Exporter
     public async Task ExportCofferData(List<Models.Gacha> data)
     {
         Console.WriteLine("Exporting coffer data");
-        uint[] validCoffers = [32161, 36635, 36636, 41667];
+        HashSet<uint> validCoffers = [32161, 36635, 36636, 41667];
         var result = data.Where(l => validCoffers.Contains(l.Coffer)).OrderBy(l => l.Id).ToArray();
 
         if (result.Length == 0)
@@ -249,7 +249,7 @@ public class Exporter
     public async Task ExportDeepDungeonData(List<Models.Gacha> data)
     {
         Console.WriteLine("Exporting deep dungeon data");
-        uint[] validCoffers = [16170, 16171, 16172, 16173, 23223, 23224, 23225, 38945, 38946, 38947];
+        HashSet<uint> validCoffers = [16170, 16171, 16172, 16173, 23223, 23224, 23225, 38945, 38946, 38947];
         var result = data.Where(l => validCoffers.Contains(l.Coffer)).OrderBy(l => l.Id).ToArray();
 
         if (result.Length == 0)
@@ -274,7 +274,7 @@ public class Exporter
     public async Task ExportFragmentData(List<Models.Gacha> data)
     {
         Console.WriteLine("Exporting fragment data");
-        uint[] validCoffers = [30884, 30885, 30886, 30887, 30888, 30889, 30890, 30891, 30892, 30893, 30894, 30895, 30896, 30897, 30898, 30899, 32162, 32163, 32164, 32165, 32831, 32832, 32833, 32834, 33768, 33769, 33770, 33771, 33772, 33773, 33774, 33775, 33776, 33777, 33778, 33779];
+        HashSet<uint> validCoffers = [30884, 30885, 30886, 30887, 30888, 30889, 30890, 30891, 30892, 30893, 30894, 30895, 30896, 30897, 30898, 30899, 32162, 32163, 32164, 32165, 32831, 32832, 32833, 32834, 33768, 33769, 33770, 33771, 33772, 33773, 33774, 33775, 33776, 33777, 33778, 33779];
         var result = data.Where(l => validCoffers.Contains(l.Coffer)).OrderBy(l => l.Id).ToArray();
 
         if (result.Length == 0)
