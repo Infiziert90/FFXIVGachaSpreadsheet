@@ -1,5 +1,5 @@
 {{ with resources.Get "data/LastUpdate.json" }}
     {{ with . | transform.Unmarshal }}
-        {{ index . 0 }}
+        {{ . }}
     {{ end }}
 {{ end }}
