@@ -1,3 +1,4 @@
 {{ with resources.Get "data/LastUpdate.json" }}
-  {{ .Content }}
+  {{ $data := unmarshal .Content }}
+  {{ $data }}
 {{ end }}
