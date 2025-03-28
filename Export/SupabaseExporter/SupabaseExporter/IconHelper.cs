@@ -41,7 +41,7 @@ public static class IconHelper
             }
 
             // Print out new icons for debug purpose
-            foreach (var icon in existingIcons.Where(icon => !UsedIcons.Contains(icon)))
+            foreach (var icon in UsedIcons.Where(icon => !existingIcons.Contains(icon)))
                 Console.WriteLine($"New icon found: {icon}");
         }
 
@@ -82,8 +82,6 @@ public static class IconHelper
     /// Adds the icon to a hashset for later creation.
     /// </summary>
     /// <param name="item">The item to get the icon from.</param>
-    public static void AddIcon(Item item)
-    {
+    public static void AddIcon(Item item) => 
         UsedIcons.Add(item.Icon);
-    }
 }
