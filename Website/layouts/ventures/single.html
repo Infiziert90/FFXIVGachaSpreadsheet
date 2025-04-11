@@ -6,7 +6,7 @@
         {{ $data = . }}
     {{ end }}
     <script>
-        function openTab(evt, category, task_type, addQuery) {
+        function openTab(category, task_type, addQuery) {
             if (addQuery)
             {
                 const url = new URL(window.location)
@@ -37,10 +37,18 @@
                 const data = mappedData[0];
                 const spritesheetOffsets = mappedData[1];
 
+                let e = document.getElementById("patch");
+                let selectedPatch = e.options[e.selectedIndex].text;
+
                 let table1 = document.getElementById('table1');
                 let loadedData = data.find((e) => e.Category === category);
                 let taskData = loadedData.Tasks.find((e) => e.TaskType === task_type);
-                makeSortableTable(table1, taskData.Items, [
+                
+                if (!(selectedPatch in taskData.Patches))
+                    selectedPatch = "All";
+
+                let patchData = taskData.Patches[selectedPatch];
+                makeSortableTable(table1, patchData.PrimaryItems, [
                     {
                         header: '',
                         sortable: false,
@@ -70,7 +78,7 @@
 
                 let table2 = document.getElementById('table2');
                 table2.style.display = 'none';
-                let additionals = taskData.Additionals;
+                let additionals = patchData.AdditionalItems;
                 if (additionals.length) {
                     table2.style.display = 'block';
                     makeSortableTable(document.getElementById('table2'), additionals, [
@@ -121,20 +129,54 @@
 
                 const li2 = document.createElement('li');
                 li2.classList.add("list-group-item")
-                li2.innerText = `${taskData.TaskTotal.toLocaleString()}`
+                li2.innerText = `${patchData.TaskTotal.toLocaleString()}`
 
                 const li3 = document.createElement('li');
                 li3.classList.add("list-group-item");
-                li3.innerText = " ";
+                const label = document.createElement('label')
+                label.htmlFor = "patch";
+                label.innerHTML = "Patch";
+                const select = document.createElement('select');
+                select.id = "patch";
+                select.name = "patch";
+                select.onchange = patchSelectionChanged;
+                select.classList.add("form-select");
+                
+                li3.append(label, select);
+
+                for (const key of Object.keys(taskData.Patches)) {
+                    var option = option = document.createElement("option");
+                    option.value = key;
+                    option.text = key;
+                    select.appendChild(option);
+                }
+                
+                select.value = selectedPatch
 
                 ul.append(li1, li2, li3);
                 div.append(innerDiv, ul);
 
                 fragment.appendChild(div);
-
+                
                 stats.innerHTML = '';
                 stats.appendChild(fragment);
             });
+        }
+        
+        function patchSelectionChanged() {
+            console.log("Selection changed?")
+            
+            {{ $firstData := (index $data 1) }}
+            let category = {{ $firstData.Category }};
+            let task_type = {{ (index $firstData.Tasks 0).TaskType }};
+
+            const url = new URL(window.location.href);
+            if (url.searchParams.has('category') && url.searchParams.has('task_type')) {
+                category = parseInt(url.searchParams.get('category'));
+                task_type = parseInt(url.searchParams.get('task_type'));
+            }
+
+            openTab(category, task_type, false)
         }
 
         window.addEventListener("load", (event) => {
@@ -148,7 +190,7 @@
                 task_type = parseInt(url.searchParams.get('task_type'));
             }
 
-            openTab(event, category, task_type, false)
+            openTab(category, task_type, false)
 
             {{ range $data }}
                 var element = document.getElementById('{{ .Category }}-button');
@@ -177,7 +219,7 @@
                         <div class="accordion-body">
                             {{ range .Tasks }}
                                 <div class="tab">
-                                    <button id="{{ $category.Category }}{{ .TaskType }}-tab" class="tablinks" onclick="openTab(event, {{ $category.Category }}, {{ .TaskType }}, true)">{{ .TaskName }}</button>
+                                    <button id="{{ $category.Category }}{{ .TaskType }}-tab" class="tablinks" onclick="openTab({{ $category.Category }}, {{ .TaskType }}, true)">{{ .TaskName }}</button>
                                 </div>
                             {{ end }}
                         </div>
@@ -187,7 +229,13 @@
         </div>
     </div>
     <div class="col-6 col-lg-2 order-0 order-lg-3">
-        <div id="stats" class="stats"></div>
+        <div id="stats" class="stats">
+
+            <label for="patch">Patch</label>
+            <select id="patch" class="form-select">
+                <option value="All">All</option>
+            </select>
+        </div>
     </div>
     <div class="col-12 col-lg-7 order-0 order-lg-2">
         <div id="tabcontent">

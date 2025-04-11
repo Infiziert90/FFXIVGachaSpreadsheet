@@ -53,13 +53,13 @@ public static class EntryPoint
         await exporter.ExportEurekaData(gachaResult.Data);
         await exporter.ExportBozjaData(gachaResult.Data);
         await exporter.ExportCofferData(gachaResult.Data);
-
+        
         await Task.Delay(TimeSpan.FromMinutes(1)); // Wait a minute for rate-limit
-
+        
         await exporter.ExportDeepDungeonData(gachaResult.Data);
         await exporter.ExportFragmentData(gachaResult.Data);
         await exporter.ExportBunnyData(bunnyResult.Data);
-
+        
         exporter.SheetHandler.SetTime();
 
         // Website Data Export

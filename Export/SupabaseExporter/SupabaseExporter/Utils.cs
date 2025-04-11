@@ -14,6 +14,28 @@ public static class Utils
     public static ExtendedValue NumberValue(double value) => new() { NumberValue = value };
     public static CellFormat PercentageFormat => new() { NumberFormat = new NumberFormat { Type = "NUMBER", Pattern = "##0.00%" } };
 
+    public static int VersionToNumber(string version)
+    {
+        if (string.IsNullOrEmpty(version))
+            return 0;
+        
+        var splits = version.Split('.');
+        return int.Parse(splits[0]) * 1000 + int.Parse(splits[1]) * 100 + int.Parse(splits[2]) * 10 + int.Parse(splits[3]);
+    }
+
+    public static string[] AllKnownPatches()
+    {
+        return ["All", "7.20", "7.10"];
+    }
+    
+    public static string VersionToPatch(int version)
+    {
+        if (version >= VersionToNumber("1.5.8.1"))
+            return "7.20";
+        
+        return "7.10";
+    }
+    
     /// <summary>
     /// Returns the image data.
     /// </summary>

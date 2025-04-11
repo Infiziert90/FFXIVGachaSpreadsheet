@@ -73,17 +73,27 @@ public class DataHandler
         {
             public string TaskName;
             public uint TaskType;
-            public uint TaskTotal;
-            public List<ResultItem> Items;
-            public List<ResultItem> Additionals;
+            
+            public Dictionary<string, VenturePatch> Patches = [];
 
-            public VentureTask(string name, uint type, uint total, List<ResultItem> items, List<ResultItem> additionals)
+            public VentureTask(string name, uint type)
             {
                 TaskName = name;
                 TaskType = type;
+            }
+        }
+
+        public record VenturePatch
+        {
+            public uint TaskTotal;
+            public List<ResultItem> PrimaryItems;
+            public List<ResultItem> AdditionalItems;
+
+            public VenturePatch(uint total, List<ResultItem> items, List<ResultItem> additionals)
+            {
                 TaskTotal = total;
-                Items = items;
-                Additionals = additionals;
+                PrimaryItems = items;
+                AdditionalItems = additionals;
             }
         }
     };
@@ -144,19 +154,30 @@ public class DataHandler
     {
         public uint Type = 0;
         public long Total = 0;
-        public Dictionary<uint, (ItemResult Primary, ItemResult Additional)> Items = new();
+        public readonly Dictionary<uint, (ItemResult Primary, ItemResult Additional)> Items = [];
 
         public VentureTemp() { }
+    }
+    
+    /// <summary>
+    /// Contains the item an action results in.
+    /// </summary>
+    public struct ItemResult
+    {
+        public long Amount = 0;
+        public long Total = 0;
+        public long Min = long.MaxValue;
+        public long Max = long.MinValue;
 
-        public struct ItemResult
+        public ItemResult() { }
+
+        public void AddItemResult(ItemResult other)
         {
-            public long Amount = 0;
-            public long Total = 0;
-            public long Min = long.MaxValue;
-            public long Max = long.MinValue;
-
-            public ItemResult() { }
-        };
+            Amount += other.Amount;
+            Total += other.Total;
+            Min = Math.Min(Min, other.Min);
+            Max = Math.Max(Max, other.Max);
+        }
     }
 
     /// <summary>
@@ -222,13 +243,16 @@ public class DataHandler
     public async Task ReadVentureData(List<Models.Venture> data)
     {
         Console.WriteLine("Exporting venture data");
-        var ventures = new Dictionary<VentureTypes, VentureTemp>();
+        var ventures = new Dictionary<VentureTypes, Dictionary<string, VentureTemp>>();
         foreach (var venture in data)
         {
             foreach (var ventureType in Enum.GetValues<VentureTypes>())
             {
                 var type = ventureType is VentureTypes.QuickVenture ? (VentureTypes)venture.VentureType : ventureType;
-                ventures.TryAdd(type, new VentureTemp());
+                ventures.TryAdd(type, new Dictionary<string, VentureTemp>());
+
+                var patches = ventures[type];
+                patches.TryAdd(venture.GetPatch, new VentureTemp());
 
                 switch (ventureType)
                 {
@@ -237,11 +261,11 @@ public class DataHandler
                         continue;
                 }
 
-                var tmp = ventures[type];
+                var tmp = patches[venture.GetPatch];
 
                 tmp.Type = venture.VentureType;
                 tmp.Total += 1;
-                tmp.Items.TryAdd(venture.PrimaryId, (new VentureTemp.ItemResult(), new VentureTemp.ItemResult()));
+                tmp.Items.TryAdd(venture.PrimaryId, (new ItemResult(), new ItemResult()));
 
                 var (primary, additional) =  tmp.Items[venture.PrimaryId];
                 primary.Amount += 1;
@@ -250,7 +274,7 @@ public class DataHandler
                 primary.Max = Math.Max(primary.Max, venture.PrimaryCount);
                 tmp.Items[venture.PrimaryId] = (primary, additional);
 
-                tmp.Items.TryAdd(venture.AdditionalId, (new VentureTemp.ItemResult(), new VentureTemp.ItemResult()));
+                tmp.Items.TryAdd(venture.AdditionalId, (new ItemResult(), new ItemResult()));
                 (primary, additional) = tmp.Items[venture.AdditionalId];
                 additional.Amount += 1;
                 additional.Total += venture.AdditionalCount;
@@ -258,7 +282,7 @@ public class DataHandler
                 additional.Max = Math.Max(additional.Max, venture.AdditionalCount);
                 tmp.Items[venture.AdditionalId] = (primary, additional);
 
-                ventures[type] = tmp;
+                patches[venture.GetPatch] = tmp;
 
                 // Skip the foreach if we aren't in a Quick Venture
                 if (venture.VentureType != 395)
@@ -267,53 +291,22 @@ public class DataHandler
         }
 
         var dict = new Dictionary<uint, VentureData>();
-        foreach (var (key, venture) in ventures)
+        foreach (var (key, patches) in ventures)
         {
+            var venture = patches.Values.FirstOrDefault(v => v.Type != 0);
+            if (venture.Type == 0)
+            {
+                Console.WriteLine($"Invalid venture entry found? {key}");
+                continue;
+            }
+            
             var task = Sheets.RetainerTaskSheet.GetRow(venture.Type);
             if (!task.IsRandom)
                 continue;
 
             if (!task.Task.TryGetValue<RetainerTaskRandom>(out var retainerTask))
                 continue;
-
-            var primaryList = new List<ResultItem>();
-            var additionalList = new List<ResultItem>();
-            foreach (var (itemId, (primary, additional)) in venture.Items)
-            {
-                if (itemId == 0)
-                    continue;
-
-                var item = Sheets.ItemSheet.GetRow(itemId);
-                if (primary.Amount > 0)
-                {
-                    primaryList.Add(new ResultItem(
-                        item.Name.ExtractText(),
-                        item.Icon,
-                        (uint)primary.Amount,
-                        primary.Amount / (double)venture.Total,
-                        (uint)primary.Total,
-                        (uint)primary.Min,
-                        (uint)primary.Max));
-                }
-
-                if (additional.Amount > 0)
-                {
-                    additionalList.Add(new ResultItem(
-                        item.Name.ExtractText(),
-                        item.Icon,
-                        (uint)additional.Amount,
-                        additional.Amount / (double)venture.Total,
-                        (uint)additional.Total,
-                        (uint)additional.Min,
-                        (uint)additional.Max));
-                }
-
-                IconHelper.AddIcon(item);
-            }
-
-            primaryList = primaryList.OrderBy(l => l.Amount).ToList();
-            additionalList = additionalList.OrderBy(l => l.Amount).ToList();
-
+            
             dict.TryAdd(task.ClassJobCategory.RowId, new VentureData(task));
 
             var type = venture.Type;
@@ -328,8 +321,38 @@ public class DataHandler
                 type = (uint)key;
                 taskName += " (< Level 100)";
             }
+                
+            var ventureTask = new VentureData.VentureTask(taskName, type);
+            foreach (var patch in Utils.AllKnownPatches())
+            {
+                VentureTemp processingVenture;
+                if (patch == "All")
+                {
+                    processingVenture = new VentureTemp();
+                    foreach (var tmp in patches.Values)
+                    {
+                        processingVenture.Total += tmp.Total;
+                        
+                        foreach (var (itemId, (primary, additional)) in tmp.Items)
+                        {
+                            processingVenture.Items.TryAdd(itemId, (new ItemResult(), new ItemResult()));
+                            var t = processingVenture.Items[itemId];
+                            t.Primary.AddItemResult(primary);
+                            t.Additional.AddItemResult(additional);
+                            processingVenture.Items[itemId] = t;
+                        }
+                    }
+                }
+                else
+                {
+                    if (!patches.TryGetValue(patch, out processingVenture))
+                        continue;
+                }
 
-            dict[task.ClassJobCategory.RowId].Tasks.Add(new VentureData.VentureTask(taskName, type, (uint)venture.Total, primaryList, additionalList));
+                ventureTask.Patches[patch] = ProcessVentureTask(processingVenture);
+            }
+            
+            dict[task.ClassJobCategory.RowId].Tasks.Add(ventureTask); 
         }
 
         var ventureList = new List<VentureData>();
@@ -341,6 +364,49 @@ public class DataHandler
 
         await WriteDataJson("VentureData.json", ventureList.OrderBy(l => l.Category));
         Console.WriteLine("Done exporting venture data...");
+    }
+
+    private VentureData.VenturePatch ProcessVentureTask(VentureTemp venture)
+    {
+        var primaryList = new List<ResultItem>();
+        var additionalList = new List<ResultItem>();
+        foreach (var (itemId, (primary, additional)) in venture.Items)
+        {
+            if (itemId == 0)
+                continue;
+
+            var item = Sheets.ItemSheet.GetRow(itemId);
+            if (primary.Amount > 0)
+            {
+                primaryList.Add(new ResultItem(
+                    item.Name.ExtractText(),
+                    item.Icon,
+                    (uint)primary.Amount,
+                    primary.Amount / (double)venture.Total,
+                    (uint)primary.Total,
+                    (uint)primary.Min,
+                    (uint)primary.Max));
+            }
+
+            if (additional.Amount > 0)
+            {
+                additionalList.Add(new ResultItem(
+                    item.Name.ExtractText(),
+                    item.Icon,
+                    (uint)additional.Amount,
+                    additional.Amount / (double)venture.Total,
+                    (uint)additional.Total,
+                    (uint)additional.Min,
+                    (uint)additional.Max));
+            }
+
+            IconHelper.AddIcon(item);
+        }
+
+        primaryList = primaryList.OrderBy(l => l.Amount).ToList();
+        additionalList = additionalList.OrderBy(l => l.Amount).ToList();
+
+        return new VentureData.VenturePatch((uint) venture.Total, primaryList, additionalList);   
     }
 
     public async Task ReadBunnyData(List<Models.Bnuuy> data)
@@ -589,7 +655,7 @@ public class DataHandler
         Console.WriteLine("Exporting desynth data");
 
         var records = new Dictionary<uint, uint>();
-        var final = new Dictionary<uint, Dictionary<uint, VentureTemp.ItemResult>>();
+        var final = new Dictionary<uint, Dictionary<uint, ItemResult>>();
 
         foreach (var import in data)
         {
@@ -625,12 +691,12 @@ public class DataHandler
                 }
 
                 if (!final.ContainsKey(import.Source))
-                    final[import.Source] = new Dictionary<uint, VentureTemp.ItemResult>();
+                    final[import.Source] = new Dictionary<uint, ItemResult>();
 
                 var t = final[import.Source];
                 if (!t.TryGetValue(item, out var minMax))
                 {
-                    t[item] = new VentureTemp.ItemResult { Amount = 1, Min = amount, Max = amount };
+                    t[item] = new ItemResult { Amount = 1, Min = amount, Max = amount };
                     continue;
                 }
 

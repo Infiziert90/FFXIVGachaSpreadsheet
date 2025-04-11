@@ -125,8 +125,8 @@ public class Models
     [Table("Ventures")]
     public class Venture
     {
-        [Column("id")]
         [Ignore]
+        [Column("id")]
         public uint Id { get; set; }
 
         [Name("venture_type")]
@@ -165,7 +165,45 @@ public class Models
         [Column("quick_venture")]
         public bool QuickVenture { get; set; }
 
+        [Ignore] 
+        [Column("version")] 
+        public string Version { get; set; } = string.Empty;
+
         public Venture() {}
+
+        private bool IsCalculated;
+        private int NumberVersion;
+        private string Patch;
+        
+        public int GetVersion
+        {
+            get
+            {
+                if (!IsCalculated)
+                    Calculate();
+                
+                return NumberVersion;
+            }
+        }
+        
+        public string GetPatch
+        {
+            get
+            {
+                if (!IsCalculated)
+                    Calculate();
+                
+                return Patch;
+            }
+        }
+
+        private void Calculate()
+        {
+            IsCalculated = true;
+            
+            NumberVersion = Utils.VersionToNumber(Version);
+            Patch = Utils.VersionToPatch(NumberVersion);
+        }
     }
 
     [Table("Desynthesis")]
