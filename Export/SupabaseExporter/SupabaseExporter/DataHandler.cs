@@ -201,34 +201,29 @@ public class DataHandler
 
     public async Task PrintVentureStats(List<Models.Venture> data)
     {
-        var quickHistory = data.Where(v => v.QuickVenture).ToArray();
-
         // All valid gears are rarity green or higher
-        (Item Item, bool HQ)[] validGear = quickHistory.Select(v => (Sheets.ItemSheet.GetRow(v.PrimaryId), v.PrimaryHq)).Where(i => i.Item1.Rarity > 1).ToArray();
-        var totalLvl = validGear.Sum(i => i.Item.LevelItem.RowId);
-        var totalSeals = validGear.Sum(i => Sheets.GCSupplySheet.GetRow(i.Item.LevelItem.RowId).SealsExpertDelivery);
-        var totalFCPoints = validGear.Sum(CalculateFCPoints);
-
-        Console.WriteLine($"Total quick ventures: {quickHistory.Length:N0}");
-        Console.WriteLine("");
-        Console.WriteLine("= Gear Average =");
-        Console.WriteLine($"iLvL: {totalLvl / quickHistory.Length:F2}");
-        Console.WriteLine($"FC Points: {totalFCPoints / quickHistory.Length:F2}");
-        Console.WriteLine($"GC Seals: {totalSeals / quickHistory.Length:F2}");
+        PrintStats("Total quick ventures:", data.Where(v => v.QuickVenture).ToArray());
 
         // Calculate for only max level retainers
-        quickHistory = data.Where(v => v is { QuickVenture: true, MaxLevel: true }).ToArray();
-        validGear = quickHistory.Select(v => (Sheets.ItemSheet.GetRow(v.PrimaryId), v.PrimaryHq)).Where(i => i.Item1.Rarity > 1).ToArray();
-        totalLvl = validGear.Sum(i => i.Item.LevelItem.RowId);
-        totalSeals = validGear.Sum(i => Sheets.GCSupplySheet.GetRow(i.Item.LevelItem.RowId).SealsExpertDelivery);
-        totalFCPoints = validGear.Sum(CalculateFCPoints);
-
-        Console.WriteLine($"Total quick ventures (Max Level): {quickHistory.Length:N0}");
+        PrintStats("Total quick ventures (Max Level):", data.Where(v => v is { QuickVenture: true, MaxLevel: true }).ToArray());
+        
+        // Calculate current patch 
+        PrintStats("Total quick ventures (7.2X):", data.Where(v => v.QuickVenture).Where(v => v.GetVersion >= Utils.CurrentPatchNumber).ToArray());
+    }
+    
+    private static void PrintStats(string title, Models.Venture[] ventures)
+    {
+        (Item Item, bool HQ)[] validGear = ventures.Select(v => (Sheets.ItemSheet.GetRow(v.PrimaryId), v.PrimaryHq)).Where(i => i.Item1.Rarity > 1).ToArray();
+        var totalLvl = (double) validGear.Sum(i => i.Item.LevelItem.RowId);
+        var totalSeals = (double) validGear.Sum(i => Sheets.GCSupplySheet.GetRow(i.Item.LevelItem.RowId).SealsExpertDelivery);
+        var totalFCPoints = validGear.Sum(CalculateFCPoints);
+            
+        Console.WriteLine($"{title} {ventures.Length:N0}");
         Console.WriteLine("");
-        Console.WriteLine("= Gear Average (Max Level) =");
-        Console.WriteLine($"iLvL: {totalLvl / quickHistory.Length:F2}");
-        Console.WriteLine($"FC Points: {totalFCPoints / quickHistory.Length:F2}");
-        Console.WriteLine($"GC Seals: {totalSeals / quickHistory.Length:F2}");
+        Console.WriteLine("= Gear Average =");
+        Console.WriteLine($"iLvL: {totalLvl / ventures.Length:F2}");
+        Console.WriteLine($"FC Points: {totalFCPoints / ventures.Length:F2}");
+        Console.WriteLine($"GC Seals: {totalSeals / ventures.Length:F2}");
     }
 
     private static double CalculateFCPoints((Item Item, bool HQ) item)

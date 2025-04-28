@@ -7,6 +7,8 @@ namespace SupabaseExporter;
 
 public static class Utils
 {
+    public static readonly int CurrentPatchNumber = VersionToNumber("1.5.8.1");
+    
     public static ValueInputOptionEnum InputOption => ValueInputOptionEnum.USERENTERED;
     public static ValueRange SimpleValueRange(object content) => new() { Values = [[content]] };
 
@@ -30,7 +32,7 @@ public static class Utils
     
     public static string VersionToPatch(int version)
     {
-        if (version >= VersionToNumber("1.5.8.1"))
+        if (version >= CurrentPatchNumber)
             return "7.20";
         
         return "7.10";
