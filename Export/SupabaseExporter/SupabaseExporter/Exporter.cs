@@ -28,7 +28,7 @@ public static class EntryPoint
         var dataHandler = new DataHandler();
 
         await using var context = new DatabaseContext();
-        // await exporter.ExportSubmarineData(context);
+        await exporter.ExportSubmarineData(context);
 
         var gachaResult = await exporter.LoadGachaData(context);
         if (gachaResult.Success)
