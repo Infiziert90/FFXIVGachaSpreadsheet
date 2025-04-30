@@ -412,20 +412,28 @@ public class DataHandler
         var bunnies = new Dictionary<Territory, CofferTemp>();
         foreach (var bunny in data)
         {
-            bunnies.TryAdd((Territory)bunny.Territory, new CofferTemp());
+            if (!bunnies.ContainsKey((Territory)bunny.Territory))
+                bunnies[(Territory)bunny.Territory] = new CofferTemp();
 
             var tmp = bunnies[(Territory)bunny.Territory];
 
             tmp.Total += 1;
-            tmp.Coffers.TryAdd(bunny.Coffer, new CofferTemp.Coffer());
+            if (!tmp.Coffers.ContainsKey(bunny.Coffer))
+                tmp.Coffers[bunny.Coffer] = new CofferTemp.Coffer();
 
             var cofferRarity =  tmp.Coffers[bunny.Coffer];
 
             cofferRarity.Total += 1;
             foreach (var item in bunny.GetItems())
+            {
+                // hitting an item with ID 0 means we reached the last valid item
+                if (item == 0)
+                    break;
+                
                 if (!cofferRarity.Items.TryAdd(item, 1))
                     cofferRarity.Items[item] += 1;
-
+            }
+            
             tmp.Coffers[bunny.Coffer] = cofferRarity;
             bunnies[(Territory)bunny.Territory] = tmp;
         }
@@ -599,13 +607,15 @@ public class DataHandler
         var deepDungeons = new Dictionary<Territory, CofferTemp>();
         foreach (var coffer in result)
         {
-            var type = (LockboxTypes)coffer.Coffer;
-            deepDungeons.TryAdd(type.ToTerritory(), new CofferTemp());
+            var type = ((LockboxTypes)coffer.Coffer).ToTerritory();
+            if (!deepDungeons.ContainsKey(type))
+                deepDungeons[type] = new CofferTemp();
 
-            var tmp = deepDungeons[type.ToTerritory()];
+            var tmp = deepDungeons[type];
 
             tmp.Total += 1;
-            tmp.Coffers.TryAdd(coffer.Coffer, new CofferTemp.Coffer());
+            if (!tmp.Coffers.ContainsKey(coffer.Coffer))
+                tmp.Coffers[coffer.Coffer] = new CofferTemp.Coffer();
 
             var cofferRarity =  tmp.Coffers[coffer.Coffer];
 
@@ -614,7 +624,7 @@ public class DataHandler
                 cofferRarity.Items[coffer.ItemId] += 1;
 
             tmp.Coffers[coffer.Coffer] = cofferRarity;
-            deepDungeons[type.ToTerritory()] = tmp;
+            deepDungeons[type] = tmp;
         }
 
         var deepDungeonlist = new List<MultiCofferData>();

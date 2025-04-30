@@ -94,31 +94,29 @@ public class Models
 
         [Name("items")]
         [NotMapped]
-        public string Items { get; set; } = "";
+        public string Items { get; set; } = string.Empty;
 
         [Column("items")]
         [Ignore]
-        public uint[] ItemsArray { get; set; } = [];
+        public uint[] ItemsArray { get; set; } = new uint[12]; // There shouldn't be more than 6 items at any time, 12 is just safety
 
         public Bnuuy() {}
 
         public ReadOnlySpan<uint> GetItems()
         {
-            if (ItemsArray.Length > 0)
+            if (Items == string.Empty)
                 return ItemsArray;
 
             var span = Items.Trim('{', '}').AsSpan();
 
             var counter = 0;
-            Span<uint> items = stackalloc uint[6];
             foreach (var range in span.Split(','))
             {
-                items[counter] = uint.Parse(span[range]);
+                ItemsArray[counter] = uint.Parse(span[range]);
                 counter++;
             }
-            
-            ItemsArray = items.ToArray();
-            
+
+            Items = string.Empty;
             return ItemsArray;
         }
     }
@@ -230,23 +228,22 @@ public class Models
 
         [Name("rewards")]
         [NotMapped]
-        public string Rewards { get; set; } = "";
+        public string Rewards { get; set; } = string.Empty;
 
         [Column("rewards")]
         [Ignore]
-        public uint[] RewardArray { get; set; } = [];
+        public uint[] RewardArray { get; set; } = new uint[6];
 
         public Desynthesis() {}
 
         public ReadOnlySpan<uint> GetRewards()
         {
-            if (RewardArray.Length > 0)
+            if (Rewards == string.Empty)
                 return RewardArray;
 
-            var span = Rewards.Trim('{', '}').AsSpan();
+            var span = Rewards.AsSpan().Trim(['{', '}']);
 
             var counter = 0;
-            Span<uint> rewards = stackalloc uint[6];
             foreach (var range in span.Split(','))
             {
                 if (counter >= 6)
@@ -255,12 +252,11 @@ public class Models
                     return [];
                 }
                 
-                rewards[counter] = uint.Parse(span[range]);
+                RewardArray[counter] = uint.Parse(span[range]);
                 counter++;
             }
             
-            RewardArray = rewards.ToArray();
-            
+            Rewards = string.Empty;
             return RewardArray;
         }
     }
