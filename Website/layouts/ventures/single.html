@@ -1,7 +1,7 @@
 {{ define "main" -}}
     {{ $data := dict }}
     {{ $json := resources.Get "data/VentureData.json"}}
-    {{ $spriteSheet := resources.Get "data/SpritesheetOffsets.json"}}
+    {{ $iconPaths := resources.Get "data/IconPaths.json"}}
     {{ with $json | transform.Unmarshal }}
         {{ $data = . }}
     {{ end }}
@@ -31,11 +31,11 @@
 
             Promise.all([
                 fetch('{{$json.RelPermalink}}'),
-                fetch('{{$spriteSheet.RelPermalink}}')
+                fetch('{{$iconPaths.RelPermalink}}')
             ]).then(async (response) => {
                 const mappedData = await Promise.all(response.map(result => result.json()));
                 const data = mappedData[0];
-                const spritesheetOffsets = mappedData[1];
+                const iconPaths = mappedData[1];
 
                 let e = document.getElementById("patch");
                 let selectedPatch = e.options[e.selectedIndex].text;
@@ -53,8 +53,7 @@
                         header: '',
                         sortable: false,
                         templateRenderer: (row) => {
-                            let offsets = spritesheetOffsets[row.Icon];
-                            return `<div class="sprite" style="background-position: -${offsets.Width}px -${offsets.Height}px; width: 40px; height: 40px;"></div>`
+                            return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${iconPaths[row.Id]}_hr1.tex&format=png">`
                         },
                         classExtension: ['icon']
                     },
@@ -86,8 +85,7 @@
                             header: '',
                             sortable: false,
                             templateRenderer: (row) => {
-                                let offsets = spritesheetOffsets[row.Icon];
-                                return `<img class="sprite" width="40" height="40" style="background-position: -${offsets.Width}px -${offsets.Height}px">`
+                                return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${iconPaths[row.Id]}_hr1.tex&format=png">`
                             },
                             classExtension: ['icon']
                         },

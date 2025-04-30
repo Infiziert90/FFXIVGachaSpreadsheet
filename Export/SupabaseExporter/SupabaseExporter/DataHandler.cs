@@ -11,7 +11,7 @@ public class DataHandler
     /// <summary>
     /// A simple helper record for named JSON keys.
     /// </summary>
-    public record ResultItem(string Name, uint Icon, uint Amount, double Percentage, uint Total = 0, uint Min = 0, uint Max = 0);
+    public record ResultItem(string Name, uint Id, uint Amount, double Percentage, uint Total = 0, uint Min = 0, uint Max = 0);
 
     /// <summary>
     /// A simple helper record for named JSON keys.
@@ -110,13 +110,13 @@ public class DataHandler
 
         public record ItemInfo
         {
-            public uint Icon;
+            public uint Id;
             public string Name;
 
             public ItemInfo(Item item)
             {
+                Id = item.RowId;
                 Name = item.Name.ExtractText();
-                Icon = item.Icon;
             }
         };
     }
@@ -131,7 +131,7 @@ public class DataHandler
 
         public struct Result
         {
-            public uint Item;
+            public uint Id;
             public byte Min;
             public byte Max;
             public uint Received;
@@ -139,7 +139,7 @@ public class DataHandler
 
             public Result(uint itemId, long min, long max, long received)
             {
-                Item = itemId;
+                Id = itemId;
                 Min = (byte) min;
                 Max = (byte) max;
                 Received = (uint)received;
@@ -241,13 +241,15 @@ public class DataHandler
         var ventures = new Dictionary<VentureTypes, Dictionary<string, VentureTemp>>();
         foreach (var venture in data)
         {
-            foreach (var ventureType in Enum.GetValues<VentureTypes>())
+            foreach (var ventureType in EnumExtensions.VentureTypesArray)
             {
                 var type = ventureType is VentureTypes.QuickVenture ? (VentureTypes)venture.VentureType : ventureType;
-                ventures.TryAdd(type, new Dictionary<string, VentureTemp>());
+                if (!ventures.ContainsKey(type))
+                    ventures[type] = new Dictionary<string, VentureTemp>();
 
                 var patches = ventures[type];
-                patches.TryAdd(venture.GetPatch, new VentureTemp());
+                if (!patches.ContainsKey(venture.GetPatch))
+                    patches[venture.GetPatch] = new VentureTemp();
 
                 switch (ventureType)
                 {
@@ -318,7 +320,7 @@ public class DataHandler
             }
                 
             var ventureTask = new VentureData.VentureTask(taskName, type);
-            foreach (var patch in Utils.AllKnownPatches())
+            foreach (var patch in Utils.KnownPatches)
             {
                 VentureTemp processingVenture;
                 if (patch == "All")
@@ -369,13 +371,13 @@ public class DataHandler
         {
             if (itemId == 0)
                 continue;
-
+            
             var item = Sheets.ItemSheet.GetRow(itemId);
             if (primary.Amount > 0)
             {
                 primaryList.Add(new ResultItem(
                     item.Name.ExtractText(),
-                    item.Icon,
+                    item.RowId,
                     (uint)primary.Amount,
                     primary.Amount / (double)venture.Total,
                     (uint)primary.Total,
@@ -387,7 +389,7 @@ public class DataHandler
             {
                 additionalList.Add(new ResultItem(
                     item.Name.ExtractText(),
-                    item.Icon,
+                    item.RowId,
                     (uint)additional.Amount,
                     additional.Amount / (double)venture.Total,
                     (uint)additional.Total,
@@ -395,7 +397,7 @@ public class DataHandler
                     (uint)additional.Max));
             }
 
-            IconHelper.AddIcon(item);
+            IconHelper.AddItem(item);
         }
 
         primaryList = primaryList.OrderBy(l => l.Amount).ToList();
@@ -439,9 +441,9 @@ public class DataHandler
                 foreach (var (itemId, amount) in cofferTemp.Items)
                 {
                     var item = Sheets.ItemSheet.GetRow(itemId);
-                    primaryList.Add(new ResultItem(item.Name.ExtractText(), item.Icon, (uint)amount, amount / cofferTemp.Total));
+                    primaryList.Add(new ResultItem(item.Name.ExtractText(), item.RowId, (uint)amount, amount / cofferTemp.Total));
 
-                    IconHelper.AddIcon(item);
+                    IconHelper.AddItem(item);
                 }
 
                 primaryList = primaryList.OrderBy(l => l.Amount).ToList();
@@ -500,9 +502,9 @@ public class DataHandler
                 foreach (var (itemId, amount) in cofferTemp.Items)
                 {
                     var item = Sheets.ItemSheet.GetRow(itemId);
-                    primaryList.Add(new ResultItem(item.Name.ExtractText(), item.Icon, (uint)amount, amount / cofferTemp.Total));
+                    primaryList.Add(new ResultItem(item.Name.ExtractText(), item.RowId, (uint)amount, amount / cofferTemp.Total));
 
-                    IconHelper.AddIcon(item);
+                    IconHelper.AddItem(item);
                 }
 
                 var cofferItem = Sheets.ItemSheet.GetRow(coffer);
@@ -563,9 +565,9 @@ public class DataHandler
                 foreach (var (itemId, amount) in cofferTemp.Items)
                 {
                     var item = Sheets.ItemSheet.GetRow(itemId);
-                    primaryList.Add(new ResultItem(item.Name.ExtractText(), item.Icon, (uint)amount, amount / cofferTemp.Total));
+                    primaryList.Add(new ResultItem(item.Name.ExtractText(), item.RowId, (uint)amount, amount / cofferTemp.Total));
 
-                    IconHelper.AddIcon(item);
+                    IconHelper.AddItem(item);
                 }
 
                 var cofferItem = Sheets.ItemSheet.GetRow(coffer);
@@ -626,9 +628,9 @@ public class DataHandler
                 foreach (var (itemId, amount) in cofferTemp.Items)
                 {
                     var item = Sheets.ItemSheet.GetRow(itemId);
-                    primaryList.Add(new ResultItem(item.Name.ExtractText(), item.Icon, (uint)amount, amount / cofferTemp.Total));
+                    primaryList.Add(new ResultItem(item.Name.ExtractText(), item.RowId, (uint)amount, amount / cofferTemp.Total));
 
-                    IconHelper.AddIcon(item);
+                    IconHelper.AddItem(item);
                 }
 
                 var cofferItem = Sheets.ItemSheet.GetRow(coffer);
@@ -716,7 +718,7 @@ public class DataHandler
                 if (!sourcedData.ToItem.ContainsKey(reward))
                     sourcedData.ToItem[reward] = new DesynthData.ItemInfo(rewardItem);
 
-                IconHelper.AddIcon(rewardItem);
+                IconHelper.AddItem(rewardItem);
                 results.Add(new History.Result(reward, minMax.Min, minMax.Max, minMax.Amount));
                 if (!sourcedData.Rewards.TryAdd(reward, new History { Records = (uint)minMax.Amount, Results = [new History.Result(source, minMax.Min, minMax.Max, minMax.Amount)] }))
                 {
@@ -734,7 +736,7 @@ public class DataHandler
                 results[i] = r;
             }
 
-            IconHelper.AddIcon(sourceItem);
+            IconHelper.AddItem(sourceItem);
             sourcedData.Sources.Add(source, new History {
                 Records = records[source],
                 Results = results
@@ -746,7 +748,7 @@ public class DataHandler
             for (var i = 0; i < history.Results.Count; i++)
             {
                 var historyResult = history.Results[i];
-                historyResult.Percentage = sourcedData.Sources[historyResult.Item].Results.Find(r => r.Item == rewardItemId).Percentage;
+                historyResult.Percentage = sourcedData.Sources[historyResult.Id].Results.Find(r => r.Id == rewardItemId).Percentage;
                 history.Results[i] = historyResult;
             }
         }
@@ -755,10 +757,9 @@ public class DataHandler
         Console.WriteLine("Done exporting desynth data...");
     }
 
-    public async Task WriteTimeData()
+    public async Task WriteTimestamp()
     {
-        var lastUpdate = DateTime.UtcNow.ToString("R");
-        await WriteDataJson("LastUpdate.json", lastUpdate);
+        await WriteDataJson("LastUpdate.json", DateTime.UtcNow.ToString("R"));
     }
 
     public static async Task<T?> ReadDataJson<T>(string filename)

@@ -1,35 +1,37 @@
-﻿using System.Runtime.CompilerServices;
-using Google.Apis.Sheets.v4.Data;
-using Lumina.Data.Files;
-using static Google.Apis.Sheets.v4.SpreadsheetsResource.ValuesResource.UpdateRequest;
-
-namespace SupabaseExporter;
+﻿namespace SupabaseExporter;
 
 public static class Utils
 {
     public static readonly int CurrentPatchNumber = VersionToNumber("1.5.8.1");
+    public static readonly string[] KnownPatches = ["All", "7.20", "7.10"];
     
-    public static ValueInputOptionEnum InputOption => ValueInputOptionEnum.USERENTERED;
-    public static ValueRange SimpleValueRange(object content) => new() { Values = [[content]] };
-
-    public static ExtendedValue StringValue(string value) => new() { StringValue = value };
-    public static ExtendedValue NumberValue(double value) => new() { NumberValue = value };
-    public static CellFormat PercentageFormat => new() { NumberFormat = new NumberFormat { Type = "NUMBER", Pattern = "##0.00%" } };
-
+    /// <summary>
+    /// Convert a version string to a number.
+    /// </summary>
+    /// <param name="version">Version as string, separated by dots.</param>
+    /// <returns>Version as number</returns>
     public static int VersionToNumber(string version)
     {
         if (string.IsNullOrEmpty(version))
             return 0;
-        
-        var splits = version.Split('.');
-        return int.Parse(splits[0]) * 1000 + int.Parse(splits[1]) * 100 + int.Parse(splits[2]) * 10 + int.Parse(splits[3]);
-    }
 
-    public static string[] AllKnownPatches()
-    {
-        return ["All", "7.20", "7.10"];
+        var result = 0;
+        var multiplier = 1000000;
+        var splits = version.AsSpan();
+        foreach (var numberRange in splits.Split('.'))
+        {
+            result += int.Parse(splits[numberRange]) * multiplier;
+            multiplier /= 100;
+        }
+        
+        return result;
     }
     
+    /// <summary>
+    /// Match a specific version number to patch name.
+    /// </summary>
+    /// <param name="version">Version as number</param>
+    /// <returns>The patch name, with default 7.10</returns>
     public static string VersionToPatch(int version)
     {
         if (version >= CurrentPatchNumber)
@@ -39,28 +41,12 @@ public static class Utils
     }
     
     /// <summary>
-    /// Returns the image data.
+    /// Return the ui path for usage with XIVAPI.
     /// </summary>
-    /// <param name="texFile">The TexFile to format.</param>
-    /// <returns>The formatted image data.</returns>
-    public static byte[] GetRgbaImageData(this TexFile texFile)
-    {
-        var imageData = texFile.ImageData;
-        var dst = new byte[imageData.Length];
-
-        for (var i = 0; i < dst.Length; i += 4)
-        {
-            dst[i] = imageData[i + 2];
-            dst[i + 1] = imageData[i + 1];
-            dst[i + 2] = imageData[i];
-            dst[i + 3] = imageData[i + 3];
-        }
-
-        return dst;
+    /// <param name="iconId">The items icon id</param>
+    /// <returns>Game path to the icon</returns>
+    public static string GetIconPath(uint iconId){
+        var iconGroup = iconId - (iconId % 1000);
+        return $"{iconGroup:D6}/{iconId:D6}";
     }
-
-    /// <summary> Iterate over enumerables with additional index. </summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static IEnumerable<(T Value, int Index)> WithIndex<T>(this IEnumerable<T> list)
-        => list.Select((x, i) => (x, i));
 }

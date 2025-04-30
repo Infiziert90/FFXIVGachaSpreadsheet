@@ -102,13 +102,24 @@ public class Models
 
         public Bnuuy() {}
 
-        public uint[] GetItems()
+        public ReadOnlySpan<uint> GetItems()
         {
             if (ItemsArray.Length > 0)
                 return ItemsArray;
 
-            var spl = Items.Trim('{', '}').Split(",");
-            return spl.Select(uint.Parse).ToArray();
+            var span = Items.Trim('{', '}').AsSpan();
+
+            var counter = 0;
+            Span<uint> items = stackalloc uint[6];
+            foreach (var range in span.Split(','))
+            {
+                items[counter] = uint.Parse(span[range]);
+                counter++;
+            }
+            
+            ItemsArray = items.ToArray();
+            
+            return ItemsArray;
         }
     }
 
@@ -227,20 +238,30 @@ public class Models
 
         public Desynthesis() {}
 
-        public uint[] GetRewards()
+        public ReadOnlySpan<uint> GetRewards()
         {
             if (RewardArray.Length > 0)
                 return RewardArray;
 
-            var spl = Rewards.Trim('{', '}').Split(",");
-            var length = spl.Length / 2;
-            if (length > 3)
-            {
-                Console.Error.WriteLine($"Invalid length found, ID: {Id}");
-                return [];
-            }
+            var span = Rewards.Trim('{', '}').AsSpan();
 
-            return spl.Select(uint.Parse).ToArray();
+            var counter = 0;
+            Span<uint> rewards = stackalloc uint[6];
+            foreach (var range in span.Split(','))
+            {
+                if (counter >= 6)
+                {
+                    Console.Error.WriteLine($"Invalid length found, ID: {Id}");
+                    return [];
+                }
+                
+                rewards[counter] = uint.Parse(span[range]);
+                counter++;
+            }
+            
+            RewardArray = rewards.ToArray();
+            
+            return RewardArray;
         }
     }
 }

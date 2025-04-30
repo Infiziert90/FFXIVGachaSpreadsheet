@@ -55,6 +55,8 @@ public enum VentureTypes : uint
 
 public static class EnumExtensions
 {
+    public static readonly VentureTypes[] VentureTypesArray = [VentureTypes.QuickVenture, VentureTypes.QuickVentureMaxLevel, VentureTypes.QuickVentureMinLevel];
+    
     public static string ToName(this Territory territory)
     {
         return territory switch

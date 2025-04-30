@@ -1,9 +1,9 @@
 {{ define "main" -}}
     {{ $json := resources.Get (.Param "data") }}
-    {{ $spriteSheet := resources.Get "data/SpritesheetOffsets.json"}}
+    {{ $iconPaths := resources.Get "data/IconPaths.json"}}
     <script>
         let data;
-        let spritesheetOffsets;
+        let iconPaths;
 
         function onButtonClick(id, usedData, statsType) {
             let table1 = document.getElementById('table1');
@@ -14,12 +14,12 @@
                     header: '',
                     sortable: false,
                     templateRenderer: (row) => {
-                        let offsets = spritesheetOffsets[data.ToItem[row.Item].Icon];
-                        return `<div class="sprite" style="background-position: -${offsets.Width}px -${offsets.Height}px; width: 40px; height: 40px;"></div>`
+                        console.log(row)
+                        return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${iconPaths[row.Id]}_hr1.tex&format=png">`
                     },
                     classExtension: ['icon']
                 },
-                {header: 'Name', field: 'Name', valueRenderer: (row) => data.ToItem[row.Item].Name}, // TODO Fix sorting for field not existing
+                {header: 'Name', field: 'Name', valueRenderer: (row) => data.ToItem[row.Id].Name}, // TODO Fix sorting for field not existing
                 {header: 'Obtained', field: 'Received', classExtension: ['number', 'text-center']},
                 {
                     header: 'Min-Max',
@@ -100,11 +100,11 @@
                 for (let id of first10) {
                     let itemInfo = data.ToItem[id];
                     let name = itemInfo.Name;
-                    let offsets = spritesheetOffsets[itemInfo.Icon]
 
-                    let iconDiv = document.createElement('div');
-                    iconDiv.classList.add("sprite", "icon-small");
-                    iconDiv.style = `background-position: -${offsets.Width}px -${offsets.Height}px; width: 40px; height: 40px; float: left;`;
+                    let iconImg = document.createElement('img');
+                    iconImg.classList.add("icon-small");
+                    iconImg.style = `width: 40px; height: 40px; float: left;`;
+                    iconImg.src = `https://v2.xivapi.com/api/asset?path=ui/icon/${iconPaths[itemInfo.Id]}_hr1.tex&format=png`;
 
                     let nameSpan = document.createElement('span');
                     nameSpan.style = 'position: relative; top: 0.2rem;';
@@ -116,7 +116,7 @@
                     button.type = 'button';
                     button.onclick = function(){onButtonClick(id, usedData, statsType)}
 
-                    button.append(iconDiv, nameSpan);
+                    button.append(iconImg, nameSpan);
                     element.appendChild(button);
                 }
             }
@@ -128,11 +128,11 @@
         window.addEventListener("load", (event) => {
             let promise = Promise.all([
                 fetch('{{$json.RelPermalink}}'),
-                fetch('{{$spriteSheet.RelPermalink}}')
+                fetch('{{$iconPaths.RelPermalink}}')
             ]).then(async (response) => {
                 const mappedData = await Promise.all(response.map(result => result.json()));
                 data = mappedData[0];
-                spritesheetOffsets = mappedData[1];
+                iconPaths = mappedData[1];
             });
 
             const sourceInput = document.getElementById("sourceSearchInput");
