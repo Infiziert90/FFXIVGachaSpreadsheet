@@ -6,7 +6,7 @@ namespace SupabaseExporter;
 
 public static class Sheets
 {
-    public static readonly GameData Lumina;
+    private static readonly GameData Lumina;
 
     public static readonly ExcelSheet<Item> ItemSheet;
     public static readonly ExcelSheet<GCSupplyDutyReward> GCSupplySheet;
