@@ -162,8 +162,6 @@
         }
         
         function patchSelectionChanged() {
-            console.log("Selection changed?")
-            
             {{ $firstData := (index $data 1) }}
             let category = {{ $firstData.Category }};
             let task_type = {{ (index $firstData.Tasks 0).TaskType }};
@@ -228,7 +226,6 @@
     </div>
     <div class="col-6 col-lg-2 order-0 order-lg-3">
         <div id="stats" class="stats">
-
             <label for="patch">Patch</label>
             <select id="patch" class="form-select">
                 <option value="All">All</option>

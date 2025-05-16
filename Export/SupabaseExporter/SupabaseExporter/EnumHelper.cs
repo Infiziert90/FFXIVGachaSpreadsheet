@@ -47,7 +47,6 @@ public enum LockboxTypes : uint
 
 public enum VentureTypes : uint
 {
-    QuickVenture = 395,
     QuickVentureMaxLevel = 100_000,
     QuickVentureMinLevel = 200_000
 }
@@ -55,7 +54,7 @@ public enum VentureTypes : uint
 
 public static class EnumExtensions
 {
-    public static readonly VentureTypes[] VentureTypesArray = [VentureTypes.QuickVenture, VentureTypes.QuickVentureMaxLevel, VentureTypes.QuickVentureMinLevel];
+    public static readonly VentureTypes[] ExtraQuickVentureTypes = [VentureTypes.QuickVentureMaxLevel, VentureTypes.QuickVentureMinLevel];
     
     public static string ToName(this Territory territory)
     {

@@ -2,6 +2,7 @@
 using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.EntityFrameworkCore;
+using SupabaseExporter.Structures;
 
 namespace SupabaseExporter;
 
@@ -25,7 +26,6 @@ public static class EntryPoint
     public static async Task Main()
     {
         var exporter = new Exporter();
-        var dataHandler = new DataHandler();
 
         await using var context = new DatabaseContext();
         await exporter.ExportSubmarineData(context);
@@ -33,33 +33,49 @@ public static class EntryPoint
         var gachaResult = await exporter.LoadGachaData(context);
         if (gachaResult.Success)
         {
-            await dataHandler.ReadCofferData(gachaResult.Data);
-            await dataHandler.ReadDeepDungeonData(gachaResult.Data);
-            await dataHandler.ReadLockboxData(gachaResult.Data);
+            var randomProcessor = new RandomCoffer();
+            var deepDungeonProcessor = new DeepDungeonSack();
+            var lockboxProcessor = new Lockbox();
+            
+            await randomProcessor.ProcessAllData(gachaResult.Data);
+            randomProcessor.Dispose();
+            
+            await deepDungeonProcessor.ProcessAllData(gachaResult.Data);
+            deepDungeonProcessor.Dispose();
+            
+            await lockboxProcessor.ProcessAllData(gachaResult.Data);
+            lockboxProcessor.Dispose();
         }
 
         var ventureResult = await exporter.LoadVentureData(context);
         if (ventureResult.Success)
         {
-            await dataHandler.PrintVentureStats(ventureResult.Data);
-            await dataHandler.ReadVentureData(ventureResult.Data);
+            PrintOutput.PrintVentureStats(ventureResult.Data);
+            
+            var ventureProcessor = new Ventures();
+            await ventureProcessor.ProcessAllData(ventureResult.Data);
+            ventureProcessor.Dispose();
         }
 
         var bunnyResult = await exporter.LoadBunnyData(context);
         if (bunnyResult.Success)
         {
-            await dataHandler.ReadBunnyData(bunnyResult.Data);
+            var bunnyProcessor = new Bunnies();
+            await bunnyProcessor.ProcessAllData(bunnyResult.Data);
+            bunnyProcessor.Dispose();
         }
 
         var desynthResult = await exporter.LoadDesynthData(context);
         if (desynthResult.Success)
         {
-            await dataHandler.ReadDesynthData(desynthResult.Data);
+            var desynthesisProcessor = new Desynthesis();
+            await desynthesisProcessor.ProcessAllData(desynthResult.Data);
+            desynthesisProcessor.Dispose();
         }
 
         // Generate json with all icon paths
         await IconHelper.CreateIconPaths();
-        await dataHandler.WriteTimestamp();
+        await ExportHandler.WriteTimestamp();
     }
 }
 

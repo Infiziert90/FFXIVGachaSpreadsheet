@@ -18,7 +18,7 @@ public static class IconHelper
         foreach (var (itemId, iconId) in UsedItems)
             iconPaths[itemId] = Utils.GetIconPath(iconId);
 
-        await DataHandler.WriteDataJson("IconPaths.json", iconPaths);
+        await ExportHandler.WriteDataJson("IconPaths.json", iconPaths);
     }
 
     /// <summary>

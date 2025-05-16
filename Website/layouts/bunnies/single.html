@@ -6,7 +6,7 @@
         {{ $data = . }}
     {{ end }}
     <script>
-        function openTab(evt, territory, coffer, addQuery) {
+        function openTab(territory, coffer, addQuery) {
             if (addQuery)
             {
                 const url = new URL(window.location)
@@ -37,10 +37,18 @@
                 const data = mappedData[0];
                 const iconPaths = mappedData[1];
 
+                let e = document.getElementById("patch");
+                let selectedPatch = e.options[e.selectedIndex].text;
+
                 let table1 = document.getElementById('table1');
                 let loadedData = data.find((e) => e.Territory === territory);
                 let cofferData = loadedData.Coffers.find((e) => e.CofferId === coffer)
-                makeSortableTable(table1, cofferData.Items, [
+
+                if (!(selectedPatch in cofferData.Patches))
+                    selectedPatch = "All";
+
+                let patchData = cofferData.Patches[selectedPatch];
+                makeSortableTable(table1, patchData.Items, [
                     {
                         header: '',
                         sortable: false,
@@ -75,15 +83,35 @@
 
                 const li1 = document.createElement('li');
                 li1.classList.add("list-group-item")
-                li1.innerText = `Total: ${loadedData.Total.toLocaleString()}`
+                var total = 0;
+                loadedData.Coffers.forEach(coffer => {total += coffer.Patches[selectedPatch].Total})
+                li1.innerText = `Total: ${total.toLocaleString()}`
 
                 const li2 = document.createElement('li');
                 li2.classList.add("list-group-item")
-                li2.innerText = `${cofferData.CofferName}: ${cofferData.CofferTotal.toLocaleString()}`
+                li2.innerText = `${cofferData.CofferName}: ${patchData.Total.toLocaleString()}`
 
                 const li3 = document.createElement('li');
                 li3.classList.add("list-group-item");
-                li3.innerText = " ";
+                const label = document.createElement('label')
+                label.htmlFor = "patch";
+                label.innerHTML = "Patch";
+                const select = document.createElement('select');
+                select.id = "patch";
+                select.name = "patch";
+                select.onchange = patchSelectionChanged;
+                select.classList.add("form-select");
+
+                li3.append(label, select);
+
+                for (const key of Object.keys(cofferData.Patches)) {
+                    var option = option = document.createElement("option");
+                    option.value = key;
+                    option.text = key;
+                    select.appendChild(option);
+                }
+
+                select.value = selectedPatch
 
                 ul.append(li1, li2, li3);
                 div.append(innerDiv, ul);
@@ -93,6 +121,20 @@
                 stats.innerHTML = '';
                 stats.appendChild(fragment);
             });
+        }
+
+        function patchSelectionChanged() {
+            {{ $firstData := (index $data 0) }}
+            let territory = {{ $firstData.Territory }};
+            let coffer = {{ (index $firstData.Coffers 0).CofferId }};
+
+            const url = new URL(window.location.href);
+            if (url.searchParams.has('territory') && url.searchParams.has('coffer')) {
+                territory = parseInt(url.searchParams.get('territory'));
+                coffer = parseInt(url.searchParams.get('coffer'));
+            }
+
+            openTab(territory, coffer, false)
         }
 
         window.addEventListener("load", (event) => {
@@ -106,7 +148,7 @@
                 coffer = parseInt(url.searchParams.get('coffer'));
             }
 
-            openTab(event, territory, coffer, false)
+            openTab(territory, coffer, false)
 
             {{ range $data }}
                 var element = document.getElementById('{{ .Territory }}-button');
@@ -134,7 +176,7 @@
                     <div class="accordion-body">
                         {{ range .Coffers }}
                         <div class="tab">
-                        <button id="{{ $category.Territory | int }}{{ .CofferId | int }}-tab" class="tablinks" onclick="openTab(event, {{ $category.Territory | int }}, {{ .CofferId | int }}, true)">{{ .CofferName }}</button>
+                        <button id="{{ $category.Territory | int }}{{ .CofferId | int }}-tab" class="tablinks" onclick="openTab({{ $category.Territory | int }}, {{ .CofferId | int }}, true)">{{ .CofferName }}</button>
                         </div>
                         {{ end }}
                     </div>
@@ -144,7 +186,12 @@
         </div>
     </div>
     <div class="col-6 col-lg-2 order-0 order-lg-3">
-        <div id="stats" class="stats"></div>
+        <div id="stats" class="stats">
+            <label for="patch">Patch</label>
+            <select id="patch" class="form-select">
+                <option value="All">All</option>
+            </select>
+        </div>
     </div>
     <div class="col-12 col-lg-7 order-0 order-lg-2">
         <div id="tabcontent">

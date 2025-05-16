@@ -49,4 +49,18 @@ public static class Utils
         var iconGroup = iconId - (iconId % 1000);
         return $"{iconGroup:D6}/{iconId:D6}";
     }
+    
+    /// <summary>
+    /// Calculates the number of FC points a trade-in item would give.
+    /// </summary>
+    /// <param name="item">Item to be turned in</param>
+    /// <returns>Number of FC points generated</returns>
+    public static double CalculateFCPoints((Lumina.Excel.Sheets.Item Item, bool HQ) item)
+    {
+        var iLvL = item.Item.LevelItem.RowId;
+        if ((iLvL & 1) == 1)
+            iLvL += 1;
+
+        return (item.HQ ? 3.0 : 1.5) * iLvL;
+    }
 }

@@ -6,6 +6,47 @@ namespace SupabaseExporter;
 
 public class Models
 {
+    public class BaseModel
+    {
+        [Name("version")]
+        [Column("version")]
+        public string Version { get; set; } = string.Empty;
+
+        private bool IsCalculated;
+        private int NumberVersion;
+        private string Patch;
+        
+        public int GetVersion
+        {
+            get
+            {
+                if (!IsCalculated)
+                    Calculate();
+                
+                return NumberVersion;
+            }
+        }
+        
+        public string GetPatch
+        {
+            get
+            {
+                if (!IsCalculated)
+                    Calculate();
+                
+                return Patch;
+            }
+        }
+
+        private void Calculate()
+        {
+            IsCalculated = true;
+            
+            NumberVersion = Utils.VersionToNumber(Version);
+            Patch = Utils.VersionToPatch(NumberVersion);
+        }
+    }
+    
     [Table("Loot")]
     public class Loot
     {
@@ -55,7 +96,7 @@ public class Models
     }
 
     [Table("Gacha")]
-    public class Gacha
+    public class Gacha : BaseModel
     {
         [Name("id")]
         [Column("id")]
@@ -78,7 +119,7 @@ public class Models
     }
 
     [Table("Bnuuy")]
-    public class Bnuuy
+    public class Bnuuy : BaseModel
     {
         [Column("id")]
         [Ignore]
@@ -132,7 +173,7 @@ public class Models
     }
 
     [Table("Ventures")]
-    public class Venture
+    public class Venture : BaseModel
     {
         [Ignore]
         [Column("id")]
@@ -174,49 +215,11 @@ public class Models
         [Column("quick_venture")]
         public bool QuickVenture { get; set; }
 
-        [Ignore] 
-        [Column("version")] 
-        public string Version { get; set; } = string.Empty;
-
         public Venture() {}
-
-        private bool IsCalculated;
-        private int NumberVersion;
-        private string Patch;
-        
-        public int GetVersion
-        {
-            get
-            {
-                if (!IsCalculated)
-                    Calculate();
-                
-                return NumberVersion;
-            }
-        }
-        
-        public string GetPatch
-        {
-            get
-            {
-                if (!IsCalculated)
-                    Calculate();
-                
-                return Patch;
-            }
-        }
-
-        private void Calculate()
-        {
-            IsCalculated = true;
-            
-            NumberVersion = Utils.VersionToNumber(Version);
-            Patch = Utils.VersionToPatch(NumberVersion);
-        }
     }
 
     [Table("Desynthesis")]
-    public class Desynthesis
+    public class Desynthesis : BaseModel
     {
         [Name("id")]
         [Column("id")]
