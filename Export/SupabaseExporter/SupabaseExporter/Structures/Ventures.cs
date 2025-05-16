@@ -52,6 +52,8 @@ public class VentureTemp(uint type)
     
     public void AddVentureRecord(Models.Venture venture)
     {
+        Total += 1;
+        
         if (!PrimaryRewards.ContainsKey(venture.PrimaryId))
             PrimaryRewards[venture.PrimaryId] = new TaskReward();
 
@@ -184,13 +186,17 @@ public class Ventures : IDisposable
                 
                 foreach (var (itemId, reward) in tmp.PrimaryRewards)
                 {
-                    processingVenture.PrimaryRewards.TryAdd(itemId, new VentureTemp.TaskReward());
+                    if (!processingVenture.PrimaryRewards.ContainsKey(itemId))
+                        processingVenture.PrimaryRewards[itemId] = new VentureTemp.TaskReward();
+                    
                     processingVenture.PrimaryRewards[itemId].AddExisting(reward);
                 }
                 
                 foreach (var (itemId, reward) in tmp.AdditionalRewards)
                 {
-                    processingVenture.AdditionalRewards.TryAdd(itemId, new VentureTemp.TaskReward());
+                    if (!processingVenture.AdditionalRewards.ContainsKey(itemId))
+                        processingVenture.AdditionalRewards[itemId] = new VentureTemp.TaskReward();
+                    
                     processingVenture.AdditionalRewards[itemId].AddExisting(reward);
                 }
             }
