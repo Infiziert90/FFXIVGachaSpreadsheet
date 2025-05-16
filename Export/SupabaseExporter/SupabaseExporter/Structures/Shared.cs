@@ -8,13 +8,13 @@ namespace SupabaseExporter.Structures;
 [Serializable]
 public record Reward(string Name, uint Id, long Amount, double Percentage, long Total = 0, long Min = 0, long Max = 0)
 {
-    public static Reward FromTaskReward(Item item, VentureTemp.TaskReward taskReward)
+    public static Reward FromTaskReward(Item item, long taskTotal, VentureTemp.TaskReward taskReward)
     {
         return new Reward(
             item.Name.ExtractText(),
             item.RowId,
             taskReward.Amount,
-            taskReward.Amount / (double)taskReward.Total,
+            taskReward.Amount / (double)taskTotal,
             taskReward.Total,
             taskReward.Min,
             taskReward.Max);

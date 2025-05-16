@@ -244,7 +244,7 @@ public class Ventures : IDisposable
                 continue;
             
             var item = Sheets.ItemSheet.GetRow(itemId);
-            primaryList.Add(Reward.FromTaskReward(item, primary));
+            primaryList.Add(Reward.FromTaskReward(item, venture.Total, primary));
 
             IconHelper.AddItem(item);
         }
@@ -255,7 +255,7 @@ public class Ventures : IDisposable
                 continue;
             
             var item = Sheets.ItemSheet.GetRow(itemId);
-            additionalList.Add(Reward.FromTaskReward(item, additional));
+            additionalList.Add(Reward.FromTaskReward(item, venture.Total, additional));
 
             IconHelper.AddItem(item);
         }
