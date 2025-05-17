@@ -51,6 +51,17 @@ public enum VentureTypes : uint
     QuickVentureMinLevel = 200_000
 }
 
+public enum LogoFrag : uint
+{
+    Logogram = 1,
+    Fragment = 2,
+}
+
+public enum TripleTriad : uint
+{
+    Any = 1,
+}
+
 
 public static class EnumExtensions
 {
@@ -91,11 +102,20 @@ public static class EnumExtensions
         };
     }
 
-    public static string ToName(this Coffer territory)
+    public static string ToName(this Coffer coffer)
     {
-        return territory switch
+        return coffer switch
         {
             Coffer.Any => "Coffer",
+            _ => "Unknown"
+        };
+    }
+    
+    public static string ToName(this TripleTriad card)
+    {
+        return card switch
+        {
+            TripleTriad.Any => "Card Packs",
             _ => "Unknown"
         };
     }
@@ -121,6 +141,26 @@ public static class EnumExtensions
             LockboxTypes.Hydatos or LockboxTypes.MoistureWarped => Territory.Hydatos,
             LockboxTypes.SouthernFront or LockboxTypes.Zadnor => Territory.Bozja,
             _ => throw new ArgumentOutOfRangeException(nameof(lockboxType), lockboxType, null)
+        };
+    }
+
+    public static LogoFrag ToLogoFrag(uint coffer)
+    {
+        return coffer switch
+        {
+            >= 24007 and <= 24809 => LogoFrag.Logogram,
+            >= 30884 and <= 33779 => LogoFrag.Fragment,
+            _ => throw new ArgumentOutOfRangeException(nameof(coffer), coffer, null)
+        };
+    }
+    
+    public static string ToArea(this LogoFrag logoFrag)
+    {
+        return logoFrag switch
+        {
+            LogoFrag.Logogram => "Logograms",
+            LogoFrag.Fragment => "Fragments",
+            _ => throw new ArgumentOutOfRangeException(nameof(logoFrag), logoFrag, null)
         };
     }
 }

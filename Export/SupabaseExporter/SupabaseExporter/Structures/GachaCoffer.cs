@@ -4,12 +4,13 @@ public class RandomCoffer : CofferBase
 {
     private static readonly uint[] ValidCoffers = [32161, 36635, 36636, 41667];
     
-    public async Task ProcessAllData(List<Models.Gacha> data)
+    public void ProcessAllData(List<Models.Gacha> data)
     {
         Console.WriteLine("Processing lockbox data");
         Fetch(data);
         Combine();
-        await Export("CofferData.json");
+        Export("CofferData.json");
+        Dispose();
     }
 
     private void Fetch(List<Models.Gacha> data)

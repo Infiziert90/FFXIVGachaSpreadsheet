@@ -36,15 +36,14 @@ public static class EntryPoint
             var randomProcessor = new RandomCoffer();
             var deepDungeonProcessor = new DeepDungeonSack();
             var lockboxProcessor = new Lockbox();
+            var cardProcessor = new Cards();
+            var logoFragProcessor = new LogogramFragment();
             
-            await randomProcessor.ProcessAllData(gachaResult.Data);
-            randomProcessor.Dispose();
-            
-            await deepDungeonProcessor.ProcessAllData(gachaResult.Data);
-            deepDungeonProcessor.Dispose();
-            
-            await lockboxProcessor.ProcessAllData(gachaResult.Data);
-            lockboxProcessor.Dispose();
+            randomProcessor.ProcessAllData(gachaResult.Data);
+            deepDungeonProcessor.ProcessAllData(gachaResult.Data);
+            lockboxProcessor.ProcessAllData(gachaResult.Data);
+            cardProcessor.ProcessAllData(gachaResult.Data);
+            logoFragProcessor.ProcessAllData(gachaResult.Data);
         }
 
         var ventureResult = await exporter.LoadVentureData(context);
@@ -53,29 +52,26 @@ public static class EntryPoint
             PrintOutput.PrintVentureStats(ventureResult.Data);
             
             var ventureProcessor = new Ventures();
-            await ventureProcessor.ProcessAllData(ventureResult.Data);
-            ventureProcessor.Dispose();
+            ventureProcessor.ProcessAllData(ventureResult.Data);
         }
 
         var bunnyResult = await exporter.LoadBunnyData(context);
         if (bunnyResult.Success)
         {
             var bunnyProcessor = new Bunnies();
-            await bunnyProcessor.ProcessAllData(bunnyResult.Data);
-            bunnyProcessor.Dispose();
+            bunnyProcessor.ProcessAllData(bunnyResult.Data);
         }
 
         var desynthResult = await exporter.LoadDesynthData(context);
         if (desynthResult.Success)
         {
             var desynthesisProcessor = new Desynthesis();
-            await desynthesisProcessor.ProcessAllData(desynthResult.Data);
-            desynthesisProcessor.Dispose();
+            desynthesisProcessor.ProcessAllData(desynthResult.Data);
         }
 
         // Generate json with all icon paths
-        await IconHelper.CreateIconPaths();
-        await ExportHandler.WriteTimestamp();
+        IconHelper.CreateIconPaths();
+        ExportHandler.WriteTimestamp();
     }
 }
 

@@ -95,12 +95,13 @@ public class Ventures : IDisposable
     private readonly Dictionary<uint, VentureData> ProcessedData = [];
     private readonly Dictionary<VentureTypes, Dictionary<string, VentureTemp>> CollectedData = [];
     
-    public async Task ProcessAllData(List<Models.Venture> data)
+    public void ProcessAllData(List<Models.Venture> data)
     {
         Console.WriteLine("Processing venture data");
         Fetch(data);
         Combine();
-        await Export();
+        Export();
+        Dispose();
     }
     
     public void Dispose()
@@ -206,7 +207,7 @@ public class Ventures : IDisposable
         }
     }
 
-    private async Task Export()
+    private void Export()
     {
         Console.WriteLine("Start export of processed venture data ...");
         var ventureList = new List<VentureData>();
@@ -217,7 +218,7 @@ public class Ventures : IDisposable
             ventureList.Add(ventureData);
         }
 
-        await ExportHandler.WriteDataJson("VentureData.json", ventureList.OrderBy(l => l.Category));
+        ExportHandler.WriteDataJson("VentureData.json", ventureList.OrderBy(l => l.Category));
         Console.WriteLine("Done ...");
     }
     

@@ -17,8 +17,10 @@ A collection of data on random elements that Final Fantasy 14 provides the user.
 {{< buttonGroup >}}
     {{< buttonLink "Random Coffers" >}}coffer/{{< /buttonLink >}}
     {{< buttonLink "Lockboxes" >}}lockbox/{{< /buttonLink >}}
+    {{< buttonLink "Card Packs" >}}card/{{< /buttonLink >}}
     {{< buttonLink "Ventures" >}}venture/{{< /buttonLink >}}
     {{< buttonLink "Eureka Bunny Coffers" >}}bunny/{{< /buttonLink >}}
     {{< buttonLink "Deep Dungeons" >}}deep/{{< /buttonLink >}}
     {{< buttonLink "Desynthesis" >}}desynth/{{< /buttonLink >}}
+    {{< buttonLink "LogoFrag" >}}logofrag/{{< /buttonLink >}}
 {{< /buttonGroup >}}

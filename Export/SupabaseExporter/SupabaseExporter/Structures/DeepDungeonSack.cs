@@ -4,12 +4,13 @@ public class DeepDungeonSack : CofferBase
 {
     private static readonly uint[] ValidCoffers = [16170, 16171, 16172, 16173, 23223, 23224, 23225, 38945, 38946, 38947];
 
-    public async Task ProcessAllData(List<Models.Gacha> data)
+    public void ProcessAllData(List<Models.Gacha> data)
     {
         Console.WriteLine("Processing deep dungeon data");
         Fetch(data);
         Combine();
-        await Export("DeepDungeonData.json");
+        Export("DeepDungeonData.json");
+        Dispose();
     }
     
     private void Fetch(List<Models.Gacha> data)

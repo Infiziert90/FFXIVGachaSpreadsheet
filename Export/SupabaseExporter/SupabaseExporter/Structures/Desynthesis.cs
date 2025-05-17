@@ -92,12 +92,13 @@ public class Desynthesis : IDisposable
     private DesynthData ProcessedData = new();
     private readonly Dictionary<uint, DesynthTemp> CollectedData = [];
     
-    public async Task ProcessAllData(List<Models.Desynthesis> data)
+    public void ProcessAllData(List<Models.Desynthesis> data)
     {
         Console.WriteLine("Processing bunny data");
         Fetch(data);
         Combine();
-        await Export();
+        Export();
+        Dispose();
     }
     
     public void Dispose()
@@ -217,9 +218,9 @@ public class Desynthesis : IDisposable
         }
     }
     
-    private async Task Export()
+    private void Export()
     {
-        await ExportHandler.WriteDataJson("DesynthesisData.json", ProcessedData);
+        ExportHandler.WriteDataJson("DesynthesisData.json", ProcessedData);
         Console.WriteLine("Done exporting data ...");
     }
 }

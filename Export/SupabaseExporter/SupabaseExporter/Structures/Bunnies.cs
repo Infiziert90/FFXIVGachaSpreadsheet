@@ -2,12 +2,13 @@
 
 public class Bunnies : CofferBase
 {
-    public async Task ProcessAllData(List<Models.Bnuuy> data)
+    public void ProcessAllData(List<Models.Bnuuy> data)
     {
         Console.WriteLine("Processing bunny data");
         Fetch(data);
         Combine();
-        await Export("BunnyData.json");
+        Export("BunnyData.json");
+        Dispose();
     }
     
     private void Fetch(List<Models.Bnuuy> data)

@@ -12,13 +12,13 @@ public static class IconHelper
     /// <summary>
     /// Build a JSON containing all icon paths that are used.
     /// </summary>
-    public static async Task CreateIconPaths()
+    public static void CreateIconPaths()
     {
         var iconPaths = new Dictionary<uint, string>();
         foreach (var (itemId, iconId) in UsedItems)
             iconPaths[itemId] = Utils.GetIconPath(iconId);
 
-        await ExportHandler.WriteDataJson("IconPaths.json", iconPaths);
+        ExportHandler.WriteDataJson("IconPaths.json", iconPaths);
     }
 
     /// <summary>
