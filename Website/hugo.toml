@@ -53,9 +53,14 @@ url = "/desynth/"
 weight = 8
 
 [[menu.main]]
+name = "Loot"
+url = "/loot/"
+weight = 9
+
+[[menu.main]]
 name = "LogoFrag"
 url = "/logofrag/"
-weight = 9
+weight = 10
 
 [[menu.social]]
 name = 'About'

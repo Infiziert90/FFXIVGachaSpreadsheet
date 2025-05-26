@@ -12,6 +12,7 @@ public class DatabaseContext : DbContext
     public DbSet<Models.Gacha> Gacha { get; set; }
     public DbSet<Models.Bnuuy> Bunny { get; set; }
     public DbSet<Models.Venture> Ventures { get; set; }
+    public DbSet<Models.DutyLoot> DutyLoot { get; set; }
     public DbSet<Models.Desynthesis> Desynthesis { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -45,7 +46,7 @@ public static class EntryPoint
             cardProcessor.ProcessAllData(gachaResult.Data);
             logoFragProcessor.ProcessAllData(gachaResult.Data);
         }
-
+        
         var ventureResult = await exporter.LoadVentureData(context);
         if (ventureResult.Success)
         {
@@ -54,19 +55,26 @@ public static class EntryPoint
             var ventureProcessor = new Ventures();
             ventureProcessor.ProcessAllData(ventureResult.Data);
         }
-
+        
         var bunnyResult = await exporter.LoadBunnyData(context);
         if (bunnyResult.Success)
         {
             var bunnyProcessor = new Bunnies();
             bunnyProcessor.ProcessAllData(bunnyResult.Data);
         }
-
+        
         var desynthResult = await exporter.LoadDesynthData(context);
         if (desynthResult.Success)
         {
             var desynthesisProcessor = new Desynthesis();
             desynthesisProcessor.ProcessAllData(desynthResult.Data);
+        }
+        
+        var dutyLootResult = await exporter.LoadDutyLootData(context);
+        if (dutyLootResult.Success)
+        {
+            var dutyLootProcessor = new DutyLoot();
+            dutyLootProcessor.ProcessAllData(dutyLootResult.Data);
         }
 
         // Generate json with all icon paths
@@ -106,7 +114,7 @@ public class Exporter
     {
         Console.WriteLine("Loading gacha data");
         var previous = ReadCsv<Models.Gacha>("LocalCache/Gacha");
-        var result = await context.Gacha.ToListAsync();
+        var result = await context.Gacha.OrderBy(l => l.Id).ToListAsync();
         if (result.Count == 0)
         {
             Console.WriteLine("No new records found");
@@ -160,7 +168,7 @@ public class Exporter
     {
         Console.WriteLine("Loading desynth data");
         var previous = ReadCsv<Models.Desynthesis>("LocalCache/Desynthesis");
-        var result = await context.Desynthesis.ToListAsync();
+        var result = await context.Desynthesis.OrderBy(l => l.Id).ToListAsync();
         if (result.Count == 0)
         {
             Console.WriteLine("No new records found");
@@ -171,6 +179,21 @@ public class Exporter
 
         Console.WriteLine($"Rows found {result.Count:N0}");
         Console.WriteLine("Loading desynth data finished...");
+        return (true, result);
+    }
+    
+    public async Task<(bool Success, List<Models.DutyLoot> Data)> LoadDutyLootData(DatabaseContext context)
+    {
+        Console.WriteLine("Loading duty loot data");
+        var result = await context.DutyLoot.OrderBy(l => l.Id).ToListAsync();
+        if (result.Count == 0)
+        {
+            Console.WriteLine("No new records found");
+            return (false, []);
+        }
+
+        Console.WriteLine($"Rows found {result.Count:N0}");
+        Console.WriteLine("Loading duty loot data finished...");
         return (true, result);
     }
 

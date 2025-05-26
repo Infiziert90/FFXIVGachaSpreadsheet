@@ -22,5 +22,6 @@ A collection of data on random elements that Final Fantasy 14 provides the user.
     {{< buttonLink "Eureka Bunny Coffers" >}}bunny/{{< /buttonLink >}}
     {{< buttonLink "Deep Dungeons" >}}deep/{{< /buttonLink >}}
     {{< buttonLink "Desynthesis" >}}desynth/{{< /buttonLink >}}
+    {{< buttonLink "Loot" >}}loot/{{< /buttonLink >}}
     {{< buttonLink "LogoFrag" >}}logofrag/{{< /buttonLink >}}
 {{< /buttonGroup >}}

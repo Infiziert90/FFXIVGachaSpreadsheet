@@ -1,9 +1,11 @@
-﻿namespace SupabaseExporter;
+﻿using System.Text;
+using Lumina.Text.ReadOnly;
+
+namespace SupabaseExporter;
 
 public static class Utils
 {
     public static readonly int CurrentPatchNumber = VersionToNumber("1.5.8.1");
-    public static readonly string[] KnownPatches = ["All", "7.20", "7.10"];
     
     /// <summary>
     /// Convert a version string to a number.
@@ -62,5 +64,35 @@ public static class Utils
             iLvL += 1;
 
         return (item.HQ ? 3.0 : 1.5) * iLvL;
+    }
+    
+    
+    /// <summary>
+    /// Correctly upper case a Lumina SeString without access to the game internal SeStringEvaluator.
+    /// </summary>
+    /// <param name="s">Text from the sheet</param>
+    /// <param name="article">Article specified in the sheet</param>
+    /// <returns></returns>
+    public static string UpperCaseStr(ReadOnlySeString s, sbyte article = 0)
+    {
+        if (article == 1)
+            return s.ExtractText();
+
+        var sb = new StringBuilder(s.ExtractText());
+        var lastSpace = true;
+        for (var i = 0; i < sb.Length; ++i)
+        {
+            if (sb[i] == ' ')
+            {
+                lastSpace = true;
+            }
+            else if (lastSpace)
+            {
+                lastSpace = false;
+                sb[i]     = char.ToUpperInvariant(sb[i]);
+            }
+        }
+
+        return sb.ToString();
     }
 }

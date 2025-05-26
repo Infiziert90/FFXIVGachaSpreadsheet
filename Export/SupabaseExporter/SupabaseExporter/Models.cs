@@ -263,4 +263,79 @@ public class Models
             return RewardArray;
         }
     }
+    
+    [Table("DutyLootV2")]
+    public class DutyLoot : BaseModel
+    {
+        [Name("id")] 
+        [Column("id")]
+        public uint Id { get; set; }
+        
+        [Name("map")] 
+        [Column("map")]
+        public uint Map { get; set; }
+        
+        [Name("territory")] 
+        [Column("territory")]
+        public uint Territory { get; set; }
+        
+        [Name("chest_id")] 
+        [Column("chest_id")]
+        public uint ChestId { get; set; }
+        
+        [Name("content")]
+        [NotMapped]
+        public string Content { get; set; } = string.Empty;
+
+        [Column("content")]
+        [Ignore]
+        public uint[] ContentArray { get; set; } = new uint[25];
+        
+        [Name("hashed")] 
+        [Column("hashed")]
+        public string Hashed { get; set; }
+        
+        [Name("created_at")] 
+        [Column("created_at")]
+        public DateTime CreatedAt { get; set; }
+
+        // Currently unused
+        [Name("chest_x")] 
+        [Column("chest_x")]
+        public float ChestX { get; set; }
+        
+        // Currently unused
+        [Name("chest_y")] 
+        [Column("chest_y")]
+        public float ChestY { get; set; }
+        
+        // Currently unused
+        [Name("chest_z")] 
+        [Column("chest_z")]
+        public float ChestZ { get; set; }
+        
+        public ReadOnlySpan<uint> GetContent()
+        {
+            if (Content == string.Empty)
+                return ContentArray;
+
+            var span = Content.AsSpan().Trim(['{', '}']);
+
+            var counter = 0;
+            foreach (var range in span.Split(','))
+            {
+                ContentArray[counter] = uint.Parse(span[range]);
+                counter++;
+            }
+            
+            if (counter % 2 != 0)
+            {
+                Console.Error.WriteLine($"Invalid length found, ID: {Id}");
+                return [];
+            }
+            
+            Content = string.Empty;
+            return ContentArray;
+        }
+    }
 }

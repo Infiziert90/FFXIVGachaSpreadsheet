@@ -19,6 +19,18 @@ public record Reward(string Name, uint Id, long Amount, double Percentage, long 
             taskReward.Min,
             taskReward.Max);
     }
+    
+    public static Reward FromDutyLoot(Item item, long chestTotal, DutyLootTemp.ChestReward reward)
+    {
+        return new Reward(
+            item.Name.ExtractText(),
+            item.RowId,
+            reward.Amount,
+            reward.Amount / (double)chestTotal,
+            reward.Total,
+            reward.Min,
+            reward.Max);
+    }
 }
 
 /// <summary>

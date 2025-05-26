@@ -1,0 +1,273 @@
+{{ define "main" -}}
+    {{ $data := dict }}
+    {{ $json := resources.Get "data/DutyLoot.json"}}
+    {{ $iconPaths := resources.Get "data/IconPaths.json"}}
+    {{ with $json | transform.Unmarshal }}
+        {{ $data = . }}
+    {{ end }}
+
+    <script>
+        function showAccordion(collapseId, buttonId) {
+            let collapseActive = document.getElementById(collapseId);
+            collapseActive.classList.add("show");
+
+            let collapseButton = document.getElementById(buttonId);
+            collapseButton.classList.remove("collapsed");
+            collapseButton.setAttribute("aria-expanded", "true");
+        }
+        
+        function openTab(category, expansion, title, duty, addQuery) {
+            if (addQuery)
+            {
+                const url = new URL(window.location)
+                url.searchParams.set('category', category);
+                url.searchParams.set('expansion', expansion);
+                url.searchParams.set('title', title);
+                url.searchParams.set('duty', duty);
+    
+                history.pushState(null, '', url)
+            }
+    
+            // Declare all variables
+            var i, tablinks;
+    
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (const element of tablinks) {
+                element.classList.remove('active');
+            }
+    
+            // Show the current tab, and add an "active" class to the link that opened the tab
+            let tabContent = document.getElementById('tabcontent');
+            tabContent.innerHTML = '';
+            
+            document.getElementById(`${category}-${expansion}-${title}-${duty}-tab`).classList.add('active');
+    
+            Promise.all([
+                fetch('{{$json.RelPermalink}}'),
+                fetch('{{$iconPaths.RelPermalink}}')
+            ]).then(async (response) => {
+                const mappedData = await Promise.all(response.map(result => result.json()));
+                const data = mappedData[0];
+                const iconPaths = mappedData[1];
+
+                let loadedData = data.find((e) => e.Category === category);
+                let loadedExpansion = loadedData.Expansions.find((e) => e.Category === expansion);
+                let loadedTitle = loadedExpansion.Titles.find((e) => e.Category === title);
+                let dutyData = loadedTitle.Duties.find((e) => e.DutyId === duty);
+
+                const accordionFragment = new DocumentFragment();
+                const accordionDiv = document.createElement("div");
+                accordionDiv.id = "tableAccordion";
+                accordionDiv.classList.add("accordion", "accordion-flush");
+
+                accordionFragment.appendChild(accordionDiv);
+                
+                let counter = 0;
+                for (const chest of dutyData.Chests) {
+                    let accordionItem = document.createElement("div");
+                    accordionItem.classList.add("accordion");
+
+                    let accordionHeader = document.createElement("h2");
+                    accordionHeader.classList.add("accordion-header");
+
+                    let accordionHeaderButton = document.createElement("button");
+                    accordionHeaderButton.classList.add("accordion-button", "collapsed");
+                    accordionHeaderButton.classList.toggle("collapsed", counter !== 0);
+                    accordionHeaderButton.type = "button";
+                    accordionHeaderButton.setAttribute("data-bs-toggle", "collapse");
+                    accordionHeaderButton.setAttribute("data-bs-target", `#tableCollapse${counter}`);
+                    accordionHeaderButton.setAttribute("aria-expanded", counter !== 0 ? "false" : "true");
+                    accordionHeaderButton.setAttribute("aria-controls", `tableCollapse${counter}`);
+                    accordionHeaderButton.innerText = `${chest.ChestId} | ${chest.ChestName} | ${chest.PlaceNameSub}`
+                    
+                    accordionHeader.appendChild(accordionHeaderButton);
+                    accordionItem.appendChild(accordionHeader);
+
+                    let accordionBody = document.createElement("div");
+                    accordionBody.id = `tableCollapse${counter}`;
+                    accordionBody.classList.add("accordion-collapse", "collapse", "show");
+                    accordionBody.classList.toggle("show", counter === 0);
+                    accordionBody.setAttribute("data-bs-parent", "#tableAccordion");
+
+                    let accordionInnerBody = document.createElement("div");
+                    accordionInnerBody.classList.add("accordion-body");
+
+                    let table = document.createElement('table');
+                    table.id = `table${chest.ChestId}`;
+                    table.classList.add("table", "table-sm", "table-striped", "table-bordered", "border-dark", "align-middle", "m-0");
+
+                    makeSortableTable(table, chest.Rewards, [
+                        {
+                            header: '',
+                            sortable: false,
+                            templateRenderer: (row) => {
+                                return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${iconPaths[row.Id]}_hr1.tex&format=png">`
+                            },
+                            classExtension: ['icon']
+                        },
+                        {header: 'Name', field: 'Name'},
+                        {header: 'Obtained', field: 'Amount', classExtension: ['number', 'text-center']},
+                        {header: 'Total', field: 'Total', classExtension: ['number', 'text-center']},
+                        {
+                            header: 'Min-Max',
+                            field: 'Min',
+                            valueRenderer: (row) => `${row.Min}–${row.Max}`,
+                            classExtension: ['number', 'text-center']
+                        },
+                        {
+                            header: 'Chance',
+                            field: 'Percentage',
+                            defaultSort: 'asc',
+                            valueRenderer: (row) => `${(row.Percentage * 100).toFixed(2)}%`,
+                            classExtension: ['percentage', 'text-end']
+                        },
+                    ]);
+
+                    accordionInnerBody.appendChild(table);
+                    accordionBody.appendChild(accordionInnerBody);
+                    accordionItem.appendChild(accordionBody);
+                    accordionDiv.appendChild(accordionItem);
+                    counter++;
+                }
+                tabContent.appendChild(accordionFragment);
+
+                const stats = document.getElementById('stats');
+
+                const fragment = new DocumentFragment();
+                const div = document.createElement('div');
+                div.classList.add("card");
+
+                const innerDiv = document.createElement('div');
+                innerDiv.classList.add("card-header");
+                innerDiv.innerHTML = `<strong>${loadedData.Name} Stats</strong>`;
+
+                const ul = document.createElement('ul');
+                ul.classList.add("list-group", "list-group-flush");
+
+                const li1 = document.createElement('li');
+                li1.classList.add("list-group-item")
+                li1.innerText = `${dutyData.DutyName}`
+
+                const li2 = document.createElement('li');
+                li2.classList.add("list-group-item")
+                li2.innerText = `${dutyData.Records.toLocaleString()}`
+
+                const li3 = document.createElement('li');
+                li3.classList.add("list-group-item");
+
+                ul.append(li1, li2, li3);
+                div.append(innerDiv, ul);
+
+                fragment.appendChild(div);
+
+                stats.innerHTML = '';
+                stats.appendChild(fragment);
+            });
+        }
+
+        window.addEventListener("load", (_) => {
+            {{ $firstData := (index $data 0) }}
+            let category = {{ $firstData.Category }};
+            
+            {{ $firstExpansion := (index $firstData.Expansions 0) }}
+            let expansion = {{ $firstExpansion.Category }};
+            
+            {{ $firstTitle := (index $firstExpansion.Titles 0) }}
+            let title = {{ $firstTitle.Category }};
+
+            {{ $firstDuty := (index $firstTitle.Duties 0) }}
+            let duty = {{ $firstDuty.DutyId }};
+
+            const url = new URL(window.location.href);
+            if (url.searchParams.has('category') && url.searchParams.has('expansion') && url.searchParams.has('title') && url.searchParams.has('duty')) {
+                category = parseInt(url.searchParams.get('category'));
+                expansion = parseInt(url.searchParams.get('expansion'));
+                title = parseInt(url.searchParams.get('title'));
+                duty = parseInt(url.searchParams.get('duty'));
+            }
+
+            openTab(category, expansion, title, duty, false);
+            
+            // Category
+            showAccordion(`${category}-collapse`, `${category}-button`);
+
+            // Expansion
+            showAccordion(`${category}-${expansion}-expansionCollapse`, `${category}-${expansion}-expansionButton`);
+
+            // Title
+            showAccordion(`${category}-${expansion}-${title}-titleCollapse`, `${category}-${expansion}-${title}-titleButton`);
+        });
+    </script>
+
+    <div class="col-6 col-lg-3 order-0 order-lg-1">
+        <div class="accordion" id="dutyListAccordion">
+            {{ range $category := $data }}
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button id="{{ $category.Category }}-button" class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#{{ $category.Category }}-collapse"
+                            aria-expanded="false" aria-controls="{{ $category.Category }}-collapse">
+                        {{ $category.Name }}
+                    </button>
+                </h2>
+                <div id="{{ $category.Category }}-collapse" class="accordion-collapse collapse" data-bs-parent="#dutyListAccordion">
+                    <div class="accordion-body ps-2">
+                        <div class="accordion" id="{{ $category.Category }}-expansionAccordion">
+                            {{ range $expansion := $category.Expansions }}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="{{ $category.Category }}-{{ $expansion.Category }}-expansionHeader">
+                                    <button id="{{ $category.Category }}-{{ $expansion.Category }}-expansionButton" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $category.Category }}-{{ $expansion.Category }}-expansionCollapse" aria-expanded="false" aria-controls="{{ $category.Category }}-collapse">
+                                        {{ $expansion.Name }}
+                                    </button>
+                                </h2>
+                                <div id="{{ $category.Category }}-{{ $expansion.Category }}-expansionCollapse" class="accordion-collapse collapse" aria-labelledby="{{ $category.Category }}-{{ $expansion.Category }}-expansionHeader" data-bs-parent="#{{ $category.Category }}-expansionAccordion">
+                                    <div class="accordion-body ps-2 border-start border-2 border-success">
+                                        {{ if gt (len (index $expansion.Titles 0).Name) 0 }} 
+                                        <div class="accordion" id="{{ $category.Category }}-{{ $expansion.Category }}-titleAccordion">
+                                            {{ range $title := $expansion.Titles }}
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="{{ $category.Category }}-{{ $expansion.Category }}-{{ $title.Category }}-titleHeader">
+                                                    <button id="{{ $category.Category }}-{{ $expansion.Category }}-{{ $title.Category }}-titleButton" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $category.Category }}-{{ $expansion.Category }}-{{ $title.Category }}-titleCollapse" aria-expanded="false" aria-controls="{{ $category.Category }}-{{ $expansion.Category }}-expansionCollapse">
+                                                        {{ $title.Name }}
+                                                    </button>
+                                                </h2>
+                                                <div id="{{ $category.Category }}-{{ $expansion.Category }}-{{ $title.Category }}-titleCollapse" class="accordion-collapse collapse" aria-labelledby="{{ $category.Category }}-{{ $expansion.Category }}-{{ $title.Category }}-titleHeader" data-bs-parent="#{{ $category.Category }}-{{ $expansion.Category }}-titleHeader">
+                                                    <div class="accordion-body">
+                                                        {{ range $duty := $title.Duties }}
+                                                            <div class="tab">
+                                                                <button id="{{ $category.Category }}-{{ $expansion.Category }}-{{ $title.Category }}-{{ $duty.DutyId }}-tab" class="tablinks" onclick="openTab({{ $category.Category }}, {{ $expansion.Category }}, {{ $title.Category }}, {{ $duty.DutyId }}, true)">{{ $duty.DutyName }}</button>
+                                                            </div>
+                                                        {{ end }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {{ end }}
+                                        </div>
+                                        {{ else }}
+                                            {{ range $title := $expansion.Titles }}
+                                                {{ range $duty := $title.Duties }}
+                                                <div class="tab">
+                                                    <button id="{{ $category.Category }}-{{ $expansion.Category }}-{{ $title.Category }}-{{ $duty.DutyId }}-tab" class="tablinks" onclick="openTab({{ $category.Category }}, {{ $expansion.Category }}, {{ $title.Category }}, {{ $duty.DutyId }}, true)">{{ $duty.DutyName }}</button>
+                                                </div>
+                                                {{ end }}
+                                            {{ end }}
+                                        {{ end }}
+                                    </div>
+                                </div>
+                            </div>
+                            {{ end }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{ end }}
+        </div>
+    </div>
+    <div class="col-6 col-lg-2 order-0 order-lg-3">
+        <div id="stats" class="stats"></div>
+    </div>
+    <div class="col-12 col-lg-7 order-0 order-lg-2">
+        <div id="tabcontent"></div>
+    </div>
+{{ end -}}

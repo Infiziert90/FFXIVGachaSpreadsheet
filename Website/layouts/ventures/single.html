@@ -208,12 +208,12 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                         <button id="{{ $category.Category }}-button" class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $category.Category }}-collapse" aria-expanded="false" aria-controls="{{ $category.Category }}-collapse">
-                            {{ $category.Name}}
+                            {{ $category.Name }}
                         </button>
                     </h2>
                     <div id="{{ $category.Category }}-collapse" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            {{ range .Tasks }}
+                            {{ range $category.Tasks }}
                                 <div class="tab">
                                     <button id="{{ $category.Category }}{{ .TaskType }}-tab" class="tablinks" onclick="openTab({{ $category.Category }}, {{ .TaskType }}, true)">{{ .TaskName }}</button>
                                 </div>
