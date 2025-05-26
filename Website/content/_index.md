@@ -14,14 +14,15 @@ A collection of data on random elements that Final Fantasy 14 provides the user.
 > Keep in mind that every draw is based on randomness, so values can vary slightly for each individual
 
 ### Content
-{{< buttonGroup >}}
-    {{< buttonLink "Random Coffers" >}}coffer/{{< /buttonLink >}}
-    {{< buttonLink "Lockboxes" >}}lockbox/{{< /buttonLink >}}
-    {{< buttonLink "Card Packs" >}}card/{{< /buttonLink >}}
-    {{< buttonLink "Ventures" >}}venture/{{< /buttonLink >}}
-    {{< buttonLink "Eureka Bunny Coffers" >}}bunny/{{< /buttonLink >}}
-    {{< buttonLink "Deep Dungeons" >}}deep/{{< /buttonLink >}}
-    {{< buttonLink "Desynthesis" >}}desynth/{{< /buttonLink >}}
-    {{< buttonLink "Loot" >}}loot/{{< /buttonLink >}}
-    {{< buttonLink "LogoFrag" >}}logofrag/{{< /buttonLink >}}
-{{< /buttonGroup >}}
+
+{{< cardGroup >}}
+    {{< cardLink "Random Coffers" "061000/061812" >}}coffer/{{< /cardLink >}}
+    {{< cardLink "Lockboxes" "061000/061808" >}}lockbox/{{< /cardLink >}}
+    {{< cardLink "Card Packs" "061000/061820" >}}card/{{< /cardLink >}}
+    {{< cardLink "Ventures" "061000/061818" >}}venture/{{< /cardLink >}}
+    {{< cardLink "Eureka Bunny Coffers" "061000/061833" >}}bunny/{{< /cardLink >}}
+    {{< cardLink "Deep Dungeons" "061000/061824">}}deep/{{< /cardLink >}}
+    {{< cardLink "Desynthesis" "000000/000120" >}}desynth/{{< /cardLink >}}
+    {{< cardLink "Loot" "061000/061801">}}loot/{{< /cardLink >}}
+    {{< cardLink "LogoFrag" "061000/061837">}}logofrag/{{< /cardLink >}}
+{{< /cardGroup >}}

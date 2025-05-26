@@ -1,11 +1,5 @@
-*, *::before, *::after {
-    box-sizing: border-box;
-}
-
-* {
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
+.icon-small {
+    zoom: 0.7;
 }
 
 .menu-social .nav-link {
@@ -84,10 +78,6 @@ footer a {
 
 footer a:hover {
     color: grey;
-}
-
-* {
-    box-sizing: border-box
 }
 
 th.sortable {
