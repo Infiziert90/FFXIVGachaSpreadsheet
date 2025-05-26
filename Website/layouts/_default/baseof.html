@@ -20,14 +20,16 @@
                             {{- $active = or $active (eq .Name $current.LinkTitle) -}}
                             {{- $active = or $active (and (eq .Name ($section | humanize)) (eq $current.Section $section)) -}}
                             {{- $active = or $active (and (eq .Name "Blog") (eq $current.Section "blog" "contributors")) -}}
+                            
                             {{ if .HasChildren }}
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle{{ if $active }} active{{ end }}" href="#" id="navbarDropdown{{ .Identifier }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         {{ .Name }}
                                     </a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown{{ .Identifier }}">
                                         {{ range .Children -}}
-                                            {{- $active = eq .Name $current.LinkTitle -}}
+                                            {{- $active = or ($current.IsMenuCurrent "main" .) ($current.HasMenuCurrent "main" .) -}}
+                                            {{- $active = or $active (eq .Name $current.LinkTitle) -}}
                                             <li>
                                                 <a class="dropdown-item{{ if $active }} active{{ end }}" href="{{ .URL | relLangURL }}" {{ if $active }}aria-current="true" {{ end }}>
                                                     {{ .Name }}
@@ -38,7 +40,7 @@
                                 </li>
                             {{ else }}
                                 <li class="nav-item">
-                                    <a class="nav-link{{ if $active }} active{{ end }}" aria-current="page" href="{{ .URL | relLangURL }}"{{ with .Title }} title='{{ . }}' aria-label='{{ . }}'{{ end }}>{{ .Name }}</a>
+                                    <a class="nav-link{{ if $active }} active{{ end }}{{ if eq .Name "FFXIV Gacha" }} navbar-brand{{ end }}" href="{{ .URL | relLangURL }}"{{ with .Title }} title='{{ . }}' aria-label='{{ . }}'{{ end }}>{{ .Name }}</a>
                                 </li>
                             {{ end }}
                         {{ end -}}
