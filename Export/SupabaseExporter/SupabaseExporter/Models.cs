@@ -378,7 +378,7 @@ public class Models
             {
                 if (RewardsArray.Any(reward => reward > 1_000_000))
                 {
-                    Console.Error.WriteLine($"Invalid result found, ID: {Id}");
+                    Console.Error.WriteLine($"Invalid treasure result found, ID: {Id}");
                     return [];
                 }
 
@@ -393,7 +393,7 @@ public class Models
                 var result = uint.Parse(span[range]);
                 if (result > 1_000_000)
                 {
-                    Console.Error.WriteLine($"Invalid result found, ID: {Id}");
+                    Console.Error.WriteLine($"Invalid treasure result found, ID: {Id}");
                     return [];
                 }
                 
@@ -449,7 +449,7 @@ public class Models
             {
                 if (RewardsArray.Any(reward => reward > 1_000_000))
                 {
-                    Console.Error.WriteLine($"Invalid result found, ID: {Id}");
+                    Console.Error.WriteLine($"Invalid bunny result found, ID: {Id}");
                     return [];
                 }
 
@@ -464,7 +464,7 @@ public class Models
                 var result = uint.Parse(span[range]);
                 if (result > 1_000_000)
                 {
-                    Console.Error.WriteLine($"Invalid result found, ID: {Id}");
+                    Console.Error.WriteLine($"Invalid bunny result found, ID: {Id}");
                     return [];
                 }
                 
