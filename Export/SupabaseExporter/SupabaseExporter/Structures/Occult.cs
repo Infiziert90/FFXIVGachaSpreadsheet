@@ -1,4 +1,6 @@
-﻿namespace SupabaseExporter.Structures;
+﻿using System.Numerics;
+
+namespace SupabaseExporter.Structures;
 
 public class Occult : CofferBase
 {
@@ -16,7 +18,8 @@ public class Occult : CofferBase
         Export("Occult.json");
         Dispose();
     }
-    
+
+    private Dictionary<Vector3, uint> Positions = [];
     private void FetchTreasure(List<Models.OccultTreasure> data)
     {
         foreach (var treasure in data)
@@ -36,7 +39,14 @@ public class Occult : CofferBase
                 patches[patch] = new CofferTemp();
 
             patches[patch].AddMultiRecordWithAmount(treasure.GetRewards());
+            
+            var pos = new Vector3(treasure.ChestX, treasure.ChestY, treasure.ChestZ);
+            if (!Positions.TryAdd(pos, 1))
+                Positions[pos] += 1;
         }
+
+        foreach (var (pos, counter) in Positions.OrderByDescending(kvp => kvp.Value))
+            Console.WriteLine($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
     }
     
     private void FetchBunny(List<Models.OccultBunny> data)

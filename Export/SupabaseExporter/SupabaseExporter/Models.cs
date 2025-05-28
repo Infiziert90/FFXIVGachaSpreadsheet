@@ -375,14 +375,29 @@ public class Models
         public ReadOnlySpan<uint> GetRewards()
         {
             if (Rewards == string.Empty)
+            {
+                if (RewardsArray.Any(reward => reward > 1_000_000))
+                {
+                    Console.Error.WriteLine($"Invalid result found, ID: {Id}");
+                    return [];
+                }
+
                 return RewardsArray;
+            }
 
             var span = Rewards.Trim('{', '}').AsSpan();
 
             var counter = 0;
             foreach (var range in span.Split(','))
             {
-                RewardsArray[counter] = uint.Parse(span[range]);
+                var result = uint.Parse(span[range]);
+                if (result > 1_000_000)
+                {
+                    Console.Error.WriteLine($"Invalid result found, ID: {Id}");
+                    return [];
+                }
+                
+                RewardsArray[counter] = result;
                 counter++;
             }
 
@@ -431,14 +446,29 @@ public class Models
         public ReadOnlySpan<uint> GetRewards()
         {
             if (Rewards == string.Empty)
+            {
+                if (RewardsArray.Any(reward => reward > 1_000_000))
+                {
+                    Console.Error.WriteLine($"Invalid result found, ID: {Id}");
+                    return [];
+                }
+
                 return RewardsArray;
+            }
 
             var span = Rewards.Trim('{', '}').AsSpan();
 
             var counter = 0;
             foreach (var range in span.Split(','))
             {
-                RewardsArray[counter] = uint.Parse(span[range]);
+                var result = uint.Parse(span[range]);
+                if (result > 1_000_000)
+                {
+                    Console.Error.WriteLine($"Invalid result found, ID: {Id}");
+                    return [];
+                }
+                
+                RewardsArray[counter] = result;
                 counter++;
             }
 

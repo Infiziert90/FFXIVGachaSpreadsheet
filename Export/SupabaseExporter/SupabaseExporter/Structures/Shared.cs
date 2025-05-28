@@ -148,7 +148,7 @@ public class CofferTemp
             // hitting an item with ID 0 means we reached the last valid item
             if (itemId == 0)
                 break;
-                
+            
             if (!Rewards.ContainsKey(itemId))
                 Rewards[itemId] = new ChestReward();
                 
