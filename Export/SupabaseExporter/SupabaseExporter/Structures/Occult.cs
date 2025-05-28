@@ -28,6 +28,11 @@ public class Occult : CofferBase
                 CollectedData[(uint)OccultCategory.Treasure] = [];
 
             var adjustedCofferId = Sheets.TreasureSheet.GetRow(treasure.BaseId).SGB;
+            if (treasure.BaseId < 1700)
+            {
+                Console.WriteLine($"Invalid treasure baseId found, ID: {treasure.Id}");
+                continue;
+            }
             
             var coffers = CollectedData[(uint)OccultCategory.Treasure];
             if (!coffers.ContainsKey(adjustedCofferId.RowId))
