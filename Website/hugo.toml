@@ -77,15 +77,21 @@ weight = 1
 
 [[menu.main]]
 parent = "others"
+name = "Occult"
+url = "/occult/"
+weight = 2
+
+[[menu.main]]
+parent = "others"
 name = "Desynthesis"
 url = "/desynth/"
-weight = 2
+weight = 3
 
 [[menu.main]]
 parent = "others"
 name = "Ventures"
 url = "/venture/"
-weight = 3
+weight = 4
 
 [[menu.social]]
 name = 'About'

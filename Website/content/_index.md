@@ -24,5 +24,6 @@ A collection of data on random elements that Final Fantasy 14 provides the user.
     {{< cardLink "Deep Dungeons" "061000/061824">}}deep/{{< /cardLink >}}
     {{< cardLink "Desynthesis" "000000/000120" >}}desynth/{{< /cardLink >}}
     {{< cardLink "Loot" "061000/061801">}}loot/{{< /cardLink >}}
+    {{< cardLink "Occult" "061000/061837">}}occult/{{< /cardLink >}}
     {{< cardLink "LogoFrag" "061000/061837">}}logofrag/{{< /cardLink >}}
 {{< /cardGroup >}}

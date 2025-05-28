@@ -14,6 +14,8 @@ public class DatabaseContext : DbContext
     public DbSet<Models.Venture> Ventures { get; set; }
     public DbSet<Models.DutyLoot> DutyLoot { get; set; }
     public DbSet<Models.Desynthesis> Desynthesis { get; set; }
+    public DbSet<Models.OccultBunny> OccultBunny { get; set; }
+    public DbSet<Models.OccultTreasure> OccultTreasures { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -29,8 +31,8 @@ public static class EntryPoint
         var exporter = new Exporter();
 
         await using var context = new DatabaseContext();
-        await exporter.ExportSubmarineData(context);
-
+        // await exporter.ExportSubmarineData(context);
+        
         var gachaResult = await exporter.LoadGachaData(context);
         if (gachaResult.Success)
         {
@@ -75,6 +77,14 @@ public static class EntryPoint
         {
             var dutyLootProcessor = new DutyLoot();
             dutyLootProcessor.ProcessAllData(dutyLootResult.Data);
+        }
+        
+        var occultTreasureResult = await exporter.LoadOccultTreasureData(context);
+        var occultBunnyResult = await exporter.LoadOccultBunnyData(context);
+        if (occultTreasureResult.Success && occultBunnyResult.Success)
+        {
+            var occultTreasureProcessor = new Occult();
+            occultTreasureProcessor.ProcessAllData(occultTreasureResult.Data, occultBunnyResult.Data);
         }
 
         // Generate json with all icon paths
@@ -160,7 +170,7 @@ public class Exporter
         result = previous.Concat(result).ToList();
 
         Console.WriteLine($"Rows found {result.Count:N0}");
-        Console.WriteLine("Loading gacha data finished...");
+        Console.WriteLine("Loading bunny data finished...");
         return (true, result);
     }
 
@@ -194,6 +204,36 @@ public class Exporter
 
         Console.WriteLine($"Rows found {result.Count:N0}");
         Console.WriteLine("Loading duty loot data finished...");
+        return (true, result);
+    }
+    
+    public async Task<(bool Success, List<Models.OccultTreasure> Data)> LoadOccultTreasureData(DatabaseContext context)
+    {
+        Console.WriteLine("Loading occult treasure data");
+        var result = await context.OccultTreasures.OrderBy(l => l.Id).ToListAsync();
+        if (result.Count == 0)
+        {
+            Console.WriteLine("No new records found");
+            return (false, []);
+        }
+
+        Console.WriteLine($"Rows found {result.Count:N0}");
+        Console.WriteLine("Loading occult treasure data finished...");
+        return (true, result);
+    }
+    
+    public async Task<(bool Success, List<Models.OccultBunny> Data)> LoadOccultBunnyData(DatabaseContext context)
+    {
+        Console.WriteLine("Loading occult bunny data");
+        var result = await context.OccultBunny.OrderBy(l => l.Id).ToListAsync();
+        if (result.Count == 0)
+        {
+            Console.WriteLine("No new records found");
+            return (false, []);
+        }
+
+        Console.WriteLine($"Rows found {result.Count:N0}");
+        Console.WriteLine("Loading occult bunny data finished...");
         return (true, result);
     }
 

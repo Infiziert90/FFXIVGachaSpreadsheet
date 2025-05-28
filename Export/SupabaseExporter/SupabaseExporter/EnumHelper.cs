@@ -8,13 +8,29 @@ public enum Territory : uint
     Hydatos = 827,
 
     Bozja = 920,
+    
+    SouthHorn = 1252
+}
+
+public enum OccultCategory : uint
+{
+    Treasure = 1,
+    Pot = 2,
+    Bunny = 3
 }
 
 public enum CofferRarity : uint
 {
     Gold = 2009530,
     Silver = 2009531,
-    Bronze = 2009532
+    Bronze = 2009532,
+    
+    OccultTreasureBronze = 1596,
+    OccultTreasureSilver = 1597,
+    
+    OccultPotGold = 2014741,
+    OccultPotSilver = 2014742,
+    OccultPotBronze = 2014743,
 }
 
 public enum DeepDungeon : uint
@@ -76,6 +92,7 @@ public static class EnumExtensions
             Territory.Pyros => "Pyros",
             Territory.Hydatos => "Hydatos",
             Territory.Bozja => "Bozja",
+            Territory.SouthHorn => "South Horn",
             _ => "Unknown"
         };
     }
@@ -84,9 +101,9 @@ public static class EnumExtensions
     {
         return rarity switch
         {
-            CofferRarity.Bronze => "Bronze",
-            CofferRarity.Silver => "Silver",
-            CofferRarity.Gold => "Gold",
+            CofferRarity.Bronze or CofferRarity.OccultTreasureBronze or CofferRarity.OccultPotBronze => "Bronze",
+            CofferRarity.Silver or CofferRarity.OccultTreasureSilver or CofferRarity.OccultPotSilver => "Silver",
+            CofferRarity.Gold or CofferRarity.OccultPotGold => "Gold",
             _ => "Unknown"
         };
     }
@@ -141,6 +158,26 @@ public static class EnumExtensions
             LockboxTypes.Hydatos or LockboxTypes.MoistureWarped => Territory.Hydatos,
             LockboxTypes.SouthernFront or LockboxTypes.Zadnor => Territory.Bozja,
             _ => throw new ArgumentOutOfRangeException(nameof(lockboxType), lockboxType, null)
+        };
+    }
+    
+    public static OccultCategory ToCategory(this uint cofferRarity)
+    {
+        return cofferRarity switch
+        {
+            2014741 or 2014742 or 2014743 => OccultCategory.Pot,
+            _ => throw new ArgumentOutOfRangeException(nameof(cofferRarity), cofferRarity, null)
+        };
+    }
+    
+    public static string ToName(this OccultCategory category)
+    {
+        return category switch
+        {
+            OccultCategory.Treasure => "Treasure",
+            OccultCategory.Pot => "Pot",
+            OccultCategory.Bunny => "Bunny",
+            _ => "Unknown"
         };
     }
 
