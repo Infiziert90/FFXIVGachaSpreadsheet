@@ -338,4 +338,112 @@ public class Models
             return ContentArray;
         }
     }
+    
+    [Table("OccultTreasure")]
+    public class OccultTreasure : BaseModel
+    {
+        [Column("id")]
+        [Ignore]
+        public uint Id { get; set; }
+
+        [Name("base_id")]
+        [Column("base_id")]
+        public uint BaseId { get; set; }
+
+        [Name("rewards")]
+        [NotMapped]
+        public string Rewards { get; set; } = string.Empty;
+
+        [Column("rewards")]
+        [Ignore]
+        public uint[] RewardsArray { get; set; } = new uint[12]; // There shouldn't be more than 6 items at any time, 12 is just safety
+
+        [Name("pos_x")] 
+        [Column("pos_x")]
+        public float ChestX { get; set; }
+        
+        [Name("pos_y")] 
+        [Column("pos_y")]
+        public float ChestY { get; set; }
+        
+        [Name("pos_z")] 
+        [Column("pos_z")]
+        public float ChestZ { get; set; }
+        
+        public OccultTreasure() {}
+
+        public ReadOnlySpan<uint> GetRewards()
+        {
+            if (Rewards == string.Empty)
+                return RewardsArray;
+
+            var span = Rewards.Trim('{', '}').AsSpan();
+
+            var counter = 0;
+            foreach (var range in span.Split(','))
+            {
+                RewardsArray[counter] = uint.Parse(span[range]);
+                counter++;
+            }
+
+            Rewards = string.Empty;
+            return RewardsArray;
+        }
+    }
+    
+    [Table("OccultBunny")]
+    public class OccultBunny : BaseModel
+    {
+        [Column("id")]
+        [Ignore]
+        public uint Id { get; set; }
+
+        [Name("coffer")]
+        [Column("coffer")]
+        public uint Coffer { get; set; }
+
+        [Name("territory")]
+        [Column("territory")]
+        public uint Territory { get; set; }
+        
+        [Name("rewards")]
+        [NotMapped]
+        public string Rewards { get; set; } = string.Empty;
+
+        [Column("rewards")]
+        [Ignore]
+        public uint[] RewardsArray { get; set; } = new uint[12]; // There shouldn't be more than 6 items at any time, 12 is just safety
+
+        [Name("pos_x")] 
+        [Column("pos_x")]
+        public float ChestX { get; set; }
+        
+        [Name("pos_y")] 
+        [Column("pos_y")]
+        public float ChestY { get; set; }
+        
+        [Name("pos_z")] 
+        [Column("pos_z")]
+        public float ChestZ { get; set; }
+        
+        public OccultBunny() {}
+
+        public ReadOnlySpan<uint> GetRewards()
+        {
+            if (Rewards == string.Empty)
+                return RewardsArray;
+
+            var span = Rewards.Trim('{', '}').AsSpan();
+
+            var counter = 0;
+            foreach (var range in span.Split(','))
+            {
+                RewardsArray[counter] = uint.Parse(span[range]);
+                counter++;
+            }
+
+            Rewards = string.Empty;
+            return RewardsArray;
+        }
+    }
 }

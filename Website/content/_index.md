@@ -23,5 +23,6 @@ A collection of data on random elements that Final Fantasy 14 provides the user.
     {{< buttonLink "Deep Dungeons" >}}deep/{{< /buttonLink >}}
     {{< buttonLink "Desynthesis" >}}desynth/{{< /buttonLink >}}
     {{< buttonLink "Loot" >}}loot/{{< /buttonLink >}}
+    {{< buttonLink "Occult" >}}occult/{{< /buttonLink >}}
     {{< buttonLink "LogoFrag" >}}logofrag/{{< /buttonLink >}}
 {{< /buttonGroup >}}

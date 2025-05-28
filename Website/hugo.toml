@@ -58,8 +58,8 @@ url = "/loot/"
 weight = 9
 
 [[menu.main]]
-name = "LogoFrag"
-url = "/logofrag/"
+name = "Occult"
+url = "/occult/"
 weight = 10
 
 [[menu.social]]

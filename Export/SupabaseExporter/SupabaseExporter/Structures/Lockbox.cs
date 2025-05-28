@@ -51,15 +51,8 @@ public class Lockbox : CofferBase
                 // TODO rewrite to use existing data and aggregate together
                 var processingBunny = new CofferTemp();
                 foreach (var tmp in patches.Values)
-                {
-                    processingBunny.Total += tmp.Total;
+                    processingBunny.AddExisting(tmp);
                 
-                    foreach (var (itemId, reward) in tmp.Rewards)
-                    {
-                        processingBunny.Rewards.TryAdd(itemId, 0);
-                        processingBunny.Rewards[itemId] += reward;
-                    }
-                }
                 cofferVariant.Patches["All"] = CalculateContent(processingBunny);
                 
                 cofferList.Add(cofferVariant);
@@ -72,10 +65,10 @@ public class Lockbox : CofferBase
     private CofferData.CofferContent CalculateContent(CofferTemp coffer)
     {
         var rewards = new List<Reward>();
-        foreach (var (itemId, amount) in coffer.Rewards.OrderBy(pair => pair.Value))
+        foreach (var (itemId, chestReward) in coffer.Rewards.OrderBy(pair => pair.Value.Amount))
         {
             var item = Sheets.ItemSheet.GetRow(itemId);
-            rewards.Add(new Reward(item.Name.ExtractText(), item.RowId, (uint)amount, amount / coffer.Total));
+            rewards.Add(Reward.FromCofferReward(item, coffer.Total, chestReward));
 
             IconHelper.AddItem(item);
         }

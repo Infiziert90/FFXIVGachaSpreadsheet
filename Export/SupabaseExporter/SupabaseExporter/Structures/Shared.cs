@@ -31,6 +31,18 @@ public record Reward(string Name, uint Id, long Amount, double Percentage, long 
             reward.Min,
             reward.Max);
     }
+    
+    public static Reward FromCofferReward(Item item, long chestTotal, CofferTemp.ChestReward reward)
+    {
+        return new Reward(
+            item.Name.ExtractText(),
+            item.RowId,
+            reward.Amount,
+            reward.Amount / (double)chestTotal,
+            reward.Total,
+            reward.Min,
+            reward.Max);
+    }
 }
 
 /// <summary>
@@ -73,13 +85,40 @@ public record CofferData
 public class CofferTemp
 {
     public long Total;
-    public Dictionary<uint, double> Rewards = [];
+    public Dictionary<uint, ChestReward> Rewards = [];
 
+    public class ChestReward
+    {
+        public long Amount;
+        public long Total;
+        public long Min = long.MaxValue;
+        public long Max = long.MinValue;
+
+        public void AddRewardRecord(uint quantity)
+        {
+            Amount += 1;
+            Total += quantity;
+            Min = Math.Min(Min, quantity);
+            Max = Math.Max(Max, quantity);
+        }
+        
+        public void AddExisting(ChestReward other)
+        {
+            Amount += other.Amount;
+            Total += other.Total;
+            Min = Math.Min(Min, other.Min);
+            Max = Math.Max(Max, other.Max);
+        }
+    }
+    
     public void AddSimpleRecord(uint itemId, uint amount)
     {
         Total += 1;
-        if (!Rewards.TryAdd(itemId, amount))
-            Rewards[itemId] += amount;
+        
+        if (!Rewards.ContainsKey(itemId))
+            Rewards[itemId] = new ChestReward();
+                
+        Rewards[itemId].AddRewardRecord(amount);
     }
     
     public void AddMultiRecord(ReadOnlySpan<uint> rewards)
@@ -91,8 +130,41 @@ public class CofferTemp
             if (itemId == 0)
                 break;
                 
-            if (!Rewards.TryAdd(itemId, 1))
-                Rewards[itemId] += 1;
+            if (!Rewards.ContainsKey(itemId))
+                Rewards[itemId] = new ChestReward();
+                
+            Rewards[itemId].AddRewardRecord(1);
+        }
+    }
+    
+    public void AddMultiRecordWithAmount(ReadOnlySpan<uint> rewards)
+    {
+        Total += 1;
+        for (var i = 0; i < rewards.Length / 2; i++)
+        {
+            var itemId = rewards[2 * i];
+            var amount = rewards[(2 * i) + 1];
+                
+            // hitting an item with ID 0 means we reached the last valid item
+            if (itemId == 0)
+                break;
+                
+            if (!Rewards.ContainsKey(itemId))
+                Rewards[itemId] = new ChestReward();
+                
+            Rewards[itemId].AddRewardRecord(amount);
+        }
+    }
+    
+    public void AddExisting(CofferTemp other)
+    {
+        Total += other.Total;
+        foreach (var (itemId, chestReward) in other.Rewards)
+        {
+            if (!Rewards.ContainsKey(itemId))
+                Rewards[itemId] = new ChestReward();
+            
+            Rewards[itemId].AddExisting(chestReward);
         }
     }
 }
