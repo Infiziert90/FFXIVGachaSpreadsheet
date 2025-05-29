@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using Lumina.Excel.Sheets;
 
 namespace SupabaseExporter.Structures;
 
@@ -61,11 +62,43 @@ public class Occult : CofferBase
                 if (valueTuple.Item2 != adjustedCofferId.RowId)
                     Console.WriteLine($"Different BaseId");
             }
+
+            var rewards = treasure.GetRewards();
+            
+            var counter = 0;
+            foreach (var reward in rewards)
+            {
+                if (reward != 0)
+                    counter++;
+            }
+            
+            if (counter > 6)
+                Console.WriteLine($"Weird length: {counter} | {treasure.Id}");
+
+            if (rewards.Length == 0)
+                continue;
+            
+            for (var i = 0; i < rewards.Length / 2; i++)
+            {
+                var itemId = rewards[2 * i];
+                var amount = rewards[(2 * i) + 1];
+                
+                // hitting an item with ID 0 means we reached the last valid item
+                if (itemId == 0)
+                    break;
+                
+                if (amount > 2)
+                    Console.WriteLine($"Invalid amount: {amount} {treasure.Id}");
+
+                var item = Sheets.ItemSheet.GetRow(itemId);
+                if (item.Rarity > 3)
+                    Console.WriteLine($"Invalid rarity?: {item.Name.ExtractText()} {item.Rarity} {treasure.Id}");
+            }
         }
 
-        Console.WriteLine($"Random Treasure");
-        foreach (var (pos, counter) in Positions.OrderByDescending(kvp => kvp.Value))
-            Console.WriteLine($"(new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), {counter.Item2}), // Counter: {counter.Item1}");
+        // Console.WriteLine($"Random Treasure");
+        // foreach (var (pos, counter) in Positions.OrderByDescending(kvp => kvp.Value))
+        //     Console.WriteLine($"(new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), {counter.Item2}), // Counter: {counter.Item1}");
     }
     
     private void FetchBunny(List<Models.OccultBunny> data)
@@ -100,13 +133,13 @@ public class Occult : CofferBase
             }
         }
         
-        Console.WriteLine($"Pot Treasure");
-        foreach (var (pos, counter) in PotPositions.OrderByDescending(kvp => kvp.Value))
-            Console.WriteLine($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
-        
-        Console.WriteLine($"Bunny Treasure");
-        foreach (var (pos, counter) in BunnyPositions.OrderByDescending(kvp => kvp.Value))
-            Console.WriteLine($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
+        // Console.WriteLine($"Pot Treasure");
+        // foreach (var (pos, counter) in PotPositions.OrderByDescending(kvp => kvp.Value))
+        //     Console.WriteLine($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
+        //
+        // Console.WriteLine($"Bunny Treasure");
+        // foreach (var (pos, counter) in BunnyPositions.OrderByDescending(kvp => kvp.Value))
+        //     Console.WriteLine($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
     }
 
     private void Combine() 
