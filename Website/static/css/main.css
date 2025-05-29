@@ -80,16 +80,29 @@ footer a:hover {
     color: grey;
 }
 
+th {
+    white-space: nowrap;
+    user-select: none;
+}
+
 th.sortable {
     cursor: pointer;
 }
 
 th.sorted-asc::after {
-    content: ' ↑';
+    /* content: ' ↑'; */
+    /* use FontAwesome font and character code for up arrow */
+    font-family: 'Font Awesome 5 Free';
+    content: '\f062';
+    margin-inline-start: 0.5rem;
 }
 
 th.sorted-desc::after {
-    content: ' ↓';
+    /* content: ' ↓'; */
+    /* use FontAwesome font and character code for down arrow */
+    font-family: 'Font Awesome 5 Free';
+    content: '\f063';
+    margin-inline-start: 0.5rem;
 }
 
 td.icon {
@@ -104,37 +117,38 @@ td.percentage {
     width: 18%;
 }
 
+td.icon img {
+    border-radius: var(--bs-border-radius);
+    background: radial-gradient(circle, #7b7d6b 15%, #424542 100%);
+}
+
+
 .accordion-body {
-    padding: 0;
-    background-color: #0001;
+    --bs-accordion-body-padding-x: 0;
+    --bs-accordion-body-padding-y: 0;
 }
+.accordion-body-btn {
+    --bs-btn-border-radius: 0;
+    --bs-btn-border-width: 0;
 
-/* Style the tab */
-.tab {
+    --bs-btn-hover-bg: var(--bs-tertiary-bg);
+    --bs-btn-hover-color: var(--bs-tertiary-color);
+    --bs-btn-active-bg: var(--bs-secondary-bg);
+    --bs-btn-active-color: var(--bs-secondary-color);
+
     width: 100%;
+    text-align: start;
+    position: relative;
+    padding-inline-end: calc(var(--bs-btn-padding-x) * 2)
 }
 
-/* Style the buttons that are used to open the tab content */
-.tab button {
-    display: block;
-    background-color: inherit;
-    color: black;
-    padding-inline: var(--bs-accordion-btn-padding-x);
-    padding-block: 10px;
-    width: 100%;
-    border: none;
-    outline: none;
-    text-align: left;
-    cursor: pointer;
-    transition: 0.3s;
-}
+.accordion-body-btn.active::after {
+    /* check icon using font awesome */
+    font-family: 'Font Awesome 5 Free';
+    content: '\f00c';
+    font-weight: 900;
 
-/* Change background color of buttons on hover */
-.tab button:hover {
-    background-color: #0001;
-}
-
-/* Create an active/current "tab button" class */
-.tab button.active {
-    background-color: #0002;
+    margin-inline-end: 0.5rem;
+    position: absolute;
+    right: 0;
 }
