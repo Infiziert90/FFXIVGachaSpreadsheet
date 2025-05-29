@@ -19,11 +19,17 @@ public class Occult : CofferBase
         Dispose();
     }
 
-    private Dictionary<Vector3, uint> Positions = [];
+    private Dictionary<Vector3, (uint, uint)> Positions = [];
+    private Dictionary<Vector3, uint> PotPositions = [];
+    private Dictionary<Vector3, uint> BunnyPositions = [];
     private void FetchTreasure(List<Models.OccultTreasure> data)
     {
         foreach (var treasure in data)
         {
+            // This range should include all random coffer
+            if (treasure.BaseId is > 1856 or < 1789)
+                continue;
+            
             if (!CollectedData.ContainsKey((uint)OccultCategory.Treasure))
                 CollectedData[(uint)OccultCategory.Treasure] = [];
 
@@ -46,12 +52,20 @@ public class Occult : CofferBase
             patches[patch].AddMultiRecordWithAmount(treasure.GetRewards());
             
             var pos = new Vector3(treasure.ChestX, treasure.ChestY, treasure.ChestZ);
-            if (!Positions.TryAdd(pos, 1))
-                Positions[pos] += 1;
+            if (!Positions.TryAdd(pos, (1, adjustedCofferId.RowId)))
+            {
+                var valueTuple = Positions[pos];
+                valueTuple.Item1 += 1;
+                Positions[pos] = valueTuple;
+                
+                if (valueTuple.Item2 != adjustedCofferId.RowId)
+                    Console.WriteLine($"Different BaseId");
+            }
         }
 
+        Console.WriteLine($"Random Treasure");
         foreach (var (pos, counter) in Positions.OrderByDescending(kvp => kvp.Value))
-            Console.WriteLine($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
+            Console.WriteLine($"(new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), {counter.Item2}), // Counter: {counter.Item1}");
     }
     
     private void FetchBunny(List<Models.OccultBunny> data)
@@ -72,7 +86,27 @@ public class Occult : CofferBase
                 patches[patch] = new CofferTemp();
 
             patches[patch].AddMultiRecordWithAmount(treasure.GetRewards());
+            
+            var pos = new Vector3(treasure.ChestX, treasure.ChestY, treasure.ChestZ);
+            if (category == OccultCategory.Pot)
+            {
+                if (!PotPositions.TryAdd(pos, 1))
+                    PotPositions[pos] += 1;
+            }
+            else
+            {
+                if (!BunnyPositions.TryAdd(pos, 1))
+                    BunnyPositions[pos] += 1;
+            }
         }
+        
+        Console.WriteLine($"Pot Treasure");
+        foreach (var (pos, counter) in PotPositions.OrderByDescending(kvp => kvp.Value))
+            Console.WriteLine($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
+        
+        Console.WriteLine($"Bunny Treasure");
+        foreach (var (pos, counter) in BunnyPositions.OrderByDescending(kvp => kvp.Value))
+            Console.WriteLine($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
     }
 
     private void Combine() 

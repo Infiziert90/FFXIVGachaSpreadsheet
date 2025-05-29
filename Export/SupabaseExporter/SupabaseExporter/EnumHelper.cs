@@ -31,6 +31,8 @@ public enum CofferRarity : uint
     OccultPotGold = 2014741,
     OccultPotSilver = 2014742,
     OccultPotBronze = 2014743,
+    
+    BunnyGold = 2012936,
 }
 
 public enum DeepDungeon : uint
@@ -103,7 +105,7 @@ public static class EnumExtensions
         {
             CofferRarity.Bronze or CofferRarity.OccultTreasureBronze or CofferRarity.OccultPotBronze => "Bronze",
             CofferRarity.Silver or CofferRarity.OccultTreasureSilver or CofferRarity.OccultPotSilver => "Silver",
-            CofferRarity.Gold or CofferRarity.OccultPotGold => "Gold",
+            CofferRarity.Gold or CofferRarity.OccultPotGold or CofferRarity.BunnyGold => "Gold",
             _ => "Unknown"
         };
     }
@@ -166,6 +168,7 @@ public static class EnumExtensions
         return cofferRarity switch
         {
             2014741 or 2014742 or 2014743 => OccultCategory.Pot,
+            2012936 => OccultCategory.Bunny,
             _ => throw new ArgumentOutOfRangeException(nameof(cofferRarity), cofferRarity, null)
         };
     }
