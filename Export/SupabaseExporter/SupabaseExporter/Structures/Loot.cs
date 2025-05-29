@@ -31,30 +31,58 @@ public class DutyLootStruct(string name, uint category)
         
         public List<Duty> Duties = [];
     }
-    
-    public class Duty(DutyLootTemp temp)
+
+    public class Duty
     {
-        public int Records = temp.Records;
-    
-        public uint DutyId = temp.DutyId;
-        public string DutyName = temp.DutyName;
-        public uint SortKey = temp.SortKey;
-    
+        public int Records;
+
+        public uint DutyId;
+        public string DutyName;
+        public uint SortKey;
+
         public List<ChestLoot> Chests = [];
+
+        public Duty(DutyLootTemp temp)
+        {
+            this.Records = temp.Records;
+            this.DutyId = temp.DutyId;
+            this.DutyName = temp.DutyName;
+            this.SortKey = temp.SortKey;
+        }
+
+        public Duty()
+        {
+
+        }
     }
 
-    public class ChestLoot(DutyLootTemp.Chest chest)
+    public class ChestLoot
     {
-        public int Records = chest.Records;
-        
-        public uint ChestId = chest.ChestId;
-        public string ChestName = chest.ChestName;
-        
-        public uint MapId = chest.MapId;
-        public uint TerritoryId = chest.TerritoryId;
-        public string PlaceNameSub = chest.PlaceNameSub;
-        
+        public int Records;
+
+        public uint ChestId;
+        public string ChestName;
+
+        public uint MapId;
+        public uint TerritoryId;
+        public string PlaceNameSub;
+
         public List<Reward> Rewards = [];
+
+        public ChestLoot(DutyLootTemp.Chest chest)
+        {
+            this.Records = chest.Records;
+            this.ChestId = chest.ChestId;
+            this.ChestName = chest.ChestName;
+            this.MapId = chest.MapId;
+            this.TerritoryId = chest.TerritoryId;
+            this.PlaceNameSub = chest.PlaceNameSub;
+        }
+
+        public ChestLoot()
+        {
+
+        }
 
         public void AddReward(uint itemId, DutyLootTemp.ChestReward reward)
         {

@@ -24,11 +24,16 @@ public record VentureData
         };
     }
 
+    public VentureData()
+    {
+
+    }
+
     public record VentureTask(string TaskName, uint TaskType)
     {
         public string TaskName = TaskName;
         public uint TaskType = TaskType;
-            
+
         public Dictionary<string, VenturePatch> Patches = [];
     }
 

@@ -22,6 +22,11 @@ public record DesynthData
             Id = item.RowId;
             Name = item.Name.ExtractText();
         }
+
+        public ItemInfo()
+        {
+
+        }
     };
 }
 
@@ -47,6 +52,11 @@ public class History
             Min = reward.Min;
             Max = reward.Max;
             Received = reward.Amount;
+        }
+
+        public Result()
+        {
+
         }
     }
 
