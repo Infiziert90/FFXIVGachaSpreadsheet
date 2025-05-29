@@ -91,14 +91,14 @@ public class Occult : CofferBase
                     Console.WriteLine($"Invalid amount: {amount} {treasure.Id}");
 
                 var item = Sheets.ItemSheet.GetRow(itemId);
-                if (item.Rarity > 3)
+                if (item.Rarity >= 3)
                     Console.WriteLine($"Invalid rarity?: {item.Name.ExtractText()} {item.Rarity} {treasure.Id}");
             }
         }
 
-        // Console.WriteLine($"Random Treasure");
-        // foreach (var (pos, counter) in Positions.OrderByDescending(kvp => kvp.Value))
-        //     Console.WriteLine($"(new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), {counter.Item2}), // Counter: {counter.Item1}");
+        Console.WriteLine($"Random Treasure");
+        foreach (var (pos, counter) in Positions.OrderByDescending(kvp => kvp.Value))
+            Console.WriteLine($"(new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), {counter.Item2}), // Counter: {counter.Item1}");
     }
     
     private void FetchBunny(List<Models.OccultBunny> data)
@@ -133,13 +133,13 @@ public class Occult : CofferBase
             }
         }
         
-        // Console.WriteLine($"Pot Treasure");
-        // foreach (var (pos, counter) in PotPositions.OrderByDescending(kvp => kvp.Value))
-        //     Console.WriteLine($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
-        //
-        // Console.WriteLine($"Bunny Treasure");
-        // foreach (var (pos, counter) in BunnyPositions.OrderByDescending(kvp => kvp.Value))
-        //     Console.WriteLine($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
+        Console.WriteLine($"Pot Treasure");
+        foreach (var (pos, counter) in PotPositions.OrderByDescending(kvp => kvp.Value))
+            Console.WriteLine($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
+        
+        Console.WriteLine($"Bunny Treasure");
+        foreach (var (pos, counter) in BunnyPositions.OrderByDescending(kvp => kvp.Value))
+            Console.WriteLine($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
     }
 
     private void Combine() 
