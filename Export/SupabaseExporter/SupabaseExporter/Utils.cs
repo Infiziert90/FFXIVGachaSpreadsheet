@@ -37,9 +37,9 @@ public static class Utils
     public static string VersionToPatch(int version)
     {
         if (version >= CurrentPatchNumber)
-            return "7.20";
+            return "7.2X";
         
-        return "7.10";
+        return "7.1X";
     }
     
     /// <summary>

@@ -96,7 +96,7 @@ public class Occult : CofferBase
             }
         }
 
-        Console.WriteLine($"Random Treasure");
+        Console.WriteLine($"Random Treasure: Unique {Positions.Count}");
         foreach (var (pos, counter) in Positions.OrderByDescending(kvp => kvp.Value))
             Console.WriteLine($"(new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), {counter.Item2}), // Counter: {counter.Item1}");
     }
@@ -133,11 +133,11 @@ public class Occult : CofferBase
             }
         }
         
-        Console.WriteLine($"Pot Treasure");
+        Console.WriteLine($"Pot Treasure: Unique {PotPositions.Count}");
         foreach (var (pos, counter) in PotPositions.OrderByDescending(kvp => kvp.Value))
             Console.WriteLine($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
         
-        Console.WriteLine($"Bunny Treasure");
+        Console.WriteLine($"Bunny Treasure: Unique {BunnyPositions.Count}");
         foreach (var (pos, counter) in BunnyPositions.OrderByDescending(kvp => kvp.Value))
             Console.WriteLine($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
     }
