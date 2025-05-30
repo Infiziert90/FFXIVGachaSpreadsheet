@@ -151,4 +151,60 @@ td.icon img {
     margin-inline-end: 0.5rem;
     position: absolute;
     right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Scroling sidebar */
+
+@property --top-fade {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0;
+  }
+  
+  @property --bottom-fade {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0;
+  }
+  
+  @keyframes scrollfade {
+    0% {
+      --top-fade: 0;
+    }
+    10%, 100% {
+      --top-fade: 3rem;
+    }
+    0%, 90% {
+      --bottom-fade: 3rem;
+    }
+    100% {
+      --bottom-fade: 0;
+    }
+  }
+
+
+@media (min-width: 992px) {
+    .sticky-left-col {
+        max-height: calc(100vh - 6rem);
+        /* 9rem is around the height of the navbar */
+        overflow-y: scroll;
+        position: sticky;
+        top: calc(40px + 2rem);
+        /* 1rem from the padding of .container, and 40px from the nav, finally we add 1rem to the top to account for a small padding*/
+
+        scrollbar-width: thin;
+        scrollbar-color: var(--bs-secondary-bg) var(--bs-body-bg);
+
+        /* progressive enhancement, add shadows on top and bottom of the scrollable area if there's content outside of it */
+        mask: linear-gradient(to bottom,
+        #0000,
+        #ffff var(--top-fade) calc(100% - var(--bottom-fade)),
+        #0000
+        );
+        animation: scrollfade;
+        animation-timeline: --scrollfade;
+        scroll-timeline: --scrollfade y;
+    }
 }

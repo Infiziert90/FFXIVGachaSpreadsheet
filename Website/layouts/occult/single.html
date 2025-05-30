@@ -57,9 +57,12 @@
                         },
                         classExtension: ['icon']
                     },
-                    {header: 'Name', templateRenderer: (row) => {
-                        return `<a href="https://ffxivteamcraft.com/db/en/item/${row.Id}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">${row.Name}</a>`
-                    }},
+                    {
+                        header: 'Name',
+                        templateRenderer: (row) => {
+                            return `<a href="https://ffxivteamcraft.com/db/en/item/${row.Id}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">${row.Name}</a>`
+                        }
+                    },
                     {header: 'Obtained', field: 'Amount', classExtension: ['number', 'text-center']},
                     {header: 'Total', field: 'Total', classExtension: ['number', 'text-center']},
                     {
@@ -177,7 +180,7 @@
         <i class="fas fa-filter"></i>
     </button>
     
-    <div class="col-12 col-lg-3 order-0 order-lg-1">
+    <div class="col-12 col-lg-3 order-0 order-lg-1 sticky-left-col">
         <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="offcanvasFilter" aria-labelledby="offcanvasFilterLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="offcanvasFilterLabel">Filter your category</h5>
@@ -186,22 +189,22 @@
             <div class="offcanvas-body">
                 <div class="accordion w-100" id="accordionExample">
                     {{ range $category := $data }}
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button id="{{ $category.Territory | int}}-button" class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $category.Territory | int }}-collapse" aria-expanded="false" aria-controls="{{ $category.Territory | int }}-collapse">
-                                {{ $category.Name }}
-                            </button>
-                        </h2>
-                        <div id="{{ $category.Territory | int }}-collapse" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                {{ range .Coffers }}
-                                <div class="tab">
-                                    <button id="{{ $category.Territory | int }}{{ .CofferId | int }}-tab" class="tablinks btn accordion-body-btn" onclick="openTab({{ $category.Territory | int }}, {{ .CofferId | int }}, true)">{{ .CofferName }}</button>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button id="{{ $category.Territory | int}}-button" class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $category.Territory | int }}-collapse" aria-expanded="false" aria-controls="{{ $category.Territory | int }}-collapse">
+                                    {{ $category.Name }}
+                                </button>
+                            </h2>
+                            <div id="{{ $category.Territory | int }}-collapse" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    {{ range .Coffers }}
+                                    <div class="tab">
+                                        <button id="{{ $category.Territory | int }}{{ .CofferId | int }}-tab" class="tablinks btn accordion-body-btn" onclick="openTab({{ $category.Territory | int }}, {{ .CofferId | int }}, true)">{{ .CofferName }}</button>
+                                    </div>
+                                    {{ end }}
                                 </div>
-                                {{ end }}
                             </div>
                         </div>
-                    </div>
                     {{ end }}
                 </div>
             </div>
