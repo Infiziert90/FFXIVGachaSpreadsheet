@@ -59,14 +59,14 @@
                 const accordionFragment = new DocumentFragment();
                 const accordionDiv = document.createElement("div");
                 accordionDiv.id = "tableAccordion";
-                accordionDiv.classList.add("accordion", "accordion-flush");
+                accordionDiv.classList.add("accordion", "accordion-flush", "border", "rounded");
 
                 accordionFragment.appendChild(accordionDiv);
                 
                 let counter = 0;
                 for (const chest of dutyData.Chests) {
                     let accordionItem = document.createElement("div");
-                    accordionItem.classList.add("accordion");
+                    accordionItem.classList.add("accordion-item");
 
                     let accordionHeader = document.createElement("h2");
                     accordionHeader.classList.add("accordion-header");
@@ -79,7 +79,7 @@
                     accordionHeaderButton.setAttribute("data-bs-target", `#tableCollapse${counter}`);
                     accordionHeaderButton.setAttribute("aria-expanded", counter !== 0 ? "false" : "true");
                     accordionHeaderButton.setAttribute("aria-controls", `tableCollapse${counter}`);
-                    accordionHeaderButton.innerText = `${chest.ChestId} | ${chest.ChestName} | ${chest.PlaceNameSub}`
+                    accordionHeaderButton.innerText = `${chest.ChestId} ${chest.ChestName ? `| ${chest.ChestName}` : ''} ${chest.PlaceNameSub ? `| ${chest.PlaceNameSub}` : ''}`
                     
                     accordionHeader.appendChild(accordionHeaderButton);
                     accordionItem.appendChild(accordionHeader);
