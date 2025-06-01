@@ -20,7 +20,7 @@ public class Occult : CofferBase
         Dispose();
     }
 
-    private Dictionary<Vector3, (uint, uint)> Positions = [];
+    private Dictionary<Vector3, (uint, uint, uint)> Positions = [];
     private Dictionary<Vector3, uint> PotPositions = [];
     private Dictionary<Vector3, uint> BunnyPositions = [];
     private void FetchTreasure(List<Models.OccultTreasure> data)
@@ -35,11 +35,6 @@ public class Occult : CofferBase
                 CollectedData[(uint)OccultCategory.Treasure] = [];
 
             var adjustedCofferId = Sheets.TreasureSheet.GetRow(treasure.BaseId).SGB;
-            if (treasure.BaseId < 1700)
-            {
-                Console.WriteLine($"Invalid treasure baseId found, ID: {treasure.Id}");
-                continue;
-            }
             
             var coffers = CollectedData[(uint)OccultCategory.Treasure];
             if (!coffers.ContainsKey(adjustedCofferId.RowId))
@@ -53,7 +48,7 @@ public class Occult : CofferBase
             patches[patch].AddMultiRecordWithAmount(treasure.GetRewards());
             
             var pos = new Vector3(treasure.ChestX, treasure.ChestY, treasure.ChestZ);
-            if (!Positions.TryAdd(pos, (1, adjustedCofferId.RowId)))
+            if (!Positions.TryAdd(pos, (1, adjustedCofferId.RowId, treasure.Id)))
             {
                 var valueTuple = Positions[pos];
                 valueTuple.Item1 += 1;
@@ -98,7 +93,16 @@ public class Occult : CofferBase
 
         Console.WriteLine($"Random Treasure: Unique {Positions.Count}");
         foreach (var (pos, counter) in Positions.OrderByDescending(kvp => kvp.Value))
+        {
+            foreach (var (otherPos, otherCounter) in Positions)
+            {
+                var dis = Vector3.Distance(otherPos, pos);
+                if (dis != 0.0 && dis < 1.0)
+                    Console.WriteLine($"Found Small Distance ({dis}): {otherCounter.Item1}-{otherCounter.Item3} | {counter.Item1}-{counter.Item3}");
+            }
+            
             Console.WriteLine($"(new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), {counter.Item2}), // Counter: {counter.Item1}");
+        }
     }
     
     private void FetchBunny(List<Models.OccultBunny> data)
