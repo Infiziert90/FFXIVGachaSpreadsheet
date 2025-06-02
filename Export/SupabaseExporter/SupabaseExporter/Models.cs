@@ -441,6 +441,10 @@ public class Models
         [Column("pos_z")]
         public float ChestZ { get; set; }
         
+        [Name("fate_id")] 
+        [Column("fate_id")]
+        public ushort FateId { get; set; }
+        
         public OccultBunny() {}
 
         public ReadOnlySpan<uint> GetRewards()

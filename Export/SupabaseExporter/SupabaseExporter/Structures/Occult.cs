@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using Lumina.Excel.Sheets;
 
 namespace SupabaseExporter.Structures;
 
@@ -21,7 +20,7 @@ public class Occult : CofferBase
     }
 
     private Dictionary<Vector3, (uint, uint, uint)> Positions = [];
-    private Dictionary<Vector3, uint> PotPositions = [];
+    private Dictionary<Vector3, (uint, uint, uint)> PotPositions = [];
     private Dictionary<Vector3, uint> BunnyPositions = [];
     private void FetchTreasure(List<Models.OccultTreasure> data)
     {
@@ -109,6 +108,9 @@ public class Occult : CofferBase
     {
         foreach (var treasure in data)
         {
+            // if (treasure.FateId == 0)
+            //     continue;
+            
             var category = treasure.Coffer.ToCategory();
             if (!CollectedData.ContainsKey((uint)category))
                 CollectedData[(uint)category] = [];
@@ -127,8 +129,17 @@ public class Occult : CofferBase
             var pos = new Vector3(treasure.ChestX, treasure.ChestY, treasure.ChestZ);
             if (category == OccultCategory.Pot)
             {
-                if (!PotPositions.TryAdd(pos, 1))
-                    PotPositions[pos] += 1;
+                if (!PotPositions.TryAdd(pos, (1, treasure.FateId, treasure.Id)))
+                {
+                    var potPosition = PotPositions[pos];
+                    potPosition.Item1 += 1;
+                    // if (potPosition.Item2 == 0 && treasure.FateId != 0)
+                    //     potPosition.Item2 = treasure.FateId;
+                    PotPositions[pos] = potPosition;
+
+                    // if (potPosition.Item2 != treasure.FateId)
+                    //     Console.WriteLine($"Overlap!!! {treasure.Id} {potPosition.Item2}");
+                }
             }
             else
             {
@@ -137,11 +148,20 @@ public class Occult : CofferBase
             }
         }
         
-        Console.WriteLine($"Pot Treasure: Unique {PotPositions.Count}");
+        Console.WriteLine($"Pot Treasure: Unique {PotPositions.Count} | Total Records {PotPositions.Sum(pair => pair.Value.Item1)}");
         foreach (var (pos, counter) in PotPositions.OrderByDescending(kvp => kvp.Value))
+        {
+            // foreach (var (otherPos, otherCounter) in PotPositions)
+            // {
+            //     var dis = Vector3.Distance(otherPos, pos);
+            //     if (dis != 0.0 && dis < 1.0)
+            //         Console.WriteLine($"Found Small Distance ({dis}): {otherCounter.Item1}-{otherCounter.Item3} | {counter.Item1}-{counter.Item3}");
+            // }
+            
             Console.WriteLine($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
+        }
         
-        Console.WriteLine($"Bunny Treasure: Unique {BunnyPositions.Count}");
+        Console.WriteLine($"Bunny Treasure: Unique {BunnyPositions.Count} | Total Records {BunnyPositions.Sum(pair => pair.Value)}");
         foreach (var (pos, counter) in BunnyPositions.OrderByDescending(kvp => kvp.Value))
             Console.WriteLine($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
     }
