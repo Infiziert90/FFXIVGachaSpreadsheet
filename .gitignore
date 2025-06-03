@@ -7,3 +7,4 @@ bin/
 
 Website/public/
 Website/resources/
+Website/.hugo_build.lock
