@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en">
 {{- partial "head.html" . -}}
 <body class="d-flex flex-column justify-content-between min-vh-100">
     <div>
@@ -58,6 +58,28 @@
                                     </a>
                                 </li>
                             {{ end -}}
+                            <li class="nav-item dropdown">
+                                <button class="btn btn-link nav-link px-0 px-lg-2 py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static">
+                                    <i class="fas fa-moon fa-fw"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+                                    <li>
+                                        <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+                                            <i class="fas fa-sun fa-fw me-2"></i> Light
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="dark" aria-pressed="true">
+                                            <i class="fas fa-moon fa-fw me-2"></i> Dark
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+                                            <i class="fas fa-desktop fa-fw me-2"></i> Auto
+                                        </button>
+                                    </li> 
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                 {{ end }}
