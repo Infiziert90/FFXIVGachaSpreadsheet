@@ -99,6 +99,6 @@ url = "/about/"
 weight = 100
 
 [[menu.social]]
-name = '<i class="fab fa-brands fa-github text-primary-emphasis" style="font-size:30px"></i>'
+name = '<i class="fab fa-brands fa-github text-white" style="font-size: 1.5em;"></i>'
 url = "https://github.com/Infiziert90/FFXIVGachaSpreadsheet"
 weight = 101
