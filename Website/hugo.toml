@@ -12,55 +12,86 @@ source = "assets"
 target = "assets"
 
 SectionPagesMenu = "main"
+
 [[menu.main]]
-name = "Home"
+name = "FFXIV Gacha"
 url = "/"
 weight = 1
 
 [[menu.main]]
+name = "Containers"
+weight = 2
+identifier = "containers"
+
+[[menu.main]]
+parent = "containers"
 name = "Coffers"
 url = "/coffer/"
+weight = 1
+
+[[menu.main]]
+parent = "containers"
+name = "Lockboxes"
+url = "/lockbox/"
 weight = 2
 
 [[menu.main]]
-name = "Lockboxes"
-url = "/lockbox/"
+parent = "containers"
+name = "Card Packs"
+url = "/card/"
 weight = 3
 
 [[menu.main]]
-name = "Card Packs"
-url = "/card/"
+parent = "containers"
+name = "LogoFrag"
+url = "/logofrag/"
 weight = 4
 
 [[menu.main]]
-name = "Ventures"
-url = "/venture/"
-weight = 5
+name = "Instance Drops"
+weight = 3
+identifier = "instances"
 
 [[menu.main]]
-name = "Bnuuuy"
-url = "/bunny/"
-weight = 6
-
-[[menu.main]]
+parent = "instances"
 name = "Deep Dungeons"
 url = "/deep/"
-weight = 7
+weight = 1
 
 [[menu.main]]
-name = "Desynthesis"
-url = "/desynth/"
-weight = 8
-
-[[menu.main]]
+parent = "instances"
 name = "Loot"
 url = "/loot/"
-weight = 9
+weight = 2
 
 [[menu.main]]
+name = "Others"
+weight = 4
+identifier = "others"
+
+[[menu.main]]
+parent = "others"
+name = "Eureka Bunnies"
+url = "/bunny/"
+weight = 1
+
+[[menu.main]]
+parent = "others"
 name = "Occult"
 url = "/occult/"
-weight = 10
+weight = 2
+
+[[menu.main]]
+parent = "others"
+name = "Desynthesis"
+url = "/desynth/"
+weight = 3
+
+[[menu.main]]
+parent = "others"
+name = "Ventures"
+url = "/venture/"
+weight = 4
 
 [[menu.social]]
 name = 'About'

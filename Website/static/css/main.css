@@ -1,11 +1,5 @@
-*, *::before, *::after {
-    box-sizing: border-box;
-}
-
-* {
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
+.icon-small {
+    zoom: 0.7;
 }
 
 .menu-social .nav-link {
@@ -86,8 +80,9 @@ footer a:hover {
     color: grey;
 }
 
-* {
-    box-sizing: border-box
+th {
+    white-space: nowrap;
+    user-select: none;
 }
 
 th.sortable {
@@ -95,11 +90,19 @@ th.sortable {
 }
 
 th.sorted-asc::after {
-    content: ' ↑';
+    /* content: ' ↑'; */
+    /* use FontAwesome font and character code for up arrow */
+    font-family: 'Font Awesome 5 Free';
+    content: '\f062';
+    margin-inline-start: 0.5rem;
 }
 
 th.sorted-desc::after {
-    content: ' ↓';
+    /* content: ' ↓'; */
+    /* use FontAwesome font and character code for down arrow */
+    font-family: 'Font Awesome 5 Free';
+    content: '\f063';
+    margin-inline-start: 0.5rem;
 }
 
 td.icon {
@@ -114,37 +117,94 @@ td.percentage {
     width: 18%;
 }
 
+td.icon img {
+    border-radius: var(--bs-border-radius);
+    background: radial-gradient(circle, #7b7d6b 15%, #424542 100%);
+}
+
+
 .accordion-body {
-    padding: 0;
-    background-color: #0001;
+    --bs-accordion-body-padding-x: 0;
+    --bs-accordion-body-padding-y: 0;
 }
+.accordion-body-btn {
+    --bs-btn-border-radius: 0;
+    --bs-btn-border-width: 0;
 
-/* Style the tab */
-.tab {
+    --bs-btn-hover-bg: var(--bs-tertiary-bg);
+    --bs-btn-hover-color: var(--bs-tertiary-color);
+    --bs-btn-active-bg: var(--bs-secondary-bg);
+    --bs-btn-active-color: var(--bs-secondary-color);
+
     width: 100%;
+    text-align: start;
+    position: relative;
+    padding-inline-end: calc(var(--bs-btn-padding-x) * 2)
 }
 
-/* Style the buttons that are used to open the tab content */
-.tab button {
-    display: block;
-    background-color: inherit;
-    color: black;
-    padding-inline: var(--bs-accordion-btn-padding-x);
-    padding-block: 10px;
-    width: 100%;
-    border: none;
-    outline: none;
-    text-align: left;
-    cursor: pointer;
-    transition: 0.3s;
+.accordion-body-btn.active::after {
+    /* check icon using font awesome */
+    font-family: 'Font Awesome 5 Free';
+    content: '\f00c';
+    font-weight: 900;
+
+    margin-inline-end: 0.5rem;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
-/* Change background color of buttons on hover */
-.tab button:hover {
-    background-color: #0001;
-}
+/* Scroling sidebar */
 
-/* Create an active/current "tab button" class */
-.tab button.active {
-    background-color: #0002;
+@property --top-fade {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0;
+  }
+  
+  @property --bottom-fade {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0;
+  }
+  
+  @keyframes scrollfade {
+    0% {
+      --top-fade: 0;
+    }
+    10%, 100% {
+      --top-fade: 3rem;
+    }
+    0%, 90% {
+      --bottom-fade: 3rem;
+    }
+    100% {
+      --bottom-fade: 0;
+    }
+  }
+
+
+@media (min-width: 992px) {
+    .sticky-left-col {
+        max-height: calc(100vh - 6rem);
+        /* 9rem is around the height of the navbar */
+        overflow-y: scroll;
+        position: sticky;
+        top: calc(40px + 2rem);
+        /* 1rem from the padding of .container, and 40px from the nav, finally we add 1rem to the top to account for a small padding*/
+
+        scrollbar-width: thin;
+        scrollbar-color: var(--bs-secondary-bg) var(--bs-body-bg);
+
+        /* progressive enhancement, add shadows on top and bottom of the scrollable area if there's content outside of it */
+        mask: linear-gradient(to bottom,
+        #0000,
+        #ffff var(--top-fade) calc(100% - var(--bottom-fade)),
+        #0000
+        );
+        animation: scrollfade;
+        animation-timeline: --scrollfade;
+        scroll-timeline: --scrollfade y;
+    }
 }
