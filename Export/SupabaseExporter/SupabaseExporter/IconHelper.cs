@@ -26,5 +26,5 @@ public static class IconHelper
     /// </summary>
     /// <param name="item">The item to get the IDs from.</param>
     public static void AddItem(Item item) => 
-        UsedItems.Add((item.RowId, item.Icon));
+        UsedItems.Add((item.RowId, Utils.CheckItemAction(item)));
 }

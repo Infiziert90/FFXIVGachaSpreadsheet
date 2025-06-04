@@ -10,6 +10,7 @@ public static class Sheets
 
     public static readonly ExcelSheet<Map> MapSheet;
     public static readonly ExcelSheet<Item> ItemSheet;
+    public static readonly ExcelSheet<Mount> MountSheet;
     public static readonly ExcelSheet<Treasure> TreasureSheet;
     public static readonly ExcelSheet<ContentType> ContentTypeSheet;
     public static readonly ExcelSheet<RetainerTask> RetainerTaskSheet;
@@ -24,6 +25,7 @@ public static class Sheets
 
         MapSheet = Lumina.GetExcelSheet<Map>()!;
         ItemSheet = Lumina.GetExcelSheet<Item>()!;
+        MountSheet = Lumina.GetExcelSheet<Mount>()!;
         TreasureSheet = Lumina.GetExcelSheet<Treasure>()!;
         ContentTypeSheet = Lumina.GetExcelSheet<ContentType>()!;
         RetainerTaskSheet = Lumina.GetExcelSheet<RetainerTask>()!;

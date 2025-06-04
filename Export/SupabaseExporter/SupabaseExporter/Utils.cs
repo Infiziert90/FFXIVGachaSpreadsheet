@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Lumina.Excel.Sheets;
 using Lumina.Text.ReadOnly;
 
 namespace SupabaseExporter;
@@ -53,11 +54,30 @@ public static class Utils
     }
     
     /// <summary>
+    /// Check Item for resolving ItemAction.
+    /// </summary>
+    /// <param name="item">The item</param>
+    /// <returns>Item icon, or resolved icon</returns>
+    public static uint CheckItemAction(Item item)
+    {
+        if (item.ItemAction.RowId == 0)
+            return item.Icon;
+
+        var itemAction = item.ItemAction.Value;
+        return itemAction.Type switch
+        {
+            1322 => Sheets.MountSheet.GetRow(itemAction.Data[0]).Icon, // Mount ID
+            3357 => 87000 + (uint)itemAction.Data[0], // Triple Triad ID
+            _ => item.Icon,
+        };
+    }
+    
+    /// <summary>
     /// Calculates the number of FC points a trade-in item would give.
     /// </summary>
     /// <param name="item">Item to be turned in</param>
     /// <returns>Number of FC points generated</returns>
-    public static double CalculateFCPoints((Lumina.Excel.Sheets.Item Item, bool HQ) item)
+    public static double CalculateFCPoints((Item Item, bool HQ) item)
     {
         var iLvL = item.Item.LevelItem.RowId;
         if ((iLvL & 1) == 1)
