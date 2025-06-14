@@ -98,7 +98,7 @@ public class Occult : CofferBase
             foreach (var (otherPos, otherCounter) in Positions)
             {
                 var dis = Vector3.Distance(otherPos, pos);
-                if (dis != 0.0 && dis < 1.0)
+                if (dis != 0.0 && dis < 10.0)
                     Console.WriteLine($"Found Small Distance ({dis}): {otherCounter.Item1}-{otherCounter.Item3} | {counter.Item1}-{counter.Item3}");
             }
             
@@ -144,7 +144,16 @@ public class Occult : CofferBase
         
         Console.WriteLine($"Pot Treasure: Unique {PotPositions.Count} | Total Records {PotPositions.Sum(pair => pair.Value.Item1)}");
         foreach (var (pos, counter) in PotPositions.OrderByDescending(kvp => kvp.Value))
+        {
+            foreach (var (otherPos, otherCounter) in PotPositions)
+            {
+                var dis = Vector3.Distance(otherPos, pos);
+                if (dis != 0.0 && dis < 10.0)
+                    Console.Error.WriteLine($"(FateId) Found Small Distance ({dis}): {otherCounter.Item1}-{otherCounter.Item3} | {counter.Item1}-{counter.Item3}");
+            }
+            
             Console.WriteLine($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
+        }
         
         Console.WriteLine($"Bunny Treasure: Unique {BunnyPositions.Count} | Total Records {BunnyPositions.Sum(pair => pair.Value)}");
         foreach (var (pos, counter) in BunnyPositions.OrderByDescending(kvp => kvp.Value))
@@ -186,7 +195,7 @@ public class Occult : CofferBase
             foreach (var (otherPos, otherCounter) in potPositions)
             {
                 var dis = Vector3.Distance(otherPos, pos);
-                if (dis != 0.0 && dis < 1.0)
+                if (dis != 0.0 && dis < 10.0)
                     Console.Error.WriteLine($"(FateId) Found Small Distance ({dis}): {otherCounter.Item1}-{otherCounter.Item3} | {counter.Item1}-{counter.Item3}");
             }
             
