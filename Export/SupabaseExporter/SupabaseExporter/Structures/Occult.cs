@@ -124,8 +124,11 @@ public class Occult : CofferBase
                 patches[patch] = new CofferTemp();
 
             patches[patch].AddMultiRecordWithAmount(treasure.GetRewards());
-            
+
             var pos = new Vector3(treasure.ChestX, treasure.ChestY, treasure.ChestZ);
+            if (pos == Vector3.Zero)
+                continue;
+            
             if (category == OccultCategory.Pot)
             {
                 if (!PotPositions.TryAdd(pos, (1, treasure.FateId, treasure.Id)))
@@ -169,9 +172,11 @@ public class Occult : CofferBase
             if (treasure.FateId == 0)
                 continue;
             
-            var category = treasure.Coffer.ToCategory();
+            if (treasure.Coffer.ToCategory() != OccultCategory.Pot) 
+                continue;
+            
             var pos = new Vector3(treasure.ChestX, treasure.ChestY, treasure.ChestZ);
-            if (category != OccultCategory.Pot) 
+            if (pos == Vector3.Zero)
                 continue;
             
             if (!potPositions.TryAdd(pos, (1, treasure.FateId, treasure.Id)))
