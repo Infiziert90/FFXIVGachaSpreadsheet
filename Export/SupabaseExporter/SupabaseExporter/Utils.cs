@@ -6,7 +6,8 @@ namespace SupabaseExporter;
 
 public static class Utils
 {
-    public static readonly int CurrentPatchNumber = VersionToNumber("1.5.8.1");
+    public static readonly int SevenTwoFiveHF1 = VersionToNumber("1.6.0.8");
+    public static readonly int SevenTwoZero = VersionToNumber("1.5.8.1");
     
     /// <summary>
     /// Convert a version string to a number.
@@ -37,7 +38,10 @@ public static class Utils
     /// <returns>The patch name, with default 7.10</returns>
     public static string VersionToPatch(int version)
     {
-        if (version >= CurrentPatchNumber)
+        if (version >= SevenTwoFiveHF1)
+            return "7.25hf1";
+        
+        if (version >= SevenTwoZero)
             return "7.2X";
         
         return "7.1X";
