@@ -13,7 +13,7 @@ public static class PrintOutput
         PrintStats("Total quick ventures (Max Level):", data.Where(v => v is { QuickVenture: true, MaxLevel: true }).ToArray());
         
         // Calculate current patch 
-        PrintStats("Total quick ventures (7.2X):", data.Where(v => v.QuickVenture).Where(v => v.GetVersion >= Utils.SevenTwoZero).ToArray());
+        PrintStats("Total quick ventures (7.2X):", data.Where(v => v.QuickVenture).Where(v => v.GetVersion >= Utils.Patch720).ToArray());
     }
     
     private static void PrintStats(string title, Models.Venture[] ventures)
