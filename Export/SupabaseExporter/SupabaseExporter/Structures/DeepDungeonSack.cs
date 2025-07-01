@@ -6,7 +6,7 @@ public class DeepDungeonSack : CofferBase
 
     public void ProcessAllData(List<Models.Gacha> data)
     {
-        Console.WriteLine("Processing deep dungeon data");
+        Logger.Information("Processing deep dungeon data");
         Fetch(data);
         Combine();
         Export("DeepDungeonData.json");
@@ -15,7 +15,7 @@ public class DeepDungeonSack : CofferBase
     
     private void Fetch(List<Models.Gacha> data)
     {
-        Console.WriteLine("Exporting deep dungeon data");
+        Logger.Information("Exporting deep dungeon data");
         foreach (var coffer in data.Where(l => ValidCoffers.Contains(l.Coffer)).OrderBy(l => l.Id))
         {
             var type = (uint)EnumExtensions.ToDeepDungeon(coffer.Coffer);

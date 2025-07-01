@@ -100,13 +100,13 @@ public class Exporter
 
     public async Task ExportSubmarineData(DatabaseContext context)
     {
-        Console.WriteLine("Exporting submarine data");
+        Logger.Information("Exporting submarine data");
         var result = await context.Loot.Where(l => l.Version != "0").OrderBy(l => l.Id).ToListAsync();
 
-        Console.WriteLine($"Rows found {result.Count:N0}");
+        Logger.Information($"Rows found {result.Count:N0}");
         if (result.Count == 0)
         {
-            Console.WriteLine("No records found");
+            Logger.Warning("No records found");
             return;
         }
 
@@ -117,123 +117,123 @@ public class Exporter
         await context.Loot.Where(l => l.Id < result.Last().Id).ExecuteDeleteAsync();
         await context.Database.ExecuteSqlAsync($"vacuum full;");
 
-        Console.WriteLine("Done exporting submarine data...");
+        Logger.Information("Done exporting submarine data...");
     }
 
     public async Task<(bool Success, List<Models.Gacha> Data)> LoadGachaData(DatabaseContext context)
     {
-        Console.WriteLine("Loading gacha data");
+        Logger.Information("Loading gacha data");
         var previous = ReadCsv<Models.Gacha>("LocalCache/Gacha");
         var result = await context.Gacha.OrderBy(l => l.Id).ToListAsync();
         if (result.Count == 0)
         {
-            Console.WriteLine("No new records found");
+            Logger.Warning("No new records found");
             return (false, []);
         }
 
         result = previous.Concat(result).ToList();
 
-        Console.WriteLine($"Rows found {result.Count:N0}");
-        Console.WriteLine("Loading gacha data finished...");
+        Logger.Information($"Rows found {result.Count:N0}");
+        Logger.Information("Loading gacha data finished...");
         return (true, result);
     }
 
     public async Task<(bool Success, List<Models.Venture> Data)> LoadVentureData(DatabaseContext context)
     {
-        Console.WriteLine("Loading venture data");
+        Logger.Information("Loading venture data");
         var previous = ReadCsv<Models.Venture>("LocalCache/Ventures");
         var result = await context.Ventures.OrderBy(l => l.Id).ToListAsync();
         if (result.Count == 0)
         {
-            Console.WriteLine("No new records found");
+            Logger.Warning("No new records found");
             return (false, []);
         }
         
         result = previous.Concat(result).ToList();
 
-        Console.WriteLine($"Ventures found {result.Count:N0}");
-        Console.WriteLine("Loading venture data finished...");
+        Logger.Information($"Ventures found {result.Count:N0}");
+        Logger.Information("Loading venture data finished...");
         return (true, result);
     }
 
     public async Task<(bool Success, List<Models.Bnuuy> Data)> LoadBunnyData(DatabaseContext context)
     {
-        Console.WriteLine("Loading bunny data");
+        Logger.Information("Loading bunny data");
         var previous = ReadCsv<Models.Bnuuy>("LocalCache/Bnuuy");
         var result = await context.Bunny.OrderBy(l => l.Id).ToListAsync();
         if (result.Count == 0)
         {
-            Console.WriteLine("No new records found");
+            Logger.Warning("No new records found");
             return (false, []);
         }
 
         result = previous.Concat(result).ToList();
 
-        Console.WriteLine($"Rows found {result.Count:N0}");
-        Console.WriteLine("Loading bunny data finished...");
+        Logger.Information($"Rows found {result.Count:N0}");
+        Logger.Information("Loading bunny data finished...");
         return (true, result);
     }
 
     public async Task<(bool Success, List<Models.Desynthesis> Data)> LoadDesynthData(DatabaseContext context)
     {
-        Console.WriteLine("Loading desynth data");
+        Logger.Information("Loading desynth data");
         var previous = ReadCsv<Models.Desynthesis>("LocalCache/Desynthesis");
         var result = await context.Desynthesis.OrderBy(l => l.Id).ToListAsync();
         if (result.Count == 0)
         {
-            Console.WriteLine("No new records found");
+            Logger.Warning("No new records found");
             return (false, []);
         }
 
         result = previous.Concat(result).ToList();
 
-        Console.WriteLine($"Rows found {result.Count:N0}");
-        Console.WriteLine("Loading desynth data finished...");
+        Logger.Information($"Rows found {result.Count:N0}");
+        Logger.Information("Loading desynth data finished...");
         return (true, result);
     }
     
     public async Task<(bool Success, List<Models.DutyLoot> Data)> LoadDutyLootData(DatabaseContext context)
     {
-        Console.WriteLine("Loading duty loot data");
+        Logger.Information("Loading duty loot data");
         var result = await context.DutyLoot.OrderBy(l => l.Id).ToListAsync();
         if (result.Count == 0)
         {
-            Console.WriteLine("No new records found");
+            Logger.Warning("No new records found");
             return (false, []);
         }
 
-        Console.WriteLine($"Rows found {result.Count:N0}");
-        Console.WriteLine("Loading duty loot data finished...");
+        Logger.Information($"Rows found {result.Count:N0}");
+        Logger.Information("Loading duty loot data finished...");
         return (true, result);
     }
     
     public async Task<(bool Success, List<Models.OccultTreasure> Data)> LoadOccultTreasureData(DatabaseContext context)
     {
-        Console.WriteLine("Loading occult treasure data");
+        Logger.Information("Loading occult treasure data");
         var result = await context.OccultTreasures.OrderBy(l => l.Id).ToListAsync();
         if (result.Count == 0)
         {
-            Console.WriteLine("No new records found");
+            Logger.Warning("No new records found");
             return (false, []);
         }
 
-        Console.WriteLine($"Rows found {result.Count:N0}");
-        Console.WriteLine("Loading occult treasure data finished...");
+        Logger.Information($"Rows found {result.Count:N0}");
+        Logger.Information("Loading occult treasure data finished...");
         return (true, result);
     }
     
     public async Task<(bool Success, List<Models.OccultBunny> Data)> LoadOccultBunnyData(DatabaseContext context)
     {
-        Console.WriteLine("Loading occult bunny data");
+        Logger.Information("Loading occult bunny data");
         var result = await context.OccultBunny.OrderBy(l => l.Id).ToListAsync();
         if (result.Count == 0)
         {
-            Console.WriteLine("No new records found");
+            Logger.Warning("No new records found");
             return (false, []);
         }
 
-        Console.WriteLine($"Rows found {result.Count:N0}");
-        Console.WriteLine("Loading occult bunny data finished...");
+        Logger.Information($"Rows found {result.Count:N0}");
+        Logger.Information("Loading occult bunny data finished...");
         return (true, result);
     }
 

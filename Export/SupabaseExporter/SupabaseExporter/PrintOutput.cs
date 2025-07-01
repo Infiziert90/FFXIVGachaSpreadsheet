@@ -23,11 +23,11 @@ public static class PrintOutput
         var totalSeals = (double) validGear.Sum(i => Sheets.GCSupplySheet.GetRow(i.Item.LevelItem.RowId).SealsExpertDelivery);
         var totalFCPoints = validGear.Sum(Utils.CalculateFCPoints);
             
-        Console.WriteLine($"{title} {ventures.Length:N0}");
-        Console.WriteLine("");
-        Console.WriteLine("= Gear Average =");
-        Console.WriteLine($"iLvL: {totalLvl / ventures.Length:F2}");
-        Console.WriteLine($"FC Points: {totalFCPoints / ventures.Length:F2}");
-        Console.WriteLine($"GC Seals: {totalSeals / ventures.Length:F2}");
+        Logger.Information($"{title} {ventures.Length:N0}");
+        Logger.Information("");
+        Logger.Information("= Gear Average =");
+        Logger.Information($"iLvL: {totalLvl / ventures.Length:F2}");
+        Logger.Information($"FC Points: {totalFCPoints / ventures.Length:F2}");
+        Logger.Information($"GC Seals: {totalSeals / ventures.Length:F2}");
     }
 }

@@ -7,7 +7,7 @@ public class LogogramFragment : CofferBase
 
     public void ProcessAllData(List<Models.Gacha> data)
     {
-        Console.WriteLine("Processing logograms and fragments data");
+        Logger.Information("Processing logograms and fragments data");
         Fetch(data);
         Combine();
         Export("LogoFrag.json");

@@ -7,7 +7,7 @@ public class Cards : CofferBase
     
     public void ProcessAllData(List<Models.Gacha> data)
     {
-        Console.WriteLine("Processing triple triad cards data");
+        Logger.Information("Processing triple triad cards data");
         Fetch(data);
         Combine();
         Export("Cards.json");

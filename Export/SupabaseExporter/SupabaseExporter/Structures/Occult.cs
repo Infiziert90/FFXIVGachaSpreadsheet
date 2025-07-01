@@ -6,7 +6,7 @@ public class Occult : CofferBase
 {
     public void ProcessAllData(List<Models.OccultTreasure> treasureData, List<Models.OccultBunny> bunnyData)
     {
-        Console.WriteLine("Processing occult data");
+        Logger.Information("Processing occult data");
         FetchTreasure(treasureData);
         Combine();
         
@@ -56,7 +56,7 @@ public class Occult : CofferBase
                 Positions[pos] = valueTuple;
                 
                 if (valueTuple.Item2 != adjustedCofferId.RowId)
-                    Console.WriteLine($"Different BaseId");
+                    Logger.Warning("Different BaseId");
             }
 
             var rewards = treasure.GetRewards();
@@ -69,7 +69,7 @@ public class Occult : CofferBase
             }
             
             if (counter > 6)
-                Console.WriteLine($"Weird length: {counter} | {treasure.Id}");
+                Logger.Warning($"Weird length: {counter} | {treasure.Id}");
 
             if (rewards.Length == 0)
                 continue;
@@ -83,26 +83,26 @@ public class Occult : CofferBase
                 if (itemId == 0)
                     break;
                 
-                if (amount > 2)
-                    Console.WriteLine($"Invalid amount: {amount} {treasure.Id}");
+                if (amount > 3)
+                    Logger.Error($"Invalid amount: {amount} {treasure.Id}");
 
                 var item = Sheets.ItemSheet.GetRow(itemId);
                 if (item.Rarity >= 3)
-                    Console.WriteLine($"Invalid rarity?: {item.Name.ExtractText()} {item.Rarity} {treasure.Id}");
+                    Logger.Error($"Invalid rarity?: {item.Name.ExtractText()} {item.Rarity} {treasure.Id}");
             }
         }
 
-        Console.WriteLine($"Random Treasure: Unique {Positions.Count}");
+        Logger.Information($"Random Treasure: Unique {Positions.Count}");
         foreach (var (pos, counter) in Positions.OrderByDescending(kvp => kvp.Value))
         {
             foreach (var (otherPos, otherCounter) in Positions)
             {
                 var dis = Vector3.Distance(otherPos, pos);
                 if (dis != 0.0 && dis < 10.0)
-                    Console.WriteLine($"Found Small Distance ({dis}): {otherCounter.Item1}-{otherCounter.Item3} | {counter.Item1}-{counter.Item3}");
+                    Logger.Warning($"Found Small Distance ({dis}): {otherCounter.Item1}-{otherCounter.Item3} | {counter.Item1}-{counter.Item3}");
             }
             
-            Console.WriteLine($"(new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), {counter.Item2}), // Counter: {counter.Item1}");
+            Logger.Information($"(new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), {counter.Item2}), // Counter: {counter.Item1}");
         }
     }
     
@@ -145,22 +145,22 @@ public class Occult : CofferBase
             }
         }
         
-        Console.WriteLine($"Pot Treasure: Unique {PotPositions.Count} | Total Records {PotPositions.Sum(pair => pair.Value.Item1)}");
+        Logger.Information($"Pot Treasure: Unique {PotPositions.Count} | Total Records {PotPositions.Sum(pair => pair.Value.Item1)}");
         foreach (var (pos, counter) in PotPositions.OrderByDescending(kvp => kvp.Value))
         {
             foreach (var (otherPos, otherCounter) in PotPositions)
             {
                 var dis = Vector3.Distance(otherPos, pos);
                 if (dis != 0.0 && dis < 10.0)
-                    Console.Error.WriteLine($"(FateId) Found Small Distance ({dis}): {otherCounter.Item1}-{otherCounter.Item3} | {counter.Item1}-{counter.Item3}");
+                    Logger.Error($"(FateId) Found Small Distance ({dis}): {otherCounter.Item1}-{otherCounter.Item3} | {counter.Item1}-{counter.Item3}");
             }
             
-            Console.WriteLine($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
+            Logger.Information($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
         }
         
-        Console.WriteLine($"Bunny Treasure: Unique {BunnyPositions.Count} | Total Records {BunnyPositions.Sum(pair => pair.Value)}");
+        Logger.Information($"Bunny Treasure: Unique {BunnyPositions.Count} | Total Records {BunnyPositions.Sum(pair => pair.Value)}");
         foreach (var (pos, counter) in BunnyPositions.OrderByDescending(kvp => kvp.Value))
-            Console.WriteLine($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
+            Logger.Information($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
     }
     
     private void FetchBunnyWitFateId(List<Models.OccultBunny> data)
@@ -190,21 +190,21 @@ public class Occult : CofferBase
                 potPositions[pos] = potPosition;
 
                 if (potPosition.Item2 != treasure.FateId)
-                    Console.Error.WriteLine($"(FateId) Overlap!!! {treasure.Id} {potPosition.Item2}");
+                    Logger.Warning($"(FateId) Overlap!!! {treasure.Id} {potPosition.Item2}");
             }
         }
         
-        Console.WriteLine($"(FateId) Pot Treasure: Unique {potPositions.Count} | Total Records {potPositions.Sum(pair => pair.Value.Item1)}");
+        Logger.Information($"(FateId) Pot Treasure: Unique {potPositions.Count} | Total Records {potPositions.Sum(pair => pair.Value.Item1)}");
         foreach (var (pos, counter) in potPositions.OrderByDescending(kvp => kvp.Value))
         {
             foreach (var (otherPos, otherCounter) in potPositions)
             {
                 var dis = Vector3.Distance(otherPos, pos);
                 if (dis != 0.0 && dis < 10.0)
-                    Console.Error.WriteLine($"(FateId) Found Small Distance ({dis}): {otherCounter.Item1}-{otherCounter.Item3} | {counter.Item1}-{counter.Item3}");
+                    Logger.Error($"(FateId) Found Small Distance ({dis}): {otherCounter.Item1}-{otherCounter.Item3} | {counter.Item1}-{counter.Item3}");
             }
             
-            Console.WriteLine($"(FateId) new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
+            Logger.Information($"(FateId) new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
         }
     }
 

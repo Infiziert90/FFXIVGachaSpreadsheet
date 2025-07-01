@@ -4,7 +4,7 @@ public class Bunnies : CofferBase
 {
     public void ProcessAllData(List<Models.Bnuuy> data)
     {
-        Console.WriteLine("Processing bunny data");
+        Logger.Information("Processing bunny data");
         Fetch(data);
         Combine();
         Export("BunnyData.json");

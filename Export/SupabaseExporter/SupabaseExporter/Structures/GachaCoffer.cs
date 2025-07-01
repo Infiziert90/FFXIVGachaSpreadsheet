@@ -6,7 +6,7 @@ public class RandomCoffer : CofferBase
     
     public void ProcessAllData(List<Models.Gacha> data)
     {
-        Console.WriteLine("Processing lockbox data");
+        Logger.Information("Processing lockbox data");
         Fetch(data);
         Combine();
         Export("CofferData.json");

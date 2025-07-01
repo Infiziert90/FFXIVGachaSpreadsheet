@@ -8,7 +8,7 @@ public class CofferBase : IDisposable
     internal void Export(string name)
     {
         ExportHandler.WriteDataJson(name, ProcessedData.OrderBy(l => l.Territory));
-        Console.WriteLine("Done exporting data ...");
+        Logger.Information("Done exporting data ...");
     }
 
     public void Dispose()

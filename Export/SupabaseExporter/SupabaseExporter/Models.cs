@@ -251,7 +251,7 @@ public class Models
             {
                 if (counter >= 6)
                 {
-                    Console.Error.WriteLine($"Invalid length found, ID: {Id}");
+                    Logger.Error($"Invalid length found, ID: {Id}");
                     return [];
                 }
                 
@@ -330,7 +330,7 @@ public class Models
             
             if (counter % 2 != 0)
             {
-                Console.Error.WriteLine($"Invalid length found, ID: {Id}");
+                Logger.Error($"Invalid length found, ID: {Id}");
                 return [];
             }
             
@@ -378,7 +378,7 @@ public class Models
             {
                 if (RewardsArray.Any(reward => reward > 1_000_000))
                 {
-                    Console.Error.WriteLine($"Invalid treasure result found, ID: {Id}");
+                    Logger.Error($"Invalid treasure result found, ID: {Id}");
                     return [];
                 }
 
@@ -393,7 +393,7 @@ public class Models
                 var result = uint.Parse(span[range]);
                 if (result > 1_000_000)
                 {
-                    Console.Error.WriteLine($"Invalid treasure result found, ID: {Id}");
+                    Logger.Error($"Invalid treasure result found, ID: {Id}");
                     return [];
                 }
                 
@@ -453,7 +453,7 @@ public class Models
             {
                 if (RewardsArray.Any(reward => reward > 1_000_000))
                 {
-                    Console.Error.WriteLine($"Invalid bunny result found, ID: {Id}");
+                    Logger.Error($"Invalid bunny result found, ID: {Id}");
                     return [];
                 }
 
@@ -468,7 +468,7 @@ public class Models
                 var result = uint.Parse(span[range]);
                 if (result > 1_000_000)
                 {
-                    Console.Error.WriteLine($"Invalid bunny result found, ID: {Id}");
+                    Logger.Error($"Invalid bunny result found, ID: {Id}");
                     return [];
                 }
                 

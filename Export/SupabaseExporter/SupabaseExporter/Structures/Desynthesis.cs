@@ -104,7 +104,7 @@ public class Desynthesis : IDisposable
     
     public void ProcessAllData(List<Models.Desynthesis> data)
     {
-        Console.WriteLine("Processing bunny data");
+        Logger.Information("Processing bunny data");
         Fetch(data);
         Combine();
         Export();
@@ -124,14 +124,14 @@ public class Desynthesis : IDisposable
         {
             if (record.Source > Sheets.MaxItemId)
             {
-                Console.Error.WriteLine($"Invalid source data found, ID: {record.Id}");
+                Logger.Error($"Invalid source data found, ID: {record.Id}");
                 continue;
             }
 
             var sourceItem = Sheets.ItemSheet.GetRow(record.Source);
             if (sourceItem.Desynth == 0)
             {
-                Console.Error.WriteLine($"Source doesn't allow desynthesis? ID: {record.Id}");
+                Logger.Error($"Source doesn't allow desynthesis? ID: {record.Id}");
                 continue;
             }
             
@@ -152,7 +152,7 @@ public class Desynthesis : IDisposable
 
                 if (item > Sheets.MaxItemId)
                 {
-                    Console.Error.WriteLine($"Invalid reward data found, ID: {record.Id}");
+                    Logger.Error($"Invalid reward data found, ID: {record.Id}");
                     break;
                 }
 
@@ -231,6 +231,6 @@ public class Desynthesis : IDisposable
     private void Export()
     {
         ExportHandler.WriteDataJson("DesynthesisData.json", ProcessedData);
-        Console.WriteLine("Done exporting data ...");
+        Logger.Information("Done exporting data ...");
     }
 }

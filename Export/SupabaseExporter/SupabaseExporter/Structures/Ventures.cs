@@ -102,7 +102,7 @@ public class Ventures : IDisposable
     
     public void ProcessAllData(List<Models.Venture> data)
     {
-        Console.WriteLine("Processing venture data");
+        Logger.Information("Processing venture data");
         Fetch(data);
         Combine();
         Export();
@@ -118,7 +118,7 @@ public class Ventures : IDisposable
     
     private void Fetch(List<Models.Venture> data)
     {
-        Console.WriteLine("Start fetching all existing venture records ...");
+        Logger.Information("Start fetching all existing venture records ...");
         
         foreach (var venture in data)
         {
@@ -143,7 +143,7 @@ public class Ventures : IDisposable
     
     private void Combine()
     {
-        Console.WriteLine("Start processing all collected venture task data ...");
+        Logger.Information("Start processing all collected venture task data ...");
 
         foreach (var (key, patches) in CollectedData)
         {
@@ -214,7 +214,7 @@ public class Ventures : IDisposable
 
     private void Export()
     {
-        Console.WriteLine("Start export of processed venture data ...");
+        Logger.Information("Start export of processed venture data ...");
         var ventureList = new List<VentureData>();
         foreach (var ventureData in ProcessedData.Values)
         {
@@ -224,7 +224,7 @@ public class Ventures : IDisposable
         }
 
         ExportHandler.WriteDataJson("VentureData.json", ventureList.OrderBy(l => l.Category));
-        Console.WriteLine("Done ...");
+        Logger.Information("Done ...");
     }
     
     private void GenerateTaskOutput(Models.Venture venture, VentureTypes type)

@@ -150,7 +150,7 @@ public class DutyLoot : IDisposable
     
     public void ProcessAllData(List<Models.DutyLoot> data)
     {
-        Console.WriteLine("Processing duty loot data");
+        Logger.Information("Processing duty loot data");
         Fetch(data);
         Combine();
         Export();
@@ -175,19 +175,19 @@ public class DutyLoot : IDisposable
 
             if (!Sheets.TerritoryTypeSheet.TryGetRow(record.Territory, out var territoryType))
             {
-                Console.Error.WriteLine($"Invalid territory found, ID: {record.Id}");
+                Logger.Error($"Invalid territory found, ID: {record.Id}");
                 continue;
             }
             
             if (!Sheets.MapSheet.TryGetRow(record.Map, out var map))
             {
-                Console.Error.WriteLine($"Invalid map found, ID: {record.Id}");
+                Logger.Error($"Invalid map found, ID: {record.Id}");
                 continue;
             }
             
             if (!Sheets.TreasureSheet.TryGetRow(record.ChestId, out var treasure))
             {
-                Console.Error.WriteLine($"Invalid treasure found, ID: {record.Id}");
+                Logger.Error($"Invalid treasure found, ID: {record.Id}");
                 continue;
             }
             
@@ -286,8 +286,8 @@ public class DutyLoot : IDisposable
     
     private void Export()
     {
-        Console.WriteLine("Start export of processed duty loot data ...");
+        Logger.Information("Start export of processed duty loot data ...");
         ExportHandler.WriteDataJson("DutyLoot.json", ProcessedData.Values.OrderBy(d => d.Category));
-        Console.WriteLine("Done ...");
+        Logger.Information("Done ...");
     }
 }

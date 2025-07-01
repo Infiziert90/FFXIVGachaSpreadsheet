@@ -6,7 +6,7 @@ public class Lockbox : CofferBase
     
     public void ProcessAllData(List<Models.Gacha> data)
     {
-        Console.WriteLine("Processing lockbox data");
+        Logger.Information("Processing lockbox data");
         Fetch(data);
         Combine();
         Export("LockboxData.json");
@@ -15,7 +15,7 @@ public class Lockbox : CofferBase
 
     private void Fetch(List<Models.Gacha> data)
     {
-        Console.WriteLine("Exporting lockbox data");
+        Logger.Information("Exporting lockbox data");
         foreach (var coffer in data.Where(l => ValidCoffers.Contains(l.Coffer)).OrderBy(l => l.Id))
         {
             var type = (uint) ((LockboxTypes)coffer.Coffer).ToTerritory();
