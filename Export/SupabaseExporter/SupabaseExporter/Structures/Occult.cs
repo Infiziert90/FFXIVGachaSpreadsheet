@@ -11,8 +11,6 @@ public class Occult : CofferBase
         Combine();
         
         CollectedData.Clear();
-
-        FetchBunnyWitFateId(bunnyData);
         
         FetchBunny(bunnyData);
         Combine();
@@ -22,7 +20,7 @@ public class Occult : CofferBase
     }
 
     private Dictionary<Vector3, (uint, uint, uint)> Positions = [];
-    private Dictionary<Vector3, (uint, uint, uint)> PotPositions = [];
+    private Dictionary<Vector3, (uint Counter, HashSet<CofferRarity> Type)> PotPositions = [];
     private Dictionary<Vector3, uint> BunnyPositions = [];
     private void FetchTreasure(List<Models.OccultTreasure> data)
     {
@@ -131,12 +129,13 @@ public class Occult : CofferBase
             
             if (category == OccultCategory.Pot)
             {
-                if (!PotPositions.TryAdd(pos, (1, treasure.FateId, treasure.Id)))
-                {
-                    var potPosition = PotPositions[pos];
-                    potPosition.Item1 += 1;
-                    PotPositions[pos] = potPosition;
-                }
+                if (!PotPositions.TryGetValue(pos, out var potPosition))
+                    potPosition = (0, []);
+
+                potPosition.Counter += 1;
+                potPosition.Type.Add((CofferRarity)treasure.Coffer);
+                
+                PotPositions[pos] = potPosition;
             }
             else
             {
@@ -146,66 +145,12 @@ public class Occult : CofferBase
         }
         
         Logger.Information($"Pot Treasure: Unique {PotPositions.Count} | Total Records {PotPositions.Sum(pair => pair.Value.Item1)}");
-        foreach (var (pos, counter) in PotPositions.OrderByDescending(kvp => kvp.Value))
-        {
-            foreach (var (otherPos, otherCounter) in PotPositions)
-            {
-                var dis = Vector3.Distance(otherPos, pos);
-                if (dis != 0.0 && dis < 10.0)
-                    Logger.Error($"(FateId) Found Small Distance ({dis}): {otherCounter.Item1}-{otherCounter.Item3} | {counter.Item1}-{counter.Item3}");
-            }
-            
-            Logger.Information($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
-        }
+        foreach (var (pos, counter) in PotPositions.OrderByDescending(kvp => kvp.Value.Item1))
+            Logger.Information($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter.Counter} // Treasures: {string.Join(',', counter.Item2.OrderDescending().Select(s => s.ToName()))}");
         
         Logger.Information($"Bunny Treasure: Unique {BunnyPositions.Count} | Total Records {BunnyPositions.Sum(pair => pair.Value)}");
         foreach (var (pos, counter) in BunnyPositions.OrderByDescending(kvp => kvp.Value))
             Logger.Information($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
-    }
-    
-    private void FetchBunnyWitFateId(List<Models.OccultBunny> data)
-    {
-        Dictionary<Vector3, (uint, uint, uint)> potPositions = [];
-        
-        foreach (var treasure in data)
-        {
-            if (treasure.FateId == 0)
-                continue;
-            
-            if (treasure.Coffer.ToCategory() != OccultCategory.Pot) 
-                continue;
-            
-            var pos = new Vector3(treasure.ChestX, treasure.ChestY, treasure.ChestZ);
-            if (pos == Vector3.Zero)
-                continue;
-            
-            if (!potPositions.TryAdd(pos, (1, treasure.FateId, treasure.Id)))
-            {
-                var potPosition = potPositions[pos];
-                potPosition.Item1 += 1;
-                    
-                if (potPosition.Item2 == 0)
-                    potPosition.Item2 = treasure.FateId;
-                    
-                potPositions[pos] = potPosition;
-
-                if (potPosition.Item2 != treasure.FateId)
-                    Logger.Warning($"(FateId) Overlap!!! {treasure.Id} {potPosition.Item2}");
-            }
-        }
-        
-        Logger.Information($"(FateId) Pot Treasure: Unique {potPositions.Count} | Total Records {potPositions.Sum(pair => pair.Value.Item1)}");
-        foreach (var (pos, counter) in potPositions.OrderByDescending(kvp => kvp.Value))
-        {
-            foreach (var (otherPos, otherCounter) in potPositions)
-            {
-                var dis = Vector3.Distance(otherPos, pos);
-                if (dis != 0.0 && dis < 10.0)
-                    Logger.Error($"(FateId) Found Small Distance ({dis}): {otherCounter.Item1}-{otherCounter.Item3} | {counter.Item1}-{counter.Item3}");
-            }
-            
-            Logger.Information($"(FateId) new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
-        }
     }
 
     private void Combine() 
