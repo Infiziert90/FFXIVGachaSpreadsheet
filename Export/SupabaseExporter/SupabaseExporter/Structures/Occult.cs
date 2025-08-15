@@ -20,7 +20,7 @@ public class Occult : CofferBase
     }
 
     private Dictionary<Vector3, (uint, uint, uint)> Positions = [];
-    private Dictionary<Vector3, (uint Counter, HashSet<CofferRarity> Type)> PotPositions = [];
+    private Dictionary<Vector3, (uint Counter, Dictionary<CofferRarity, uint> Type)> PotPositions = [];
     private Dictionary<Vector3, uint> BunnyPositions = [];
     private void FetchTreasure(List<Models.OccultTreasure> data)
     {
@@ -133,7 +133,11 @@ public class Occult : CofferBase
                     potPosition = (0, []);
 
                 potPosition.Counter += 1;
-                potPosition.Type.Add((CofferRarity)treasure.Coffer);
+
+                if (!potPosition.Type.ContainsKey((CofferRarity)treasure.Coffer))
+                    potPosition.Type[(CofferRarity)treasure.Coffer] = 0;
+                
+                potPosition.Type[(CofferRarity)treasure.Coffer]++;
                 
                 PotPositions[pos] = potPosition;
             }
@@ -144,9 +148,35 @@ public class Occult : CofferBase
             }
         }
         
+        var bronze = 0L;
+        var silver = 0L;
+        var gold = 0L;
+        
         Logger.Information($"Pot Treasure: Unique {PotPositions.Count} | Total Records {PotPositions.Sum(pair => pair.Value.Item1)}");
         foreach (var (pos, counter) in PotPositions.OrderByDescending(kvp => kvp.Value.Item1))
-            Logger.Information($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter.Counter} // Treasures: {string.Join(',', counter.Item2.OrderDescending().Select(s => s.ToName()))}");
+        {
+            if (counter.Type.Count == 3)
+            {
+                foreach (var type in counter.Type)
+                {
+                    switch (type.Key)
+                    {
+                        case CofferRarity.OccultPotBronze:
+                            bronze += type.Value;
+                            break;
+                        case CofferRarity.OccultPotSilver:
+                            silver += type.Value;
+                            break;
+                        case CofferRarity.OccultPotGold:
+                            gold += type.Value;
+                            break;
+                    }
+                }
+            }
+            
+            Logger.Information($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter.Counter} // Treasures: {string.Join(',', counter.Type.OrderByDescending(s => s.Key).Select(s => s.Key.ToName() + $": {s.Value}"))}");
+        }
+        Logger.Information($"Total Without Reroll: {bronze+silver+gold} | Gold: {gold} | Silver: {silver} | Bronze: {bronze}");
         
         Logger.Information($"Bunny Treasure: Unique {BunnyPositions.Count} | Total Records {BunnyPositions.Sum(pair => pair.Value)}");
         foreach (var (pos, counter) in BunnyPositions.OrderByDescending(kvp => kvp.Value))
