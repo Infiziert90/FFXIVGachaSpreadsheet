@@ -59,6 +59,9 @@ public class Occult : CofferBase
 
             var rewards = treasure.GetRewards();
             
+            if (rewards.Length == 0)
+                continue;
+            
             var counter = 0;
             foreach (var reward in rewards)
             {
@@ -68,9 +71,6 @@ public class Occult : CofferBase
             
             if (counter > 6)
                 Logger.Warning($"Weird length: {counter} | {treasure.Id}");
-
-            if (rewards.Length == 0)
-                continue;
             
             for (var i = 0; i < rewards.Length / 2; i++)
             {
