@@ -20,7 +20,7 @@ public class Occult : CofferBase
     }
 
     private Dictionary<Vector3, (uint, uint, uint)> Positions = [];
-    private Dictionary<Vector3, (uint Counter, Dictionary<CofferRarity, uint> Type)> PotPositions = [];
+    private Dictionary<Vector3, (uint Counter, Dictionary<CofferRarity, uint> Type, Dictionary<uint, uint> FateIds)> PotPositions = [];
     private Dictionary<Vector3, uint> BunnyPositions = [];
     private void FetchTreasure(List<Models.OccultTreasure> data)
     {
@@ -130,7 +130,7 @@ public class Occult : CofferBase
             if (category == OccultCategory.Pot)
             {
                 if (!PotPositions.TryGetValue(pos, out var potPosition))
-                    potPosition = (0, []);
+                    potPosition = (0, [], []);
 
                 potPosition.Counter += 1;
 
@@ -138,6 +138,10 @@ public class Occult : CofferBase
                     potPosition.Type[(CofferRarity)treasure.Coffer] = 0;
                 
                 potPosition.Type[(CofferRarity)treasure.Coffer]++;
+                
+                if (!potPosition.FateIds.ContainsKey(treasure.FateId))
+                    potPosition.FateIds[treasure.FateId] = 0;
+                potPosition.FateIds[treasure.FateId]++;
                 
                 PotPositions[pos] = potPosition;
             }
@@ -174,7 +178,7 @@ public class Occult : CofferBase
                 }
             }
             
-            Logger.Information($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter.Counter} // Treasures: {string.Join(',', counter.Type.OrderByDescending(s => s.Key).Select(s => s.Key.ToName() + $": {s.Value}"))}");
+            Logger.Information($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter.Counter} // Treasures: {string.Join(',', counter.Type.OrderByDescending(s => s.Key).Select(s => s.Key.ToName() + $": {s.Value}"))} // FateId: {string.Join(", ", counter.FateIds.Select(pair => $"{pair.Key}:{pair.Value}"))}");
         }
         Logger.Information($"Total Without Reroll: {bronze+silver+gold} | Gold: {gold} | Silver: {silver} | Bronze: {bronze}");
         
