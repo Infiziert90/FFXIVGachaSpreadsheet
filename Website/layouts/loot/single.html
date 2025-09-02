@@ -110,7 +110,8 @@
                             header: 'Name',
                             field: 'Name',
                             templateRenderer: (row) => {
-                                return `<a href="https://ffxivteamcraft.com/db/en/item/${row.Id}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">${row.Name}</a>`
+                                const wikiName = row.Name.replace(/\s+/g, '_');
+                                return `<a href="https://ffxiv.consolegameswiki.com/wiki/${wikiName}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">${row.Name}</a>`
                             }
                         },
                         {header: 'Obtained', field: 'Amount', classExtension: ['number', 'text-center']},
