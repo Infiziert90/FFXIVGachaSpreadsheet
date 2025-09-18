@@ -119,4 +119,32 @@ public static class Utils
 
         return sb.ToString();
     }
+
+    /// <summary>
+    /// Groups up entries into pairs and returns them as iterator.
+    /// </summary>
+    /// <param name="content">The array containing pairs</param>
+    /// <returns>Enumerable tuple with the pairs.</returns>
+    public static IEnumerable<(uint, uint)> PairIter(uint[] content)
+    {
+        // Array is empty
+        if (content.Length == 0)
+            yield break;
+
+        // Array does not have a length of pairs
+        if (content.Length % 2 != 1)
+            yield break;
+        
+        for (var i = 0; i < content.Length / 2; i++)
+        {
+            var itemId = content[2 * i];
+            var amount = content[(2 * i) + 1];
+            
+            // hitting an item with ID 0 means we reached the last valid item
+            if (itemId == 0)
+                yield break;
+            
+            yield return (itemId, amount);
+        }
+    }
 }

@@ -238,8 +238,11 @@ public class Models
         public uint[] RewardArray { get; set; } = new uint[6];
 
         public Desynthesis() {}
+        
+        public IEnumerable<(uint, uint)> GetRewards() 
+            => Utils.PairIter(ProcessRewards());
 
-        public ReadOnlySpan<uint> GetRewards()
+        private uint[] ProcessRewards()
         {
             if (Rewards == string.Empty)
                 return RewardArray;
@@ -314,7 +317,13 @@ public class Models
         [Column("chest_z")]
         public float ChestZ { get; set; }
         
-        public ReadOnlySpan<uint> GetContent()
+        public IEnumerable<(uint, uint)> GetRewards() 
+            => Utils.PairIter(ProcessRewards());
+
+        public ReadOnlySpan<uint> GetContent() 
+            => ProcessRewards();
+        
+        private uint[] ProcessRewards()
         {
             if (Content == string.Empty)
                 return ContentArray;
@@ -372,7 +381,10 @@ public class Models
         
         public OccultTreasure() {}
 
-        public ReadOnlySpan<uint> GetRewards()
+        public IEnumerable<(uint, uint)> GetRewards() 
+            => Utils.PairIter(ProcessRewards());
+        
+        private uint[] ProcessRewards()
         {
             if (Rewards == string.Empty)
             {
@@ -446,8 +458,11 @@ public class Models
         public ushort FateId { get; set; }
         
         public OccultBunny() {}
+        
+        public IEnumerable<(uint, uint)> GetRewards() 
+            => Utils.PairIter(ProcessRewards());
 
-        public ReadOnlySpan<uint> GetRewards()
+        private uint[] ProcessRewards()
         {
             if (Rewards == string.Empty)
             {

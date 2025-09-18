@@ -141,26 +141,19 @@ public class Desynthesis : IDisposable
             var desynthTemp = CollectedData[record.Source];
             desynthTemp.Total += 1;
             
-            var rewards = record.GetRewards();
-            for (var i = 0; i < rewards.Length / 2; i++)
+            foreach (var (itemId, amount) in record.GetRewards())
             {
-                var item = rewards[2 * i];
-                var amount = rewards[(2 * i) + 1];
-
-                if (item == 0)
-                    continue;
-
-                if (item > Sheets.MaxItemId)
+                if (itemId > Sheets.MaxItemId)
                 {
                     Logger.Error($"Invalid reward data found, ID: {record.Id}");
                     break;
                 }
 
-                if (!desynthTemp.Rewards.ContainsKey(item))
-                    desynthTemp.Rewards[item] = [];
+                if (!desynthTemp.Rewards.ContainsKey(itemId))
+                    desynthTemp.Rewards[itemId] = [];
 
                 var patch = record.GetPatch;
-                var patches = desynthTemp.Rewards[item];
+                var patches = desynthTemp.Rewards[itemId];
                 if (!patches.ContainsKey(patch))
                     patches[patch] = new DesynthTemp.DesynthReward();
                 

@@ -214,24 +214,16 @@ public class DutyLoot : IDisposable
             if (!dutyLoot.Chests.TryGetValue(record.ChestId, out var chest))
                 chest = new DutyLootTemp.Chest(record.ChestId, Utils.UpperCaseStr(treasure.Unknown0), record.Territory, record.Map, Utils.UpperCaseStr(map.PlaceNameSub.Value.Name));
             
-            dutyLoot.Records++;
-            chest.Records++;
-            
-            var content = record.GetContent();
-            for (var i = 0; i < content.Length / 2; i++)
+            foreach (var (itemId, amount) in record.GetRewards())
             {
-                var itemId = content[2 * i];
-                var amount = content[(2 * i) + 1];
-                
-                // hitting an item with ID 0 means we reached the last valid item
-                if (itemId == 0)
-                    break;
-            
                 if (!chest.Rewards.ContainsKey(itemId))
                     chest.Rewards[itemId] = new DutyLootTemp.ChestReward();
                 
                 chest.Rewards[itemId].AddRewardRecord(amount);
             }
+            
+            dutyLoot.Records++;
+            chest.Records++;
             
             dutyLoot.Chests[record.ChestId] = chest;
             CollectedData[contentRowId] = dutyLoot;

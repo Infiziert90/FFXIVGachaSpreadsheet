@@ -123,6 +123,10 @@ public class CofferTemp
     
     public void AddMultiRecord(ReadOnlySpan<uint> rewards)
     {
+        // We have nothing as content, so we just skip this entry
+        if (rewards.Length == 0)
+            return;
+        
         Total += 1;
         foreach (var itemId in rewards)
         {
@@ -137,18 +141,11 @@ public class CofferTemp
         }
     }
     
-    public void AddMultiRecordWithAmount(ReadOnlySpan<uint> rewards)
+    public void AddMultiRecordWithAmount(IEnumerable<(uint, uint)> rewards)
     {
         Total += 1;
-        for (var i = 0; i < rewards.Length / 2; i++)
+        foreach (var (itemId, amount) in rewards)
         {
-            var itemId = rewards[2 * i];
-            var amount = rewards[(2 * i) + 1];
-                
-            // hitting an item with ID 0 means we reached the last valid item
-            if (itemId == 0)
-                break;
-            
             if (!Rewards.ContainsKey(itemId))
                 Rewards[itemId] = new ChestReward();
                 

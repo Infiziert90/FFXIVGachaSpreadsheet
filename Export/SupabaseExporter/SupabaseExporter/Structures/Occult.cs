@@ -56,30 +56,12 @@ public class Occult : CofferBase
                 if (valueTuple.Item2 != adjustedCofferId.RowId)
                     Logger.Warning("Different BaseId");
             }
-
-            var rewards = treasure.GetRewards();
             
-            if (rewards.Length == 0)
-                continue;
-            
-            var counter = 0;
-            foreach (var reward in rewards)
+            // Check all entries for erroneous data
+            foreach (var (i, (itemId, amount)) in treasure.GetRewards().Select((val, idx) => (idx, val)))
             {
-                if (reward != 0)
-                    counter++;
-            }
-            
-            if (counter > 6)
-                Logger.Warning($"Weird length: {counter} | {treasure.Id}");
-            
-            for (var i = 0; i < rewards.Length / 2; i++)
-            {
-                var itemId = rewards[2 * i];
-                var amount = rewards[(2 * i) + 1];
-                
-                // hitting an item with ID 0 means we reached the last valid item
-                if (itemId == 0)
-                    break;
+                if (i > 3)
+                    Logger.Warning($"Weird length: {i} | {treasure.Id}");
                 
                 if (amount > 3)
                     Logger.Error($"Invalid amount: {amount} {treasure.Id}");
