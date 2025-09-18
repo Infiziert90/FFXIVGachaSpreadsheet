@@ -292,7 +292,7 @@ public class Models
 
         [Column("content")]
         [Ignore]
-        public uint[] ContentArray { get; set; } = new uint[25];
+        public uint[] ContentArray { get; set; } = new uint[60]; // Longest seen so far was 30 entries
         
         [Name("hashed")] 
         [Column("hashed")]

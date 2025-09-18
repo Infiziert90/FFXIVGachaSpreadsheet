@@ -86,7 +86,7 @@ public static class EntryPoint
             var occultTreasureProcessor = new Occult();
             occultTreasureProcessor.ProcessAllData(occultTreasureResult.Data, occultBunnyResult.Data);
         }
-
+        
         // Generate json with all icon paths
         IconHelper.CreateIconPaths();
         ExportHandler.WriteTimestamp();
@@ -124,16 +124,17 @@ public class Exporter
     {
         Logger.Information("Loading gacha data");
         var previous = ReadCsv<Models.Gacha>("LocalCache/Gacha");
+        Logger.Information($"Old records {previous.Length:N0}");
+        
         var result = await context.Gacha.OrderBy(l => l.Id).ToListAsync();
         if (result.Count == 0)
-        {
             Logger.Warning("No new records found");
-            return (false, []);
-        }
-
+        else
+            Logger.Information($"New records {result.Count:N0}");
+        
         result = previous.Concat(result).ToList();
 
-        Logger.Information($"Rows found {result.Count:N0}");
+        Logger.Information($"Total records {result.Count:N0}");
         Logger.Information("Loading gacha data finished...");
         return (true, result);
     }
@@ -142,16 +143,17 @@ public class Exporter
     {
         Logger.Information("Loading venture data");
         var previous = ReadCsv<Models.Venture>("LocalCache/Ventures");
+        Logger.Information($"Old records {previous.Length:N0}");
+        
         var result = await context.Ventures.OrderBy(l => l.Id).ToListAsync();
         if (result.Count == 0)
-        {
             Logger.Warning("No new records found");
-            return (false, []);
-        }
+        else
+            Logger.Information($"New records {result.Count:N0}");
         
         result = previous.Concat(result).ToList();
 
-        Logger.Information($"Ventures found {result.Count:N0}");
+        Logger.Information($"Total records {result.Count:N0}");
         Logger.Information("Loading venture data finished...");
         return (true, result);
     }
@@ -160,16 +162,17 @@ public class Exporter
     {
         Logger.Information("Loading bunny data");
         var previous = ReadCsv<Models.Bnuuy>("LocalCache/Bnuuy");
+        Logger.Information($"Old records {previous.Length:N0}");
+        
         var result = await context.Bunny.OrderBy(l => l.Id).ToListAsync();
         if (result.Count == 0)
-        {
             Logger.Warning("No new records found");
-            return (false, []);
-        }
-
+        else
+            Logger.Information($"New records {result.Count:N0}");
+        
         result = previous.Concat(result).ToList();
 
-        Logger.Information($"Rows found {result.Count:N0}");
+        Logger.Information($"Total records {result.Count:N0}");
         Logger.Information("Loading bunny data finished...");
         return (true, result);
     }
@@ -178,16 +181,17 @@ public class Exporter
     {
         Logger.Information("Loading desynth data");
         var previous = ReadCsv<Models.Desynthesis>("LocalCache/Desynthesis");
+        Logger.Information($"Old records {previous.Length:N0}");
+        
         var result = await context.Desynthesis.OrderBy(l => l.Id).ToListAsync();
         if (result.Count == 0)
-        {
             Logger.Warning("No new records found");
-            return (false, []);
-        }
-
+        else
+            Logger.Information($"New records {result.Count:N0}");
+        
         result = previous.Concat(result).ToList();
 
-        Logger.Information($"Rows found {result.Count:N0}");
+        Logger.Information($"Total records {result.Count:N0}");
         Logger.Information("Loading desynth data finished...");
         return (true, result);
     }
@@ -195,14 +199,18 @@ public class Exporter
     public async Task<(bool Success, List<Models.DutyLoot> Data)> LoadDutyLootData(DatabaseContext context)
     {
         Logger.Information("Loading duty loot data");
+        var previous = ReadCsv<Models.DutyLoot>("LocalCache/DutyLoot");
+        Logger.Information($"Old records {previous.Length:N0}");
+        
         var result = await context.DutyLoot.OrderBy(l => l.Id).ToListAsync();
         if (result.Count == 0)
-        {
             Logger.Warning("No new records found");
-            return (false, []);
-        }
+        else
+            Logger.Information($"New records {result.Count:N0}");
+        
+        result = previous.Concat(result).ToList();
 
-        Logger.Information($"Rows found {result.Count:N0}");
+        Logger.Information($"Total records {result.Count:N0}");
         Logger.Information("Loading duty loot data finished...");
         return (true, result);
     }
@@ -212,12 +220,11 @@ public class Exporter
         Logger.Information("Loading occult treasure data");
         var result = await context.OccultTreasures.OrderBy(l => l.Id).ToListAsync();
         if (result.Count == 0)
-        {
             Logger.Warning("No new records found");
-            return (false, []);
-        }
+        else
+            Logger.Information($"New records {result.Count:N0}");
 
-        Logger.Information($"Rows found {result.Count:N0}");
+        Logger.Information($"Total records {result.Count:N0}");
         Logger.Information("Loading occult treasure data finished...");
         return (true, result);
     }
@@ -227,12 +234,11 @@ public class Exporter
         Logger.Information("Loading occult bunny data");
         var result = await context.OccultBunny.OrderBy(l => l.Id).ToListAsync();
         if (result.Count == 0)
-        {
             Logger.Warning("No new records found");
-            return (false, []);
-        }
+        else
+            Logger.Information($"New records {result.Count:N0}");
 
-        Logger.Information($"Rows found {result.Count:N0}");
+        Logger.Information($"Total records {result.Count:N0}");
         Logger.Information("Loading occult bunny data finished...");
         return (true, result);
     }

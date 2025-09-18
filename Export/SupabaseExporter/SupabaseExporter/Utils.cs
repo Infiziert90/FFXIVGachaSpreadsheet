@@ -132,7 +132,7 @@ public static class Utils
             yield break;
 
         // Array does not have a length of pairs
-        if (content.Length % 2 != 1)
+        if (content.Length % 2 != 0)
             yield break;
         
         for (var i = 0; i < content.Length / 2; i++)
