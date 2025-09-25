@@ -12,6 +12,11 @@ public static class Logger
         Log = factory.CreateLogger("Exporter");
     }
 
+    public static void Debug(string message)
+    {
+        Log.LogDebug(message);
+    }
+    
     public static void Information(string message)
     {
         Log.LogInformation(message);
