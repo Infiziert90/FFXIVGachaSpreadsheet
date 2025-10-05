@@ -39,12 +39,12 @@ public static class Utils
     public static string VersionToPatch(int version)
     {
         if (version >= Patch730)
-            return "7.3X";
+            return "7.3";
         
         if (version >= Patch720)
-            return "7.2X";
+            return "7.2";
         
-        return "7.1X";
+        return "7.1";
     }
     
     /// <summary>
