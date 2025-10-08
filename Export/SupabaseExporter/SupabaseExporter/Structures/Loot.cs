@@ -71,12 +71,12 @@ public class DutyLootStruct(string name, uint category)
 
         public ChestLoot(DutyLootTemp.Chest chest)
         {
-            this.Records = chest.Records;
-            this.ChestId = chest.ChestId;
-            this.ChestName = chest.ChestName;
-            this.MapId = chest.MapId;
-            this.TerritoryId = chest.TerritoryId;
-            this.PlaceNameSub = chest.PlaceNameSub;
+            Records = chest.Records;
+            ChestId = chest.ChestId;
+            ChestName = chest.ChestName;
+            MapId = chest.MapId;
+            TerritoryId = chest.TerritoryId;
+            PlaceNameSub = chest.PlaceNameSub;
         }
 
         public ChestLoot()

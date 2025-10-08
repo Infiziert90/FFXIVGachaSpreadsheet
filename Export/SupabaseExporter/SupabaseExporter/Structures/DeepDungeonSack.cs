@@ -31,7 +31,7 @@ public class DeepDungeonSack : CofferBase
             if (!patches.ContainsKey(patch))
                 patches[patch] = new CofferTemp();
             
-            patches[patch].AddSimpleRecord(coffer.ItemId, 1);
+            patches[patch].AddSimpleRecord(coffer.ItemId, coffer.Amount);
         }
     }
 
