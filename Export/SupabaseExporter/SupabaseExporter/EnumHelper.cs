@@ -40,6 +40,7 @@ public enum DeepDungeon : uint
     PotD = 1,
     HoH = 2,
     Eo = 3,
+    Pt = 4,
 }
 
 public enum Coffer : uint
@@ -117,6 +118,7 @@ public static class EnumExtensions
             DeepDungeon.PotD => "Palace of the Dead",
             DeepDungeon.HoH => "Heaven-on-High",
             DeepDungeon.Eo => "Eureka Orthos",
+            DeepDungeon.Pt => "Pilgrim's Traverse",
             _ => "Unknown"
         };
     }
@@ -146,6 +148,7 @@ public static class EnumExtensions
             16170 or 16171 or 16172 or 16173 => DeepDungeon.PotD,
             23223 or 23224 or 23225 => DeepDungeon.HoH,
             38945 or 38946 or 38947 => DeepDungeon.Eo,
+            47104 or 47105 or 47106 or 47742 => DeepDungeon.Pt,
             _ => throw new ArgumentOutOfRangeException(nameof(coffer), coffer, null)
         };
     }

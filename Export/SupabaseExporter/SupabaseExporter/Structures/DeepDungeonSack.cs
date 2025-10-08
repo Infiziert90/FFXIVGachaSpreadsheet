@@ -2,7 +2,7 @@
 
 public class DeepDungeonSack : CofferBase
 {
-    private static readonly uint[] ValidCoffers = [16170, 16171, 16172, 16173, 23223, 23224, 23225, 38945, 38946, 38947];
+    private static readonly uint[] ValidCoffers = [16170, 16171, 16172, 16173, 23223, 23224, 23225, 38945, 38946, 38947, 47104, 47105, 47106, 47742];
 
     public void ProcessAllData(List<Models.Gacha> data)
     {
