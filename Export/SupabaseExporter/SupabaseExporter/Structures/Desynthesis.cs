@@ -1,4 +1,5 @@
 ﻿using Lumina.Excel.Sheets;
+using Newtonsoft.Json;
 
 namespace SupabaseExporter.Structures;
     
@@ -44,7 +45,7 @@ public class History
         public long Min;
         public long Max;
         public long Received;
-        public double Percentage;
+        [JsonConverter(typeof(LessPrecisionDouble))] public double Percentage;
 
         public Result(uint itemId, DesynthTemp.DesynthReward reward)
         {

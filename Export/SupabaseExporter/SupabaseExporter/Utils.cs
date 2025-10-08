@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Lumina.Excel.Sheets;
 using Lumina.Text.ReadOnly;
+using Newtonsoft.Json;
 
 namespace SupabaseExporter;
 
@@ -146,5 +147,29 @@ public static class Utils
             
             yield return (itemId, amount);
         }
+    }
+}
+
+public class LessPrecisionDouble : JsonConverter
+{
+    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+    {
+        if (value is not double d)
+            throw new Exception("Not a double, can't process.");
+        
+        writer.WriteValue(Math.Round(d, 6));
+    }
+
+    public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+    {
+        var v = reader.Value as string;
+        return string.IsNullOrEmpty(v) ? 0.0 : double.Parse(v);
+    }
+
+    public override bool CanRead => true;
+
+    public override bool CanConvert(Type objectType)
+    {
+        return objectType == typeof(double);
     }
 }

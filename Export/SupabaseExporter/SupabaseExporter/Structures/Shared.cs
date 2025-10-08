@@ -1,4 +1,5 @@
 ﻿using Lumina.Excel.Sheets;
+using Newtonsoft.Json;
 
 namespace SupabaseExporter.Structures;
 
@@ -6,7 +7,7 @@ namespace SupabaseExporter.Structures;
 /// Reward of a given task, e.g. a venture item, or a coffer item.
 /// </summary>
 [Serializable]
-public record Reward(string Name, uint Id, long Amount, double Percentage, long Total = 0, long Min = 0, long Max = 0)
+public record Reward(string Name, uint Id, long Amount, [property: JsonConverter(typeof(LessPrecisionDouble))] double Percentage, long Total = 0, long Min = 0, long Max = 0)
 {
     public static Reward FromTaskReward(Item item, long taskTotal, VentureTemp.TaskReward taskReward)
     {
