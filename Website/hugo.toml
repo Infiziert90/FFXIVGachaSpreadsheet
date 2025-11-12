@@ -43,7 +43,7 @@ weight = 3
 
 [[menu.main]]
 parent = "containers"
-name = "LogoFrag"
+name = "Logograms and Fragments"
 url = "/logofrag/"
 weight = 4
 

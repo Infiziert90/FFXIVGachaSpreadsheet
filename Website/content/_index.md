@@ -6,7 +6,7 @@ title = "Final Fantasy 14 %-Stats"
   
 A collection of data and probabilities.  
   
-Legend:  
+Legend:
 > "Name"        - Name of the item  
 > "Obtained"    - Number of times the item was received  
 > "Total"       - Total number of items received  
