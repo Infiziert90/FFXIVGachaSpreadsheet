@@ -1,5 +1,5 @@
 ---
-title: "LogoFrag"
+title: "Logograms and Fragments"
 type: bunnies
 layout: single
 params:

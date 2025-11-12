@@ -1,16 +1,17 @@
 +++
-title = "Final Fantasy 14 %-Chance Stats"
+title = "Final Fantasy 14 %-Stats"
 +++
 
-**Last Update**: {{< getLastUpdate >}}
-
-A collection of data on random elements that Final Fantasy 14 provides the user.  
-
-> "Name" - Name of the item  
-> "Obtained" - Number of times the item was received  
-> "Total" - Total number of items received  
-> "Chance" - % in relation to all records      
->   
+**Last Update**: {{< getLastUpdate >}}  
+  
+A collection of data and probabilities.  
+  
+Legend:  
+> "Name"        - Name of the item  
+> "Obtained"    - Number of times the item was received  
+> "Total"       - Total number of items received  
+> "Chance"      - % in relation to all records  
+  
 > Keep in mind that every draw is based on randomness, so values can vary slightly for each individual
 
 ### Content
@@ -25,5 +26,5 @@ A collection of data on random elements that Final Fantasy 14 provides the user.
     {{< cardLink "Desynthesis" "000000/000120" >}}desynth/{{< /cardLink >}}
     {{< cardLink "Loot" "061000/061801">}}loot/{{< /cardLink >}}
     {{< cardLink "Occult" "061000/061851">}}occult/{{< /cardLink >}}
-    {{< cardLink "LogoFrag" "061000/061837">}}logofrag/{{< /cardLink >}}
+    {{< cardLink "Logograms and Fragments" "061000/061837">}}logofrag/{{< /cardLink >}}
 {{< /cardGroup >}}
