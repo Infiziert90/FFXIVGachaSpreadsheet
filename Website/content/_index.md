@@ -21,7 +21,7 @@ Legend:
     {{< cardLink "Lockboxes" "061000/061808" >}}lockbox/{{< /cardLink >}}
     {{< cardLink "Card Packs" "061000/061820" >}}card/{{< /cardLink >}}
     {{< cardLink "Ventures" "061000/061818" >}}venture/{{< /cardLink >}}
-    {{< cardLink "Eureka Bunny Coffers" "061000/061833" >}}bunny/{{< /cardLink >}}
+    {{< cardLink "Eureka Bunnies" "061000/061833" >}}bunny/{{< /cardLink >}}
     {{< cardLink "Deep Dungeons" "061000/061824">}}deep/{{< /cardLink >}}
     {{< cardLink "Desynthesis" "000000/000120" >}}desynth/{{< /cardLink >}}
     {{< cardLink "Loot" "061000/061801">}}loot/{{< /cardLink >}}
