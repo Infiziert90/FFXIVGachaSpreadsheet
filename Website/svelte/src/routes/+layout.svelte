@@ -7,7 +7,7 @@
 	
 	let { children } = $props();
 
-    let active = $state(true);
+    let active = $state(false);
     let isBrandItem = $state(true);
 
     let identifier1 = $state('containers');
@@ -51,7 +51,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="menu-main navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" class:active={active} class:navbar-brand={isBrandItem} href="/" title='FFXIV Gacha' aria-label='FFXIV Gacha'>FFXIV Gacha</a>
+                            <a class="nav-link" class:active={active} class:navbar-brand={isBrandItem} href="/">FFXIV Gacha</a>
                         </li>
 
                         <li class="nav-item dropdown">
