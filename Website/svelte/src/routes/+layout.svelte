@@ -29,13 +29,13 @@
     <script type="text/javascript" src="/js/table.js"></script>
     <script type="text/javascript" src="/js/theme.js"></script>
 
-    <title>{title}</title>
+    <title>{$title}</title>
 
     <meta property="og:url" content="{page.url.href}">
-    <meta property="og:site_name" content="{title}">
-    <meta property="og:title" content="{title}">
+    <meta property="og:site_name" content="{$title}">
+    <meta property="og:title" content="{$title}">
     <meta property="og:type" content="website">
-    <meta property="og:description" content="{description}" />
+    <meta property="og:description" content="{$description}" />
 </svelte:head>
 
 <div class="d-flex flex-column justify-content-between min-vh-100">
