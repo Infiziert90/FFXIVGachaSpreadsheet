@@ -1,5 +1,7 @@
 <script lang="ts">
 	import '../app.css';
+	import 'bootstrap/dist/css/bootstrap.min.css';
+	import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 	import favicon from '$lib/assets/favicon.svg';
     import {title, description} from "$lib/title.svelte"
     import Footer from "../component/Footer.svelte";
@@ -25,8 +27,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="/css/fontawesome/all.css">
-    <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
-    <script type="text/javascript" src="/js/bootstrap/bootstrap.bundle.min.js"></script>
 
     <link rel="stylesheet" href="/css/main.css">
     <script type="text/javascript" src="/js/table.js"></script>
