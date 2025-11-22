@@ -29,9 +29,6 @@
     <script type="text/javascript" src="/js/bootstrap/bootstrap.bundle.min.js"></script>
 
     <link rel="stylesheet" href="/css/main.css">
-    <script type="text/javascript" src="/js/table.js"></script>
-    <script type="text/javascript" src="/js/theme.js"></script>
-
     <title>{$title}</title>
 
     <meta property="og:url" content="{page.url.href}">

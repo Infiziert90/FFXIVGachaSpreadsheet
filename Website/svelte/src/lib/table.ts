@@ -1,11 +1,27 @@
-function makeSortableTable(element, items, columns) {
+import type {Reward} from "$lib/interfaces";
+import {error} from "@sveltejs/kit";
+
+export interface ColumnTemplate {
+    header: string;
+
+    sortable?: boolean;
+    defaultSort?: string;
+
+    templateRenderer?: Function;
+    valueRenderer?: Function;
+    field?: string;
+
+    classExtension?: string[];
+}
+
+export function makeSortableTable(element: HTMLTableElement, items: Reward[], columns: ColumnTemplate[]) {
     element.innerHTML = '';
     const thead = document.createElement('thead');
     const tbody = document.createElement('tbody');
 
     const sort = {
-        field: null,
-        direction: null
+        field: '',
+        direction: ''
     };
 
     const createTableBody = () => {
@@ -43,8 +59,10 @@ function makeSortableTable(element, items, columns) {
                     td.innerHTML = column.templateRenderer(row);
                 } else if (column.valueRenderer) {
                     td.innerText = column.valueRenderer(row);
-                } else {
+                } else if (column.field) {
                     td.innerText = row[column.field];
+                } else {
+                    error(500, {message: 'No field or templateRenderer specified for column'});
                 }
 
                 if (column.classExtension) {

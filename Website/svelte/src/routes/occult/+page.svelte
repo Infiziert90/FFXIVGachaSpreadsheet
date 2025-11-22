@@ -11,6 +11,7 @@
     import type {Coffer} from "$lib/interfaces";
     import {IconPaths} from "$lib/data";
     import {onMount} from "svelte";
+    import {makeSortableTable} from "$lib/table";
 
     let { data }: PageProps = $props();
     let patches = $state([])
@@ -78,7 +79,8 @@
             selectedPatch = "All";
 
         let patchData = loadedCoffer.Patches[selectedPatch];
-        makeSortableTable(table1, patchData.Items, [
+
+        makeSortableTable((table1 as HTMLTableElement), patchData.Items, [
             {
                 header: '',
                 sortable: false,
