@@ -3,7 +3,10 @@ import {errorHandling, responseHandler} from "$lib/utils";
 import type {Coffer} from "$lib/interfaces";
 import {error} from "@sveltejs/kit";
 
-export const load: PageLoad = async ({ params }) => {
+// @ts-ignore
+export const load: PageLoad = async ({ parent, fetch }) => {
+    await parent();
+
     const res = await fetch(`data/Occult.json`)
         .then(responseHandler)
         .then((data: Coffer[]) => {

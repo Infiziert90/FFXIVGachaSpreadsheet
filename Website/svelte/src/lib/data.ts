@@ -1,8 +1,11 @@
 ﻿import {errorHandling, responseHandler} from "$lib/utils";
+import {error} from "@sveltejs/kit";
 
-export const IconPaths: { [id: string ]: string } = {};
+export const IconPaths: Record<string, string> = {};
 
-export async function loadIcons() {
+export async function loadIcons(fetch: any) {
+    if (IconPaths.length > 0) return;
+
     await fetch('data/IconPaths.json')
         .then(responseHandler)
         .then((data: { [id: string ]: string }) =>{
@@ -11,4 +14,6 @@ export async function loadIcons() {
             }
         })
         .catch(errorHandling);
+
+    console.log(IconPaths);
 }
