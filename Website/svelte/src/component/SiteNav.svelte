@@ -72,11 +72,6 @@
         const itemPath = normalizePath(href);
         return currentPath === itemPath;
     }
-
-    // Check if any item in a category is active
-    function hasActiveChild(category: MenuCategory): boolean {
-        return category.items.some(item => isActivePath(item.href));
-    }
         
     // Depending on the screen size, the menu is open or closed
     // This is a hack to make the menu open on large screens by default, and close on small screens
