@@ -1,5 +1,6 @@
 import type {Reward} from "$lib/interfaces";
 import {error} from "@sveltejs/kit";
+import type {HTMLThAttributes} from "svelte/elements";
 
 export interface ColumnTemplate {
     header: string;
@@ -80,7 +81,7 @@ export function makeSortableTable(element: HTMLTableElement, items: Reward[], co
         tbody.appendChild(fragment);
     };
 
-    const changeSort = (column, direction) => {
+    const changeSort = (column: ColumnTemplate, direction?: string) => {
         if (!column.field) {
             return;
         }
@@ -97,7 +98,7 @@ export function makeSortableTable(element: HTMLTableElement, items: Reward[], co
         sort.field = column.field;
 
         // update classes on <th> nodes
-        for (const th of thead.childNodes[0].childNodes) {
+        for (const th of Object.values(thead.childNodes[0].childNodes) as HTMLElement[]) {
             th.classList.remove('sorted-asc', 'sorted-desc');
             if (th.dataset.field && th.dataset.field === sort.field) {
                 th.classList.add(sort.direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
