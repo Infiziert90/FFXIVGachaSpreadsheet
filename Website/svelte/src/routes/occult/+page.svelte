@@ -11,9 +11,18 @@
     import type {Coffer} from "$lib/interfaces";
     import {IconPaths} from "$lib/data";
     import {onMount} from "svelte";
+    import {makeSortableTable} from "$lib/table";
+
+    // html elements
+    let tabContentElement: HTMLDivElement = $state(<HTMLDivElement>(document.createElement('div')));
+    let tabElements: {[key: string]: HTMLButtonElement} = $state({});
+    let tableElement: HTMLTableElement = $state(<HTMLTableElement>(document.createElement('table')));
+    let totalStatsElement: HTMLLIElement = $state(<HTMLLIElement>(document.createElement('li')));
+    let selectedStatsElement: HTMLLIElement = $state(<HTMLLIElement>(document.createElement('li')));
+    let titleStatsElement: HTMLDivElement = $state(<HTMLDivElement>(document.createElement('div')));
 
     let { data }: PageProps = $props();
-    let patches = $state([])
+    let patches: string[] = $state([])
     let selectedPatch = $state();
 
     let cofferData: Coffer[] = data.content;
@@ -23,11 +32,11 @@
     }
 
     // add defaults if things aren't set correctly
-    let territory = cofferData[0].Territory;
-    let coffer = cofferData[0].Coffers[0].CofferId;
+    let territory = $state(cofferData[0].Territory);
+    let coffer = $state(cofferData[0].Coffers[0].CofferId);
+    getSearchParams();
 
     onMount(() => {
-        getSearchParams();
         openTab(territory, coffer, false)
     })
 
@@ -51,38 +60,36 @@
             page.url.searchParams.set('territory', territory);
             page.url.searchParams.set('coffer', coffer);
 
-            replaceState(page.url, $page.state);
+            replaceState(page.url, page.state);
         }
 
         // Declare all variables
-        let i, tablinks;
+        let i;
 
-        // Get all elements with class="tablinks" and remove the class "active"
-        tablinks = document.getElementsByClassName("tablinks");
-        for (const element of tablinks) {
+        // Iterate all tab elements and remove the class "active"
+        for (const element of Object.values(tabElements)) {
             element.classList.remove('active');
         }
 
         // Show the current tab, and add an "active" class to the link that opened the tab
-        document.getElementById('tabcontent').style.display = "block";
-        document.getElementById(`${territory}${coffer}-tab`).classList.add('active');
+        tabContentElement.style.display = "block";
+        tabElements[`${territory}${coffer}`].classList.add('active');
 
-        let e = document.getElementById("patch");
-        let selectedPatch = e.options[e.selectedIndex].text;
-
-        let table1 = document.getElementById('table1');
         let variantData = cofferData.find((e) => e.Territory === territory);
+        if (!variantData) return;
+
         let loadedCoffer = variantData.Coffers.find((e) => e.CofferId === coffer)
+        if (!loadedCoffer) return;
 
-        if (!(selectedPatch in loadedCoffer.Patches))
-            selectedPatch = "All";
+        let requestedPatch = patches[selectedPatch];
+        let patchData = loadedCoffer.Patches[requestedPatch];
 
-        let patchData = loadedCoffer.Patches[selectedPatch];
-        makeSortableTable(table1, patchData.Items, [
+        makeSortableTable(tableElement, patchData.Items, [
             {
                 header: '',
                 sortable: false,
                 templateRenderer: (row) => {
+                    console.log(row)
                     return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${IconPaths[row.Id]}_hr1.tex&format=png">`
                 },
                 classExtension: ['icon']
@@ -112,58 +119,17 @@
             },
         ]);
 
-        const stats = document.getElementById('stats');
+        titleStatsElement.innerHTML = `<strong>${variantData.Name} Stats</strong>`;
 
-        const fragment = new DocumentFragment();
-        const div = document.createElement('div');
-        div.classList.add("card");
+        let total = 0;
+        variantData.Coffers.forEach(coffer => {total += coffer.Patches[requestedPatch].Total})
+        totalStatsElement.innerText = `Total: ${total.toLocaleString()}`
+        selectedStatsElement.innerText = `${loadedCoffer.CofferName}: ${patchData.Total.toLocaleString()}`
 
-        const innerDiv = document.createElement('div');
-        innerDiv.classList.add("card-header");
-        innerDiv.innerHTML = `<strong>${variantData.Name} Stats</strong>`;
-
-        const ul = document.createElement('ul');
-        ul.classList.add("list-group", "list-group-flush");
-
-        const li1 = document.createElement('li');
-        li1.classList.add("list-group-item")
-        var total = 0;
-        variantData.Coffers.forEach(coffer => {total += coffer.Patches[selectedPatch].Total})
-        li1.innerText = `Total: ${total.toLocaleString()}`
-
-        const li2 = document.createElement('li');
-        li2.classList.add("list-group-item")
-        li2.innerText = `${loadedCoffer.CofferName}: ${patchData.Total.toLocaleString()}`
-
-        const li3 = document.createElement('li');
-        li3.classList.add("list-group-item");
-        const label = document.createElement('label')
-        label.htmlFor = "patch";
-        label.innerHTML = "Patch";
-        const select = document.createElement('select');
-        select.id = "patch";
-        select.name = "patch";
-        select.onchange = patchSelectionChanged;
-        select.classList.add("form-select");
-
-        li3.append(label, select);
-
+        patches.length = 0;
         for (const key of Object.keys(loadedCoffer.Patches)) {
-            var option = option = document.createElement("option");
-            option.value = key;
-            option.text = key;
-            select.appendChild(option);
+            patches.push(key)
         }
-
-        select.value = selectedPatch
-
-        ul.append(li1, li2, li3);
-        div.append(innerDiv, ul);
-
-        fragment.appendChild(div);
-
-        stats.innerHTML = '';
-        stats.appendChild(fragment);
 
         // Scroll to the top of the page
         window.scrollTo(0, 0);
@@ -206,15 +172,27 @@
                 {#each cofferData as coffer}
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button id="{coffer.Territory}-button" class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#{coffer.Territory}-collapse" aria-expanded="false" aria-controls="{coffer.Territory}-collapse">
+                        <button id="{coffer.Territory}-button"
+                                class="accordion-button"
+                                class:collapsed={coffer.Territory !== territory}
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#{coffer.Territory}-collapse"
+                                aria-expanded={coffer.Territory === territory}
+                                aria-controls="{coffer.Territory}-collapse">
                             {coffer.Name}
                         </button>
                     </h2>
-                    <div id="{coffer.Territory}-collapse" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div id="{coffer.Territory}-collapse" class="accordion-collapse collapse" class:show={coffer.Territory === territory} data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                             {#each coffer.Coffers as cofferVariant}
                             <div class="tab">
-                                <button id="{coffer.Territory}{cofferVariant.CofferId}-tab" class="tablinks btn accordion-body-btn" onclick={() => openTab(coffer.Territory, cofferVariant.CofferId, true)}>{cofferVariant.CofferName}</button>
+                                <button id="{coffer.Territory}{cofferVariant.CofferId}-tab"
+                                        class="tablinks btn accordion-body-btn"
+                                        onclick={() => openTab(coffer.Territory, cofferVariant.CofferId, true)}
+                                        bind:this={tabElements[`${coffer.Territory}${cofferVariant.CofferId}`]}>
+                                    {cofferVariant.CofferName}
+                                </button>
                             </div>
                             {/each}
                         </div>
@@ -227,18 +205,28 @@
 </div>
 <div class="col-12 col-lg-2 order-0 order-lg-3">
     <div id="stats" class="stats">
-        <label for="patch">Patch</label>
-        <select id="patch" class="form-select" bind:value={selectedPatch} onchange={patchSelectionChanged}>
-            {#each patches as patch}
-                <option value={patch}>
-                    {patch}
-                </option>
-            {/each}
-        </select>
+        <div class="card">
+            <div class="card-header" bind:this={titleStatsElement}>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" bind:this={totalStatsElement}></li>
+                <li class="list-group-item" bind:this={selectedStatsElement}></li>
+                <li class="list-group-item">
+                    <label for="patch">Patch</label>
+                    <select id="patch" class="form-select" bind:value={selectedPatch} onchange={patchSelectionChanged}>
+                        {#each patches as patch, idx}
+                            <option value={idx}>
+                                {patch}
+                            </option>
+                        {/each}
+                    </select>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 <div class="col-12 col-lg-7 order-0 order-lg-2">
-    <div id="tabcontent" class="table-responsive">
-        <table id="table1" class="table table-striped align-middle table-sm table-hover table-borderless"></table>
+    <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
+        <table id="table1" class="table table-striped align-middle table-sm table-hover table-borderless" bind:this={tableElement}></table>
     </div>
 </div>

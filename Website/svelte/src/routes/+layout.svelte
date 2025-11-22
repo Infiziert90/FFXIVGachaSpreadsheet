@@ -6,8 +6,7 @@
     import {title, description} from "$lib/title.svelte"
     import Footer from "../component/Footer.svelte";
     import { page } from '$app/state';
-    import {loadIcons} from "$lib/data";
-	
+
 	let { children } = $props();
 
     let active = $state(false);
@@ -16,8 +15,6 @@
     let identifier1 = $state('containers');
     let identifier2 = $state('instances');
     let identifier3 = $state('others');
-
-    loadIcons()
 </script>
 
 <svelte:head>
@@ -29,9 +26,6 @@
     <link rel="stylesheet" href="/css/fontawesome/all.css">
 
     <link rel="stylesheet" href="/css/main.css">
-    <script type="text/javascript" src="/js/table.js"></script>
-    <script type="text/javascript" src="/js/theme.js"></script>
-
     <title>{$title}</title>
 
     <meta property="og:url" content="{page.url.href}">

@@ -1,11 +1,28 @@
-function makeSortableTable(element, items, columns) {
+import type {Reward} from "$lib/interfaces";
+import {error} from "@sveltejs/kit";
+import type {HTMLThAttributes} from "svelte/elements";
+
+export interface ColumnTemplate {
+    header: string;
+
+    sortable?: boolean;
+    defaultSort?: string;
+
+    templateRenderer?: Function;
+    valueRenderer?: Function;
+    field?: string;
+
+    classExtension?: string[];
+}
+
+export function makeSortableTable(element: HTMLTableElement, items: Reward[], columns: ColumnTemplate[]) {
     element.innerHTML = '';
     const thead = document.createElement('thead');
     const tbody = document.createElement('tbody');
 
     const sort = {
-        field: null,
-        direction: null
+        field: '',
+        direction: ''
     };
 
     const createTableBody = () => {
@@ -43,8 +60,10 @@ function makeSortableTable(element, items, columns) {
                     td.innerHTML = column.templateRenderer(row);
                 } else if (column.valueRenderer) {
                     td.innerText = column.valueRenderer(row);
-                } else {
+                } else if (column.field) {
                     td.innerText = row[column.field];
+                } else {
+                    error(500, {message: 'No field or templateRenderer specified for column'});
                 }
 
                 if (column.classExtension) {
@@ -62,7 +81,7 @@ function makeSortableTable(element, items, columns) {
         tbody.appendChild(fragment);
     };
 
-    const changeSort = (column, direction) => {
+    const changeSort = (column: ColumnTemplate, direction?: string) => {
         if (!column.field) {
             return;
         }
@@ -79,7 +98,7 @@ function makeSortableTable(element, items, columns) {
         sort.field = column.field;
 
         // update classes on <th> nodes
-        for (const th of thead.childNodes[0].childNodes) {
+        for (const th of Object.values(thead.childNodes[0].childNodes) as HTMLElement[]) {
             th.classList.remove('sorted-asc', 'sorted-desc');
             if (th.dataset.field && th.dataset.field === sort.field) {
                 th.classList.add(sort.direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
