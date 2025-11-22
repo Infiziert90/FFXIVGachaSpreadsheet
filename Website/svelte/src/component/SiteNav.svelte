@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { page } from '$app/stores';
+    import { page } from '$app/state';
     import { 
         Collapse,
         Navbar,
@@ -68,7 +68,7 @@
 
     // Check if a path matches the current page
     function isActivePath(href: string): boolean {
-        const currentPath = normalizePath($page.url.pathname);
+        const currentPath = normalizePath(page.url.pathname);
         const itemPath = normalizePath(href);
         return currentPath === itemPath;
     }
@@ -93,7 +93,7 @@
     <Nav class="me-auto" navbar>
         {#each menuCategories as category}
             <NavItem>
-                <Dropdown nav setActiveFromChild>
+                <Dropdown nav>
                     <DropdownToggle nav class="nav-link" caret>
                         {category.label}
                     </DropdownToggle>
