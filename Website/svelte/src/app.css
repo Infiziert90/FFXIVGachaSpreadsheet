@@ -58,28 +58,6 @@
     color: black;
 }
 
-footer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 50px;
-}
-
-footer p {
-    color: whitesmoke;
-    margin: 0;
-}
-
-footer a {
-    color: white;
-    text-decoration: none;
-}
-
-footer a:hover {
-    color: grey;
-}
-
 th {
     white-space: nowrap;
     user-select: none;
