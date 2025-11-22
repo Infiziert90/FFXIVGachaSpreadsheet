@@ -1,4 +1,4 @@
-function makeSortableTable(element, items, columns) {
+export function makeSortableTable(element, items, columns) {
     element.innerHTML = '';
     const thead = document.createElement('thead');
     const tbody = document.createElement('tbody');

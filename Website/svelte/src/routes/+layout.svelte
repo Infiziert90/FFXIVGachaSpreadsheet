@@ -4,6 +4,7 @@
     import {title, description} from "$lib/title.svelte"
     import Footer from "../component/Footer.svelte";
     import { page } from '$app/state';
+    import {loadIcons} from "$lib/data";
 	
 	let { children } = $props();
 
@@ -13,6 +14,8 @@
     let identifier1 = $state('containers');
     let identifier2 = $state('instances');
     let identifier3 = $state('others');
+
+    loadIcons()
 </script>
 
 <svelte:head>

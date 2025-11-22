@@ -17,7 +17,7 @@ export async function getLastUpdate(): Promise<string> {
     return data ?? 'Unknown';
 }
 
-function responseHandler(response: Response) {
+export function responseHandler(response: Response) {
     if (response.ok) {
         return response.json();
     }
@@ -25,7 +25,7 @@ function responseHandler(response: Response) {
     return Promise.reject(response);
 }
 
-function errorHandling(response: any) {
+export function errorHandling(response: any) {
     if (response instanceof Response) {
         console.log(response.status, response.statusText);
         response.json().then((err: any) => {
