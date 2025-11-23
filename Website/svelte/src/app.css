@@ -67,21 +67,6 @@ th.sortable {
     cursor: pointer;
 }
 
-th.sorted-asc::after {
-    /* content: ' ↑'; */
-    /* use FontAwesome font and character code for up arrow */
-    font-family: 'Font Awesome 5 Free';
-    content: '\f062';
-    margin-inline-start: 0.5rem;
-}
-
-th.sorted-desc::after {
-    /* content: ' ↓'; */
-    /* use FontAwesome font and character code for down arrow */
-    font-family: 'Font Awesome 5 Free';
-    content: '\f063';
-    margin-inline-start: 0.5rem;
-}
 
 td.icon {
     width: 5%;

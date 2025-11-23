@@ -82,9 +82,19 @@
         isOpen = false;
     }
     const toggle = () => (isOpen = !isOpen);
+
+    // Read the theme from the local storage
+    try {
+        const theme = localStorage.getItem('theme');
+        if (theme) {
+            colorMode.set(theme as 'light' | 'dark' | 'auto');
+        }
+    } catch (error) {
+        console.error('Error reading theme from local storage:', error);
+    }
 </script>
 
-<Navbar color="dark" dark theme="dark" expand="md" class="border-bottom border-body-tertiary">
+<Navbar color="dark" dark theme="dark" expand="md" class="border-bottom border-body-tertiary" sticky="top">
 <NavbarBrand href="/">FFXIV Gacha</NavbarBrand>
 <NavbarToggler on:click={toggle} />
 
