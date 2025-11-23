@@ -12,6 +12,7 @@
     import {IconPaths} from "$lib/data";
     import {onMount} from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
+    import FilterAccordion from "../../component/FilterAccordion.svelte";
     import type {ColumnTemplate} from "$lib/table";
 
     // html elements
@@ -160,10 +161,6 @@
     }
 </script>
 
-<div>
-
-</div>
-
 <button class="btn btn-primary btn-lg rounded-xl d-lg-none position-fixed bottom-0 end-0 m-3 w-auto z-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
     <i class="fas fa-filter"></i>
 </button>
@@ -175,38 +172,12 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasFilter" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <div class="accordion w-100" id="accordionExample">
-                {#each cofferData as coffer}
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button id="{coffer.Territory}-button"
-                                class="accordion-button"
-                                class:collapsed={coffer.Territory !== territory}
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#{coffer.Territory}-collapse"
-                                aria-expanded={coffer.Territory === territory}
-                                aria-controls="{coffer.Territory}-collapse">
-                            {coffer.Name}
-                        </button>
-                    </h2>
-                    <div id="{coffer.Territory}-collapse" class="accordion-collapse collapse" class:show={coffer.Territory === territory} data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            {#each coffer.Coffers as cofferVariant}
-                            <div class="tab">
-                                <button id="{coffer.Territory}{cofferVariant.CofferId}-tab"
-                                        class="tablinks btn accordion-body-btn"
-                                        onclick={() => openTab(coffer.Territory, cofferVariant.CofferId, true)}
-                                        bind:this={tabElements[`${coffer.Territory}${cofferVariant.CofferId}`]}>
-                                    {cofferVariant.CofferName}
-                                </button>
-                            </div>
-                            {/each}
-                        </div>
-                    </div>
-                </div>
-                {/each}
-            </div>
+            <FilterAccordion 
+                {cofferData} 
+                {territory} 
+                {openTab} 
+                {tabElements} 
+            />
         </div>
     </div>
 </div>
