@@ -35,7 +35,6 @@
     const currentArray = $derived(searchType === 'sources' ? allSourcesArray : allRewardsArray);
     const currentData = $derived(searchType === 'sources' ? desynthBase.Sources : desynthBase.Rewards);
     const currentStatsType = $derived(searchType === 'sources' ? 'Desynths' : 'Received');
-    const prefix = $derived(searchType === 'sources' ? 'source' : 'reward');
 
     // Intelligent filtering function
     function getMatchScore(itemName: string, query: string): number {
@@ -63,7 +62,7 @@
         return 0;
     }
 
-    // Filter array with intelligent matching and sorting, limit to first 10 results
+    // Filter array with intelligent matching and sorting, limit to first 25 results
     const filteredArray = $derived(
         searchQuery.trim() === '' 
             ? [] 
@@ -151,4 +150,3 @@
         </ListGroup>
     {/if}
 </div>
-

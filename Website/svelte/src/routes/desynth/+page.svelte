@@ -1,9 +1,9 @@
 ﻿<script lang="ts">
     import { page } from '$app/state';
-    import {replaceState} from "$app/navigation";
+    import { replaceState } from "$app/navigation";
     import type { DesynthBase, DesynthHistory, Reward } from "$lib/interfaces";
     import { IconPaths } from "$lib/data";
-    import {onMount} from "svelte";
+    import { onMount } from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
     import type { ColumnTemplate } from "$lib/table";
     import DesynthSearchbar from "../../component/DesynthSearchbar.svelte";
@@ -14,7 +14,7 @@
 
     // html elements
     let tabContentElement: HTMLDivElement = $state(<HTMLDivElement>(document.createElement('div')));
-    let tabElements: {[key: string]: HTMLButtonElement} = $state({});
+    let tabElements: { [key: string]: HTMLButtonElement } = $state({});
 
     let { data }: Props = $props();
 
@@ -40,11 +40,21 @@
 
     onMount(() => {
         if (sourceParam > 0) {
-            onButtonClick(sourceParam, desynthBase.Sources, 'Desynths', false)
+            onButtonClick(sourceParam, desynthBase.Sources, 'Desynths', false);
         } else if (rewardParam > 0) {
-            onButtonClick(rewardParam, desynthBase.Rewards, 'Received', false)
+            onButtonClick(rewardParam, desynthBase.Rewards, 'Received', false);
         }
-    })
+    });
+
+    function getSearchParams() {
+        if (page.url.searchParams.has('source')) {
+            sourceParam = parseInt(page.url.searchParams.get('source')!);
+        }
+
+        if (page.url.searchParams.has('reward')) {
+            rewardParam = parseInt(page.url.searchParams.get('reward')!);
+        }
+    }
 
     function onButtonClick(id: number, usedData: Record<number, DesynthHistory>, statsType: string, addQuery: boolean) {
         if (addQuery) {
@@ -71,24 +81,24 @@
             {
                 header: '',
                 sortable: false,
-                templateRenderer: (row) => {
+                templateRenderer: (row: Reward) => {
                     return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${IconPaths[row.Id]}_hr1.tex&format=png">`
                 },
                 classExtension: ['icon']
             },
-            {header: 'Name', field: 'Name', valueRenderer: (row) => desynthBase.ToItem[row.Id].Name}, // TODO Fix sorting for field not existing
-            {header: 'Obtained', field: 'Amount', classExtension: ['number', 'text-center']},
+            { header: 'Name', field: 'Name', valueRenderer: (row: Reward) => desynthBase.ToItem[row.Id].Name }, // TODO Fix sorting for field not existing
+            { header: 'Obtained', field: 'Amount', classExtension: ['number', 'text-center'] },
             {
                 header: 'Min-Max',
                 field: 'Min',
-                valueRenderer: (row) => `${row.Min}–${row.Max}`,
+                valueRenderer: (row: Reward) => `${row.Min}–${row.Max}`,
                 classExtension: ['number', 'text-center']
             },
             {
                 header: 'Chance',
                 field: 'Percentage',
                 defaultSort: 'asc',
-                valueRenderer: (row) => `${(row.Percentage * 100).toFixed(2)}%`,
+                valueRenderer: (row: Reward) => `${(row.Percentage * 100).toFixed(2)}%`,
                 classExtension: ['percentage', 'text-end']
             },
         ];
@@ -107,19 +117,9 @@
         if (sourceButton) sourceButton.classList.add('btn-success');
         if (rewardButton) rewardButton.classList.add('btn-success');
     }
-
-    function getSearchParams() {
-        if (page.url.searchParams.has('source')) {
-            sourceParam = parseInt(page.url.searchParams.get('source')!);
-        }
-
-        if (page.url.searchParams.has('reward')) {
-            rewardParam = parseInt(page.url.searchParams.get('reward')!);
-        }
-    }
 </script>
 
-<button class="btn btn-primary btn-lg rounded-xl d-lg-none position-fixed bottom-0 end-0 m-3 w-auto z-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
+<button class="btn btn-primary btn-lg rounded-xl d-lg-none position-fixed bottom-0 end-0 m-3 w-auto z-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter" aria-label="Open filter menu">
     <i class="fas fa-filter"></i>
 </button>
 
