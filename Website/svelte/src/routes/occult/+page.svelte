@@ -1,25 +1,22 @@
-﻿<!--{{ $data := dict }}-->
-<!--{{ $json := resources.Get (.Param "data") }}-->
-<!--{{ $iconPaths := resources.Get "data/IconPaths.json"}}-->
-<!--{{ with $json | transform.Unmarshal }}-->
-<!--{{ $data = . }}-->
-<!--{{ end }}-->
-<script lang="ts">
+﻿<script lang="ts">
     import { page } from '$app/state';
     import {replaceState} from "$app/navigation";
-    import type { PageProps } from './$types';
     import type {Coffer, Reward} from "$lib/interfaces";
     import {IconPaths} from "$lib/data";
     import {onMount} from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
-    import FilterAccordion from "../../component/FilterAccordion.svelte";
     import type {ColumnTemplate} from "$lib/table";
+    import CofferAccordion from "../../component/CofferAccordion.svelte";
+
+    interface Props {
+        content: Coffer[];
+    }
 
     // html elements
     let tabContentElement: HTMLDivElement = $state(<HTMLDivElement>(document.createElement('div')));
     let tabElements: {[key: string]: HTMLButtonElement} = $state({});
 
-    let { data }: PageProps = $props();
+    let { data }: Props = $props();
     let patches: string[] = $state([])
     let selectedPatch = $state(0);
 
@@ -47,25 +44,11 @@
         openTab(territory, coffer, false)
     })
 
-
-    // TODO: Readd this
-    // {{ range $data }}
-    // var element = document.getElementById('{{ .Territory }}-button');
-    // element.classList.add("collapsed");
-    // {{ end }}
-    //
-    // let collapseActive = document.getElementById(`${territory}-collapse`);
-    // collapseActive.classList.add("show");
-    //
-    // let collapseButton = document.getElementById(`${territory}-button`);
-    // collapseButton.classList.remove("collapsed");
-    // collapseButton.setAttribute("aria-expanded", "true")
-
-    function openTab(territory, coffer, addQuery) {
+    function openTab(territory: number, coffer: number, addQuery: boolean = false) {
         if (addQuery)
         {
-            page.url.searchParams.set('territory', territory);
-            page.url.searchParams.set('coffer', coffer);
+            page.url.searchParams.set('territory', territory.toString());
+            page.url.searchParams.set('coffer', coffer.toString());
 
             replaceState(page.url, page.state);
         }
@@ -172,7 +155,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasFilter" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <FilterAccordion 
+            <CofferAccordion
                 {cofferData} 
                 {territory} 
                 {openTab} 

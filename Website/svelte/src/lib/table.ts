@@ -10,7 +10,7 @@ export interface ColumnTemplate {
 
     templateRenderer?: Function;
     valueRenderer?: Function;
-    field?: string;
+    field?: keyof Reward;
 
     classExtension?: string[];
 }
@@ -20,7 +20,7 @@ export function makeSortableTable(element: HTMLTableElement, items: Reward[], co
     const thead = document.createElement('thead');
     const tbody = document.createElement('tbody');
 
-    const sort = {
+    const sort: {field: keyof Reward | null, direction: string} = {
         field: '',
         direction: ''
     };
@@ -61,7 +61,7 @@ export function makeSortableTable(element: HTMLTableElement, items: Reward[], co
                 } else if (column.valueRenderer) {
                     td.innerText = column.valueRenderer(row);
                 } else if (column.field) {
-                    td.innerText = row[column.field];
+                    td.innerText = row[column.field].toString();
                 } else {
                     error(500, {message: 'No field or templateRenderer specified for column'});
                 }

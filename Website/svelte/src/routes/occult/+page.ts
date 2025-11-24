@@ -1,5 +1,5 @@
 ﻿import type { PageLoad } from './$types';
-import {errorHandling, responseHandler} from "$lib/utils";
+import {responseHandler} from "$lib/utils";
 import type {Coffer} from "$lib/interfaces";
 import {error} from "@sveltejs/kit";
 

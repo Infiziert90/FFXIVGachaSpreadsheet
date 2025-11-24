@@ -26,3 +26,22 @@ interface CofferContent {
     Total: number;
     Items: Reward[];
 }
+
+export interface DesynthBase {
+    Sources: Record<number, DesynthHistory>;
+    Rewards: Record<number, DesynthHistory>;
+
+    // TODO: Replace with mapping later
+    ToItem: Record<number, ItemInfo>;
+
+}
+
+export interface DesynthHistory {
+    Records: number;
+    Rewards: Reward[]
+}
+
+interface ItemInfo {
+    Id: number;
+    Name: string;
+}
