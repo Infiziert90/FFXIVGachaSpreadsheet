@@ -42,11 +42,13 @@
     onMount(() => {
         if (sourceParam > 0) {
             sourceSearch = desynthBase.ToItem[sourceParam].Name;
+            sourceInput(new InputEvent('input'))
             onButtonClick(sourceParam, desynthBase.Sources, 'Records', false)
         }
 
         if (rewardParam > 0) {
             rewardSearch = desynthBase.ToItem[rewardParam].Name;
+            rewardInput(new InputEvent('input'))
             onButtonClick(rewardParam, desynthBase.Rewards, 'Received', false)
         }
     })
