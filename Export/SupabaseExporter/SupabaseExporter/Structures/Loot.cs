@@ -89,7 +89,7 @@ public class DutyLootStruct(string name, uint category)
             var item = Sheets.ItemSheet.GetRow(itemId);
             Rewards.Add(Reward.FromDutyLoot(item, Records, reward));
             
-            IconHelper.AddItem(item);
+            MappingHelper.AddItem(itemId);
         }
     }
 }

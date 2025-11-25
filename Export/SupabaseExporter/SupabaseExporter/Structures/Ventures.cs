@@ -252,7 +252,7 @@ public class Ventures : IDisposable
             var item = Sheets.ItemSheet.GetRow(itemId);
             primaryList.Add(Reward.FromTaskReward(item, venture.Total, primary));
 
-            IconHelper.AddItem(item);
+            MappingHelper.AddItem(itemId);
         }
 
         foreach (var (itemId, additional) in venture.AdditionalRewards.OrderBy(pair => pair.Value.Amount))
@@ -263,7 +263,7 @@ public class Ventures : IDisposable
             var item = Sheets.ItemSheet.GetRow(itemId);
             additionalList.Add(Reward.FromTaskReward(item, venture.Total, additional));
 
-            IconHelper.AddItem(item);
+            MappingHelper.AddItem(itemId);
         }
 
         return new VentureData.VenturePatch((uint) venture.Total, primaryList, additionalList);   

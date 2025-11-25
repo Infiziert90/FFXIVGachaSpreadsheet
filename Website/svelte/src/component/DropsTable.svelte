@@ -2,6 +2,7 @@
     import { Table, Icon } from '@sveltestrap/sveltestrap';
     import type { Reward } from "$lib/interfaces";
     import type { ColumnTemplate } from "$lib/table";
+    import {Mappings} from "$lib/data";
 
     /**
      * Component props interface
@@ -19,6 +20,7 @@
     // Reactive state for tracking current sort field and direction
     let sortField = $state<string>('');
     let sortDirection = $state<'asc' | 'desc'>('asc');
+    let sortWithMapping = $state(false);
 
     /**
      * Initialize default sort when columns change
@@ -43,6 +45,7 @@
     function handleSort(column: ColumnTemplate) {
         if (!column.field || column.sortable === false) return;
 
+        sortWithMapping = !!column.mappingSort;
         if (sortField === column.field) {
             // Toggle direction if clicking the same column
             sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
@@ -63,8 +66,13 @@
 
         return [...items].sort((a, b) => {
             // Type assertion: sortField is validated to be a key of Reward
-            const aVal = a[sortField as keyof Reward];
-            const bVal = b[sortField as keyof Reward];
+            let aVal = a[sortField as keyof Reward];
+            let bVal = b[sortField as keyof Reward];
+
+            if (sortWithMapping) {
+                aVal = Mappings[a.Id].Name;
+                bVal = Mappings[b.Id].Name;
+            }
 
             // Use == (loose equality) to handle null/undefined comparisons
             if (aVal == bVal) return 0;

@@ -1,34 +1,12 @@
-﻿using Lumina.Excel.Sheets;
-using Newtonsoft.Json;
-
-namespace SupabaseExporter.Structures;
+﻿namespace SupabaseExporter.Structures;
     
 /// <summary>
 /// Used as a JSON structure for export.
 /// </summary>
-public record DesynthData
+public record DesynthesisBase
 {
     public Dictionary<uint, History> Sources = [];
     public Dictionary<uint, History> Rewards = [];
-
-    public Dictionary<uint, ItemInfo> ToItem = [];
-
-    public record ItemInfo
-    {
-        public uint Id;
-        public string Name;
-
-        public ItemInfo(Item item)
-        {
-            Id = item.RowId;
-            Name = item.Name.ExtractText();
-        }
-
-        public ItemInfo()
-        {
-
-        }
-    };
 }
 
 /// <summary>
@@ -37,34 +15,12 @@ public record DesynthData
 public class History
 {
     public uint Records;
-    public List<Result> Results = [];
-
-    public class Result
-    {
-        public uint Id;
-        public long Min;
-        public long Max;
-        public long Received;
-        [JsonConverter(typeof(LessPrecisionDouble))] public double Percentage;
-
-        public Result(uint itemId, DesynthTemp.DesynthReward reward)
-        {
-            Id = itemId;
-            Min = reward.Min;
-            Max = reward.Max;
-            Received = reward.Amount;
-        }
-
-        public Result()
-        {
-
-        }
-    }
+    public List<Reward> Rewards = [];
 
     public void AddRecord(uint itemId, DesynthTemp.DesynthReward reward)
     {
         Records += (uint)reward.Amount;
-        Results.Add(new Result(itemId, reward));
+        Rewards.Add(Reward.FromDesynthesisReward(itemId, 10000, reward)); // Total is unknown at this point, so give it a fake value
     }
 }
 
@@ -100,7 +56,7 @@ public class DesynthTemp
 
 public class Desynthesis : IDisposable
 {
-    private DesynthData ProcessedData = new();
+    private DesynthesisBase ProcessedData = new();
     private readonly Dictionary<uint, DesynthTemp> CollectedData = [];
     
     public void ProcessAllData(List<Models.Desynthesis> data)
@@ -114,7 +70,7 @@ public class Desynthesis : IDisposable
     
     public void Dispose()
     {
-        ProcessedData = new DesynthData();
+        ProcessedData = new DesynthesisBase();
         CollectedData.Clear();
         GC.Collect();
     }
@@ -165,13 +121,12 @@ public class Desynthesis : IDisposable
 
     private void Combine() 
     {
-        foreach (var (source, desynthTemp) in CollectedData)
+        Dictionary<uint, History> tempRewards = [];
+        foreach (var (sourceId, desynthTemp) in CollectedData)
         {
-            var sourceItem = Sheets.ItemSheet.GetRow(source);
-            if (!ProcessedData.ToItem.ContainsKey(source))
-                ProcessedData.ToItem[source] = new DesynthData.ItemInfo(sourceItem);
+            var sourceItem = Sheets.ItemSheet.GetRow(sourceId);
 
-            var results = new List<History.Result>();
+            var results = new List<Reward>();
             // TODO Use patch data and not just combine them
             var newTemp = new Dictionary<uint, DesynthTemp.DesynthReward>();
             foreach (var (itemId, patches) in desynthTemp.Rewards)
@@ -188,36 +143,37 @@ public class Desynthesis : IDisposable
             foreach (var (itemId, reward) in newTemp)
             {
                 var rewardItem = Sheets.ItemSheet.GetRow(itemId);
-                if (!ProcessedData.ToItem.ContainsKey(itemId))
-                    ProcessedData.ToItem[itemId] = new DesynthData.ItemInfo(rewardItem);
 
-                IconHelper.AddItem(rewardItem);
-                results.Add(new History.Result(itemId, reward));
+                MappingHelper.AddItem(itemId);
+                results.Add(Reward.FromDesynthesisReward(itemId, desynthTemp.Total, reward));
 
-                if (!ProcessedData.Rewards.ContainsKey(itemId))
-                    ProcessedData.Rewards[itemId] = new History { Records = (uint)reward.Amount, Results = [new History.Result(source, reward)] };
-                else
-                    ProcessedData.Rewards[itemId].AddRecord(source, reward);
+                if (!tempRewards.ContainsKey(itemId))
+                    tempRewards[itemId] = new History();
+
+                tempRewards[itemId].AddRecord(sourceId, reward);
             }
 
-            for (var i = 0; i < results.Count; i++)
-            {
-                var r = results[i];
-                r.Percentage = (double) r.Received / desynthTemp.Total;
-                results[i] = r;
-            }
-
-            IconHelper.AddItem(sourceItem);
-            ProcessedData.Sources.Add(source, new History { Records = (uint)desynthTemp.Total, Results = results });
+            MappingHelper.AddItem(sourceId);
+            ProcessedData.Sources.Add(sourceId, new History { Records = (uint)desynthTemp.Total, Rewards = results });
         }
 
-        foreach (var (rewardItemId, history) in ProcessedData.Rewards)
+        foreach (var (rewardItemId, history) in tempRewards)
         {
-            for (var i = 0; i < history.Results.Count; i++)
+            ProcessedData.Rewards[rewardItemId] = new History {Records = history.Records};
+            foreach (var tempReward in history.Rewards)
             {
-                var historyResult = history.Results[i];
-                historyResult.Percentage = ProcessedData.Sources[historyResult.Id].Results.Find(r => r.Id == rewardItemId).Percentage;
-                history.Results[i] = historyResult;
+                var source = ProcessedData.Sources[tempReward.Id].Rewards.Find(r => r.Id == rewardItemId);
+                if (source == null)
+                    throw new Exception($"Source for id {rewardItemId} not found!");
+                
+                ProcessedData.Rewards[rewardItemId].Rewards.Add(new Reward(
+                    tempReward.Id,
+                    tempReward.Amount,
+                    source.Pct,
+                    source.Total,
+                    tempReward.Min,
+                    tempReward.Max
+                ));
             }
         }
     }

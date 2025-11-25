@@ -351,8 +351,8 @@ public class Models
     [Table("OccultTreasure")]
     public class OccultTreasure : BaseModel
     {
+        [Name("id")]
         [Column("id")]
-        [Ignore]
         public uint Id { get; set; }
 
         [Name("base_id")]
@@ -421,8 +421,8 @@ public class Models
     [Table("OccultBunny")]
     public class OccultBunny : BaseModel
     {
+        [Name("id")]
         [Column("id")]
-        [Ignore]
         public uint Id { get; set; }
 
         [Name("coffer")]

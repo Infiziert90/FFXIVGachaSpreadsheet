@@ -31,7 +31,7 @@ public static class EntryPoint
         var exporter = new Exporter();
 
         await using var context = new DatabaseContext();
-        await exporter.ExportSubmarineData(context);
+        // await exporter.ExportSubmarineData(context);
         
         var gachaResult = await exporter.LoadGachaData(context);
         if (gachaResult.Success)
@@ -88,7 +88,7 @@ public static class EntryPoint
         }
         
         // Generate json with all icon paths
-        IconHelper.CreateIconPaths();
+        MappingHelper.CreateIconPaths();
         ExportHandler.WriteTimestamp();
     }
 }
@@ -218,11 +218,16 @@ public class Exporter
     public async Task<(bool Success, List<Models.OccultTreasure> Data)> LoadOccultTreasureData(DatabaseContext context)
     {
         Logger.Information("Loading occult treasure data");
+        var previous = ReadCsv<Models.OccultTreasure>("LocalCache/OccultTreasure");
+        Logger.Information($"Old records {previous.Length:N0}");
+        
         var result = await context.OccultTreasures.OrderBy(l => l.Id).ToListAsync();
         if (result.Count == 0)
             Logger.Warning("No new records found");
         else
             Logger.Information($"New records {result.Count:N0}");
+        
+        result = previous.Concat(result).ToList();
 
         Logger.Information($"Total records {result.Count:N0}");
         Logger.Information("Loading occult treasure data finished...");
@@ -232,11 +237,16 @@ public class Exporter
     public async Task<(bool Success, List<Models.OccultBunny> Data)> LoadOccultBunnyData(DatabaseContext context)
     {
         Logger.Information("Loading occult bunny data");
+        var previous = ReadCsv<Models.OccultBunny>("LocalCache/OccultBunny");
+        Logger.Information($"Old records {previous.Length:N0}");
+        
         var result = await context.OccultBunny.OrderBy(l => l.Id).ToListAsync();
         if (result.Count == 0)
             Logger.Warning("No new records found");
         else
             Logger.Information($"New records {result.Count:N0}");
+        
+        result = previous.Concat(result).ToList();
 
         Logger.Information($"Total records {result.Count:N0}");
         Logger.Information("Loading occult bunny data finished...");

@@ -1,18 +1,23 @@
 ﻿import {errorHandling, responseHandler} from "$lib/utils";
 
-export const IconPaths: Record<string, string> = {};
+export interface ItemInfo {
+    Name: string;
+    Icon: string;
+}
 
-export async function loadIcons(fetch: any) {
-    if (Object.keys(IconPaths).length > 0) return;
+export const Mappings: Record<number, ItemInfo> = {};
 
-    await fetch('data/IconPaths.json')
+export async function loadMappings(fetch: any) {
+    if (Object.keys(Mappings).length > 0) return;
+
+    await fetch('data/Mappings.json')
         .then(responseHandler)
-        .then((data: { [id: string ]: string }) =>{
+        .then((data: Record<number, ItemInfo>) =>{
             for (const [key, value] of Object.entries(data)) {
-                IconPaths[key] = value;
+                Mappings[parseInt(key)] = value;
             }
         })
         .catch(errorHandling);
 
-    console.log(IconPaths);
+    console.log(Mappings);
 }

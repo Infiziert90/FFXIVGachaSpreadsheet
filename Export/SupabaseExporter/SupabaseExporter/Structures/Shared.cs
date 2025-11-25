@@ -4,44 +4,52 @@ using Newtonsoft.Json;
 namespace SupabaseExporter.Structures;
 
 /// <summary>
-/// Reward of a given task, e.g. a venture item, or a coffer item.
+/// Reward of a given task, e.g., a venture item, or a coffer item.
 /// </summary>
 [Serializable]
-public record Reward(string Name, uint Id, long Amount, [property: JsonConverter(typeof(LessPrecisionDouble))] double Percentage, long Total = 0, long Min = 0, long Max = 0)
+public record Reward(uint Id, long Amount, [property: JsonConverter(typeof(LessPrecisionDouble))] double Pct, long Total = 0, long Min = 0, long Max = 0)
 {
-    public static Reward FromTaskReward(Item item, long taskTotal, VentureTemp.TaskReward taskReward)
+    public static Reward FromTaskReward(Item item, long total, VentureTemp.TaskReward taskReward)
     {
         return new Reward(
-            item.Name.ExtractText(),
             item.RowId,
             taskReward.Amount,
-            taskReward.Amount / (double)taskTotal,
+            taskReward.Amount / (double)total,
             taskReward.Total,
             taskReward.Min,
             taskReward.Max);
     }
     
-    public static Reward FromDutyLoot(Item item, long chestTotal, DutyLootTemp.ChestReward reward)
+    public static Reward FromDutyLoot(Item item, long total, DutyLootTemp.ChestReward reward)
     {
         return new Reward(
-            item.Name.ExtractText(),
             item.RowId,
             reward.Amount,
-            reward.Amount / (double)chestTotal,
+            reward.Amount / (double)total,
             reward.Total,
             reward.Min,
             reward.Max);
     }
     
-    public static Reward FromCofferReward(Item item, long chestTotal, CofferTemp.ChestReward reward)
+    public static Reward FromCofferReward(Item item, long total, CofferTemp.ChestReward reward)
     {
         return new Reward(
-            item.Name.ExtractText(),
             item.RowId,
             reward.Amount,
-            reward.Amount / (double)chestTotal,
+            reward.Amount / (double)total,
             reward.Total,
             reward.Min,
+            reward.Max);
+    }
+
+    public static Reward FromDesynthesisReward(uint itemId, long total, DesynthTemp.DesynthReward reward)
+    {
+        return new Reward(
+            itemId, 
+            reward.Amount, 
+            reward.Amount / (double)total, 
+            0, 
+            reward.Min, 
             reward.Max);
     }
 }

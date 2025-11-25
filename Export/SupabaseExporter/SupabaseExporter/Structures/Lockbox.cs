@@ -70,7 +70,7 @@ public class Lockbox : CofferBase
             var item = Sheets.ItemSheet.GetRow(itemId);
             rewards.Add(Reward.FromCofferReward(item, coffer.Total, chestReward));
 
-            IconHelper.AddItem(item);
+            MappingHelper.AddItem(itemId);
         }
 
         return new CofferData.CofferContent(coffer.Total, rewards);   

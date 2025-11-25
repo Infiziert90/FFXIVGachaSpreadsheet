@@ -2,7 +2,7 @@
     import { page } from '$app/state';
     import {replaceState} from "$app/navigation";
     import type {Coffer, Reward} from "$lib/interfaces";
-    import {IconPaths} from "$lib/data";
+    import {Mappings} from "$lib/data";
     import {onMount} from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
     import type {ColumnTemplate} from "$lib/table";
@@ -80,16 +80,18 @@
                 header: '',
                 sortable: false,
                 templateRenderer: (row) => {
-                    return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${IconPaths[row.Id]}_hr1.tex&format=png">`
+                    return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${Mappings[row.Id].Icon}_hr1.tex&format=png">`
                 },
                 classExtension: ['icon']
             },
             {
                 header: 'Name',
-                field: 'Name',
+                field: 'Id',
+                mappingSort: true,
                 templateRenderer: (row) => {
-                    const wikiName = row.Name.replace(/\s+/g, '_');
-                    return `<a href="https://ffxiv.consolegameswiki.com/wiki/${wikiName}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">${row.Name}</a>`
+                    const name = Mappings[row.Id].Name;
+                    const wikiName = name.replace(/\s+/g, '_');
+                    return `<a href="https://ffxiv.consolegameswiki.com/wiki/${wikiName}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">${name}</a>`
                 }
             },
             {header: 'Obtained', field: 'Amount', classExtension: ['number', 'text-center']},

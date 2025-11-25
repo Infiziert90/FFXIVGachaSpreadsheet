@@ -2,7 +2,7 @@
     import { page } from '$app/state';
     import {replaceState} from "$app/navigation";
     import type { DesynthBase, DesynthHistory, Reward } from "$lib/interfaces";
-    import { IconPaths } from "$lib/data";
+    import { Mappings } from "$lib/data";
     import {onMount, tick} from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
     import type { ColumnTemplate } from "$lib/table";
@@ -41,13 +41,13 @@
 
     onMount(() => {
         if (sourceParam > 0) {
-            sourceSearch = desynthBase.ToItem[sourceParam].Name;
+            sourceSearch = Mappings[sourceParam].Name;
             sourceInput(new InputEvent('input'))
             onButtonClick(sourceParam, desynthBase.Sources, 'Records', false)
         }
 
         if (rewardParam > 0) {
-            rewardSearch = desynthBase.ToItem[rewardParam].Name;
+            rewardSearch = Mappings[rewardParam].Name;
             rewardInput(new InputEvent('input'))
             onButtonClick(rewardParam, desynthBase.Rewards, 'Received', false)
         }
@@ -69,11 +69,11 @@
                 header: '',
                 sortable: false,
                 templateRenderer: (row) => {
-                    return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${IconPaths[row.Id]}_hr1.tex&format=png">`
+                    return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${Mappings[row.Id].Icon}_hr1.tex&format=png">`
                 },
                 classExtension: ['icon']
             },
-            {header: 'Name', field: 'Name', valueRenderer: (row) => desynthBase.ToItem[row.Id].Name}, // TODO Fix sorting for field not existing
+            {header: 'Name', field: 'Id', mappingSort: true, valueRenderer: (row) => Mappings[row.Id].Name}, // TODO Fix sorting for field not existing
             {header: 'Obtained', field: 'Amount', classExtension: ['number', 'text-center']},
             {
                 header: 'Min-Max',
@@ -91,7 +91,7 @@
         ];
 
         // Update stats
-        titleStats = `${desynthBase.ToItem[id].Name} Stats`;
+        titleStats = `${Mappings[id].Name} Stats`;
         totalStats = `${statsType}: ${loadedData.Records.toLocaleString()}`;
         selectedStats = ` `;
 
@@ -106,22 +106,21 @@
 
     function inputChecker(searchValue: string, usedData: Record<number, DesynthHistory>, statsType: string, outputElement: HTMLDivElement) {
         const first10 = [];
-        Object.keys(usedData).find(e => (desynthBase.ToItem[e].Name.toLowerCase().includes(searchValue.toLowerCase()) && first10.push(e), first10.length >= 10));
+        Object.keys(usedData).find(e => (Mappings[e].Name.toLowerCase().includes(searchValue.toLowerCase()) && first10.push(e), first10.length >= 10));
 
         outputElement.innerHTML = '';
         if (first10.length > 0) {
             for (let id of first10) {
-                let itemInfo = desynthBase.ToItem[id];
-                let name = itemInfo.Name;
+                let itemInfo = Mappings[id];
 
                 let iconImg = document.createElement('img');
                 iconImg.classList.add("icon-small");
                 iconImg.style = `width: 40px; height: 40px; float: left;`;
-                iconImg.src = `https://v2.xivapi.com/api/asset?path=ui/icon/${IconPaths[itemInfo.Id]}_hr1.tex&format=png`;
+                iconImg.src = `https://v2.xivapi.com/api/asset?path=ui/icon/${itemInfo.Icon}_hr1.tex&format=png`;
 
                 let nameSpan = document.createElement('span');
                 nameSpan.style = 'position: relative; top: 0.2rem;';
-                nameSpan.innerText = name;
+                nameSpan.innerText = itemInfo.Name;
 
                 let button = document.createElement('button');
                 button.id = id;
