@@ -1,7 +1,7 @@
 ﻿export interface Reward {
     Id: number;
     Amount: number;
-    Percentage: number;
+    Pct: number;
     Total: number;
     Min: number;
     Max: number;

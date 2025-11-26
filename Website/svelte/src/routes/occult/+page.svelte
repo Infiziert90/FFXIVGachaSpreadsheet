@@ -104,7 +104,7 @@
             },
             {
                 header: 'Chance',
-                field: 'Percentage',
+                field: 'Pct',
                 defaultSort: 'asc',
                 valueRenderer: (row) => `${(row.Percentage * 100).toFixed(2)}%`,
                 classExtension: ['percentage', 'text-end']
@@ -131,8 +131,6 @@
     function patchSelectionChanged(event: Event) {
         if (!event.currentTarget)
             return;
-
-        let element = (event.currentTarget as HTMLSelectElement);
 
         getSearchParams()
         openTab(territory, coffer, false)

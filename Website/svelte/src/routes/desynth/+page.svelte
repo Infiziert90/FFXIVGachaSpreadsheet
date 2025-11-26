@@ -1,9 +1,9 @@
 ﻿<script lang="ts">
     import { page } from '$app/state';
-    import {replaceState} from "$app/navigation";
+    import { replaceState } from "$app/navigation";
     import type { DesynthBase, DesynthHistory, Reward } from "$lib/interfaces";
     import { Mappings } from "$lib/data";
-    import {onMount, tick} from "svelte";
+    import { onMount } from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
     import type { ColumnTemplate } from "$lib/table";
     import { Accordion, AccordionItem } from "@sveltestrap/sveltestrap";
@@ -83,7 +83,7 @@
             },
             {
                 header: 'Chance',
-                field: 'Percentage',
+                field: 'Pct',
                 defaultSort: 'asc',
                 valueRenderer: (row) => `${(row.Percentage * 100).toFixed(2)}%`,
                 classExtension: ['percentage', 'text-end']
@@ -101,7 +101,9 @@
         });
 
         let button = document.getElementById(`${id}`);
-        button.classList.add("btn-success")
+        if (button) {
+            button.classList.add("btn-success")
+        }
     }
 
     function inputChecker(searchValue: string, usedData: Record<number, DesynthHistory>, statsType: string, outputElement: HTMLDivElement) {

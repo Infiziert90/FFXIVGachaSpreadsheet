@@ -5,7 +5,7 @@ import {error} from "@sveltejs/kit";
 
 // @ts-ignore
 export const load: PageLoad = async ({ parent, fetch }) => {
-    await parent();
+    let mappingPromise = parent();
 
     try {
         const res = await fetch(`/data/Occult.json`)
@@ -18,6 +18,7 @@ export const load: PageLoad = async ({ parent, fetch }) => {
             throw error(500, {message: 'Failed to load occult data set.'});
         }
 
+        await mappingPromise;
         return {content: res};
     } catch (err) {
         console.error('Error loading occult data:', err);
