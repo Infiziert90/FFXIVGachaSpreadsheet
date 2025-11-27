@@ -2,7 +2,7 @@
     import { page } from '$app/state';
     import { replaceState } from "$app/navigation";
     import type { DesynthBase, DesynthHistory, Reward } from "$lib/interfaces";
-    import { IconPaths } from "$lib/data";
+    import { Mappings } from "$lib/data";
     import { onMount } from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
     import type { ColumnTemplate } from "$lib/table";
@@ -82,7 +82,7 @@
                 header: '',
                 sortable: false,
                 templateRenderer: (row: Reward) => {
-                    return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${IconPaths[row.Id]}_hr1.tex&format=png">`
+                    return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${Mappings[row.Id].Icon}_hr1.tex&format=png">`
                 },
                 classExtension: ['icon']
             },
@@ -96,9 +96,9 @@
             },
             {
                 header: 'Chance',
-                field: 'Percentage',
+                field: 'Pct',
                 defaultSort: 'asc',
-                valueRenderer: (row: Reward) => `${(row.Percentage * 100).toFixed(2)}%`,
+                valueRenderer: (row: Reward) => `${(row.Pct * 100).toFixed(2)}%`,
                 classExtension: ['percentage', 'text-end']
             },
         ];

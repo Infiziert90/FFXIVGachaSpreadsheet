@@ -5,10 +5,10 @@ import { error } from "@sveltejs/kit";
 
 // @ts-ignore
 export const load: PageLoad = async ({ parent, fetch }) => {
-    await parent();
+    let mappingPromise = parent();
 
     try {
-        const res = await fetch(`/data/DesynthesisData.json`)
+        const res = await fetch(`/data/Desynthesis.json`)
             .then(responseHandler)
             .then((data: DesynthBase) => {
                 return data;
@@ -18,6 +18,7 @@ export const load: PageLoad = async ({ parent, fetch }) => {
             throw error(500, { message: 'Failed to load desynthesis data set.' });
         }
 
+        await mappingPromise;
         return { content: res };
     } catch (err) {
         console.error('Error loading desynthesis data:', err);

@@ -7,6 +7,7 @@ export interface ColumnTemplate {
 
     sortable?: boolean;
     defaultSort?: string;
+    mappingSort?: boolean;
 
     templateRenderer?: Function;
     valueRenderer?: Function;

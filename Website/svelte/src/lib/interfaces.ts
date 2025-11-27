@@ -1,8 +1,7 @@
 ﻿export interface Reward {
-    Name: string;
     Id: number;
     Amount: number;
-    Percentage: number;
+    Pct: number;
     Total: number;
     Min: number;
     Max: number;
@@ -10,14 +9,14 @@
 
 export interface Coffer {
     Name: string;
-    Territory: number;
+    TerritoryId: number;
 
-    Coffers: CofferVariant[];
+    Variants: CofferVariant[];
 }
 
 interface CofferVariant {
-    CofferId: number;
-    CofferName: string;
+    Id: number;
+    Name: string;
 
     Patches: { [key: string]: CofferContent };
 }
@@ -31,17 +30,9 @@ export interface DesynthBase {
     Sources: Record<number, DesynthHistory>;
     Rewards: Record<number, DesynthHistory>;
 
-    // TODO: Replace with mapping later
-    ToItem: Record<number, ItemInfo>;
-
 }
 
 export interface DesynthHistory {
     Records: number;
     Rewards: Reward[]
-}
-
-interface ItemInfo {
-    Id: number;
-    Name: string;
 }
