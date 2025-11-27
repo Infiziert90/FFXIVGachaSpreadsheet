@@ -4,7 +4,7 @@ using CsvHelper.Configuration.Attributes;
 namespace SupabaseExporter.Models;
 
 [Table("Gacha")]
-public class RandomCofferModel : IBaseModel
+public class RandomCofferModel : BaseModel
 {
     [Name("id")]
     [Column("id")]

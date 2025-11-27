@@ -4,7 +4,7 @@ using CsvHelper.Configuration.Attributes;
 namespace SupabaseExporter.Models;
 
 [Table("Ventures")]
-public class VentureModel : IBaseModel
+public class VentureModel : BaseModel
 {
     [Ignore]
     [Column("id")]

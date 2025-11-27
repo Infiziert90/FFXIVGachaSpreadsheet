@@ -3,7 +3,7 @@
 namespace SupabaseExporter.Models;
 
 [Table("Loot")]
-public class SubmarineLootModel : IBaseModel
+public class SubmarineLootModel : BaseModel
 {
     [Column("id")]
     public uint Id { get; set; }

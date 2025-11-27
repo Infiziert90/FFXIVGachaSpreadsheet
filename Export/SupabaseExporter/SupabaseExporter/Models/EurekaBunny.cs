@@ -5,7 +5,7 @@ using CsvHelper.Configuration.Attributes;
 namespace SupabaseExporter.Models;
 
 [Table("Bnuuy")]
-public class EurekaBunnyModel : IBaseModel
+public class EurekaBunnyModel : BaseModel
 {
     [Column("id")]
     [Ignore]

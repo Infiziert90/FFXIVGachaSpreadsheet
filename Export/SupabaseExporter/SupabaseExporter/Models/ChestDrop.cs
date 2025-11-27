@@ -4,7 +4,7 @@ using CsvHelper.Configuration.Attributes;
 namespace SupabaseExporter.Models;
 
 [Table("DutyLootV2")]
-public class ChestDropModel : IBaseModel
+public class ChestDropModel : BaseModel
 {
     [Name("id")] 
     [Column("id")]

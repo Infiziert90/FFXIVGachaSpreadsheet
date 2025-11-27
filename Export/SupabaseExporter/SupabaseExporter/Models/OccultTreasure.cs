@@ -4,7 +4,7 @@ using CsvHelper.Configuration.Attributes;
 namespace SupabaseExporter.Models;
 
 [Table("OccultTreasure")]
-public class OccultTreasureModel : IBaseModel
+public class OccultTreasureModel : BaseModel
 {
     [Name("id")]
     [Column("id")]

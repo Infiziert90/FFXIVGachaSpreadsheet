@@ -4,7 +4,7 @@ using CsvHelper.Configuration.Attributes;
 namespace SupabaseExporter.Models;
 
 [Table("Desynthesis")]
-public class DesynthesisModel : IBaseModel
+public class DesynthesisModel : BaseModel
 {
     [Name("id")]
     [Column("id")]

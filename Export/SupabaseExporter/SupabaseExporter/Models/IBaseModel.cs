@@ -3,7 +3,7 @@ using CsvHelper.Configuration.Attributes;
 
 namespace SupabaseExporter.Models;
 
-public abstract class IBaseModel
+public abstract class BaseModel
 {
     [Name("version")]
     [Column("version")]
