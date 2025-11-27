@@ -14,18 +14,18 @@
 
 <Accordion theme="dark" class="w-100">
     {#each cofferData as coffer}
-        <AccordionItem active={coffer.Territory === territory}>
+        <AccordionItem active={coffer.TerritoryId === territory}>
             <div slot="header">{coffer.Name}</div>
             <div class="accordion-body">
-                {#each coffer.Coffers as cofferVariant}
+                {#each coffer.Variants as cofferVariant}
                     <div class="tab">
                         <button 
-                            id="{coffer.Territory}{cofferVariant.CofferId}-tab"
+                            id="{coffer.TerritoryId}{cofferVariant.Id}-tab"
                             class="tablinks btn accordion-body-btn"
-                            onclick={() => openTab(coffer.Territory, cofferVariant.CofferId, true)}
-                            bind:this={tabElements[`${coffer.Territory}${cofferVariant.CofferId}`]}
+                            onclick={() => openTab(coffer.TerritoryId, cofferVariant.Id, true)}
+                            bind:this={tabElements[`${coffer.TerritoryId}${cofferVariant.Id}`]}
                         >
-                            {cofferVariant.CofferName}
+                            {cofferVariant.Name}
                         </button>
                     </div>
                 {/each}

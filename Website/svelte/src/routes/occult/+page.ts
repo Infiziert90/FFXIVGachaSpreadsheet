@@ -8,7 +8,7 @@ export const load: PageLoad = async ({ parent, fetch }) => {
     let mappingPromise = parent();
 
     try {
-        const res = await fetch(`/data/Occult.json`)
+        const res = await fetch(`/data/OccultTreasures.json`)
             .then(responseHandler)
             .then((data: Coffer[]) => {
                 return data;

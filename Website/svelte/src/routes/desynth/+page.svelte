@@ -85,7 +85,7 @@
                 header: 'Chance',
                 field: 'Pct',
                 defaultSort: 'asc',
-                valueRenderer: (row) => `${(row.Percentage * 100).toFixed(2)}%`,
+                valueRenderer: (row) => `${(row.Pct * 100).toFixed(2)}%`,
                 classExtension: ['percentage', 'text-end']
             },
         ];

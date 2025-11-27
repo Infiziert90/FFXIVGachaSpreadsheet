@@ -2,20 +2,23 @@
 using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.EntityFrameworkCore;
-using SupabaseExporter.Structures;
+using SupabaseExporter.Processing.ChestDrops;
+using SupabaseExporter.Processing.Coffers;
+using SupabaseExporter.Processing.Desynthesis;
+using SupabaseExporter.Processing.Ventures;
 
 namespace SupabaseExporter;
 
 public class DatabaseContext : DbContext
 {
-    public DbSet<Models.Loot> Loot { get; set; }
-    public DbSet<Models.Gacha> Gacha { get; set; }
-    public DbSet<Models.Bnuuy> Bunny { get; set; }
-    public DbSet<Models.Venture> Ventures { get; set; }
-    public DbSet<Models.DutyLoot> DutyLoot { get; set; }
-    public DbSet<Models.Desynthesis> Desynthesis { get; set; }
-    public DbSet<Models.OccultBunny> OccultBunny { get; set; }
-    public DbSet<Models.OccultTreasure> OccultTreasures { get; set; }
+    public DbSet<Models.SubmarineLootModel> SubmarineLoot { get; set; }
+    public DbSet<Models.RandomCofferModel> RandomCoffers { get; set; }
+    public DbSet<Models.EurekaBunnyModel> EurekaBunnies { get; set; }
+    public DbSet<Models.VentureModel> Ventures { get; set; }
+    public DbSet<Models.ChestDropModel> ChestDrops { get; set; }
+    public DbSet<Models.DesynthesisModel> Desynthesis { get; set; }
+    public DbSet<Models.OccultBunnyModel> OccultBunny { get; set; }
+    public DbSet<Models.OccultTreasureModel> OccultTreasures { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -31,16 +34,16 @@ public static class EntryPoint
         var exporter = new Exporter();
 
         await using var context = new DatabaseContext();
-        // await exporter.ExportSubmarineData(context);
+        await exporter.ExportSubmarineData(context);
         
         var gachaResult = await exporter.LoadGachaData(context);
         if (gachaResult.Success)
         {
-            var randomProcessor = new RandomCoffer();
-            var deepDungeonProcessor = new DeepDungeonSack();
-            var lockboxProcessor = new Lockbox();
-            var cardProcessor = new Cards();
-            var logoFragProcessor = new LogogramFragment();
+            var randomProcessor = new RandomCoffers();
+            var deepDungeonProcessor = new DeepDungeonSacks();
+            var lockboxProcessor = new FieldOpLockboxes();
+            var cardProcessor = new TripleTriadPacks();
+            var logoFragProcessor = new FieldOpContainers();
             
             randomProcessor.ProcessAllData(gachaResult.Data);
             deepDungeonProcessor.ProcessAllData(gachaResult.Data);
@@ -52,8 +55,6 @@ public static class EntryPoint
         var ventureResult = await exporter.LoadVentureData(context);
         if (ventureResult.Success)
         {
-            PrintOutput.PrintVentureStats(ventureResult.Data);
-            
             var ventureProcessor = new Ventures();
             ventureProcessor.ProcessAllData(ventureResult.Data);
         }
@@ -61,7 +62,7 @@ public static class EntryPoint
         var bunnyResult = await exporter.LoadBunnyData(context);
         if (bunnyResult.Success)
         {
-            var bunnyProcessor = new Bunnies();
+            var bunnyProcessor = new EurekaBunnies();
             bunnyProcessor.ProcessAllData(bunnyResult.Data);
         }
         
@@ -75,7 +76,7 @@ public static class EntryPoint
         var dutyLootResult = await exporter.LoadDutyLootData(context);
         if (dutyLootResult.Success)
         {
-            var dutyLootProcessor = new DutyLoot();
+            var dutyLootProcessor = new ChestDrops();
             dutyLootProcessor.ProcessAllData(dutyLootResult.Data);
         }
         
@@ -83,7 +84,7 @@ public static class EntryPoint
         var occultBunnyResult = await exporter.LoadOccultBunnyData(context);
         if (occultTreasureResult.Success && occultBunnyResult.Success)
         {
-            var occultTreasureProcessor = new Occult();
+            var occultTreasureProcessor = new OccultTreasures();
             occultTreasureProcessor.ProcessAllData(occultTreasureResult.Data, occultBunnyResult.Data);
         }
         
@@ -101,7 +102,7 @@ public class Exporter
     public async Task ExportSubmarineData(DatabaseContext context)
     {
         Logger.Information("Exporting submarine data");
-        var result = await context.Loot.Where(l => l.Version != "0").OrderBy(l => l.Id).ToListAsync();
+        var result = await context.SubmarineLoot.Where(l => l.Version != "0").OrderBy(l => l.Id).ToListAsync();
 
         Logger.Information($"Rows found {result.Count:N0}");
         if (result.Count == 0)
@@ -114,19 +115,19 @@ public class Exporter
 
         await WriteCsv(lastId, result);
 
-        await context.Loot.Where(l => l.Id < result.Last().Id).ExecuteDeleteAsync();
+        await context.SubmarineLoot.Where(l => l.Id < result.Last().Id).ExecuteDeleteAsync();
         await context.Database.ExecuteSqlAsync($"vacuum full;");
 
         Logger.Information("Done exporting submarine data...");
     }
 
-    public async Task<(bool Success, List<Models.Gacha> Data)> LoadGachaData(DatabaseContext context)
+    public async Task<(bool Success, List<Models.RandomCofferModel> Data)> LoadGachaData(DatabaseContext context)
     {
         Logger.Information("Loading gacha data");
-        var previous = ReadCsv<Models.Gacha>("LocalCache/Gacha");
+        var previous = ReadCsv<Models.RandomCofferModel>("LocalCache/Gacha");
         Logger.Information($"Old records {previous.Length:N0}");
         
-        var result = await context.Gacha.OrderBy(l => l.Id).ToListAsync();
+        var result = await context.RandomCoffers.OrderBy(l => l.Id).ToListAsync();
         if (result.Count == 0)
             Logger.Warning("No new records found");
         else
@@ -139,10 +140,10 @@ public class Exporter
         return (true, result);
     }
 
-    public async Task<(bool Success, List<Models.Venture> Data)> LoadVentureData(DatabaseContext context)
+    public async Task<(bool Success, List<Models.VentureModel> Data)> LoadVentureData(DatabaseContext context)
     {
         Logger.Information("Loading venture data");
-        var previous = ReadCsv<Models.Venture>("LocalCache/Ventures");
+        var previous = ReadCsv<Models.VentureModel>("LocalCache/Ventures");
         Logger.Information($"Old records {previous.Length:N0}");
         
         var result = await context.Ventures.OrderBy(l => l.Id).ToListAsync();
@@ -158,13 +159,13 @@ public class Exporter
         return (true, result);
     }
 
-    public async Task<(bool Success, List<Models.Bnuuy> Data)> LoadBunnyData(DatabaseContext context)
+    public async Task<(bool Success, List<Models.EurekaBunnyModel> Data)> LoadBunnyData(DatabaseContext context)
     {
         Logger.Information("Loading bunny data");
-        var previous = ReadCsv<Models.Bnuuy>("LocalCache/Bnuuy");
+        var previous = ReadCsv<Models.EurekaBunnyModel>("LocalCache/Bnuuy");
         Logger.Information($"Old records {previous.Length:N0}");
         
-        var result = await context.Bunny.OrderBy(l => l.Id).ToListAsync();
+        var result = await context.EurekaBunnies.OrderBy(l => l.Id).ToListAsync();
         if (result.Count == 0)
             Logger.Warning("No new records found");
         else
@@ -177,10 +178,10 @@ public class Exporter
         return (true, result);
     }
 
-    public async Task<(bool Success, List<Models.Desynthesis> Data)> LoadDesynthData(DatabaseContext context)
+    public async Task<(bool Success, List<Models.DesynthesisModel> Data)> LoadDesynthData(DatabaseContext context)
     {
         Logger.Information("Loading desynth data");
-        var previous = ReadCsv<Models.Desynthesis>("LocalCache/Desynthesis");
+        var previous = ReadCsv<Models.DesynthesisModel>("LocalCache/Desynthesis");
         Logger.Information($"Old records {previous.Length:N0}");
         
         var result = await context.Desynthesis.OrderBy(l => l.Id).ToListAsync();
@@ -196,13 +197,13 @@ public class Exporter
         return (true, result);
     }
     
-    public async Task<(bool Success, List<Models.DutyLoot> Data)> LoadDutyLootData(DatabaseContext context)
+    public async Task<(bool Success, List<Models.ChestDropModel> Data)> LoadDutyLootData(DatabaseContext context)
     {
         Logger.Information("Loading duty loot data");
-        var previous = ReadCsv<Models.DutyLoot>("LocalCache/DutyLoot");
+        var previous = ReadCsv<Models.ChestDropModel>("LocalCache/DutyLoot");
         Logger.Information($"Old records {previous.Length:N0}");
         
-        var result = await context.DutyLoot.OrderBy(l => l.Id).ToListAsync();
+        var result = await context.ChestDrops.OrderBy(l => l.Id).ToListAsync();
         if (result.Count == 0)
             Logger.Warning("No new records found");
         else
@@ -215,10 +216,10 @@ public class Exporter
         return (true, result);
     }
     
-    public async Task<(bool Success, List<Models.OccultTreasure> Data)> LoadOccultTreasureData(DatabaseContext context)
+    public async Task<(bool Success, List<Models.OccultTreasureModel> Data)> LoadOccultTreasureData(DatabaseContext context)
     {
         Logger.Information("Loading occult treasure data");
-        var previous = ReadCsv<Models.OccultTreasure>("LocalCache/OccultTreasure");
+        var previous = ReadCsv<Models.OccultTreasureModel>("LocalCache/OccultTreasure");
         Logger.Information($"Old records {previous.Length:N0}");
         
         var result = await context.OccultTreasures.OrderBy(l => l.Id).ToListAsync();
@@ -234,10 +235,10 @@ public class Exporter
         return (true, result);
     }
     
-    public async Task<(bool Success, List<Models.OccultBunny> Data)> LoadOccultBunnyData(DatabaseContext context)
+    public async Task<(bool Success, List<Models.OccultBunnyModel> Data)> LoadOccultBunnyData(DatabaseContext context)
     {
         Logger.Information("Loading occult bunny data");
-        var previous = ReadCsv<Models.OccultBunny>("LocalCache/OccultBunny");
+        var previous = ReadCsv<Models.OccultBunnyModel>("LocalCache/OccultBunny");
         Logger.Information($"Old records {previous.Length:N0}");
         
         var result = await context.OccultBunny.OrderBy(l => l.Id).ToListAsync();

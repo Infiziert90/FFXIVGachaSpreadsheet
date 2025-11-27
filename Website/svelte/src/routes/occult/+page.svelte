@@ -31,13 +31,13 @@
     let totalStats = $state('');
     let selectedStats = $state('');
 
-    for (const patch of Object.keys(cofferData[0].Coffers[0].Patches)) {
+    for (const patch of Object.keys(cofferData[0].Variants[0].Patches)) {
         patches.push(patch)
     }
 
     // add defaults if things aren't set correctly
-    let territory = $state(cofferData[0].Territory);
-    let coffer = $state(cofferData[0].Coffers[0].CofferId);
+    let territory = $state(cofferData[0].TerritoryId);
+    let coffer = $state(cofferData[0].Variants[0].Id);
     getSearchParams();
 
     onMount(() => {
@@ -64,10 +64,10 @@
             tabElements[`${territory}${coffer}`].classList.add('active');
         }
 
-        let variantData = cofferData.find((e) => e.Territory === territory);
+        let variantData = cofferData.find((e) => e.TerritoryId === territory);
         if (!variantData) return;
 
-        let loadedCoffer = variantData.Coffers.find((e) => e.CofferId === coffer)
+        let loadedCoffer = variantData.Variants.find((e) => e.Id === coffer)
         if (!loadedCoffer) return;
 
         let requestedPatch = patches[selectedPatch];
@@ -94,8 +94,16 @@
                     return `<a href="https://ffxiv.consolegameswiki.com/wiki/${wikiName}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">${name}</a>`
                 }
             },
-            {header: 'Obtained', field: 'Amount', classExtension: ['number', 'text-center']},
-            {header: 'Total', field: 'Total', classExtension: ['number', 'text-center']},
+            {
+                header: 'Obtained',
+                field: 'Amount',
+                classExtension: ['number', 'text-center']
+            },
+            {
+                header: 'Total',
+                field: 'Total',
+                classExtension: ['number', 'text-center']
+            },
             {
                 header: 'Min-Max',
                 field: 'Min',
@@ -106,7 +114,7 @@
                 header: 'Chance',
                 field: 'Pct',
                 defaultSort: 'asc',
-                valueRenderer: (row) => `${(row.Percentage * 100).toFixed(2)}%`,
+                valueRenderer: (row) => `${(row.Pct * 100).toFixed(2)}%`,
                 classExtension: ['percentage', 'text-end']
             },
         ];
@@ -115,9 +123,9 @@
         titleStats = `${variantData.Name} Stats`;
 
         let total = 0;
-        variantData.Coffers.forEach(coffer => {total += coffer.Patches[requestedPatch].Total})
+        variantData.Variants.forEach(coffer => {total += coffer.Patches[requestedPatch].Total})
         totalStats = `Total: ${total.toLocaleString()}`;
-        selectedStats = `${loadedCoffer.CofferName}: ${patchData.Total.toLocaleString()}`;
+        selectedStats = `${loadedCoffer.Name}: ${patchData.Total.toLocaleString()}`;
 
         patches.length = 0;
         for (const key of Object.keys(loadedCoffer.Patches)) {

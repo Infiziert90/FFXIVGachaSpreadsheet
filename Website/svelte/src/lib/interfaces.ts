@@ -9,14 +9,14 @@
 
 export interface Coffer {
     Name: string;
-    Territory: number;
+    TerritoryId: number;
 
-    Coffers: CofferVariant[];
+    Variants: CofferVariant[];
 }
 
 interface CofferVariant {
-    CofferId: number;
-    CofferName: string;
+    Id: number;
+    Name: string;
 
     Patches: { [key: string]: CofferContent };
 }

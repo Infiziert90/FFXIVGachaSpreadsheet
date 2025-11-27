@@ -43,11 +43,6 @@ public enum DeepDungeon : uint
     Pt = 4,
 }
 
-public enum Coffer : uint
-{
-    Any = 1,
-}
-
 public enum LockboxTypes : uint
 {
     // Eureka
@@ -74,11 +69,6 @@ public enum LogoFrag : uint
 {
     Logogram = 1,
     Fragment = 2,
-}
-
-public enum TripleTriad : uint
-{
-    Any = 1,
 }
 
 
@@ -119,24 +109,6 @@ public static class EnumExtensions
             DeepDungeon.HoH => "Heaven-on-High",
             DeepDungeon.Eo => "Eureka Orthos",
             DeepDungeon.Pt => "Pilgrim's Traverse",
-            _ => "Unknown"
-        };
-    }
-
-    public static string ToName(this Coffer coffer)
-    {
-        return coffer switch
-        {
-            Coffer.Any => "Coffer",
-            _ => "Unknown"
-        };
-    }
-    
-    public static string ToName(this TripleTriad card)
-    {
-        return card switch
-        {
-            TripleTriad.Any => "Card Packs",
             _ => "Unknown"
         };
     }

@@ -19,7 +19,7 @@ public static class MappingHelper
     public static void CreateIconPaths()
     {
         var mappings = new Dictionary<uint, Mappings>();
-        foreach (var itemId in ItemSet)
+        foreach (var itemId in ItemSet.Order())
         {
             var item = Sheets.ItemSheet.GetRow(itemId);
             mappings[itemId] = new Mappings(item.Name.ToString(), Utils.GetIconPath(Utils.CheckItemAction(item)));

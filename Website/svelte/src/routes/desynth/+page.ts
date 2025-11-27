@@ -8,7 +8,7 @@ export const load: PageLoad = async ({ parent, fetch }) => {
     let mappingPromise = parent();
 
     try {
-        const res = await fetch(`/data/DesynthesisData.json`)
+        const res = await fetch(`/data/Desynthesis.json`)
             .then(responseHandler)
             .then((data: DesynthBase) => {
                 return data;
