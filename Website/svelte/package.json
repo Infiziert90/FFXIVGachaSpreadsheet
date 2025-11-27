@@ -20,5 +20,9 @@
 		"svelte-check": "^4.3.4",
 		"typescript": "^5.9.3",
 		"vite": "^7.2.2"
+	},
+	"dependencies": {
+		"bootstrap": "^5.3.8",
+		"bootstrap-icons": "^1.13.1"
 	}
 }

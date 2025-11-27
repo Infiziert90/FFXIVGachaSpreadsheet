@@ -83,6 +83,7 @@ td.percentage {
 td.icon img {
     border-radius: var(--bs-border-radius);
     background: radial-gradient(circle, #7b7d6b 15%, #424542 100%);
+    object-fit: contain;
 }
 
 
@@ -106,11 +107,9 @@ td.icon img {
 }
 
 .accordion-body-btn.active::after {
-    /* check icon using font awesome */
-    font-family: 'Font Awesome 5 Free';
-    content: '\f00c';
-    font-weight: 900;
-
+    font-family: 'bootstrap-icons';
+    content: "\f633"; /* bi-check-lg */
+    font-size: 1.25em;
     margin-inline-end: 0.5rem;
     position: absolute;
     right: 0;
