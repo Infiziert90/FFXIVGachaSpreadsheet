@@ -7,6 +7,7 @@
     import DropsTable from "../../component/DropsTable.svelte";
     import type { ColumnTemplate } from "$lib/table";
     import DesynthSearchbar from "../../component/DesynthSearchbar.svelte";
+    import { Icon } from '@sveltestrap/sveltestrap';
 
     interface Props {
         content: DesynthBase;
@@ -120,7 +121,7 @@
 </script>
 
 <button class="btn btn-primary btn-lg rounded-xl d-lg-none position-fixed bottom-0 end-0 m-3 w-auto z-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter" aria-label="Open filter menu">
-    <i class="fas fa-filter"></i>
+    <Icon name="funnel-fill" />
 </button>
 
 <div class="col-12 col-lg-3 order-0 order-lg-1 sticky-left-col">
