@@ -7,6 +7,7 @@
     import DropsTable from "../../component/DropsTable.svelte";
     import type {ColumnTemplate} from "$lib/table";
     import CofferAccordion from "../../component/CofferAccordion.svelte";
+    import { Icon } from '@sveltestrap/sveltestrap';
 
     interface Props {
         content: Coffer[];
@@ -35,43 +36,59 @@
         patches.push(patch)
     }
 
-    // add defaults if things aren't set correctly
+    // Initialize with default values (first territory and first coffer variant)
     let territory = $state(cofferData[0].TerritoryId);
     let coffer = $state(cofferData[0].Variants[0].Id);
+    
+    // Override defaults with URL parameters if they exist
     getSearchParams();
 
+    // When page loads, open the tab for the current territory/coffer
     onMount(() => {
         openTab(territory, coffer, false)
     })
 
+    /**
+     * Opens a tab and displays its data
+     * @param territory - The territory ID to display
+     * @param coffer - The coffer variant ID to display
+     * @param addQuery - If true, update the URL with these parameters
+     */
     function openTab(territory: number, coffer: number, addQuery: boolean = false) {
-        if (addQuery)
-        {
+        // Update URL if requested (when user clicks a button)
+        if (addQuery) {
             page.url.searchParams.set('territory', territory.toString());
             page.url.searchParams.set('coffer', coffer.toString());
-
             replaceState(page.url, page.state);
         }
 
-        // Iterate all tab elements and remove the class "active"
+        // Remove active class from all buttons
+        // The accordion component will add it back to the correct button
         for (const element of Object.values(tabElements)) {
-            element.classList.remove('active');
+            element?.classList.remove('active');
         }
 
-        // Show the current tab, and add an "active" class to the link that opened the tab
+        // Show the tab content area
         tabContentElement.style.display = "block";
-        if (tabElements[`${territory}${coffer}`]) {
-            tabElements[`${territory}${coffer}`].classList.add('active');
+        
+        // Mark the clicked button as active (if it exists)
+        // Note: The accordion component also handles this, but we do it here too for immediate feedback
+        const buttonKey = `${territory}${coffer}`;
+        if (tabElements[buttonKey]) {
+            tabElements[buttonKey].classList.add('active');
         }
 
-        let variantData = cofferData.find((e) => e.TerritoryId === territory);
+        // Find the coffer data for the selected territory
+        const variantData = cofferData.find((e) => e.TerritoryId === territory);
         if (!variantData) return;
 
-        let loadedCoffer = variantData.Variants.find((e) => e.Id === coffer)
+        // Find the specific coffer variant
+        const loadedCoffer = variantData.Variants.find((e) => e.Id === coffer);
         if (!loadedCoffer) return;
 
-        let requestedPatch = patches[selectedPatch];
-        let patchData = loadedCoffer.Patches[requestedPatch];
+        // Get the patch data for the selected patch
+        const requestedPatch = patches[selectedPatch];
+        const patchData = loadedCoffer.Patches[requestedPatch];
 
         // Update table data
         tableItems = patchData.Items;
@@ -114,31 +131,41 @@
             },
         ];
 
-        // Update stats
+        // Update stats display
         titleStats = `${variantData.Name} Stats`;
 
+        // Calculate total across all variants in this territory
         let total = 0;
-        variantData.Variants.forEach(coffer => {total += coffer.Patches[requestedPatch].Total})
+        variantData.Variants.forEach(coffer => {
+            total += coffer.Patches[requestedPatch].Total;
+        });
         totalStats = `Total: ${total.toLocaleString()}`;
         selectedStats = `${loadedCoffer.Name}: ${patchData.Total.toLocaleString()}`;
 
+        // Update available patches list for the selected coffer
         patches.length = 0;
         for (const key of Object.keys(loadedCoffer.Patches)) {
-            patches.push(key)
+            patches.push(key);
         }
 
         // Scroll to the top of the page
         window.scrollTo(0, 0);
     }
 
+    /**
+     * Called when user changes the patch selection dropdown
+     */
     function patchSelectionChanged(event: Event) {
-        if (!event.currentTarget)
-            return;
+        if (!event.currentTarget) return;
 
-        getSearchParams()
-        openTab(territory, coffer, false)
+        // Reload the current tab with the new patch selection
+        getSearchParams();
+        openTab(territory, coffer, false);
     }
 
+    /**
+     * Reads territory and coffer from URL parameters
+     */
     function getSearchParams() {
         if (page.url.searchParams.has('territory') && page.url.searchParams.has('coffer')) {
             territory = parseInt(page.url.searchParams.get('territory')!);
@@ -148,7 +175,7 @@
 </script>
 
 <button class="btn btn-primary btn-lg rounded-xl d-lg-none position-fixed bottom-0 end-0 m-3 w-auto z-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
-    <i class="fas fa-filter"></i>
+    <Icon name="funnel-fill" />
 </button>
 
 <div class="col-12 col-lg-3 order-0 order-lg-1 sticky-left-col">
@@ -160,7 +187,8 @@
         <div class="offcanvas-body">
             <CofferAccordion
                 {cofferData} 
-                {territory} 
+                {territory}
+                {coffer}
                 {openTab} 
                 {tabElements} 
             />

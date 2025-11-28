@@ -1,11 +1,13 @@
 <script lang="ts">
+    import 'bootstrap/dist/css/bootstrap.min.css';
+    import 'bootstrap-icons/font/bootstrap-icons.css';
 	import '../app.css';
-    import { Container, Styles } from '@sveltestrap/sveltestrap';
+    import { Container } from '@sveltestrap/sveltestrap';
 	import favicon from '$lib/assets/favicon.svg';
-    import {title, description} from "$lib/title.svelte"
+    import { title, description } from "$lib/title.svelte"
     import Footer from "../component/Footer.svelte";
     import { page } from '$app/state';
-  import SiteNav from '../component/SiteNav.svelte';
+    import SiteNav from '../component/SiteNav.svelte';
 
 	let { children } = $props();
 </script>
@@ -16,9 +18,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="/css/fontawesome/all.css">
-    <Styles />
-    <link rel="stylesheet" href="/css/main.css">
     <title>{$title}</title>
 
     <meta property="og:url" content="{page.url.href}">

@@ -75,23 +75,40 @@
         
     // Depending on the screen size, the menu is open or closed
     // This is a hack to make the menu open on large screens by default, and close on small screens
-    let isOpen = false;
-    if (window && window.innerWidth > 992) {
+    let isOpen = $state(false);
+    if (typeof window !== 'undefined' && window.innerWidth > 992) {
         isOpen = true;
-    } else {
-        isOpen = false;
     }
     const toggle = () => (isOpen = !isOpen);
 
-    // Read the theme from the local storage
-    try {
-        const theme = localStorage.getItem('theme');
-        if (theme) {
-            colorMode.set(theme as 'light' | 'dark' | 'auto');
+    // Initialize theme from localStorage using Sveltestrap's colorMode
+    // Sveltestrap's colorMode store handles DOM updates automatically
+    if (typeof window !== 'undefined') {
+        try {
+            const storedTheme = localStorage.getItem('theme');
+            if (storedTheme && (storedTheme === 'light' || storedTheme === 'dark' || storedTheme === 'auto')) {
+                colorMode.set(storedTheme as 'light' | 'dark' | 'auto');
+            }
+        } catch (error) {
+            console.error('Error reading theme from local storage:', error);
         }
-    } catch (error) {
-        console.error('Error reading theme from local storage:', error);
     }
+    
+    // Sync colorMode changes to localStorage
+    // Sveltestrap's Styles component handles DOM theme updates via data-bs-theme attribute
+    $effect(() => {
+        if (typeof window === 'undefined') {
+            return;
+        }
+        
+        const theme = $colorMode;
+        
+        try {
+            localStorage.setItem('theme', theme);
+        } catch (error) {
+            console.error('Error saving theme to local storage:', error);
+        }
+    });
 </script>
 
 <Navbar color="dark" dark theme="dark" expand="md" class="border-bottom border-body-tertiary" sticky="top">

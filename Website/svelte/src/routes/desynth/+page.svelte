@@ -6,7 +6,8 @@
     import { onMount } from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
     import type { ColumnTemplate } from "$lib/table";
-    import { Accordion, AccordionItem } from "@sveltestrap/sveltestrap";
+    import DesynthSearchbar from "../../component/DesynthSearchbar.svelte";
+    import { Icon } from '@sveltestrap/sveltestrap';
 
     interface Props {
         content: DesynthBase;
@@ -14,8 +15,7 @@
 
     // html elements
     let tabContentElement: HTMLDivElement = $state(<HTMLDivElement>(document.createElement('div')));
-    let sourceSearchResultElement: HTMLDivElement = $state(<HTMLDivElement>(document.createElement('div')));
-    let rewardSearchResultElement: HTMLDivElement = $state(<HTMLDivElement>(document.createElement('div')));
+    let tabElements: { [key: string]: HTMLButtonElement } = $state({});
 
     let { data }: Props = $props();
 
@@ -30,9 +30,9 @@
     let totalStats = $state('');
     let selectedStats = $state('');
 
-    // Inputs
-    let sourceSearch = $state('');
-    let rewardSearch = $state('');
+    // Selected item tracking
+    let selectedId = $state(0);
+    let selectedStatsType = $state('');
 
     // add defaults if things aren't set correctly
     let sourceParam = $state(0);
@@ -41,103 +41,11 @@
 
     onMount(() => {
         if (sourceParam > 0) {
-            sourceSearch = Mappings[sourceParam].Name;
-            sourceInput(new InputEvent('input'))
-            onButtonClick(sourceParam, desynthBase.Sources, 'Records', false)
+            onButtonClick(sourceParam, desynthBase.Sources, 'Desynths', false);
+        } else if (rewardParam > 0) {
+            onButtonClick(rewardParam, desynthBase.Rewards, 'Received', false);
         }
-
-        if (rewardParam > 0) {
-            rewardSearch = Mappings[rewardParam].Name;
-            rewardInput(new InputEvent('input'))
-            onButtonClick(rewardParam, desynthBase.Rewards, 'Received', false)
-        }
-    })
-
-    function onButtonClick(id: number, usedData: Record<number, DesynthHistory>, statsType: string, addQuery: boolean) {
-        if (addQuery) {
-            page.url.searchParams.delete(statsType !== 'Desynths' ? 'source' : 'reward')
-            page.url.searchParams.set(statsType === 'Desynths' ? 'source' : 'reward', id.toString());
-            replaceState(page.url, page.state);
-        }
-
-        let loadedData = usedData[id];
-
-        // Update table data
-        tableItems = loadedData.Rewards;
-        tableColumns = [
-            {
-                header: '',
-                sortable: false,
-                templateRenderer: (row) => {
-                    return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${Mappings[row.Id].Icon}_hr1.tex&format=png">`
-                },
-                classExtension: ['icon']
-            },
-            {header: 'Name', field: 'Id', mappingSort: true, valueRenderer: (row) => Mappings[row.Id].Name}, // TODO Fix sorting for field not existing
-            {header: 'Obtained', field: 'Amount', classExtension: ['number', 'text-center']},
-            {
-                header: 'Min-Max',
-                field: 'Min',
-                valueRenderer: (row) => `${row.Min}–${row.Max}`,
-                classExtension: ['number', 'text-center']
-            },
-            {
-                header: 'Chance',
-                field: 'Pct',
-                defaultSort: 'asc',
-                valueRenderer: (row) => `${(row.Pct * 100).toFixed(2)}%`,
-                classExtension: ['percentage', 'text-end']
-            },
-        ];
-
-        // Update stats
-        titleStats = `${Mappings[id].Name} Stats`;
-        totalStats = `${statsType}: ${loadedData.Records.toLocaleString()}`;
-        selectedStats = ` `;
-
-        let buttons = document.getElementsByClassName("resultButton");
-        Array.from(buttons).forEach(function (element) {
-            element.classList.remove("btn-success");
-        });
-
-        let button = document.getElementById(`${id}`);
-        if (button) {
-            button.classList.add("btn-success")
-        }
-    }
-
-    function inputChecker(searchValue: string, usedData: Record<number, DesynthHistory>, statsType: string, outputElement: HTMLDivElement) {
-        const first10 = [];
-        Object.keys(usedData).find(e => (Mappings[e].Name.toLowerCase().includes(searchValue.toLowerCase()) && first10.push(e), first10.length >= 10));
-
-        outputElement.innerHTML = '';
-        if (first10.length > 0) {
-            for (let id of first10) {
-                let itemInfo = Mappings[id];
-
-                let iconImg = document.createElement('img');
-                iconImg.classList.add("icon-small");
-                iconImg.style = `width: 40px; height: 40px; float: left;`;
-                iconImg.src = `https://v2.xivapi.com/api/asset?path=ui/icon/${itemInfo.Icon}_hr1.tex&format=png`;
-
-                let nameSpan = document.createElement('span');
-                nameSpan.style = 'position: relative; top: 0.2rem;';
-                nameSpan.innerText = itemInfo.Name;
-
-                let button = document.createElement('button');
-                button.id = id;
-                button.classList.add("btn", "btn-primary", "btn-sm", "resultButton");
-                button.type = 'button';
-                button.onclick = function(){onButtonClick(id, usedData, statsType, true)}
-
-                button.append(iconImg, nameSpan);
-                outputElement.appendChild(button);
-            }
-        }
-        else {
-            outputElement.innerText = "Nothing found";
-        }
-    }
+    });
 
     function getSearchParams() {
         if (page.url.searchParams.has('source')) {
@@ -149,18 +57,71 @@
         }
     }
 
+    function onButtonClick(id: number, usedData: Record<number, DesynthHistory>, statsType: string, addQuery: boolean) {
+        if (addQuery) {
+            // Clear the other param and set the current one
+            if (statsType === 'Desynths') {
+                page.url.searchParams.delete('reward');
+                page.url.searchParams.set('source', id.toString());
+            } else {
+                page.url.searchParams.delete('source');
+                page.url.searchParams.set('reward', id.toString());
+            }
+            replaceState(page.url, page.state);
+        }
 
-    function sourceInput(event: InputEvent) {
-        inputChecker(sourceSearch, desynthBase.Sources, 'Desynths', sourceSearchResultElement);
-    }
+        let loadedData = usedData[id];
 
-    function rewardInput(event: InputEvent) {
-        inputChecker(rewardSearch, desynthBase.Rewards, 'Received', rewardSearchResultElement);
+        // Update selected tracking
+        selectedId = id;
+        selectedStatsType = statsType;
+
+        // Update table data
+        tableItems = loadedData.Rewards;
+        tableColumns = [
+            {
+                header: '',
+                sortable: false,
+                templateRenderer: (row: Reward) => {
+                    return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${Mappings[row.Id].Icon}_hr1.tex&format=png">`
+                },
+                classExtension: ['icon']
+            },
+            { header: 'Name', field: 'Name', valueRenderer: (row: Reward) => desynthBase.ToItem[row.Id].Name }, // TODO Fix sorting for field not existing
+            { header: 'Obtained', field: 'Amount', classExtension: ['number', 'text-center'] },
+            {
+                header: 'Min-Max',
+                field: 'Min',
+                valueRenderer: (row: Reward) => `${row.Min}–${row.Max}`,
+                classExtension: ['number', 'text-center']
+            },
+            {
+                header: 'Chance',
+                field: 'Pct',
+                defaultSort: 'asc',
+                valueRenderer: (row: Reward) => `${(row.Pct * 100).toFixed(2)}%`,
+                classExtension: ['percentage', 'text-end']
+            },
+        ];
+
+        // Update stats
+        titleStats = `${desynthBase.ToItem[id].Name} Stats`;
+        totalStats = `${statsType}: ${loadedData.Records.toLocaleString()}`;
+        selectedStats = ` `;
+
+        // Update button highlighting in accordion
+        for (const element of Object.values(tabElements)) {
+            element.classList.remove('btn-success');
+        }
+        const sourceButton = tabElements[`source-${id}`];
+        const rewardButton = tabElements[`reward-${id}`];
+        if (sourceButton) sourceButton.classList.add('btn-success');
+        if (rewardButton) rewardButton.classList.add('btn-success');
     }
 </script>
 
-<button class="btn btn-primary btn-lg rounded-xl d-lg-none position-fixed bottom-0 end-0 m-3 w-auto z-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
-    <i class="fas fa-filter"></i>
+<button class="btn btn-primary btn-lg rounded-xl d-lg-none position-fixed bottom-0 end-0 m-3 w-auto z-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter" aria-label="Open filter menu">
+    <Icon name="funnel-fill" />
 </button>
 
 <div class="col-12 col-lg-3 order-0 order-lg-1 sticky-left-col">
@@ -170,36 +131,12 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasFilter" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <Accordion theme="dark" class="w-100" stayOpen>
-                <AccordionItem active header="Source Search">
-                    <div class="accordion-body">
-                        <div class="input-group mb-3">
-                            <input id="sourceSearchInput"
-                                   type="text"
-                                   class="form-control"
-                                   placeholder="Search a source item ..."
-                                   aria-label="Sources"
-                                   bind:value={sourceSearch}
-                                   oninput={sourceInput} >
-                        </div>
-                        <div id="sourceSearchResult" class="d-grid gap-1" bind:this={sourceSearchResultElement}></div>
-                    </div>
-                </AccordionItem>
-                <AccordionItem active header="Reward Search">
-                    <div class="accordion-body">
-                        <div class="input-group mb-3">
-                            <input id="rewardSearchInput"
-                                   type="text"
-                                   class="form-control"
-                                   placeholder="Search a reward item ..."
-                                   aria-label="Rewards"
-                                   bind:value={rewardSearch}
-                                   oninput={rewardInput} >
-                        </div>
-                        <div id="rewardSearchResult" class="d-grid gap-1" bind:this={rewardSearchResultElement}></div>
-                    </div>
-                </AccordionItem>
-            </Accordion>
+            <DesynthSearchbar
+                {desynthBase}
+                {selectedId}
+                {onButtonClick}
+                {tabElements}
+            />
         </div>
     </div>
 </div>
