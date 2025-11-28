@@ -3,7 +3,7 @@
     import { page } from '$app/state';
     import { Button, ButtonGroup, ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
     import type { DesynthBase } from "$lib/interfaces";
-    import { IconPaths } from "$lib/data";
+    import { Mappings } from "$lib/mappings";
 
     interface Props {
         desynthBase: DesynthBase;
@@ -21,15 +21,13 @@
     // Convert Sources and Rewards records to arrays for iteration
     const allSourcesArray = $derived(Object.entries(desynthBase.Sources).map(([id, data]) => ({
         id: parseInt(id),
-        itemInfo: desynthBase.ToItem[parseInt(id)],
         history: data
-    })).sort((a, b) => a.itemInfo.Name.localeCompare(b.itemInfo.Name)));
+    })).sort((a, b) => Mappings[a.id].Name.localeCompare(Mappings[b.id].Name)));
 
     const allRewardsArray = $derived(Object.entries(desynthBase.Rewards).map(([id, data]) => ({
         id: parseInt(id),
-        itemInfo: desynthBase.ToItem[parseInt(id)],
         history: data
-    })).sort((a, b) => a.itemInfo.Name.localeCompare(b.itemInfo.Name)));
+    })).sort((a, b) => Mappings[a.id].Name.localeCompare(Mappings[b.id].Name)));
 
     // Get the current array based on search type
     const currentArray = $derived(searchType === 'sources' ? allSourcesArray : allRewardsArray);
@@ -69,7 +67,7 @@
             : currentArray
                 .map(item => ({
                     ...item,
-                    score: getMatchScore(item.itemInfo.Name, searchQuery)
+                    score: getMatchScore(Mappings[item.id].Name, searchQuery)
                 }))
                 .filter(item => item.score > 0)
                 .sort((a, b) => {
@@ -77,7 +75,7 @@
                     if (b.score !== a.score) {
                         return b.score - a.score;
                     }
-                    return a.itemInfo.Name.localeCompare(b.itemInfo.Name);
+                    return Mappings[a.id].Name.localeCompare(Mappings[b.id].Name);
                 })
                 .slice(0, 25)
     );
@@ -86,15 +84,15 @@
     onMount(() => {
         if (page.url.searchParams.has('source')) {
             const sourceId = parseInt(page.url.searchParams.get('source')!);
-            if (desynthBase.ToItem[sourceId]) {
+            if (Mappings[sourceId]) {
                 searchType = 'sources';
-                searchQuery = desynthBase.ToItem[sourceId].Name;
+                searchQuery = Mappings[sourceId].Name;
             }
         } else if (page.url.searchParams.has('reward')) {
             const rewardId = parseInt(page.url.searchParams.get('reward')!);
-            if (desynthBase.ToItem[rewardId]) {
+            if (Mappings[rewardId]) {
                 searchType = 'rewards';
-                searchQuery = desynthBase.ToItem[rewardId].Name;
+                searchQuery = Mappings[rewardId].Name;
             }
         }
     });
@@ -140,11 +138,11 @@
                         width="20" 
                         height="20" 
                         loading="lazy" 
-                        src={"https://v2.xivapi.com/api/asset?path=ui/icon/" + IconPaths[item.itemInfo.Id.toString()] + "_hr1.tex&format=png"}
+                        src={`https://v2.xivapi.com/api/asset?path=ui/icon/${Mappings[item.id].Icon.toString()}_hr1.tex&format=png`}
                         style="margin-right: 0.5rem; vertical-align: middle;"
                         alt=""
                     />
-                    {item.itemInfo.Name}
+                    {Mappings[item.id].Name}
                 </ListGroupItem>
             {/each}
         </ListGroup>

@@ -8,10 +8,15 @@
     import type {ColumnTemplate} from "$lib/table";
     import CofferAccordion from "../../component/CofferAccordion.svelte";
     import { Icon } from '@sveltestrap/sveltestrap';
+    import {description, title} from "$lib/title.svelte";
 
     interface Props {
         content: Coffer[];
     }
+
+    // Set meta data
+    title.set('Random Coffer')
+    description.set('Possibilities for all types of coffers, e.g Venture Coffer, or Materiel Container 3.0.')
 
     // html elements
     let tabContentElement: HTMLDivElement = $state(<HTMLDivElement>(document.createElement('div')));
@@ -114,17 +119,6 @@
             {
                 header: 'Obtained',
                 field: 'Amount',
-                classExtension: ['number', 'text-center']
-            },
-            {
-                header: 'Total',
-                field: 'Total',
-                classExtension: ['number', 'text-center']
-            },
-            {
-                header: 'Min-Max',
-                field: 'Min',
-                valueRenderer: (row) => `${row.Min}–${row.Max}`,
                 classExtension: ['number', 'text-center']
             },
             {

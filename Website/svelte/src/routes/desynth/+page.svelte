@@ -2,7 +2,7 @@
     import { page } from '$app/state';
     import { replaceState } from "$app/navigation";
     import type { DesynthBase, DesynthHistory, Reward } from "$lib/interfaces";
-    import { Mappings } from "$lib/data";
+    import { Mappings } from "$lib/mappings";
     import { onMount } from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
     import type { ColumnTemplate } from "$lib/table";
@@ -83,7 +83,7 @@
                 header: '',
                 sortable: false,
                 templateRenderer: (row: Reward) => {
-                    return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${Mappings[row.Id].Icon}_hr1.tex&format=png">`
+                    return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${Mappings[row.Id].Icon}_hr1.tex&format=png" alt="${Mappings[row.Id].Name} Icon">`
                 },
                 classExtension: ['icon']
             },

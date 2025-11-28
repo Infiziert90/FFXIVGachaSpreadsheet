@@ -5,7 +5,7 @@ import {loadCoffer} from "$lib/loadHelpers";
 export const load: PageLoad = async ({ parent, fetch }) => {
     let mappingPromise = parent();
 
-    const res = await loadCoffer('/data/EurekaBunnies.json', fetch)
+    const res = await loadCoffer('/data/RandomCoffers.json', fetch)
     await mappingPromise;
 
     return res;

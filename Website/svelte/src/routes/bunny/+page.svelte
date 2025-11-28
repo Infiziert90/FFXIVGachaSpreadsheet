@@ -2,7 +2,7 @@
     import { page } from '$app/state';
     import {replaceState} from "$app/navigation";
     import type {Coffer, Reward} from "$lib/interfaces";
-    import {Mappings} from "$lib/data";
+    import {Mappings} from "$lib/mappings";
     import {onMount} from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
     import type {ColumnTemplate} from "$lib/table";
@@ -97,7 +97,7 @@
                 header: '',
                 sortable: false,
                 templateRenderer: (row) => {
-                    return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${Mappings[row.Id].Icon}_hr1.tex&format=png">`
+                    return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${Mappings[row.Id].Icon}_hr1.tex&format=png" alt="${Mappings[row.Id].Name} Icon">`
                 },
                 classExtension: ['icon']
             },
@@ -114,12 +114,6 @@
             {
                 header: 'Obtained',
                 field: 'Amount',
-                classExtension: ['number', 'text-center']
-            },
-            {
-                header: 'Min-Max',
-                field: 'Min',
-                valueRenderer: (row) => `${row.Min}–${row.Max}`,
                 classExtension: ['number', 'text-center']
             },
             {

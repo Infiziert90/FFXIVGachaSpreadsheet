@@ -1,4 +1,6 @@
-﻿const HEADERS = new Headers({
+﻿import {error} from "@sveltejs/kit";
+
+const HEADERS = new Headers({
     'Content-Type': 'application/json;charset=UTF-8',
     "User-Agent": "FFXIV Gacha"
 });
@@ -37,5 +39,14 @@ export function errorHandling(response: any) {
 
     console.log(response);
     return;
+}
 
+/**
+ * Logs the error to the console and throws a 500 error.
+ * @param message - A general info message to display
+ * @param err - The exception
+ */
+export function logAndThrow(message: string, err: unknown): never {
+    console.error(message, err);
+    error(500, {message: message});
 }

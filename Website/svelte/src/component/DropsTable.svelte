@@ -2,7 +2,7 @@
     import { Table, Icon } from '@sveltestrap/sveltestrap';
     import type { Reward } from "$lib/interfaces";
     import type { ColumnTemplate } from "$lib/table";
-    import {Mappings} from "$lib/data";
+    import {Mappings} from "$lib/mappings";
 
     /**
      * Component props interface
