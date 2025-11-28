@@ -87,8 +87,16 @@
                 },
                 classExtension: ['icon']
             },
-            { header: 'Name', field: 'Name', valueRenderer: (row: Reward) => desynthBase.ToItem[row.Id].Name }, // TODO Fix sorting for field not existing
-            { header: 'Obtained', field: 'Amount', classExtension: ['number', 'text-center'] },
+            {
+                header: 'Name',
+                field: 'Id',
+                mappingSort: true,
+                valueRenderer: (row) => Mappings[row.Id].Name
+            },
+            {
+                header: 'Obtained',
+                field: 'Amount',
+                classExtension: ['number', 'text-center'] },
             {
                 header: 'Min-Max',
                 field: 'Min',
@@ -105,7 +113,7 @@
         ];
 
         // Update stats
-        titleStats = `${desynthBase.ToItem[id].Name} Stats`;
+        titleStats = `${Mappings[id].Name} Stats`;
         totalStats = `${statsType}: ${loadedData.Records.toLocaleString()}`;
         selectedStats = ` `;
 
