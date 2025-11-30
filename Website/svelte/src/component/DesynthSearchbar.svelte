@@ -80,6 +80,22 @@
                 .slice(0, 25)
     );
 
+    // Auto-select if there's only one item in search results
+    let lastAutoSelectedId = $state<number | null>(null);
+    $effect(() => {
+        if (filteredArray.length === 1 && searchQuery.trim() !== '') {
+            const singleItem = filteredArray[0];
+            // Only auto-select if it's not already selected and we haven't auto-selected it already
+            if (selectedId !== singleItem.id && lastAutoSelectedId !== singleItem.id) {
+                lastAutoSelectedId = singleItem.id;
+                onButtonClick(singleItem.id, currentData, currentStatsType, true);
+            }
+        } else if (filteredArray.length !== 1) {
+            // Reset tracking when there's not exactly one result
+            lastAutoSelectedId = null;
+        }
+    });
+
     // Load from URL on mount
     onMount(() => {
         if (page.url.searchParams.has('source')) {
