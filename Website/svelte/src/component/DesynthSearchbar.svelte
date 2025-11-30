@@ -130,19 +130,22 @@
         <ListGroup>
             {#each filteredArray as item}
                 <ListGroupItem 
+                    class="list-group-item-xiv-item"
                     active={selectedId === item.id}
                     onclick={() => onButtonClick(item.id, currentData, currentStatsType, true)}
                     style="cursor: pointer;"
                 >
                     <img 
-                        width="20" 
-                        height="20" 
+                        width="40" 
+                        height="40" 
                         loading="lazy" 
                         src={`https://v2.xivapi.com/api/asset?path=ui/icon/${Mappings[item.id].Icon.toString()}_hr1.tex&format=png`}
                         style="margin-right: 0.5rem; vertical-align: middle;"
                         alt=""
                     />
-                    {Mappings[item.id].Name}
+                    <span class="list-group-item-xiv-item-name">
+                        {Mappings[item.id].Name}
+                    </span>
                 </ListGroupItem>
             {/each}
         </ListGroup>

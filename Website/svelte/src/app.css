@@ -110,6 +110,20 @@ td.icon img {
     transform: translateY(-50%);
 }
 
+.list-group-item-xiv-item {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    line-height: 1;
+}
+
+.list-group-item-xiv-item-name {
+    font-size: 0.875rem;
+    padding-right: 0.5rem;
+    vertical-align: middle;
+}
 /* Scroling sidebar */
 
 @property --top-fade {
@@ -161,5 +175,6 @@ td.icon img {
         animation: scrollfade;
         animation-timeline: --scrollfade;
         scroll-timeline: --scrollfade y;
+        padding-bottom: 0.25rem;
     }
 }
