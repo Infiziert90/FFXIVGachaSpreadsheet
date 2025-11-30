@@ -15,7 +15,7 @@
     }
 
     // Set meta data
-    title.set('Random Coffer')
+    title.set('Random Coffers')
     description.set('Possibilities for all types of coffers, e.g Venture Coffer, or Materiel Container 3.0.')
 
     // html elements

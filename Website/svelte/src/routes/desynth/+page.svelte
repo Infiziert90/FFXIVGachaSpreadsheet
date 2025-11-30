@@ -8,10 +8,15 @@
     import type { ColumnTemplate } from "$lib/table";
     import DesynthSearchbar from "../../component/DesynthSearchbar.svelte";
     import { Icon } from '@sveltestrap/sveltestrap';
+    import {description, title} from "$lib/title.svelte";
 
     interface Props {
         content: DesynthBase;
     }
+
+    // Set meta data
+    title.set('Desynthesis')
+    description.set('Possibilities for desynthesis material and their rewards.')
 
     // html elements
     let tabContentElement: HTMLDivElement = $state(<HTMLDivElement>(document.createElement('div')));

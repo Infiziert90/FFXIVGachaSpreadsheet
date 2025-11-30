@@ -8,10 +8,15 @@
     import type {ColumnTemplate} from "$lib/table";
     import CofferAccordion from "../../component/CofferAccordion.svelte";
     import { Icon } from '@sveltestrap/sveltestrap';
+    import {description, title} from "$lib/title.svelte";
 
     interface Props {
         content: Coffer[];
     }
+
+    // Set meta data
+    title.set('Eureka Bunnies')
+    description.set('Possibilities for eureka bunny coffer content.')
 
     // html elements
     let tabContentElement: HTMLDivElement = $state(<HTMLDivElement>(document.createElement('div')));

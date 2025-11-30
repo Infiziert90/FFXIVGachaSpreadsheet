@@ -15,8 +15,8 @@
     }
 
     // Set meta data
-    title.set('Occult')
-    description.set('Possibilities for Treasures, Occult Pots and Bunnies.')
+    title.set('Triple Triad Packs')
+    description.set('Possibilities for all triple triad card packs.')
 
     // html elements
     let tabContentElement: HTMLDivElement = $state(<HTMLDivElement>(document.createElement('div')));
@@ -119,17 +119,6 @@
             {
                 header: 'Obtained',
                 field: 'Amount',
-                classExtension: ['number', 'text-center']
-            },
-            {
-                header: 'Total',
-                field: 'Total',
-                classExtension: ['number', 'text-center']
-            },
-            {
-                header: 'Min-Max',
-                field: 'Min',
-                valueRenderer: (row) => `${row.Min}–${row.Max}`,
                 classExtension: ['number', 'text-center']
             },
             {

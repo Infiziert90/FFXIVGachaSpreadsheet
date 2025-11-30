@@ -15,8 +15,8 @@
     }
 
     // Set meta data
-    title.set('Occult')
-    description.set('Possibilities for Treasures, Occult Pots and Bunnies.')
+    title.set('Deep Dungeon Sacks')
+    description.set('Possibilities for all sacks that drop in Deep Dungeons.')
 
     // html elements
     let tabContentElement: HTMLDivElement = $state(<HTMLDivElement>(document.createElement('div')));
@@ -119,17 +119,6 @@
             {
                 header: 'Obtained',
                 field: 'Amount',
-                classExtension: ['number', 'text-center']
-            },
-            {
-                header: 'Total',
-                field: 'Total',
-                classExtension: ['number', 'text-center']
-            },
-            {
-                header: 'Min-Max',
-                field: 'Min',
-                valueRenderer: (row) => `${row.Min}–${row.Max}`,
                 classExtension: ['number', 'text-center']
             },
             {
