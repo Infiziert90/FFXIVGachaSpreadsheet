@@ -80,6 +80,22 @@
                 .slice(0, 25)
     );
 
+    // Auto-select if there's only one item in search results
+    let lastAutoSelectedId = $state<number | null>(null);
+    $effect(() => {
+        if (filteredArray.length === 1 && searchQuery.trim() !== '') {
+            const singleItem = filteredArray[0];
+            // Only auto-select if it's not already selected and we haven't auto-selected it already
+            if (selectedId !== singleItem.id && lastAutoSelectedId !== singleItem.id) {
+                lastAutoSelectedId = singleItem.id;
+                onButtonClick(singleItem.id, currentData, currentStatsType, true);
+            }
+        } else if (filteredArray.length !== 1) {
+            // Reset tracking when there's not exactly one result
+            lastAutoSelectedId = null;
+        }
+    });
+
     // Load from URL on mount
     onMount(() => {
         if (page.url.searchParams.has('source')) {
@@ -130,19 +146,22 @@
         <ListGroup>
             {#each filteredArray as item}
                 <ListGroupItem 
+                    class="list-group-item-xiv-item"
                     active={selectedId === item.id}
                     onclick={() => onButtonClick(item.id, currentData, currentStatsType, true)}
                     style="cursor: pointer;"
                 >
                     <img 
-                        width="20" 
-                        height="20" 
+                        width="40" 
+                        height="40" 
                         loading="lazy" 
                         src={`https://v2.xivapi.com/api/asset?path=ui/icon/${Mappings[item.id].Icon.toString()}_hr1.tex&format=png`}
                         style="margin-right: 0.5rem; vertical-align: middle;"
                         alt=""
                     />
-                    {Mappings[item.id].Name}
+                    <span class="list-group-item-xiv-item-name">
+                        {Mappings[item.id].Name}
+                    </span>
                 </ListGroupItem>
             {/each}
         </ListGroup>
