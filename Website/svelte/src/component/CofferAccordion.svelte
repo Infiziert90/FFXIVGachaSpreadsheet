@@ -1,38 +1,26 @@
 <script lang="ts">
-    import { Accordion, AccordionItem } from '@sveltestrap/sveltestrap';
+    import { Accordion, AccordionItem, ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
     import type { Coffer } from "$lib/interfaces";
-    import { tick } from 'svelte';
 
     interface Props {
         cofferData: Coffer[];
         territory: number;
         coffer: number;
         openTab: (territory: number, coffer: number, addQuery: boolean) => void;
-        tabElements: { [key: string]: HTMLButtonElement };
     }
 
-    let { cofferData, territory, coffer, openTab, tabElements }: Props = $props();
+    let { cofferData, territory, coffer, openTab }: Props = $props();
     
-    // Open accordion when territory changes
+    // Open accordion when territory changes - sync with territory prop
     let openAccordionId = $state<number | null>(
         cofferData.find(c => c.TerritoryId === territory)?.TerritoryId ?? null
     );
-
-    // Mark button as active when territory/coffer changes
+    
+    // Update openAccordionId when territory prop changes
     $effect(() => {
-        if (!territory || !coffer || openAccordionId !== territory) return;
-        
-        const markActive = () => {
-            Object.values(tabElements).forEach(el => el?.classList.remove('active'));
-            const button = tabElements[`${territory}${coffer}`];
-            button?.classList.add('active');
-        };
-
-        const button = tabElements[`${territory}${coffer}`];
-        if (button) {
-            markActive();
-        } else {
-            tick().then(markActive);
+        const newId = cofferData.find(c => c.TerritoryId === territory)?.TerritoryId ?? null;
+        if (newId !== null) {
+            openAccordionId = newId;
         }
     });
 
@@ -51,20 +39,19 @@
             on:toggle={(e) => handleToggle(cofferItem.TerritoryId, e)}
         >
             <div slot="header">{cofferItem.Name}</div>
-            <div class="accordion-body">
+            <ListGroup>
                 {#each cofferItem.Variants as cofferVariant}
-                    <div class="tab">
-                        <button 
-                            id="{cofferItem.TerritoryId}{cofferVariant.Id}-tab"
-                            class="tablinks btn accordion-body-btn"
-                            onclick={() => openTab(cofferItem.TerritoryId, cofferVariant.Id, true)}
-                            bind:this={tabElements[`${cofferItem.TerritoryId}${cofferVariant.Id}`]}
-                        >
-                            {cofferVariant.Name}
-                        </button>
-                    </div>
+                    <ListGroupItem 
+                        id="{cofferItem.TerritoryId}{cofferVariant.Id}-tab"
+                        active={territory === cofferItem.TerritoryId && coffer === cofferVariant.Id}
+                        tag="button"
+                        action
+                        on:click={() => openTab(cofferItem.TerritoryId, cofferVariant.Id, true)}
+                    >
+                        {cofferVariant.Name}
+                    </ListGroupItem>
                 {/each}
-            </div>
+            </ListGroup>
         </AccordionItem>
     {/each}
 </Accordion>

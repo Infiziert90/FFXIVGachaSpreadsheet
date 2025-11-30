@@ -91,19 +91,12 @@ td.icon img {
     --bs-accordion-body-padding-x: 0;
     --bs-accordion-body-padding-y: 0;
 }
-.accordion-body-btn {
-    --bs-btn-border-radius: 0;
-    --bs-btn-border-width: 0;
-
-    --bs-btn-hover-bg: var(--bs-tertiary-bg);
-    --bs-btn-hover-color: var(--bs-tertiary-color);
-    --bs-btn-active-bg: var(--bs-secondary-bg);
-    --bs-btn-active-color: var(--bs-secondary-color);
-
-    width: 100%;
-    text-align: start;
-    position: relative;
-    padding-inline-end: calc(var(--bs-btn-padding-x) * 2)
+.accordion-item > .accordion-header > .accordion-button {
+    --bs-accordion-btn-focus-box-shadow: none;
+}
+.accordion-body > .list-group {
+    --bs-list-group-border-radius: 0;
+    --bs-list-group-border-width: 0;
 }
 
 .accordion-body-btn.active::after {

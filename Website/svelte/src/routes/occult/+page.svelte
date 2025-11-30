@@ -50,15 +50,19 @@
 
     /**
      * Opens a tab and displays its data
-     * @param territory - The territory ID to display
-     * @param coffer - The coffer variant ID to display
+     * @param territoryId - The territory ID to display
+     * @param cofferId - The coffer variant ID to display
      * @param addQuery - If true, update the URL with these parameters
      */
-    function openTab(territory: number, coffer: number, addQuery: boolean = false) {
+    function openTab(territoryId: number, cofferId: number, addQuery: boolean = false) {
+        // Update state variables
+        territory = territoryId;
+        coffer = cofferId;
+        
         // Update URL if requested (when user clicks a button)
         if (addQuery) {
-            page.url.searchParams.set('territory', territory.toString());
-            page.url.searchParams.set('coffer', coffer.toString());
+            page.url.searchParams.set('territory', territoryId.toString());
+            page.url.searchParams.set('coffer', cofferId.toString());
             replaceState(page.url, page.state);
         }
 
@@ -73,17 +77,17 @@
         
         // Mark the clicked button as active (if it exists)
         // Note: The accordion component also handles this, but we do it here too for immediate feedback
-        const buttonKey = `${territory}${coffer}`;
+        const buttonKey = `${territoryId}${cofferId}`;
         if (tabElements[buttonKey]) {
             tabElements[buttonKey].classList.add('active');
         }
 
         // Find the coffer data for the selected territory
-        const variantData = cofferData.find((e) => e.TerritoryId === territory);
+        const variantData = cofferData.find((e) => e.TerritoryId === territoryId);
         if (!variantData) return;
 
         // Find the specific coffer variant
-        const loadedCoffer = variantData.Variants.find((e) => e.Id === coffer);
+        const loadedCoffer = variantData.Variants.find((e) => e.Id === cofferId);
         if (!loadedCoffer) return;
 
         // Get the patch data for the selected patch
