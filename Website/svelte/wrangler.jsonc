@@ -1,0 +1,18 @@
+{
+    "name": "svelte-rewrite",
+    "compatibility_date": "2025-12-01",
+    "main": ".svelte-kit/cloudflare/_worker.js",
+    "assets": {
+        "directory": ".svelte-kit/cloudflare",
+        "binding": "ASSETS"
+    },
+    "observability": {
+      "enabled": true
+    },
+    "routes": [
+      {
+        "pattern": "rewrite.infi.ovh",
+        "custom_domain": true
+      }
+    ]
+}
