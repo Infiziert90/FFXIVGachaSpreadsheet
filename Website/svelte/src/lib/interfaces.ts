@@ -29,10 +29,27 @@ interface CofferContent {
 export interface DesynthBase {
     Sources: Record<number, DesynthHistory>;
     Rewards: Record<number, DesynthHistory>;
-
 }
 
-export interface DesynthHistory {
+interface DesynthHistory {
     Records: number;
     Rewards: Reward[]
+}
+
+export interface Venture {
+    Name: string;
+    Category: number;
+    Tasks: VentureTask[];
+}
+
+interface VentureTask {
+    Name: string;
+    Type: number;
+    Patches: Record<string, VentureContent>;
+}
+
+interface VentureContent {
+    Total: number;
+    Primaries: Reward[];
+    Secondaries: Reward[];
 }
