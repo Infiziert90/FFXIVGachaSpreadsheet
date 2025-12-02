@@ -108,9 +108,9 @@ public class ChestDrops : IDisposable
                 selectedCategory.InternalExpansions[dutyLoot.ExpansionKey] = new ChestDrop.Expansion(dutyLoot.Expansion, dutyLoot.ExpansionKey);
             var selectedExpansion = selectedCategory.InternalExpansions[dutyLoot.ExpansionKey];
             
-            if (!selectedExpansion.InternalTitles.ContainsKey(dutyLoot.UICategoryKey))
-                selectedExpansion.InternalTitles[dutyLoot.UICategoryKey] = new ChestDrop.Title(dutyLoot.UICategory, dutyLoot.UICategoryKey);
-            var selectedTitle = selectedExpansion.InternalTitles[dutyLoot.UICategoryKey];
+            if (!selectedExpansion.InternalHeaders.ContainsKey(dutyLoot.UICategoryKey))
+                selectedExpansion.InternalHeaders[dutyLoot.UICategoryKey] = new ChestDrop.Header(dutyLoot.UICategory, dutyLoot.UICategoryKey);
+            var selectedTitle = selectedExpansion.InternalHeaders[dutyLoot.UICategoryKey];
             
             var finalDutyLoot = new ChestDrop.Duty(dutyLoot);
             foreach (var chestLoot in dutyLoot.Chests.Values.OrderBy(c => c.ChestId))
@@ -128,11 +128,11 @@ public class ChestDrops : IDisposable
 
         foreach (var dutyLoot in ProcessedData.Values)
         {
-            dutyLoot.Expansions = dutyLoot.InternalExpansions.Values.OrderBy(e => e.Category).ToList();
+            dutyLoot.Expansions = dutyLoot.InternalExpansions.Values.OrderBy(e => e.Id).ToList();
             foreach (var expansion in dutyLoot.Expansions)
             {
-                expansion.Titles = expansion.InternalTitles.Values.OrderBy(e => e.Category).ToList();
-                foreach (var title in expansion.Titles)
+                expansion.Headers = expansion.InternalHeaders.Values.OrderBy(h => h.Id).ToList();
+                foreach (var title in expansion.Headers)
                     title.Duties = title.Duties.OrderBy(t => t.SortKey).ToList();
             }
         }
@@ -141,7 +141,7 @@ public class ChestDrops : IDisposable
     private void Export()
     {
         Logger.Information("Start export of processed chest drop data ...");
-        ExportHandler.WriteDataJson("ChestDrops.json", ProcessedData.Values.OrderBy(d => d.Category));
+        ExportHandler.WriteDataJson("ChestDrops.json", ProcessedData.Values.OrderBy(cd => cd.Id));
         Logger.Information("Done ...");
     }
 }

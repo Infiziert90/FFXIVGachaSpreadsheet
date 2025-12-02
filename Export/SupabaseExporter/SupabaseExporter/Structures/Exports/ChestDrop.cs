@@ -7,31 +7,31 @@ namespace SupabaseExporter.Structures.Exports;
 /// The base of chest drop data.
 /// </summary>
 [Serializable]
-public class ChestDrop(string name, uint category)
+public class ChestDrop(string name, uint categoryId)
 {
     public string Name = name;
-    public uint Category = category;
+    public uint Id = categoryId;
     
     public List<Expansion> Expansions = [];
     
     [JsonIgnore]
     public Dictionary<uint, Expansion> InternalExpansions = [];
 
-    public class Expansion(string name, uint category)
+    public class Expansion(string name, uint categoryId)
     {
+        public uint Id = categoryId;
         public string Name = name;
-        public uint Category = category;
         
-        public List<Title> Titles = [];
+        public List<Header> Headers = [];
         
         [JsonIgnore]
-        public Dictionary<uint, Title> InternalTitles = [];
+        public Dictionary<uint, Header> InternalHeaders = [];
     }
     
-    public class Title(string name, uint category)
+    public class Header(string name, uint categoryId)
     {
+        public uint Id = categoryId;
         public string Name = name;
-        public uint Category = category;
         
         public List<Duty> Duties = [];
     }

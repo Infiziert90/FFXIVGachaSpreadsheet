@@ -1,5 +1,5 @@
 ﻿import {errorHandling, logAndThrow, responseHandler} from "$lib/utils";
-import type {Coffer, Venture} from "$lib/interfaces";
+import type {ChestDrop, Coffer, Venture} from "$lib/interfaces";
 import {error} from "@sveltejs/kit";
 import {type ItemInfo, Mappings} from "$lib/mappings";
 
@@ -61,6 +61,24 @@ export async function loadVentures(path: string, fetch: any): Promise<{content: 
         const res = await fetch(path)
             .then(responseHandler)
             .then((data: Venture[]) => {
+                return data;
+            });
+
+        if (!res) {
+            throw error(500, {message: `Failed to load ${path} data set.`});
+        }
+
+        return {content: res};
+    } catch (err) {
+        logAndThrow(`Failed to load ${path} data set.`, err)
+    }
+}
+
+export async function loadChestDrops(path: string, fetch: any): Promise<{content: ChestDrop[]}> {
+    try {
+        const res = await fetch(path)
+            .then(responseHandler)
+            .then((data: ChestDrop[]) => {
                 return data;
             });
 

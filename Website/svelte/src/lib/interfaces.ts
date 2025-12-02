@@ -53,3 +53,39 @@ interface VentureContent {
     Primaries: Reward[];
     Secondaries: Reward[];
 }
+
+export interface ChestDrop {
+    Id: number;
+    Name: string;
+    Expansions: Expansion[];
+}
+
+interface Expansion {
+    Id: number;
+    Name: string;
+    Headers: Header[];
+}
+
+interface Header {
+    Id: number;
+    Name: string;
+    Duties: Duty[];
+}
+
+interface Duty {
+    Records: number;
+    Id: number;
+    Name: string;
+    SortKey: number;
+    Chests: Chest[];
+}
+
+interface Chest {
+    Records: number;
+    Id: number;
+    Name: string;
+    MapId: number;
+    TerritoryId: number;
+    PlaceNameSub: string;
+    Rewards: Reward[];
+}

@@ -1,5 +1,5 @@
-﻿import type {PageLoad} from "../../.svelte-kit/types/src/routes/occult/$types";
-import {loadMapping} from "$lib/loadHelpers";
+﻿import type { PageLoad } from "../../.svelte-kit/types/src/routes/occult/$types";
+import { loadMapping } from "$lib/loadHelpers";
 
 export const ssr = false
 
