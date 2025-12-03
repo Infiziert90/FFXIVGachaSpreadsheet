@@ -9,6 +9,7 @@
     import { Icon } from '@sveltestrap/sveltestrap';
     import {description, title} from "$lib/title.svelte";
     import VentureAccordion from "../../component/VentureAccordion.svelte";
+    import ItemCard from "../../component/ItemCard.svelte";
 
     interface Props {
         content: Venture[];
@@ -28,8 +29,8 @@
     let ventureData: Venture[] = data.content;
 
     // Table data
-    let tableItems: Reward[] = $state([]);
-    let tableItems2: Reward[] = $state([]);
+    let primaryRewards: Reward[] = $state([]);
+    let secondaryRewards: Reward[] = $state([]);
     let tableColumns: ColumnTemplate[] = $state([]);
 
     // Stats
@@ -94,8 +95,8 @@
         const patchData = loadedTask.Patches[requestedPatch];
 
         // Update table data
-        tableItems = patchData.Primaries;
-        tableItems2 = patchData.Secondaries;
+        primaryRewards = patchData.Primaries;
+        secondaryRewards = patchData.Secondaries;
         tableColumns = [
             {
                 header: '',
@@ -221,16 +222,17 @@
 </div>
 <div class="col-12 col-lg-7 order-0 order-lg-2">
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
-        {#if tableItems.length > 0 && tableColumns.length > 0}
-            <DropsTable items={tableItems} columns={tableColumns} />
+        {#if primaryRewards.length > 0 && secondaryRewards.length > 0}
+            <h3>Guaranteed</h3>
+            <ItemCard reward={primaryRewards[0]} />
+            <h3>Random</h3>
+            <DropsTable items={secondaryRewards} columns={tableColumns} />
         {:else}
-            <p>No data found</p>
-        {/if}
-
-        {#if tableItems2.length > 0 && tableColumns.length > 0}
-            <DropsTable items={tableItems2} columns={tableColumns} />
-        {:else}
-            <p>No data found</p>
+            {#if primaryRewards.length > 0 && tableColumns.length > 0}
+                <DropsTable items={primaryRewards} columns={tableColumns} />
+            {:else}
+                <p>No data found</p>
+            {/if}
         {/if}
     </div>
 </div>
