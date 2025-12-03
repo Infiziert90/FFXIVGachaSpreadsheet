@@ -1,12 +1,4 @@
-﻿<script lang="ts">
-    import {description, title} from "$lib/title.svelte";
-    import {page} from "$app/state";
-
-    title.set("About");
-    description.set("A simple about page.");
-</script>
-
-<svelte:head>
+﻿<svelte:head>
     <title>About</title>
 
     <meta property="og:site_name" content="About">
