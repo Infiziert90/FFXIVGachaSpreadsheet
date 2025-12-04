@@ -22,6 +22,7 @@ export async function loadMapping(fetch: any) {
 
 export async function loadCoffer(path: string, fetch: any): Promise<{content: Coffer[]}> {
     try {
+        console.log(`Loading ${path} data set...`);
         const res = await fetch(path)
             .then(responseHandler)
             .then((data: Coffer[]) => {

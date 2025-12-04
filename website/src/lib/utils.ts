@@ -27,18 +27,8 @@ export function responseHandler(response: Response) {
     return Promise.reject(response);
 }
 
-export function errorHandling(response: any) {
-    if (response instanceof Response) {
-        console.log(response.status, response.statusText);
-        response.json().then((err: any) => {
-            console.log(err);
-        })
-
-        return;
-    }
-
-    console.log(response);
-    return;
+export function errorHandling(response: any): never {
+    logAndThrow(`Unable to fetch resource.`, response);
 }
 
 /**
