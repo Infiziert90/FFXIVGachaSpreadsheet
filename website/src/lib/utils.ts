@@ -48,5 +48,5 @@ export function errorHandling(response: any) {
  */
 export function logAndThrow(message: string, err: unknown): never {
     console.error(message, err);
-    error(500, {message: message});
+    error(500, {message: `${message} | Error: ${err}`});
 }
