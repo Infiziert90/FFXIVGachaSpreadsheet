@@ -20,12 +20,11 @@ export async function getLastUpdate(): Promise<string> {
 }
 
 export function responseHandler(response: Response) {
-    console.log(`Checking response: ${JSON.stringify(response)}`)
     if (response.ok) {
         return response.json();
     }
 
-    return Promise.reject(response);
+    throw new Error(`Unable to fetch resource. Status: ${response.status} | Message: ${response.statusText}`);
 }
 
 export function errorHandling(response: any): never {
