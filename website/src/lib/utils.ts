@@ -6,7 +6,7 @@ const HEADERS = new Headers({
 });
 
 export async function getLastUpdate(): Promise<string> {
-    let data = await fetch('data/LastUpdate.json', {
+    let data = await fetch('/data/LastUpdate.json', {
         method: 'GET',
         headers: HEADERS
     })

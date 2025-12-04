@@ -7,7 +7,7 @@ export async function loadMapping(fetch: any) {
     try {
         if (Object.keys(Mappings).length > 0) return;
 
-        await fetch('data/Mappings.json')
+        await fetch('/data/Mappings.json')
             .then(responseHandler)
             .then((data: Record<number, ItemInfo>) =>{
                 for (const [key, value] of Object.entries(data)) {
