@@ -20,6 +20,7 @@ export async function getLastUpdate(): Promise<string> {
 }
 
 export function responseHandler(response: Response) {
+    console.log(`Checking response: ${JSON.stringify(response)}`)
     if (response.ok) {
         return response.json();
     }

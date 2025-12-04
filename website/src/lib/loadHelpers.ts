@@ -10,6 +10,7 @@ export async function loadMapping(fetch: any) {
         await fetch('/data/Mappings.json')
             .then(responseHandler)
             .then((data: Record<number, ItemInfo>) =>{
+                console.log(`Reading data: ${JSON.stringify(data)}`)
                 for (const [key, value] of Object.entries(data)) {
                     Mappings[parseInt(key)] = value;
                 }
