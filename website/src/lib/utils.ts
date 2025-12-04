@@ -46,7 +46,7 @@ export function errorHandling(response: any) {
  * @param message - A general info message to display
  * @param err - The exception
  */
-export function logAndThrow(message: string, err: Error): never {
+export function logAndThrow(message: string, err: unknown): never {
     console.error(message, err);
-    error(500, {message: `${message} | Error: ${err.message} Cause: ${err.stack ?? 'Unknown'}`});
+    error(500, {message: `${message} | Error: ${JSON.stringify(err)}`});
 }
