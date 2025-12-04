@@ -31,7 +31,8 @@ export interface DesynthBase {
     Rewards: Record<number, DesynthHistory>;
 }
 
-interface DesynthHistory {
+// This must be exposed because of Source and Reward being the same type
+export interface DesynthHistory {
     Records: number;
     Rewards: Reward[]
 }
