@@ -19,7 +19,7 @@
     description.set('Possibilities for Treasures, Occult Pots and Bunnies.')
 
     // html elements
-    let tabContentElement: HTMLDivElement = $state(<HTMLDivElement>(document.createElement('div')));
+    let tabContentElement: HTMLDivElement = $state() as HTMLDivElement;
     let tabElements: {[key: string]: HTMLButtonElement} = $state({});
 
     let { data }: Props = $props();

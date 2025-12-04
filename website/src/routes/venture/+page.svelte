@@ -20,7 +20,7 @@
     description.set('Possibilities for all venture tasks.')
 
     // html elements
-    let tabContentElement: HTMLDivElement = $state(<HTMLDivElement>(document.createElement('div')));
+    let tabContentElement: HTMLDivElement = $state() as HTMLDivElement;
 
     let { data }: Props = $props();
     let patches: string[] = $state([])

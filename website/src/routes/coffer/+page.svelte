@@ -19,7 +19,7 @@
     description.set('Possibilities for all types of coffers, e.g Venture Coffer, or Materiel Container 3.0.')
 
     // html elements
-    let tabContentElement: HTMLDivElement = $state(<HTMLDivElement>(document.createElement('div')));
+    let tabContentElement: HTMLDivElement = $state() as HTMLDivElement;
     let tabElements: {[key: string]: HTMLButtonElement} = $state({});
 
     let { data }: Props = $props();

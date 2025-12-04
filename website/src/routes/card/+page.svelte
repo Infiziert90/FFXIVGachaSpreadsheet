@@ -19,7 +19,7 @@
     description.set('Possibilities for all triple triad card packs.')
 
     // html elements
-    let tabContentElement: HTMLDivElement = $state(<HTMLDivElement>(document.createElement('div')));
+    let tabContentElement: HTMLDivElement = $state() as HTMLDivElement;
     let tabElements: {[key: string]: HTMLButtonElement} = $state({});
 
     let { data }: Props = $props();
