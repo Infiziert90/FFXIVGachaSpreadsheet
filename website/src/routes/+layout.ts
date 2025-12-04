@@ -3,5 +3,5 @@ import { loadMapping } from "$lib/loadHelpers";
 
 // @ts-ignore
 export const load: PageLoad = async ({ fetch }) => {
-    await loadMapping()
+    await loadMapping(fetch)
 }

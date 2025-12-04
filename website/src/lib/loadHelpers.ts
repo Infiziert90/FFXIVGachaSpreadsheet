@@ -3,7 +3,7 @@ import type {ChestDrop, Coffer, Venture} from "$lib/interfaces";
 import {error} from "@sveltejs/kit";
 import {type ItemInfo, Mappings} from "$lib/mappings";
 
-export async function loadMapping() {
+export async function loadMapping(fetch: any) {
     try {
         if (Object.keys(Mappings).length > 0) return;
 
