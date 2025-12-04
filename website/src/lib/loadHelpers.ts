@@ -29,7 +29,7 @@ export async function loadCoffer(path: string, fetch: any): Promise<{content: Co
             });
 
         if (!res) {
-            throw error(500, {message: `Failed to load ${path} data set.`});
+            throw error(500, {message: `Loaded resource ${path} was invalid.`});
         }
 
         return {content: res};
