@@ -16,6 +16,7 @@
             {value}
         {/await}
     </p>
+
     <p>Legend:</p>
     <blockquote>
         <p>

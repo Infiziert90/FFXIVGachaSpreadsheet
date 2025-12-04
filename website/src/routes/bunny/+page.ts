@@ -1,9 +1,9 @@
 ﻿import type { PageLoad } from './$types';
-import {loadCoffer} from "$lib/loadHelpers";
+import {loadCoffer, loadMapping} from "$lib/loadHelpers";
 
 // @ts-ignore
-export const load: PageLoad = async ({ parent, fetch }) => {
-    let mappingPromise = parent();
+export const load: PageLoad = async ({ fetch }) => {
+    let mappingPromise = loadMapping(fetch);
 
     const res = await loadCoffer('/data/EurekaBunnies.json', fetch)
     await mappingPromise;

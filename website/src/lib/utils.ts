@@ -24,7 +24,7 @@ export function responseHandler(response: Response) {
         return response.json();
     }
 
-    throw new Error(`Unable to fetch resource. Status: ${response.status} | Message: ${response.statusText}`);
+    throw new Error(`Response status didn't indicate success. Status: ${response.status} | Message: ${response.statusText}`);
 }
 
 export function errorHandling(response: any): never {
