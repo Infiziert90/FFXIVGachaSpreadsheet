@@ -1,6 +1,9 @@
 {
     "name": "svelte-rewrite",
     "compatibility_date": "2025-12-01",
+    "compatibility_flags": [
+      "global_fetch_strictly_public"
+    ],
     "main": ".svelte-kit/cloudflare/_worker.js",
     "assets": {
         "directory": ".svelte-kit/cloudflare",

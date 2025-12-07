@@ -7,11 +7,7 @@ export async function loadMapping(fetch: any) {
     try {
         if (Object.keys(Mappings).length > 0) return;
 
-        await fetch('/data/Mappings.json', {
-            headers: {
-                "X-Source": "Cloudflare-Workers",
-            },
-        })
+        await fetch('/data/Mappings.json')
             .then(responseHandler)
             .then((data: Record<number, ItemInfo>) =>{
                 for (const [key, value] of Object.entries(data)) {
@@ -27,11 +23,7 @@ export async function loadMapping(fetch: any) {
 export async function loadCoffer(path: string, fetch: any): Promise<{content: Coffer[]}> {
     try {
         console.log(`Loading ${path} data set...`);
-        const res = await fetch(path, {
-            headers: {
-                "X-Source": "Cloudflare-Workers",
-            },
-        })
+        const res = await fetch(path)
             .then(responseHandler)
             .then((data: Coffer[]) => {
                 return data;
