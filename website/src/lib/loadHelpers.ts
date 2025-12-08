@@ -7,14 +7,19 @@ export async function loadMapping(fetch: any) {
     try {
         if (Object.keys(Mappings).length > 0) return;
 
-        await fetch('/data/Mappings.json')
+        const res: Record<number, ItemInfo> = await fetch('/data/Mappings.json')
             .then(responseHandler)
             .then((data: Record<number, ItemInfo>) =>{
-                for (const [key, value] of Object.entries(data)) {
-                    Mappings[parseInt(key)] = value;
-                }
-            })
-            .catch(errorHandling);
+                return data;
+            });
+
+        if (!res) {
+            throw new Error(`Mapping resource is invalid.`);
+        }
+
+        for (const [key, value] of Object.entries(res)) {
+            Mappings[parseInt(key)] = value;
+        }
     } catch (err) {
         logAndThrow('Error loading mapping data.', err)
     }
@@ -22,15 +27,14 @@ export async function loadMapping(fetch: any) {
 
 export async function loadCoffer(path: string, fetch: any): Promise<{content: Coffer[]}> {
     try {
-        console.log(`Loading ${path} data set...`);
-        const res = await fetch(path)
+        const res: Coffer[] = await fetch(path)
             .then(responseHandler)
             .then((data: Coffer[]) => {
                 return data;
             });
 
         if (!res) {
-            throw new Error(`Loaded resource ${path} was invalid.`);
+            throw new Error(`${path} resource is invalid.`);
         }
 
         return {content: res};
@@ -48,7 +52,7 @@ export async function loadDesynth(path: string, fetch: any): Promise<{content: C
             });
 
         if (!res) {
-            throw error(500, {message: `Failed to load ${path} data set.`});
+            throw new Error(`${path} resource is invalid.`);
         }
 
         return {content: res};
@@ -59,14 +63,14 @@ export async function loadDesynth(path: string, fetch: any): Promise<{content: C
 
 export async function loadVentures(path: string, fetch: any): Promise<{content: Venture[]}> {
     try {
-        const res = await fetch(path)
+        const res: Venture[] = await fetch(path)
             .then(responseHandler)
             .then((data: Venture[]) => {
                 return data;
             });
 
         if (!res) {
-            throw error(500, {message: `Failed to load ${path} data set.`});
+            throw new Error(`${path} resource is invalid.`);
         }
 
         return {content: res};
@@ -77,14 +81,14 @@ export async function loadVentures(path: string, fetch: any): Promise<{content: 
 
 export async function loadChestDrops(path: string, fetch: any): Promise<{content: ChestDrop[]}> {
     try {
-        const res = await fetch(path)
+        const res: ChestDrop[] = await fetch(path)
             .then(responseHandler)
             .then((data: ChestDrop[]) => {
                 return data;
             });
 
         if (!res) {
-            throw error(500, {message: `Failed to load ${path} data set.`});
+            throw new Error(`${path} resource is invalid.`);
         }
 
         return {content: res};
