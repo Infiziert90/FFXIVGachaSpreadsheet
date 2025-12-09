@@ -154,6 +154,66 @@ td.icon img {
   }
 
 
+/* Loot Tree Styles */
+.loot-tree {
+    width: 100%;
+}
+
+.tree-node {
+    margin-left: 0;
+}
+
+.tree-node-folder {
+    cursor: pointer;
+    padding: 8px 12px;
+    transition: background-color 0.2s;
+}
+
+.tree-node-folder:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.tree-node-element {
+    padding: 6px 12px 6px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    background-color: transparent;
+}
+
+.tree-node-element:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.tree-node-element.active {
+    background-color: var(--bs-primary);
+    color: white;
+    font-weight: 500;
+}
+
+
+.tree-indent {
+    margin-left: 12px;
+    position: relative;
+    padding-left: 12px;
+    border-left: 1px solid var(--bs-border-color);
+}
+
+.tree-icon {
+    width: 16px;
+}
+
+.tree-label {
+    flex: 1;
+}
+
+.category-icon,
+.expansion-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
 @media (min-width: 992px) {
     .sticky-left-col {
         max-height: calc(100vh - 6rem);
