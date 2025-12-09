@@ -5,20 +5,18 @@
     import {onMount} from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
     import {FullColumnSetup} from "$lib/table";
-    import {Accordion, AccordionItem, Icon, ListGroup, ListGroupItem} from '@sveltestrap/sveltestrap';
+    import { Icon } from '@sveltestrap/sveltestrap';
     import {tryGetDutyLootSearchParams} from "$lib/searchParamHelper";
+    import LootAccordion from '../../component/LootAccordion.svelte';
 
     interface Props {
-        content: ChestDrop[];
+        data: { content: ChestDrop[] };
     }
 
     // html elements
     let tabContentElement: HTMLDivElement = $state() as HTMLDivElement;
-    let tabElements: {[key: string]: HTMLButtonElement} = $state({});
 
     let { data }: Props = $props();
-    let patches: string[] = $state([])
-    let selectedPatch = $state(0);
 
     let chestDropData: ChestDrop[] = data.content;
 
@@ -30,11 +28,7 @@
     let totalStats = $state('');
     let selectedStats = $state('');
 
-    // for (const patch of Object.keys(chestDropData[0].Variants[0].Patches)) {
-    //     patches.push(patch)
-    // }
-
-    // Initialize with default values (first territory and first coffer variant)
+    // Initialize with default values (first category, expansion, header, and duty)
     let category = $state(chestDropData[0].Id);
     let expansion = $state(chestDropData[0].Expansions[0].Id);
     let header = $state(chestDropData[0].Expansions[0].Headers[0].Id);
@@ -60,17 +54,17 @@
         }
     }
 
-    // When page loads, open the tab for the current territory/coffer
+    // When page loads, open the tab for the current category/expansion/header/duty
     onMount(() => {
         openTab(category, expansion, header, duty, false)
     })
 
     /**
      * Opens a tab and displays its data
-     * @param categoryId - The territory ID to display
-     * @param expansionId - The coffer variant ID to display
-     * @param headerId - The coffer variant ID to display
-     * @param dutyId - The coffer variant ID to display
+     * @param categoryId - The category ID to display
+     * @param expansionId - The expansion ID to display
+     * @param headerId - The header ID to display
+     * @param dutyId - The duty ID to display
      * @param addQuery - If true, update the URL with these parameters
      */
     function openTab(categoryId: number, expansionId: number, headerId: number, dutyId: number, addQuery: boolean = false) {
@@ -89,21 +83,8 @@
             replaceState(page.url, page.state);
         }
 
-        // Remove active class from all buttons
-        // The accordion component will add it back to the correct button
-        for (const element of Object.values(tabElements)) {
-            element?.classList.remove('active');
-        }
-
         // Show the tab content area
         tabContentElement.style.display = "block";
-        
-        // Mark the clicked button as active (if it exists)
-        // Note: The accordion component also handles this, but we do it here too for immediate feedback
-        const buttonKey = `${categoryId}${expansionId}`;
-        if (tabElements[buttonKey]) {
-            tabElements[buttonKey].classList.add('active');
-        }
 
         const selection = tryGetChestDrop(chestDropData, category, expansion, header, duty);
         if (selection === undefined) return;
@@ -119,27 +100,11 @@
         totalStats = `${selection.duty.Name}`;
         selectedStats = `${selection.duty.Records.toLocaleString()}`;
 
-        // // Update the available patches list for the selected coffer
-        // patches.length = 0;
-        // for (const key of Object.keys(expansionDetail.Patches)) {
-        //     patches.push(key);
-        // }
-
         // Scroll to the top of the page
         window.scrollTo(0, 0);
 
         // Set the new title
         document.title = `Duty Loot - ${selection.chestDrop.Name}`;
-    }
-
-    /**
-     * Called when user changes the patch selection dropdown
-     */
-    function patchSelectionChanged(event: Event) {
-        if (!event.currentTarget) return;
-
-        // Reload the current tab with the new patch selection
-        openTab(category, expansion, header, duty, false);
     }
 
     interface DutyLootSelection {
@@ -199,49 +164,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasFilter" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <Accordion class="w-100">
-                {#each chestDropData as chestDropEntry}
-                    <AccordionItem
-                            active={category === chestDropEntry.Id}
-                            on:toggle={(e) => handleToggle(chestDropEntry.Id, e)}
-                    >
-                        <div slot="header">{chestDropEntry.Name}</div>
-                        <Accordion class="w-100">
-                            {#each chestDropEntry.Expansions as expansionEntry}
-                                <AccordionItem
-                                        active={expansion === expansionEntry.Id}
-                                        on:toggle={(e) => handleToggle(expansionEntry.Id, e)}
-                                >
-                                    <div slot="header">{expansionEntry.Name}</div>
-                                    <Accordion class="w-100">
-                                        {#each expansionEntry.Headers as headerEntry}
-                                            <AccordionItem
-                                                    active={header === headerEntry.Id}
-                                                    on:toggle={(e) => handleToggle(headerEntry.Id, e)}
-                                            >
-                                                <div slot="header">{headerEntry.Name}</div>
-                                                <ListGroup>
-                                                    {#each headerEntry.Duties as dutyEntry}
-                                                        <ListGroupItem
-                                                                id="{chestDropEntry.Id}{expansionEntry.Id}{headerEntry.Id}{dutyEntry.Id}-tab"
-                                                                active={category === chestDropEntry.Id && expansion === expansionEntry.Id && header === headerEntry.Id && duty === dutyEntry.Id}
-                                                                tag="button"
-                                                                action
-                                                                on:click={() => openTab(chestDropEntry.Id, expansionEntry.Id, headerEntry.Id, dutyEntry.Id, true)}
-                                                        >
-                                                            {dutyEntry.Name}
-                                                        </ListGroupItem>
-                                                    {/each}
-                                                </ListGroup>
-                                            </AccordionItem>
-                                        {/each}
-                                    </Accordion>
-                                </AccordionItem>
-                            {/each}
-                        </Accordion>
-                    </AccordionItem>
-                {/each}
-            </Accordion>
+            <LootAccordionOg {chestDropData} {category} {expansion} {header} {duty} {openTab} />
         </div>
     </div>
 </div>
@@ -254,16 +177,6 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">{totalStats}</li>
                 <li class="list-group-item">{selectedStats}</li>
-                <li class="list-group-item">
-                    <label for="patch">Patch</label>
-<!--                    <select id="patch" class="form-select" bind:value={selectedPatch} onchange={patchSelectionChanged}>-->
-<!--                        {#each patches as patch, idx}-->
-<!--                            <option value={idx}>-->
-<!--                                {patch}-->
-<!--                            </option>-->
-<!--                        {/each}-->
-<!--                    </select>-->
-                </li>
             </ul>
         </div>
     </div>
