@@ -6,7 +6,8 @@
 
     <meta property="og:site_name" content="About">
     <meta property="og:title" content="About">
-    <meta name="description" property="og:description" content="A simple about page." />
+    <meta name="description" content="A simple about page." />
+    <meta property="og:description" content="A simple about page." />
 </svelte:head>
 
 <div class="col">

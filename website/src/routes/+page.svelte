@@ -1,10 +1,16 @@
 <script lang="ts">
     import {getLastUpdate} from "$lib/utils";
     import CardLink from "../component/CardLink.svelte";
-
-    // title.set('Home')
-    // description.set('A collection of probabilities.')
 </script>
+
+<svelte:head>
+    <title>Home</title>
+
+    <meta property="og:site_name" content="Home">
+    <meta property="og:title" content="Home">
+    <meta name="description" content="A collection of probabilities." />
+    <meta property="og:description" content="A collection of probabilities." />
+</svelte:head>
 
 <div class="col-12">
     <h1 class="text-body-emphasis">Final Fantasy 14 %-Stats</h1>

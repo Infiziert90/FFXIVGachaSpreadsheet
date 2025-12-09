@@ -153,7 +153,8 @@
 
     <meta property="og:site_name" content={title}>
     <meta property="og:title" content={title}>
-    <meta name="description" property="og:description" content={description} />
+    <meta name="description" content={description} />
+    <meta property="og:description" content={description} />
 </svelte:head>
 
 <button class="btn btn-primary btn-lg rounded-xl d-lg-none position-fixed bottom-0 end-0 m-3 w-auto z-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
