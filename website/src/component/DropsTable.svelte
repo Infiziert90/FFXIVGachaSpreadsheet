@@ -128,6 +128,17 @@
         return !!column.field && column.sortable !== false;
     }
 
+    interface CellContent {
+        name?: string;
+        wikiName?: string;
+
+        itemId?: number;
+
+        content?: string;
+
+        type: number;
+    }
+
     /**
      * Render cell content based on column configuration
      * Priority: templateRenderer > valueRenderer > field value
@@ -135,19 +146,28 @@
      * @param column - The column template defining how to render
      * @returns HTML string or plain text string to display in the cell
      */
-    function renderCellContent(row: Reward, column: ColumnTemplate): string {
+    function renderCellContent(row: Reward, column: ColumnTemplate): CellContent {
         if (column.templateRenderer) {
             // Custom HTML template renderer (returns HTML string)
-            return column.templateRenderer(row);
+
+            if (column.header === 'Name') {
+                const name = Mappings[row.Id].Name;
+                const wikiName = name.replace(/\s+/g, '_');
+
+                return { name, wikiName, type: 0 };
+            }
+
+            return { itemId: row.Id, type: 1 };
         } else if (column.valueRenderer) {
             // Custom value renderer (returns plain text)
-            return column.valueRenderer(row);
+            return { content: column.valueRenderer(row), type: 2 }
         } else if (column.field) {
             // Direct field access, convert to string
             // Type assertion: column.field is validated to be a key of Reward
-            return String(row[column.field as keyof Reward] ?? '');
+            return { content: String(row[column.field as keyof Reward] ?? ''), type: 2 }
         }
-        return '';
+
+        return { content: '', type: 2 };
     }
 </script>
 
@@ -170,9 +190,7 @@
                 >
                     {column.header}
 
-                    <Icon 
-                        name={sortField === column.field ? (sortDirection === 'asc' ? 'arrow-up' : 'arrow-down') : ''}
-                    />
+                    <Icon name={sortField === column.field ? (sortDirection === 'asc' ? 'arrow-up' : 'arrow-down') : ''}/>
                 </th>
             {/each}
         </tr>
@@ -182,6 +200,16 @@
             Render table rows from sorted items
             Each row displays data for one Reward item
         -->
+        {#snippet templateRender(cellContent: CellContent)}
+            {#if cellContent.type === 0}
+                <a href="https://ffxiv.consolegameswiki.com/wiki/{cellContent.wikiName}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">{cellContent.name}</a>
+            {:else if cellContent.type === 1}
+                <img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/{Mappings[cellContent.itemId].Icon}_hr1.tex&format=png" alt="{Mappings[cellContent.itemId].Name} Icon">
+            {:else if cellContent.type === 2}
+                {cellContent.content}
+            {/if}
+        {/snippet}
+
         {#each getSortedItems() as row}
             <tr>
                 {#each columns as column}
@@ -191,7 +219,7 @@
                         Falls back to plain text for valueRenderer or field values
                     -->
                     <td class={getColumnClasses(column)}>
-                        {@html renderCellContent(row, column)}
+                        {@render templateRender(renderCellContent(row, column))}
                     </td>
                 {/each}
             </tr>
