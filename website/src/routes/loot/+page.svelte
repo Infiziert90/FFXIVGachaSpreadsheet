@@ -1,22 +1,16 @@
 ﻿<script lang="ts">
     import { page } from '$app/state';
     import {replaceState} from "$app/navigation";
-    import type {ChestDrop, Coffer, Reward} from "$lib/interfaces";
-    import {Mappings} from "$lib/mappings";
+    import type {ChestDrop, Duty, Expansion, Header, Reward} from "$lib/interfaces";
     import {onMount} from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
-    import type {ColumnTemplate} from "$lib/table";
-    import CofferAccordion from "../../component/CofferAccordion.svelte";
+    import {FullColumnSetup} from "$lib/table";
     import {Accordion, AccordionItem, Icon, ListGroup, ListGroupItem} from '@sveltestrap/sveltestrap';
-    import {description, title} from "$lib/title.svelte";
+    import {tryGetDutyLootSearchParams} from "$lib/searchParamHelper";
 
     interface Props {
         content: ChestDrop[];
     }
-
-    // Set meta data
-    title.set('Duty Loot')
-    description.set('Possibilities for all types of chest loot in Duties, Trials, Raids and more.')
 
     // html elements
     let tabContentElement: HTMLDivElement = $state() as HTMLDivElement;
@@ -30,7 +24,6 @@
 
     // Table data
     let tables: Record<number, Reward[]> = $state({});
-    let tableColumns: ColumnTemplate[] = $state([]);
 
     // Stats
     let titleStats = $state('');
@@ -47,8 +40,25 @@
     let header = $state(chestDropData[0].Expansions[0].Headers[0].Id);
     let duty = $state(chestDropData[0].Expansions[0].Headers[0].Duties[0].Id);
 
+    // Set default meta data
+    let title = $state('Duty Loot');
+    let description = $state('Possibilities for all types of chest loot in Duties, Trials, Raids and more.');
+
     // Override defaults with URL parameters if they exist
-    getSearchParams();
+    let dutyLootSearchParams = tryGetDutyLootSearchParams(page.url.searchParams);
+    if (dutyLootSearchParams !== undefined) {
+        category = dutyLootSearchParams.categoryId;
+        expansion = dutyLootSearchParams.expansionId;
+        header = dutyLootSearchParams.headerId;
+        duty = dutyLootSearchParams.dutyId;
+
+        // svelte-ignore state_referenced_locally
+        const selection = tryGetChestDrop(chestDropData, category, expansion, header, duty);
+        if (selection !== undefined) {
+            title = `Duty Loot - ${selection.chestDrop.Name}`;
+            description = `All possible drops in ${selection.duty.Name}`;
+        }
+    }
 
     // When page loads, open the tab for the current territory/coffer
     onMount(() => {
@@ -95,77 +105,21 @@
             tabElements[buttonKey].classList.add('active');
         }
 
-        // Find the chest drop for the selected category
-        const chestDropEntry = chestDropData.find((cd) => cd.Id === categoryId);
-        if (!chestDropEntry) return;
-
-        // Find the specific expansion
-        const expansionDetail = chestDropEntry.Expansions.find((e) => e.Id === expansionId);
-        if (!expansionDetail) return;
-
-        // Find the specific header title
-        const headerDetail = expansionDetail.Headers.find((h) => h.Id === headerId);
-        if (!headerDetail) return;
-
-        // Find the specific duty
-        const dutyDetail = headerDetail.Duties.find((d) => d.Id === dutyId);
-        if (!dutyDetail) return;
+        const selection = tryGetChestDrop(chestDropData, category, expansion, header, duty);
+        if (selection === undefined) return;
 
         // Update table data
         tables = {};
-        dutyDetail.Chests.forEach((c) => {
+        selection.duty.Chests.forEach((c) => {
             tables[c.Id] = c.Rewards;
         })
-        tableColumns = [
-            {
-                header: '',
-                sortable: false,
-                templateRenderer: (row) => {
-                    return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${Mappings[row.Id].Icon}_hr1.tex&format=png" alt="${Mappings[row.Id].Name} Icon">`
-                },
-                classExtension: ['icon']
-            },
-            {
-                header: 'Name',
-                field: 'Id',
-                mappingSort: true,
-                templateRenderer: (row) => {
-                    const name = Mappings[row.Id].Name;
-                    const wikiName = name.replace(/\s+/g, '_');
-                    return `<a href="https://ffxiv.consolegameswiki.com/wiki/${wikiName}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">${name}</a>`
-                }
-            },
-            {
-                header: 'Obtained',
-                field: 'Amount',
-                classExtension: ['number', 'text-center']
-            },
-            {
-                header: 'Total',
-                field: 'Total',
-                classExtension: ['number', 'text-center']
-            },
-            {
-                header: 'Min-Max',
-                field: 'Min',
-                valueRenderer: (row) => `${row.Min}–${row.Max}`,
-                classExtension: ['number', 'text-center']
-            },
-            {
-                header: 'Chance',
-                field: 'Pct',
-                defaultSort: 'asc',
-                valueRenderer: (row) => `${(row.Pct * 100).toFixed(2)}%`,
-                classExtension: ['percentage', 'text-end']
-            },
-        ];
 
         // Update stats display
-        titleStats = `${chestDropEntry.Name} Stats`;
-        totalStats = `${dutyDetail.Name}`;
-        selectedStats = `${dutyDetail.Records.toLocaleString()}`;
+        titleStats = `${selection.chestDrop.Name} Stats`;
+        totalStats = `${selection.duty.Name}`;
+        selectedStats = `${selection.duty.Records.toLocaleString()}`;
 
-        // // Update available patches list for the selected coffer
+        // // Update the available patches list for the selected coffer
         // patches.length = 0;
         // for (const key of Object.keys(expansionDetail.Patches)) {
         //     patches.push(key);
@@ -173,6 +127,9 @@
 
         // Scroll to the top of the page
         window.scrollTo(0, 0);
+
+        // Set the new title
+        document.title = `Duty Loot - ${selection.chestDrop.Name}`;
     }
 
     /**
@@ -182,20 +139,53 @@
         if (!event.currentTarget) return;
 
         // Reload the current tab with the new patch selection
-        getSearchParams();
         openTab(category, expansion, header, duty, false);
     }
 
+    interface DutyLootSelection {
+        chestDrop: ChestDrop,
+        expansion: Expansion,
+        header: Header,
+        duty: Duty,
+    }
+
     /**
-     * Reads territory and coffer from URL parameters
+     * Try to get the specific category, expansion, header and duty from the data.
+     * @param data - Dictionary to search through
+     * @param categoryId - The category id to resolve
+     * @param expansionId - The expansion id to resolve
+     * @param headerId - The header id to resolve
+     * @param dutyId - The duty id to resolve
+     * @returns DutyLoot selection if successful, undefined otherwise.
      */
-    function getSearchParams() {
-        if (page.url.searchParams.has('territory') && page.url.searchParams.has('coffer')) {
-            category = parseInt(page.url.searchParams.get('territory')!);
-            expansion = parseInt(page.url.searchParams.get('coffer')!);
-        }
+    export function tryGetChestDrop(data: ChestDrop[], categoryId: number, expansionId: number, headerId: number, dutyId: number): DutyLootSelection | undefined {
+        // Find the chest drop for the selected category
+        const chestDrop = data.find((cd) => cd.Id === categoryId);
+        if (!chestDrop) return undefined;
+
+        // Find the specific expansion
+        const expansion = chestDrop.Expansions.find((e) => e.Id === expansionId);
+        if (!expansion) return undefined;
+
+        // Find the specific header title
+        const header = expansion.Headers.find((h) => h.Id === headerId);
+        if (!header) return undefined;
+
+        // Find the specific duty
+        const duty = header.Duties.find((d) => d.Id === dutyId);
+        if (!duty) return undefined;
+
+        return { chestDrop, expansion, header, duty };
     }
 </script>
+
+<svelte:head>
+    <title>{title}</title>
+
+    <meta property="og:site_name" content={title}>
+    <meta property="og:title" content={title}>
+    <meta name="description" property="og:description" content={description} />
+</svelte:head>
 
 <button class="btn btn-primary btn-lg rounded-xl d-lg-none position-fixed bottom-0 end-0 m-3 w-auto z-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
     <Icon name="funnel-fill" />
@@ -280,8 +270,8 @@
 <div class="col-12 col-lg-7 order-0 order-lg-2">
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
         {#each Object.entries(tables) as [tableId, tableItems]}
-            {#if tableItems.length > 0 && tableColumns.length > 0}
-                <DropsTable items={tableItems} columns={tableColumns} />
+            {#if tableItems.length > 0}
+                <DropsTable items={tableItems} columns={FullColumnSetup} />
             {:else}
                 <p>No data found</p>
             {/if}

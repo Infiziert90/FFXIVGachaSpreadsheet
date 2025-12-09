@@ -2,21 +2,17 @@
     import { page } from '$app/state';
     import {replaceState} from "$app/navigation";
     import type {Coffer, Reward} from "$lib/interfaces";
-    import {Mappings} from "$lib/mappings";
     import {onMount} from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
-    import type {ColumnTemplate} from "$lib/table";
+    import {NameObtainedChanceSetup} from "$lib/table";
     import CofferAccordion from "../../component/CofferAccordion.svelte";
     import { Icon } from '@sveltestrap/sveltestrap';
-    import {description, title} from "$lib/title.svelte";
+    import {tryGetCofferSearchParams} from "$lib/searchParamHelper";
+    import {tryGetCoffer} from "$lib/cofferHelper";
 
     interface Props {
         content: Coffer[];
     }
-
-    // Set meta data
-    title.set('Deep Dungeon Sacks')
-    description.set('Possibilities for all sacks that drop in Deep Dungeons.')
 
     // html elements
     let tabContentElement: HTMLDivElement = $state() as HTMLDivElement;
@@ -30,7 +26,6 @@
 
     // Table data
     let tableItems: Reward[] = $state([]);
-    let tableColumns: ColumnTemplate[] = $state([]);
 
     // Stats
     let titleStats = $state('');
@@ -44,9 +39,24 @@
     // Initialize with default values (first territory and first coffer variant)
     let territory = $state(cofferData[0].TerritoryId);
     let coffer = $state(cofferData[0].Variants[0].Id);
-    
+
+    // Set default meta data
+    let title = $state('Deep Dungeon Sacks');
+    let description = $state('Possibilities for all types of coffers, e.g Venture Coffer, or Materiel Container 3.0.');
+
     // Override defaults with URL parameters if they exist
-    getSearchParams();
+    let cofferSearchParams = tryGetCofferSearchParams(page.url.searchParams);
+    if (cofferSearchParams !== undefined) {
+        territory = cofferSearchParams.territoryId;
+        coffer = cofferSearchParams.cofferId;
+
+        // svelte-ignore state_referenced_locally
+        const selection = tryGetCoffer(cofferData, territory, coffer);
+        if (selection !== undefined) {
+            title = `Deep Dungeon Sacks - ${selection.coffer.Name}`;
+            description = `Possibilities for ${selection.variant.Name}`;
+        }
+    }
 
     // When page loads, open the tab for the current territory/coffer
     onMount(() => {
@@ -59,11 +69,15 @@
      * @param coffer - The coffer variant ID to display
      * @param addQuery - If true, update the URL with these parameters
      */
-    function openTab(territory: number, coffer: number, addQuery: boolean = false) {
+    function openTab(territoryId: number, cofferId: number, addQuery: boolean = false) {
+        // Update state variables
+        territory = territoryId;
+        coffer = cofferId;
+
         // Update URL if requested (when user clicks a button)
         if (addQuery) {
-            page.url.searchParams.set('territory', territory.toString());
-            page.url.searchParams.set('coffer', coffer.toString());
+            page.url.searchParams.set('territory', territoryId.toString());
+            page.url.searchParams.set('coffer', cofferId.toString());
             replaceState(page.url, page.state);
         }
 
@@ -78,77 +92,49 @@
         
         // Mark the clicked button as active (if it exists)
         // Note: The accordion component also handles this, but we do it here too for immediate feedback
-        const buttonKey = `${territory}${coffer}`;
+        const buttonKey = `${territoryId}${cofferId}`;
         if (tabElements[buttonKey]) {
             tabElements[buttonKey].classList.add('active');
         }
 
-        // Find the coffer data for the selected territory
-        const variantData = cofferData.find((e) => e.TerritoryId === territory);
-        if (!variantData) return;
+        const selection = tryGetCoffer(cofferData, territoryId, cofferId);
+        if (selection === undefined) return;
 
-        // Find the specific coffer variant
-        const loadedCoffer = variantData.Variants.find((e) => e.Id === coffer);
-        if (!loadedCoffer) return;
+        // Check if the selected patch is invalid, if so reset to default
+        let availablePatches = Object.keys(selection.variant.Patches);
+        if (availablePatches.length !== patches.length || patches.length <= selectedPatch || !availablePatches.includes(patches[selectedPatch])) {
+            // Update the available patches list
+            patches.length = 0;
+            for (const key of availablePatches) {
+                patches.push(key);
+            }
+
+            selectedPatch = 0;
+        }
 
         // Get the patch data for the selected patch
         const requestedPatch = patches[selectedPatch];
-        const patchData = loadedCoffer.Patches[requestedPatch];
+        const patchData = selection.variant.Patches[requestedPatch];
 
         // Update table data
         tableItems = patchData.Items;
-        tableColumns = [
-            {
-                header: '',
-                sortable: false,
-                templateRenderer: (row) => {
-                    return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${Mappings[row.Id].Icon}_hr1.tex&format=png" alt="${Mappings[row.Id].Name} Icon">`
-                },
-                classExtension: ['icon']
-            },
-            {
-                header: 'Name',
-                field: 'Id',
-                mappingSort: true,
-                templateRenderer: (row) => {
-                    const name = Mappings[row.Id].Name;
-                    const wikiName = name.replace(/\s+/g, '_');
-                    return `<a href="https://ffxiv.consolegameswiki.com/wiki/${wikiName}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">${name}</a>`
-                }
-            },
-            {
-                header: 'Obtained',
-                field: 'Amount',
-                classExtension: ['number', 'text-center']
-            },
-            {
-                header: 'Chance',
-                field: 'Pct',
-                defaultSort: 'asc',
-                valueRenderer: (row) => `${(row.Pct * 100).toFixed(2)}%`,
-                classExtension: ['percentage', 'text-end']
-            },
-        ];
 
         // Update stats display
-        titleStats = `${variantData.Name} Stats`;
+        titleStats = `${selection.coffer.Name} Stats`;
 
         // Calculate total across all variants in this territory
         let total = 0;
-        variantData.Variants.forEach(coffer => {
-            total += coffer.Patches[requestedPatch].Total;
+        selection.coffer.Variants.forEach(c => {
+            total += c.Patches[requestedPatch].Total;
         });
         totalStats = `Total: ${total.toLocaleString()}`;
-        selectedStats = `${loadedCoffer.Name}: ${patchData.Total.toLocaleString()}`;
-
-        // Update available patches list for the selected coffer
-        patches.length = 0;
-        for (const key of Object.keys(loadedCoffer.Patches)) {
-            patches.push(key);
-        }
+        selectedStats = `${selection.variant.Name}: ${patchData.Total.toLocaleString()}`;
 
         // Scroll to the top of the page
         window.scrollTo(0, 0);
+
+        // Set the new title
+        document.title = `Deep Dungeon Sacks - ${selection.coffer.Name}`
     }
 
     /**
@@ -158,20 +144,17 @@
         if (!event.currentTarget) return;
 
         // Reload the current tab with the new patch selection
-        getSearchParams();
         openTab(territory, coffer, false);
     }
-
-    /**
-     * Reads territory and coffer from URL parameters
-     */
-    function getSearchParams() {
-        if (page.url.searchParams.has('territory') && page.url.searchParams.has('coffer')) {
-            territory = parseInt(page.url.searchParams.get('territory')!);
-            coffer = parseInt(page.url.searchParams.get('coffer')!);
-        }
-    }
 </script>
+
+<svelte:head>
+    <title>{title}</title>
+
+    <meta property="og:site_name" content={title}>
+    <meta property="og:title" content={title}>
+    <meta name="description" property="og:description" content={description} />
+</svelte:head>
 
 <button class="btn btn-primary btn-lg rounded-xl d-lg-none position-fixed bottom-0 end-0 m-3 w-auto z-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
     <Icon name="funnel-fill" />
@@ -219,8 +202,8 @@
 </div>
 <div class="col-12 col-lg-7 order-0 order-lg-2">
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
-        {#if tableItems.length > 0 && tableColumns.length > 0}
-            <DropsTable items={tableItems} columns={tableColumns} />
+        {#if tableItems.length > 0}
+            <DropsTable items={tableItems} columns={NameObtainedChanceSetup} />
         {:else}
             <p>No data found</p>
         {/if}

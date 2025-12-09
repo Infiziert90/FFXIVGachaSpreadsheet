@@ -1,22 +1,18 @@
 ﻿<script lang="ts">
     import { page } from '$app/state';
     import { replaceState } from "$app/navigation";
-    import type { DesynthBase, DesynthHistory, Reward } from "$lib/interfaces";
+    import type {DesynthBase, DesynthHistory, Reward} from "$lib/interfaces";
     import { Mappings } from "$lib/mappings";
     import { onMount } from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
-    import type { ColumnTemplate } from "$lib/table";
+    import {NameObtainedMinChanceSetup} from "$lib/table";
     import DesynthSearchbar from "../../component/DesynthSearchbar.svelte";
     import { Icon } from '@sveltestrap/sveltestrap';
-    import {description, title} from "$lib/title.svelte";
+    import {tryGetDesynthSearchParams} from "$lib/searchParamHelper";
 
     interface Props {
         content: DesynthBase;
     }
-
-    // Set meta data
-    title.set('Desynthesis')
-    description.set('Possibilities for desynthesis material and their rewards.')
 
     // html elements
     let tabContentElement: HTMLDivElement = $state() as HTMLDivElement;
@@ -28,7 +24,6 @@
 
     // Table data
     let tableItems: Reward[] = $state([]);
-    let tableColumns: ColumnTemplate[] = $state([]);
 
     // Stats
     let titleStats = $state('');
@@ -42,7 +37,32 @@
     // add defaults if things aren't set correctly
     let sourceParam = $state(0);
     let rewardParam = $state(0);
-    getSearchParams();
+
+    // Set default meta data
+    let title = $state('Desynthesis');
+    let description = $state('Possibilities for desynthesis material and their rewards.');
+
+    // Override defaults with URL parameters if they exist
+    let desynthSearchParams = tryGetDesynthSearchParams(page.url.searchParams);
+    if (desynthSearchParams !== undefined) {
+        if (desynthSearchParams.sourceId > 0) sourceParam = desynthSearchParams.sourceId;
+        if (desynthSearchParams.rewardId > 0) rewardParam = desynthSearchParams.rewardId;
+
+        // svelte-ignore state_referenced_locally
+        let isSourceSearch = sourceParam > 0;
+
+        let data = isSourceSearch ? desynthBase.Sources : desynthBase.Rewards;
+        // svelte-ignore state_referenced_locally
+        let id = isSourceSearch ? sourceParam : rewardParam;
+        let titleAddition = isSourceSearch ? 'Source Search' : 'Reward Search';
+        let descriptionAddition = isSourceSearch ? 'Rewards' : 'Sources';
+
+        const selection = tryGetDesynth(data, id);
+        if (selection !== undefined) {
+            title = `Desynthesis - ${titleAddition}`;
+            description = `${descriptionAddition} for ${Mappings[id].Name}.`;
+        }
+    }
 
     onMount(() => {
         if (sourceParam > 0) {
@@ -51,16 +71,6 @@
             onButtonClick(rewardParam, desynthBase.Rewards, 'Received', false);
         }
     });
-
-    function getSearchParams() {
-        if (page.url.searchParams.has('source')) {
-            sourceParam = parseInt(page.url.searchParams.get('source')!);
-        }
-
-        if (page.url.searchParams.has('reward')) {
-            rewardParam = parseInt(page.url.searchParams.get('reward')!);
-        }
-    }
 
     function onButtonClick(id: number, usedData: Record<number, DesynthHistory>, statsType: string, addQuery: boolean) {
         if (addQuery) {
@@ -72,54 +82,23 @@
                 page.url.searchParams.delete('source');
                 page.url.searchParams.set('reward', id.toString());
             }
+
             replaceState(page.url, page.state);
         }
 
-        let loadedData = usedData[id];
+        const selection = tryGetDesynth(usedData, id);
+        if (selection === undefined) return;
 
         // Update selected tracking
         selectedId = id;
         selectedStatsType = statsType;
 
         // Update table data
-        tableItems = loadedData.Rewards;
-        tableColumns = [
-            {
-                header: '',
-                sortable: false,
-                templateRenderer: (row: Reward) => {
-                    return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${Mappings[row.Id].Icon}_hr1.tex&format=png" alt="${Mappings[row.Id].Name} Icon">`
-                },
-                classExtension: ['icon']
-            },
-            {
-                header: 'Name',
-                field: 'Id',
-                mappingSort: true,
-                valueRenderer: (row) => Mappings[row.Id].Name
-            },
-            {
-                header: 'Obtained',
-                field: 'Amount',
-                classExtension: ['number', 'text-center'] },
-            {
-                header: 'Min-Max',
-                field: 'Min',
-                valueRenderer: (row: Reward) => `${row.Min}–${row.Max}`,
-                classExtension: ['number', 'text-center']
-            },
-            {
-                header: 'Chance',
-                field: 'Pct',
-                defaultSort: 'asc',
-                valueRenderer: (row: Reward) => `${(row.Pct * 100).toFixed(2)}%`,
-                classExtension: ['percentage', 'text-end']
-            },
-        ];
+        tableItems = selection.history.Rewards;
 
         // Update stats
         titleStats = `${Mappings[id].Name} Stats`;
-        totalStats = `${statsType}: ${loadedData.Records.toLocaleString()}`;
+        totalStats = `${statsType}: ${selection.history.Records.toLocaleString()}`;
         selectedStats = ` `;
 
         // Update button highlighting in accordion
@@ -130,8 +109,41 @@
         const rewardButton = tabElements[`reward-${id}`];
         if (sourceButton) sourceButton.classList.add('btn-success');
         if (rewardButton) rewardButton.classList.add('btn-success');
+
+        // Scroll to the top of the page
+        window.scrollTo(0, 0);
+
+        // Set the new title
+        let titleAddition = statsType === 'Desynths' ? 'Source Search' : 'Reward Search';
+        document.title = `Desynthesis - ${titleAddition}`
+    }
+
+    interface DesynthSelection {
+        history: DesynthHistory;
+    }
+
+    /**
+     * Try to get the specific venture and task.
+     * @param data - Dictionary to search through
+     * @param requestedId - The item id to resolve
+     * @returns Desynth selection if successful, undefined otherwise.
+     */
+    function tryGetDesynth(data: Record<number, DesynthHistory>, requestedId: number): DesynthSelection | undefined {
+        // Find the history for the selected id
+        const history = data[requestedId]
+        if (!history) return undefined;
+
+        return { history };
     }
 </script>
+
+<svelte:head>
+    <title>{title}</title>
+
+    <meta property="og:site_name" content={title}>
+    <meta property="og:title" content={title}>
+    <meta name="description" property="og:description" content={description} />
+</svelte:head>
 
 <button class="btn btn-primary btn-lg rounded-xl d-lg-none position-fixed bottom-0 end-0 m-3 w-auto z-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter" aria-label="Open filter menu">
     <Icon name="funnel-fill" />
@@ -171,8 +183,8 @@
 </div>
 <div class="col-12 col-lg-7 order-0 order-lg-2">
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
-        {#if tableItems.length > 0 && tableColumns.length > 0}
-            <DropsTable items={tableItems} columns={tableColumns} />
+        {#if tableItems.length > 0}
+            <DropsTable items={tableItems} columns={NameObtainedMinChanceSetup} />
         {:else}
             <p>No data found</p>
         {/if}

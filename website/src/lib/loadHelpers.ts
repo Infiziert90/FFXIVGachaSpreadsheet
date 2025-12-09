@@ -1,6 +1,5 @@
-﻿import {errorHandling, logAndThrow, responseHandler} from "$lib/utils";
+﻿import {logAndThrow, responseHandler} from "$lib/utils";
 import type {ChestDrop, Coffer, Venture} from "$lib/interfaces";
-import {error} from "@sveltejs/kit";
 import {type ItemInfo, Mappings} from "$lib/mappings";
 
 export async function loadMapping(fetch: any) {

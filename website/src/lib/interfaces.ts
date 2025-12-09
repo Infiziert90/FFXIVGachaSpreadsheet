@@ -14,7 +14,7 @@ export interface Coffer {
     Variants: CofferVariant[];
 }
 
-interface CofferVariant {
+export interface CofferVariant {
     Id: number;
     Name: string;
 
@@ -43,7 +43,7 @@ export interface Venture {
     Tasks: VentureTask[];
 }
 
-interface VentureTask {
+export interface VentureTask {
     Name: string;
     Type: number;
     Patches: Record<string, VentureContent>;
@@ -61,19 +61,19 @@ export interface ChestDrop {
     Expansions: Expansion[];
 }
 
-interface Expansion {
+export interface Expansion {
     Id: number;
     Name: string;
     Headers: Header[];
 }
 
-interface Header {
+export interface Header {
     Id: number;
     Name: string;
     Duties: Duty[];
 }
 
-interface Duty {
+export interface Duty {
     Records: number;
     Id: number;
     Name: string;

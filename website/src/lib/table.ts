@@ -1,6 +1,5 @@
 import type {Reward} from "$lib/interfaces";
-import {error} from "@sveltejs/kit";
-import type {HTMLThAttributes} from "svelte/elements";
+import {Mappings} from "$lib/mappings";
 
 export interface ColumnTemplate {
     header: string;
@@ -16,129 +15,73 @@ export interface ColumnTemplate {
     classExtension?: string[];
 }
 
-export function makeSortableTable(element: HTMLTableElement, items: Reward[], columns: ColumnTemplate[]) {
-    element.innerHTML = '';
-    const thead = document.createElement('thead');
-    const tbody = document.createElement('tbody');
+const IconTemplate: ColumnTemplate = {
+    header: '',
+    sortable: false,
+    templateRenderer: (row: Reward) => {
+        return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${Mappings[row.Id].Icon}_hr1.tex&format=png" alt="${Mappings[row.Id].Name} Icon">`
+    },
+    classExtension: ['icon']
+};
 
-    const sort: {field: keyof Reward | null, direction: string} = {
-        field: '',
-        direction: ''
-    };
-
-    const createTableBody = () => {
-        let sortedItems = [...items];
-        if (sort.field) {
-            if (sort.direction === 'asc') {
-                sortedItems = sortedItems.sort((a, b) => {
-                    if (a[sort.field] == b[sort.field]) {
-                        return 0;
-                    } else if (a[sort.field] < b[sort.field]) {
-                        return -1;
-                    } else {
-                        return 1;
-                    }
-                });
-            } else {
-                sortedItems = sortedItems.sort((a, b) => {
-                    if (a[sort.field] == b[sort.field]) {
-                        return 0;
-                    } else if (a[sort.field] > b[sort.field]) {
-                        return -1;
-                    } else {
-                        return 1;
-                    }
-                });
-            }
-        }
-
-        const fragment = new DocumentFragment();
-        for (const row of sortedItems) {
-            const tr = document.createElement('tr');
-            for (const column of columns) {
-                const td = document.createElement('td');
-                if (column.templateRenderer) {
-                    td.innerHTML = column.templateRenderer(row);
-                } else if (column.valueRenderer) {
-                    td.innerText = column.valueRenderer(row);
-                } else if (column.field) {
-                    td.innerText = row[column.field].toString();
-                } else {
-                    error(500, {message: 'No field or templateRenderer specified for column'});
-                }
-
-                if (column.classExtension) {
-                    for(const extension of column.classExtension) {
-                        td.classList.add(extension)
-                    }
-                }
-
-                tr.appendChild(td);
-            }
-            fragment.appendChild(tr);
-        }
-
-        tbody.innerHTML = '';
-        tbody.appendChild(fragment);
-    };
-
-    const changeSort = (column: ColumnTemplate, direction?: string) => {
-        if (!column.field) {
-            return;
-        }
-
-        if (direction) {
-            sort.direction = direction;
-        } else {
-            if (sort.field === column.field) {
-                sort.direction = sort.direction === 'asc' ? 'desc' : 'asc';
-            } else {
-                sort.direction = 'asc';
-            }
-        }
-        sort.field = column.field;
-
-        // update classes on <th> nodes
-        for (const th of Object.values(thead.childNodes[0].childNodes) as HTMLElement[]) {
-            th.classList.remove('sorted-asc', 'sorted-desc');
-            if (th.dataset.field && th.dataset.field === sort.field) {
-                th.classList.add(sort.direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
-            }
-        }
-
-        // re-create the table body
-        createTableBody();
-    };
-
-    // create table header
-    const headerRow = document.createElement('tr');
-    for (const column of columns) {
-        const th = document.createElement('th');
-        th.innerText = column.header;
-        if (column.field) {
-            th.dataset.field = column.field;
-            th.classList.add('sortable');
-            th.addEventListener('click', () => changeSort(column));
-
-            if (column.classExtension) {
-                for(const extension of column.classExtension) {
-                    th.classList.add(extension);
-                }
-            }
-        }
-        headerRow.appendChild(th);
+const NameTemplate: ColumnTemplate = {
+    header: 'Name',
+    field: 'Id',
+    mappingSort: true,
+    templateRenderer: (row: Reward) => {
+        const name = Mappings[row.Id].Name;
+        const wikiName = name.replace(/\s+/g, '_');
+        return `<a href="https://ffxiv.consolegameswiki.com/wiki/${wikiName}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">${name}</a>`
     }
+};
 
-    thead.appendChild(headerRow);
-    element.appendChild(thead);
+const ObtainedTemplate: ColumnTemplate = {
+    header: 'Obtained',
+    field: 'Amount',
+    classExtension: ['number', 'text-center']
+};
 
-    // set default sort if we find it
-    for (const column of columns) {
-        if (column.defaultSort) {
-            changeSort(column, column.defaultSort);
-        }
-    }
+const TotalTemplate: ColumnTemplate = {
+    header: 'Total',
+    field: 'Total',
+    classExtension: ['number', 'text-center']
+};
 
-    createTableBody();
-    element.appendChild(tbody);
-}
+const MinMaxTemplate: ColumnTemplate = {
+    header: 'Min-Max',
+    field: 'Min',
+    valueRenderer: (row: Reward) => `${row.Min}–${row.Max}`,
+    classExtension: ['number', 'text-center']
+};
+
+const ChanceTemplate: ColumnTemplate = {
+    header: 'Chance',
+    field: 'Pct',
+    defaultSort: 'asc',
+    valueRenderer: (row: Reward) => `${(row.Pct * 100).toFixed(2)}%`,
+    classExtension: ['percentage', 'text-end']
+};
+
+export const FullColumnSetup: ColumnTemplate[] = [
+    IconTemplate,
+    NameTemplate,
+    ObtainedTemplate,
+    TotalTemplate,
+    MinMaxTemplate,
+    ChanceTemplate,
+];
+
+export const NameObtainedChanceSetup: ColumnTemplate[] = [
+    IconTemplate,
+    NameTemplate,
+    ObtainedTemplate,
+    ChanceTemplate,
+];
+
+export const NameObtainedMinChanceSetup: ColumnTemplate[] = [
+    IconTemplate,
+    NameTemplate,
+    ObtainedTemplate,
+    MinMaxTemplate,
+    ChanceTemplate,
+];

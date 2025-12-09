@@ -1,10 +1,9 @@
 <script lang="ts">
     import {getLastUpdate} from "$lib/utils";
     import CardLink from "../component/CardLink.svelte";
-    import {description, title} from "$lib/title.svelte";
 
-    title.set('Home')
-    description.set('A collection of probabilities.')
+    // title.set('Home')
+    // description.set('A collection of probabilities.')
 </script>
 
 <div class="col-12">

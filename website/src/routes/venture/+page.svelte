@@ -1,23 +1,18 @@
 ﻿<script lang="ts">
     import { page } from '$app/state';
     import { replaceState } from "$app/navigation";
-    import type { Reward, Venture } from "$lib/interfaces";
-    import {Mappings} from "$lib/mappings";
+    import type {Reward, Venture, VentureTask} from "$lib/interfaces";
     import {onMount} from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
-    import type {ColumnTemplate} from "$lib/table";
+    import {FullColumnSetup} from "$lib/table";
     import { Icon } from '@sveltestrap/sveltestrap';
-    import {description, title} from "$lib/title.svelte";
     import VentureAccordion from "../../component/VentureAccordion.svelte";
     import ItemCard from "../../component/ItemCard.svelte";
+    import {tryGetVentureSearchParams} from "$lib/searchParamHelper.ts";
 
     interface Props {
         content: Venture[];
     }
-
-    // Set meta data
-    title.set('Ventures')
-    description.set('Possibilities for all venture tasks.')
 
     // html elements
     let tabContentElement: HTMLDivElement = $state() as HTMLDivElement;
@@ -31,7 +26,6 @@
     // Table data
     let primaryRewards: Reward[] = $state([]);
     let secondaryRewards: Reward[] = $state([]);
-    let tableColumns: ColumnTemplate[] = $state([]);
 
     // Stats
     let titleStats = $state('');
@@ -45,9 +39,24 @@
     // Initialize with default values (skipping first because it is a huge quick venture list)
     let category = $state(ventureData[1].Category);
     let taskType = $state(ventureData[1].Tasks[0].Type);
-    
+
+    // Set default meta data
+    let title = $state('Ventures');
+    let description = $state('Possibilities for all venture tasks.');
+
     // Override defaults with URL parameters if they exist
-    getSearchParams();
+    let ventureSearchParams = tryGetVentureSearchParams(page.url.searchParams);
+    if (ventureSearchParams !== undefined) {
+        category = ventureSearchParams.categoryId;
+        taskType = ventureSearchParams.taskTypeId;
+
+        // svelte-ignore state_referenced_locally
+        const selection = tryGetVenture(ventureData, category, taskType);
+        if (selection !== undefined) {
+            title = `Ventures - ${selection.venture.Name}`;
+            description = `Possibilities for ${selection.task.Name}`;
+        }
+    }
 
     // When page loads, open the tab for the current category/taskType
     onMount(() => {
@@ -75,84 +84,39 @@
         // Show the tab content area
         tabContentElement.style.display = "block";
 
-        // Find the data for the selected category
-        const variantData = ventureData.find((e) => e.Category === categoryId);
-        if (!variantData) return;
+        const selection = tryGetVenture(ventureData, category, taskType);
+        if (selection === undefined) return;
 
-        // Find the specific task variant
-        const loadedTask = variantData.Tasks.find((e) => e.Type === taskTypeId);
-        if (!loadedTask) return;
+        // Check if the selected patch is invalid, if so reset to default
+        let availablePatches = Object.keys(selection.task.Patches);
+        if (availablePatches.length !== patches.length || patches.length <= selectedPatch || !availablePatches.includes(patches[selectedPatch])) {
+            // Update the available patches list
+            patches.length = 0;
+            for (const key of availablePatches) {
+                patches.push(key);
+            }
 
-        let availablePatches = Object.keys(loadedTask.Patches);
-
-        // Selected patch is invalid, reset to default
-        if (availablePatches.length !== patches.length || patches.length < selectedPatch || !availablePatches.includes(patches[selectedPatch])) {
             selectedPatch = 0;
         }
 
         // Get the patch data for the selected patch
         const requestedPatch = patches[selectedPatch];
-        const patchData = loadedTask.Patches[requestedPatch];
+        const patchData = selection.task.Patches[requestedPatch];
 
         // Update table data
         primaryRewards = patchData.Primaries;
         secondaryRewards = patchData.Secondaries;
-        tableColumns = [
-            {
-                header: '',
-                sortable: false,
-                templateRenderer: (row) => {
-                    return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${Mappings[row.Id].Icon}_hr1.tex&format=png" alt="${Mappings[row.Id].Name} Icon">`
-                },
-                classExtension: ['icon']
-            },
-            {
-                header: 'Name',
-                field: 'Id',
-                mappingSort: true,
-                templateRenderer: (row) => {
-                    const name = Mappings[row.Id].Name;
-                    const wikiName = name.replace(/\s+/g, '_');
-                    return `<a href="https://ffxiv.consolegameswiki.com/wiki/${wikiName}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">${name}</a>`
-                }
-            },
-            {
-                header: 'Obtained',
-                field: 'Amount',
-                classExtension: ['number', 'text-center']
-            },
-            {
-                header: 'Total',
-                field: 'Total',
-                classExtension: ['number', 'text-center']},
-            {
-                header: 'Min-Max',
-                field: 'Min',
-                valueRenderer: (row) => `${row.Min}–${row.Max}`,
-                classExtension: ['number', 'text-center']
-            },
-            {
-                header: 'Chance',
-                field: 'Pct',
-                defaultSort: 'asc',
-                valueRenderer: (row) => `${(row.Pct * 100).toFixed(2)}%`,
-                classExtension: ['percentage', 'text-end']
-            },
-        ];
 
         // Update stats display
-        titleStats = `${variantData.Name} Stats`;
-        totalStats = `${loadedTask.Name}`;
+        titleStats = `${selection.venture.Name} Stats`;
+        totalStats = `${selection.task.Name}`;
         selectedStats = `${patchData.Total.toLocaleString()}`;
-
-        // Update available patches list for the selected coffer
-        patches.length = 0;
-        for (const key of availablePatches) {
-            patches.push(key);
-        }
 
         // Scroll to the top of the page
         window.scrollTo(0, 0);
+
+        // Set the new title
+        document.title = `Ventures - ${selection.venture.Name}`
     }
 
     /**
@@ -162,20 +126,41 @@
         if (!event.currentTarget) return;
 
         // Reload the current tab with the new patch selection
-        getSearchParams();
         openTab(category, taskType, false);
     }
 
+    interface VentureSelection {
+        venture: Venture;
+        task: VentureTask;
+    }
+
     /**
-     * Reads territory and coffer from URL parameters
+     * Try to get the specific venture and task.
+     * @param data - Dictionary to search through
+     * @param categoryId - The category id to resolve
+     * @param taskTypeId - The task id to resolve
+     * @returns Venture selection if successful, undefined otherwise.
      */
-    function getSearchParams() {
-        if (page.url.searchParams.has('category') && page.url.searchParams.has('task_type')) {
-            category = parseInt(page.url.searchParams.get('category')!);
-            taskType = parseInt(page.url.searchParams.get('task_type')!);
-        }
+    export function tryGetVenture(data: Venture[], categoryId: number, taskTypeId: number): VentureSelection | undefined {
+        // Find the venture for the selected category
+        const venture = data.find((e) => e.Category === categoryId);
+        if (!venture) return undefined;
+
+        // Find the specific venture task
+        const task = venture.Tasks.find((e) => e.Type === taskTypeId);
+        if (!task) return undefined;
+
+        return { venture, task };
     }
 </script>
+
+<svelte:head>
+    <title>{title}</title>
+
+    <meta property="og:site_name" content={title}>
+    <meta property="og:title" content={title}>
+    <meta name="description" property="og:description" content={description} />
+</svelte:head>
 
 <button class="btn btn-primary btn-lg rounded-xl d-lg-none position-fixed bottom-0 end-0 m-3 w-auto z-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
     <Icon name="funnel-fill" />
@@ -226,10 +211,10 @@
             <h3>Guaranteed</h3>
             <ItemCard reward={primaryRewards[0]} />
             <h3>Random</h3>
-            <DropsTable items={secondaryRewards} columns={tableColumns} />
+            <DropsTable items={secondaryRewards} columns={FullColumnSetup} />
         {:else}
-            {#if primaryRewards.length > 0 && tableColumns.length > 0}
-                <DropsTable items={primaryRewards} columns={tableColumns} />
+            {#if primaryRewards.length > 0}
+                <DropsTable items={primaryRewards} columns={FullColumnSetup} />
             {:else}
                 <p>No data found</p>
             {/if}
