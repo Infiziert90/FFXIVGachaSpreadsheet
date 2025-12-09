@@ -164,7 +164,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasFilter" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <LootAccordionOg {chestDropData} {category} {expansion} {header} {duty} {openTab} />
+            <LootAccordion {chestDropData} {category} {expansion} {header} {duty} {openTab} />
         </div>
     </div>
 </div>
