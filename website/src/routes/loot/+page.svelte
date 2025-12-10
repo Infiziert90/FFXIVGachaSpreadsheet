@@ -3,11 +3,11 @@
     import {replaceState} from "$app/navigation";
     import type {ChestDrop, Duty, Expansion, Header, Reward} from "$lib/interfaces";
     import {onMount} from "svelte";
-    import DropsTable from "../../component/DropsTable.svelte";
     import {FullColumnSetup} from "$lib/table";
     import { Icon } from '@sveltestrap/sveltestrap';
     import {tryGetDutyLootSearchParams} from "$lib/searchParamHelper";
-    import LootAccordion from '../../component/LootAccordion.svelte';
+    import DropsTable from "../../component/DropsTable.svelte";
+    import LootAccordion from "../../component/LootAccordion.svelte";
 
     interface Props {
         data: { content: ChestDrop[] };
