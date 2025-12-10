@@ -7,7 +7,7 @@
     import { Icon } from '@sveltestrap/sveltestrap';
     import {tryGetDutyLootSearchParams} from "$lib/searchParamHelper";
     import DropsTable from "../../component/DropsTable.svelte";
-    // import LootAccordion from "../../component/LootAccordion.svelte";
+    import LootAccordion from "../../component/LootAccordion.svelte";
 
     interface Props {
         data: { content: ChestDrop[] };
@@ -164,7 +164,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasFilter" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-<!--            <LootAccordion {chestDropData} {category} {expansion} {header} {duty} {openTab} />-->
+            <LootAccordion {chestDropData} {category} {expansion} {header} {duty} {openTab} />
         </div>
     </div>
 </div>

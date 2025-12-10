@@ -161,7 +161,7 @@
     // This follows the same pattern as CofferAccordion and VentureAccordion
     $effect(() => {
         const currentSelection = `${category}-${expansion}-${header}-${duty}`;
-        // Only sync if the selection actually changed (external prop change)
+        // Only sync if the selection actually changed (external prop change) 1
         if (currentSelection !== previousSelection) {
             previousSelection = currentSelection;
             ensureSelectionPathOpen();
