@@ -2,7 +2,7 @@
     import 'bootstrap/dist/css/bootstrap.min.css';
     import 'bootstrap-icons/font/bootstrap-icons.css';
 	import '../app.css';
-    import { Container } from '@sveltestrap/sveltestrap';
+    import {Container} from '@sveltestrap/sveltestrap';
 	import favicon from '$lib/assets/favicon.png';
     import Footer from "../component/Footer.svelte";
     import { page } from '$app/state';
