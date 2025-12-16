@@ -7,7 +7,7 @@ public class DeepDungeonSacks : CofferBase
 {
     private static readonly uint[] ValidSacks = [16170, 16171, 16172, 16173, 23223, 23224, 23225, 38945, 38946, 38947, 47104, 47105, 47106, 47742];
 
-    public void ProcessAllData(List<Models.RandomCofferModel> data)
+    public void ProcessAllData(Models.RandomCofferModel[] data)
     {
         Logger.Information("Processing deep dungeon data");
         Fetch(data);
@@ -16,7 +16,7 @@ public class DeepDungeonSacks : CofferBase
         Dispose();
     }
     
-    private void Fetch(List<Models.RandomCofferModel> data)
+    private void Fetch(Models.RandomCofferModel[] data)
     {
         Logger.Information("Exporting deep dungeon data");
         foreach (var coffer in data.Where(l => ValidSacks.Contains(l.Coffer)).OrderBy(l => l.Id))

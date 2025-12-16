@@ -13,7 +13,7 @@ public class TripleTriadPacks : CofferBase
         17701, 17690, 17691, 17692
     ];
     
-    public void ProcessAllData(List<Models.RandomCofferModel> data)
+    public void ProcessAllData(Models.RandomCofferModel[] data)
     {
         Logger.Information("Processing triple triad packs data");
         Fetch(data);
@@ -22,7 +22,7 @@ public class TripleTriadPacks : CofferBase
         Dispose();
     }
 
-    private void Fetch(List<Models.RandomCofferModel> data)
+    private void Fetch(Models.RandomCofferModel[] data)
     {
         foreach (var coffer in data.Where(l => ValidPacks.Contains(l.Coffer)).OrderBy(l => l.Id))
         {

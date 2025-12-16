@@ -10,7 +10,7 @@ public class ChestDrops : IDisposable
     private readonly Dictionary<uint, ChestDrop> ProcessedData = [];
     private readonly Dictionary<uint, ChestDropTemp> CollectedData = [];
     
-    public void ProcessAllData(List<Models.ChestDropModel> data)
+    public void ProcessAllData(Models.ChestDropModel[] data)
     {
         Logger.Information("Processing chest drop data");
         Fetch(data);
@@ -27,7 +27,7 @@ public class ChestDrops : IDisposable
         GC.Collect();
     }
 
-    private void Fetch(List<Models.ChestDropModel> data)
+    private void Fetch(Models.ChestDropModel[] data)
     {
         foreach (var record in data)
         {

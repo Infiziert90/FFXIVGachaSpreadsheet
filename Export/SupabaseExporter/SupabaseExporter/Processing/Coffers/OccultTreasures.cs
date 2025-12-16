@@ -6,7 +6,7 @@ namespace SupabaseExporter.Processing.Coffers;
 
 public class OccultTreasures : CofferBase
 {
-    public void ProcessAllData(List<Models.OccultTreasureModel> treasureData, List<Models.OccultBunnyModel> bunnyData)
+    public void ProcessAllData(Models.OccultTreasureModel[] treasureData, Models.OccultBunnyModel[] bunnyData)
     {
         Logger.Information("Processing occult data");
         FetchTreasure(treasureData);
@@ -24,7 +24,7 @@ public class OccultTreasures : CofferBase
     private Dictionary<Vector3, (uint, uint, uint)> Positions = [];
     private Dictionary<Vector3, (uint Counter, Dictionary<CofferRarity, uint> Type, Dictionary<uint, uint> FateIds)> PotPositions = [];
     private Dictionary<Vector3, uint> BunnyPositions = [];
-    private void FetchTreasure(List<Models.OccultTreasureModel> data)
+    private void FetchTreasure(Models.OccultTreasureModel[] data)
     {
         foreach (var treasure in data)
         {
@@ -88,7 +88,7 @@ public class OccultTreasures : CofferBase
         }
     }
     
-    private void FetchBunny(List<Models.OccultBunnyModel> data)
+    private void FetchBunny(Models.OccultBunnyModel[] data)
     {
         foreach (var treasure in data)
         {

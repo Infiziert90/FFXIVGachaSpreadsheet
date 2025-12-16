@@ -8,7 +8,7 @@ public class Desynthesis : IDisposable
     private Desynth ProcessedData = new();
     private readonly Dictionary<uint, DesynthTemp> CollectedData = [];
     
-    public void ProcessAllData(List<Models.DesynthesisModel> data)
+    public void ProcessAllData(Models.DesynthesisModel[] data)
     {
         Logger.Information("Processing desynthesis data");
         Fetch(data);
@@ -19,12 +19,13 @@ public class Desynthesis : IDisposable
     
     public void Dispose()
     {
-        ProcessedData = new Desynth();
+        ProcessedData.Sources.Clear();
+        ProcessedData.Rewards.Clear();
         CollectedData.Clear();
         GC.Collect();
     }
     
-    private void Fetch(List<Models.DesynthesisModel> data)
+    private void Fetch(Models.DesynthesisModel[] data)
     {
         foreach (var record in data)
         {

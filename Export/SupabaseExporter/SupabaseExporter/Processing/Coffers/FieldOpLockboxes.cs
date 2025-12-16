@@ -7,7 +7,7 @@ public class FieldOpLockboxes : CofferBase
 {
     private static readonly uint[] ValidLockboxes = [22508, 23142, 23379, 24141, 24142, 24848, 24849, 31357, 33797];
     
-    public void ProcessAllData(List<Models.RandomCofferModel> data)
+    public void ProcessAllData(Models.RandomCofferModel[] data)
     {
         Logger.Information("Processing lockbox data");
         Fetch(data);
@@ -16,7 +16,7 @@ public class FieldOpLockboxes : CofferBase
         Dispose();
     }
 
-    private void Fetch(List<Models.RandomCofferModel> data)
+    private void Fetch(Models.RandomCofferModel[] data)
     {
         Logger.Information("Exporting lockbox data");
         foreach (var coffer in data.Where(l => ValidLockboxes.Contains(l.Coffer)).OrderBy(l => l.Id))

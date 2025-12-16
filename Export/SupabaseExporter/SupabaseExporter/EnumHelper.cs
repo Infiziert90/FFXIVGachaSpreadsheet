@@ -1,5 +1,49 @@
 ﻿namespace SupabaseExporter;
 
+#region Submarine
+public enum SurvTier : uint
+{
+    Invalid = 0,
+    
+    Tier1 = 1,
+    Tier2 = 2,
+    Tier3 = 3,
+}
+
+public enum RetTier : uint
+{
+    Invalid = 0,
+    
+    Poor = 1,
+    Normal = 2,
+    Optimal = 3,
+}
+
+public enum RetrievalProc : uint
+{
+    Optimal = 14,
+    Normal = 15,
+    Poor = 16
+}
+
+public enum SurveillanceProc : uint
+{
+    T3High = 4,
+    T2High = 5,
+    T1High = 6,
+    T2Mid = 7,
+    T1Mid = 8,
+    T1Low = 9
+}
+
+public enum FavorProc : uint
+{
+    Yes = 18,
+    StatsEnoughButFailed = 19,
+    Low = 20
+}
+#endregion
+
 public enum Territory : uint
 {
     Anemos = 732,

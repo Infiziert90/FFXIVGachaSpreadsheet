@@ -5,7 +5,7 @@ namespace SupabaseExporter.Processing.Coffers;
 
 public class EurekaBunnies : CofferBase
 {
-    public void ProcessAllData(List<Models.EurekaBunnyModel> data)
+    public void ProcessAllData(Models.EurekaBunnyModel[] data)
     {
         Logger.Information("Processing eureka bunny data");
         Fetch(data);
@@ -14,7 +14,7 @@ public class EurekaBunnies : CofferBase
         Dispose();
     }
     
-    private void Fetch(List<Models.EurekaBunnyModel> data)
+    private void Fetch(Models.EurekaBunnyModel[] data)
     {
         foreach (var bunny in data)
         {

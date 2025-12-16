@@ -9,7 +9,7 @@ public class Ventures : IDisposable
     private readonly Dictionary<uint, Venture> ProcessedData = [];
     private readonly Dictionary<VentureTypes, Dictionary<string, VentureTemp>> CollectedData = [];
     
-    public void ProcessAllData(List<Models.VentureModel> data)
+    public void ProcessAllData(Models.VentureModel[] data)
     {
         Logger.Information("Processing venture data");
         PrintVentureStats(data);
@@ -27,7 +27,7 @@ public class Ventures : IDisposable
         GC.Collect();
     }
     
-    private void Fetch(List<Models.VentureModel> data)
+    private void Fetch(Models.VentureModel[] data)
     {
         Logger.Information("Start fetching all existing venture records ...");
         
@@ -176,7 +176,7 @@ public class Ventures : IDisposable
         return new Venture.Content((uint) venture.Total, primaryList, additionalList);   
     }
     
-    private static void PrintVentureStats(List<Models.VentureModel> data)
+    private static void PrintVentureStats(Models.VentureModel[] data)
     {
         // All valid gears are rarity green or higher
         PrintStats("Total quick ventures:", data.Where(v => v.QuickVenture).ToArray());

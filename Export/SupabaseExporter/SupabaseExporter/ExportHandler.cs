@@ -4,7 +4,7 @@ namespace SupabaseExporter;
 
 public static class ExportHandler
 {
-    private const string WebsitePath = "../../../../../../Website/svelte";
+    private const string WebsitePath = "../../../../../../website";
     private const string AssetsPath = "static/data";
     
     public static void WriteTimestamp()

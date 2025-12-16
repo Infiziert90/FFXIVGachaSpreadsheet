@@ -7,7 +7,7 @@ public class RandomCoffers : CofferBase
 {
     private static readonly uint[] ValidCoffers = [32161, 36635, 36636, 41667];
     
-    public void ProcessAllData(List<Models.RandomCofferModel> data)
+    public void ProcessAllData(Models.RandomCofferModel[] data)
     {
         Logger.Information("Processing random coffer data");
         Fetch(data);
@@ -16,7 +16,7 @@ public class RandomCoffers : CofferBase
         Dispose();
     }
 
-    private void Fetch(List<Models.RandomCofferModel> data)
+    private void Fetch(Models.RandomCofferModel[] data)
     {
         foreach (var coffer in data.Where(l => ValidCoffers.Contains(l.Coffer)).OrderBy(l => l.Id))
         {
