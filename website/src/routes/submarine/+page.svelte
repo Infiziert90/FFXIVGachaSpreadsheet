@@ -92,7 +92,7 @@
     <Icon name="funnel-fill" />
 </button>
 
-<div class="col-12 col-lg-3 order-0 order-lg-1 sticky-left-col">
+<div class="col-12 col-lg-2 order-0 order-lg-1 sticky-left-col">
     <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="offcanvasFilter" aria-labelledby="offcanvasFilterLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasFilterLabel">Filter your category</h5>
@@ -107,61 +107,61 @@
         </div>
     </div>
 </div>
-<div class="col-12 col-lg-2 order-0 order-lg-3">
-<!--    <div id="stats" class="stats">-->
-<!--        <div class="card">-->
-<!--            <div class="card-header">-->
-<!--                <strong>{titleStats}</strong>-->
-<!--            </div>-->
-<!--            <ul class="list-group list-group-flush">-->
-<!--                <li class="list-group-item">{totalStats}</li>-->
-<!--                <li class="list-group-item">{selectedStats}</li>-->
-<!--                <li class="list-group-item">-->
-<!--                    <label for="patch">Patch</label>-->
-<!--                    <select id="patch" class="form-select" bind:value={selectedPatch} onchange={patchSelectionChanged}>-->
-<!--                        {#each patches as patch, idx}-->
-<!--                            <option value={idx}>-->
-<!--                                {patch}-->
-<!--                            </option>-->
-<!--                        {/each}-->
-<!--                    </select>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </div>-->
-<!--    </div>-->
-</div>
-<div class="col-12 col-lg-7 order-0 order-lg-2">
+<div class="col-12 col-lg-10 order-0 order-lg-2">
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
         {#if sectorData.length > 0}
             {#each sectorData as sector}
                 <h3>{sector.Name}</h3>
-
-                {#each Object.entries(sector.Pools) as [tier, pool]}
-                    <h5>{tier}</h5>
-                    <Table striped size="sm" hover borderless class="align-middle">
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Amount</th>
-                            <th>Poor</th>
-                            <th>Normal</th>
-                            <th>Optimal</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {#each Object.values(pool.Rewards) as row}
-                            <tr>
-                                <td>{Mappings[row.Id].Name}</td>
-                                <td>{row.Amount}</td>
-                                <td>{row.MinMax['Poor'][0]} - {row.MinMax['Poor'][1]}</td>
-                                <td>{row.MinMax['Normal'][0]} - {row.MinMax['Normal'][1]}</td>
-                                <td>{row.MinMax['Optimal'][0]} - {row.MinMax['Optimal'][1]}</td>
-                            </tr>
-                        {/each}
-                        </tbody>
-                    </Table>
-
-                {/each}
+                <div class="row">
+                    {#each Object.entries(sector.Pools) as [tier, pool]}
+                        <div class="col-4">
+                            <h5>{tier}</h5>
+                            <Table striped size="sm" hover borderless class="align-middle">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Pct</th>
+                                    <th>Poor</th>
+                                    <th>Norm</th>
+                                    <th>Opti</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {#each Object.values(pool.Rewards) as row}
+                                    <tr>
+                                        <td>{Mappings[row.Id].Name}</td>
+                                        <td>{row.Amount}</td>
+                                        <td>{row.MinMax['Poor'][0]} - {row.MinMax['Poor'][1]}</td>
+                                        <td>{row.MinMax['Normal'][0]} - {row.MinMax['Normal'][1]}</td>
+                                        <td>{row.MinMax['Optimal'][0]} - {row.MinMax['Optimal'][1]}</td>
+                                    </tr>
+                                {/each}
+                                </tbody>
+                            </Table>
+                        </div>
+                    {/each}
+                    <div class="col-3">
+                        <div class="card">
+                            <div class="card-header">
+                                Additional information
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item border-0 px-4 pt-1 pb-1 text-warning-emphasis">
+                                    Normal <div class="float-end">60</div>
+                                </li>
+                                <li class="list-group-item border-0 px-4 pt-0 pb-1 text-success-emphasis">
+                                    Optimal <div class="float-end">70</div>
+                                </li>
+                                <li class="list-group-item border-0 px-4 pt-0 pb-1 text-primary-emphasis">
+                                    Favor <div class="float-end">80</div>
+                                </li>
+                                <li class="list-group-item border-0 px-4 pt-0 pb-1 ">
+                                    Double Dip Rate <div class="float-end">50%</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             {/each}
         {/if}
     </div>
