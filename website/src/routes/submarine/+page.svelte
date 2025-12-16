@@ -143,9 +143,9 @@
                                             <tr>
                                                 <td>{Mappings[row.Id].Name}</td>
                                                 <td>{row.Amount}</td>
-                                                <td>{row.MinMax['Poor'][0] < MAXINT32 ? row.MinMax['Poor'][0] : 0} - {row.MinMax['Poor'][1]}</td>
-                                                <td>{row.MinMax['Normal'][0] < MAXINT32 ? row.MinMax['Normal'][0] : 0} - {row.MinMax['Normal'][1]}</td>
-                                                <td>{row.MinMax['Optimal'][0] < MAXINT32 ? row.MinMax['Optimal'][0] : 0} - {row.MinMax['Optimal'][1]}</td>
+                                                <td>{row.MinMax['Poor'][0] === MAXINT32 ? row.MinMax['Poor'][0] : 0} - {row.MinMax['Poor'][1]}</td>
+                                                <td>{row.MinMax['Normal'][0] === MAXINT32 ? row.MinMax['Normal'][0] : 0} - {row.MinMax['Normal'][1]}</td>
+                                                <td>{row.MinMax['Optimal'][0] === MAXINT32 ? row.MinMax['Optimal'][0] : 0} - {row.MinMax['Optimal'][1]}</td>
                                             </tr>
                                         {/each}
                                         </tbody>
