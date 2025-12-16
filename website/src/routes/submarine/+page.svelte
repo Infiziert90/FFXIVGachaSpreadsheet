@@ -77,6 +77,15 @@
         // Set the new title
         document.title = `Submarine Loot - ${SubmarineMapSheet[map].Name}`;
     }
+
+    function getBorderColor(idx: number) {
+        switch (idx) {
+            case 0: return '--bs-secondary-color';
+            case 1: return '--bs-warning';
+            case 2: return '--bs-success';
+            default: return '--bs-danger';
+        }
+    }
 </script>
 
 <svelte:head>
@@ -111,54 +120,57 @@
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
         {#if sectorData.length > 0}
             {#each sectorData as sector}
-                <h3>{sector.Name}</h3>
-                <div class="row">
-                    {#each Object.entries(sector.Pools) as [tier, pool]}
-                        <div class="col-4">
-                            <h5>{tier}</h5>
-                            <Table striped size="sm" hover borderless class="align-middle">
-                                <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Pct</th>
-                                    <th>Poor</th>
-                                    <th>Norm</th>
-                                    <th>Opti</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {#each Object.values(pool.Rewards) as row}
-                                    <tr>
-                                        <td>{Mappings[row.Id].Name}</td>
-                                        <td>{row.Amount}</td>
-                                        <td>{row.MinMax['Poor'][0]} - {row.MinMax['Poor'][1]}</td>
-                                        <td>{row.MinMax['Normal'][0]} - {row.MinMax['Normal'][1]}</td>
-                                        <td>{row.MinMax['Optimal'][0]} - {row.MinMax['Optimal'][1]}</td>
-                                    </tr>
-                                {/each}
-                                </tbody>
-                            </Table>
-                        </div>
-                    {/each}
-                    <div class="col-3">
-                        <div class="card">
-                            <div class="card-header">
-                                Additional information
+                <div class="container mb-5" style="background-color: var(--bs-tertiary-bg);">
+                    <div style="margin: -.5rem .5rem .5rem -.5rem" class="pt-1 px-1"><h3>{sector.Name}</h3></div>
+                    <div class="row">
+                        {#each Object.entries(sector.Pools) as [tier, pool], idx}
+                            <div class="col-4 p-0 ps-2 pb-1">
+                                <div style="height: 100%; border: 0.15rem solid var({getBorderColor(idx)});">
+                                    <Table striped size="sm" hover borderless class="align-middle">
+                                        <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Pct</th>
+                                            <th>Poor</th>
+                                            <th>Norm</th>
+                                            <th>Opti</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {#each Object.values(pool.Rewards) as row}
+                                            <tr>
+                                                <td>{Mappings[row.Id].Name}</td>
+                                                <td>{row.Amount}</td>
+                                                <td>{row.MinMax['Poor'][0]} - {row.MinMax['Poor'][1]}</td>
+                                                <td>{row.MinMax['Normal'][0]} - {row.MinMax['Normal'][1]}</td>
+                                                <td>{row.MinMax['Optimal'][0]} - {row.MinMax['Optimal'][1]}</td>
+                                            </tr>
+                                        {/each}
+                                        </tbody>
+                                    </Table>
+                                </div>
                             </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item border-0 px-4 pt-1 pb-1 text-warning-emphasis">
-                                    Normal <div class="float-end">60</div>
-                                </li>
-                                <li class="list-group-item border-0 px-4 pt-0 pb-1 text-success-emphasis">
-                                    Optimal <div class="float-end">70</div>
-                                </li>
-                                <li class="list-group-item border-0 px-4 pt-0 pb-1 text-primary-emphasis">
-                                    Favor <div class="float-end">80</div>
-                                </li>
-                                <li class="list-group-item border-0 px-4 pt-0 pb-1 ">
-                                    Double Dip Rate <div class="float-end">50%</div>
-                                </li>
-                            </ul>
+                        {/each}
+                        <div class="col-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    Additional information
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item border-0 px-4 pt-1 pb-1 text-warning-emphasis">
+                                        Normal <div class="float-end">60</div>
+                                    </li>
+                                    <li class="list-group-item border-0 px-4 pt-0 pb-1 text-success-emphasis">
+                                        Optimal <div class="float-end">70</div>
+                                    </li>
+                                    <li class="list-group-item border-0 px-4 pt-0 pb-1 text-primary-emphasis">
+                                        Favor <div class="float-end">80</div>
+                                    </li>
+                                    <li class="list-group-item border-0 px-4 pt-0 pb-1 ">
+                                        Double Dip Rate <div class="float-end">50%</div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
