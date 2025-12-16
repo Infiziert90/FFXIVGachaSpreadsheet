@@ -233,12 +233,12 @@ public class Exporter
         }
     }
 
-    private IEnumerable<T> ReadCsv<T>(string fileName)
+    private T[] ReadCsv<T>(string fileName)
     {
         using var reader = new StreamReader($"{fileName}.csv");
         using var csv = new CsvReader(reader, CsvReaderConfig);
 
-        return csv.GetRecords<T>();
+        return csv.GetRecords<T>().ToArray();
     }
     
     private IEnumerable<IEnumerable<T>> ReadCsvFolder<T>(string folder, ClassMap? map = null)
