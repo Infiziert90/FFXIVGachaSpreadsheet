@@ -34,6 +34,22 @@ export function tryGetVentureSearchParams(searchParams: URLSearchParams): Ventur
     return { categoryId, taskTypeId };
 }
 
+interface SubmarineSearchParams {
+    mapId: number,
+}
+
+/**
+ * Tries to read map from the URL parameters.
+ * @param searchParams - The URL search parameters to read from
+ * @returns Submarine search parameters if successful, undefined otherwise.
+ */
+export function tryGetSubmarineSearchParams(searchParams: URLSearchParams): SubmarineSearchParams | undefined {
+    const mapId = tryGetParam('map', searchParams);
+
+    if (mapId === undefined) return undefined;
+    return { mapId };
+}
+
 interface DesynthSearchParams {
     sourceId: number,
     rewardId: number,

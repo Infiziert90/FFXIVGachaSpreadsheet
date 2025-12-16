@@ -40,3 +40,28 @@ export function logAndThrow(message: string, err: unknown): never {
     console.error(message, err);
     error(500, {message: `${message} | Error: ${JSON.stringify(err)}`});
 }
+
+/**
+ * String formatter that changes the first letter of each word to uppercase.
+ * @param s - String to format
+ * @param article - if an article is used
+ */
+export function UpperCaseStr(s: string, article: number = 0)
+{
+    if (article === 1)
+        return s;
+
+    const chars = s.split('');
+    let lastSpace = true;
+
+    for (let i = 0; i < chars.length; ++i) {
+        if (chars[i] === ' ') {
+            lastSpace = true;
+        } else if (lastSpace) {
+            lastSpace = false;
+            chars[i] = chars[i].toUpperCase();
+        }
+    }
+
+    return chars.join('');
+}

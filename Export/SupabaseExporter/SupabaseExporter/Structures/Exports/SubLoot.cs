@@ -54,7 +54,10 @@ public class SubLoot
         public void AddRecord(uint itemId, int quantity, RetTier type)
         {
             if (!Rewards.ContainsKey(itemId))
+            {
+                MappingHelper.AddItem(itemId);
                 Rewards[itemId] = new PoolReward(itemId);
+            }
                 
             Records += 1;
             Rewards[itemId].AddPoorRecord(quantity, type);

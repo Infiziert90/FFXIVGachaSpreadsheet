@@ -1,5 +1,5 @@
 ﻿import {logAndThrow, responseHandler} from "$lib/utils";
-import type {ChestDrop, Coffer, Venture} from "$lib/interfaces";
+import type {ChestDrop, Coffer, SubLoot, Venture} from "$lib/interfaces";
 import {type ItemInfo, Mappings} from "$lib/mappings";
 
 export async function loadMapping(fetch: any) {
@@ -83,6 +83,24 @@ export async function loadChestDrops(path: string, fetch: any): Promise<{content
         const res: ChestDrop[] = await fetch(path)
             .then(responseHandler)
             .then((data: ChestDrop[]) => {
+                return data;
+            });
+
+        if (!res) {
+            throw new Error(`${path} resource is invalid.`);
+        }
+
+        return {content: res};
+    } catch (err) {
+        logAndThrow(`Failed to load ${path} data set.`, err)
+    }
+}
+
+export async function loadSubmarines(path: string, fetch: any): Promise<{content: SubLoot}> {
+    try {
+        const res: SubLoot = await fetch(path)
+            .then(responseHandler)
+            .then((data: SubLoot) => {
                 return data;
             });
 

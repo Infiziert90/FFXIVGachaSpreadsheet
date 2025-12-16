@@ -16,7 +16,7 @@ public static class MappingHelper
     /// <summary>
     /// Build a JSON containing all mappings that are used.
     /// </summary>
-    public static void CreateIconPaths()
+    public static void ExportMappingFile()
     {
         var mappings = new Dictionary<uint, Mappings>();
         foreach (var itemId in ItemSet.Order())

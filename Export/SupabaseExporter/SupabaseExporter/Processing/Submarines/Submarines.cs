@@ -70,7 +70,7 @@ public class Submarines : IDisposable
     
     private void Export()
     {
-        ExportHandler.WriteDataJson("Submarine.json", CollectedData);
+        ExportHandler.WriteDataJson("Submarines.json", CollectedData);
         Logger.Information("Done exporting data ...");
     }
     

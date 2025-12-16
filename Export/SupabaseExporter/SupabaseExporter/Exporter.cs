@@ -93,7 +93,7 @@ public static class EntryPoint
         }
         
         // Generate json with all icon paths
-        MappingHelper.CreateIconPaths();
+        MappingHelper.ExportMappingFile();
         ExportHandler.WriteTimestamp();
     }
 }

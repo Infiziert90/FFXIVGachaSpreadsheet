@@ -90,3 +90,45 @@ interface Chest {
     PlaceNameSub: string;
     Rewards: Reward[];
 }
+
+export interface SubLoot {
+    Total: number;
+    Sectors: Record<number, Sector>;
+}
+
+export interface Sector {
+    Records: number;
+    Id: number;
+    Name: string;
+    Letter: string;
+    Rank: number;
+    Stars: number;
+
+    Pools: Record<string, LootPool>;
+}
+
+interface LootPool {
+    Records: number;
+    Rewards: Record<number, PoolReward>;
+    Stats: Stats;
+}
+
+interface PoolReward {
+    Id: number;
+    Amount: number;
+    Total: number;
+    MinMax: Record<string, [number, number]>;
+}
+
+interface Stats {
+    Min: number;
+    Mid: number;
+    High: number;
+
+    Low: number;
+    Normal: number;
+    Optimal: number;
+
+    Favor: number;
+    DoubleDips: number;
+}
