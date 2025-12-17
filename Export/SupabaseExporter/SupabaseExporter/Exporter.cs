@@ -119,7 +119,7 @@ public class Exporter
         //
         // await WriteCsv(lastId, result);
         //
-        // await context.SubmarineLoot.Where(l => l.Id < result.Last().Id).ExecuteDeleteAsync();
+        // await context.SubmarineLoot.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
         // await context.Database.ExecuteSqlAsync($"vacuum full;");
 
 

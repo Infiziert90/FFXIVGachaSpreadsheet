@@ -94,31 +94,6 @@ public class Ventures : IDisposable
             foreach (var (patch, ventureData) in patches)
                 ventureTask.Patches[patch] = ProcessVentureTask(ventureData);
             
-            // Add a combined total of all existing patches
-            // TODO rewrite to use existing data and aggregate together
-            var processingVenture = new VentureTemp(type);
-            foreach (var tmp in patches.Values)
-            {
-                processingVenture.Total += tmp.Total;
-                
-                foreach (var (itemId, reward) in tmp.PrimaryRewards)
-                {
-                    if (!processingVenture.PrimaryRewards.ContainsKey(itemId))
-                        processingVenture.PrimaryRewards[itemId] = new VentureTemp.TaskReward();
-                    
-                    processingVenture.PrimaryRewards[itemId].AddExisting(reward);
-                }
-                
-                foreach (var (itemId, reward) in tmp.AdditionalRewards)
-                {
-                    if (!processingVenture.AdditionalRewards.ContainsKey(itemId))
-                        processingVenture.AdditionalRewards[itemId] = new VentureTemp.TaskReward();
-                    
-                    processingVenture.AdditionalRewards[itemId].AddExisting(reward);
-                }
-            }
-            ventureTask.Patches["All"] = ProcessVentureTask(processingVenture);
-            
             ProcessedData[task.ClassJobCategory.RowId].Tasks.Add(ventureTask); 
         }
     }

@@ -1,3 +1,4 @@
+using SupabaseExporter.Models;
 using SupabaseExporter.Structures.Exports;
 
 namespace SupabaseExporter.Processing.Submarines;
@@ -27,7 +28,7 @@ public class Submarines : IDisposable
         {
             if (!DeduplicationCache.Add(record.Hash))
             {
-                Logger.Warning($"Duplcated hash found: {record.Id}");
+                Logger.Warning($"Duplicated hash found: {record.Id}");
                 continue;
             }
 

@@ -9,6 +9,8 @@
     import { Icon } from '@sveltestrap/sveltestrap';
     import {tryGetCofferSearchParams} from "$lib/searchParamHelper";
     import {tryGetCoffer} from "$lib/cofferHelper";
+    import MultiSelect, {type Option} from 'svelte-multiselect'
+    import {combineCoffer, combineVariantTotal} from "$lib/patchCombining";
 
     interface Props {
         content: Coffer[];
@@ -18,10 +20,15 @@
     let tabContentElement: HTMLDivElement = $state()  as HTMLDivElement;
 
     let { data }: Props = $props();
-    let patches: string[] = $state([])
-    let selectedPatch = $state(0);
-
     let cofferData: Coffer[] = data.content;
+
+    let patches: string[] = $state([])
+    for (const patch of Object.keys(cofferData[0].Variants[0].Patches)) {
+        patches.push(patch)
+    }
+
+    let selectedPatch = $state(0);
+    let selectedPatches: Option[] = $state([...patches.values()])
 
     // Table data
     let tableItems: Reward[] = $state([]);
@@ -30,10 +37,6 @@
     let titleStats = $state('');
     let totalStats = $state('');
     let selectedStats = $state('');
-
-    for (const patch of Object.keys(cofferData[0].Variants[0].Patches)) {
-        patches.push(patch)
-    }
 
     // Initialize with default values (first territory and first coffer variant)
     let territory = $state(cofferData[0].TerritoryId);
@@ -60,6 +63,11 @@
     // When page loads, open the tab for the current territory/coffer
     onMount(() => {
         openTab(territory, coffer, false)
+    })
+
+    $effect(() => {
+        $inspect(selectedPatches)
+        $inspect(titleStats)
     })
 
     /**
@@ -100,7 +108,9 @@
 
         // Get the patch data for the selected patch
         const requestedPatch = patches[selectedPatch];
-        const patchData = selection.variant.Patches[requestedPatch];
+        const patchData = selectedPatches.length === 1
+            ? selection.variant.Patches[selectedPatches[0]]
+            : combineCoffer(selection.variant.Patches, selectedPatches);
 
         // Update table data
         tableItems = patchData.Items;
@@ -109,11 +119,7 @@
         titleStats = `${selection.coffer.Name} Stats`;
 
         // Calculate total across all variants in this territory
-        let total = 0;
-        selection.coffer.Variants.forEach(c => {
-            total += c.Patches[requestedPatch].Total;
-        });
-        totalStats = `Total: ${total.toLocaleString()}`;
+        totalStats = `Total: ${combineVariantTotal(selection.coffer.Variants, selectedPatches).toLocaleString()}`;
         selectedStats = `${selection.variant.Name}: ${patchData.Total.toLocaleString()}`;
 
         // Scroll to the top of the page
@@ -127,8 +133,6 @@
      * Called when user changes the patch selection dropdown
      */
     function patchSelectionChanged(event: Event) {
-        if (!event.currentTarget) return;
-
         // Reload the current tab with the new patch selection
         openTab(territory, coffer, false);
     }
@@ -173,14 +177,15 @@
                 <li class="list-group-item">{totalStats}</li>
                 <li class="list-group-item">{selectedStats}</li>
                 <li class="list-group-item">
-                    <label for="patch">Patch</label>
-                    <select id="patch" class="form-select" bind:value={selectedPatch} onchange={patchSelectionChanged}>
-                        {#each patches as patch, idx}
-                            <option value={idx}>
-                                {patch}
-                            </option>
-                        {/each}
-                    </select>
+                    <label for="patch">Patches</label>
+                    <MultiSelect
+                            bind:selected={selectedPatches}
+                            options={patches}
+                            required={true}
+                            ulSelectedStyle="width: 91%;"
+                            ulOptionsStyle="background-color: var(--bs-body-bg);"
+                            onchange={patchSelectionChanged}
+                    />
                 </li>
             </ul>
         </div>

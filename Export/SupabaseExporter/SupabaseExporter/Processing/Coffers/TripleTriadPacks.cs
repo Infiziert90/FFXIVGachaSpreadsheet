@@ -56,14 +56,6 @@ public class TripleTriadPacks : CofferBase
                 foreach (var (patch, cofferData) in patches)
                     cofferVariant.Patches[patch] = CalculateContent(cofferData);
                 
-                // Add a combined total of all existing patches
-                // TODO rewrite to use existing data and aggregate together
-                var processingBunny = new CofferTemp();
-                foreach (var tmp in patches.Values)
-                    processingBunny.AddExisting(tmp);
-                
-                cofferVariant.Patches["All"] = CalculateContent(processingBunny);
-                
                 cofferList.Add(cofferVariant);
             }
 

@@ -72,9 +72,9 @@ public class SubLoot
 
         public Dictionary<RetTier, int[]> MinMax = new()
         {
-            { RetTier.Poor, [int.MaxValue, 0] },
-            { RetTier.Normal, [int.MaxValue, 0] },
-            { RetTier.Optimal, [int.MaxValue, 0] },
+            { RetTier.Poor, [0, 0] },
+            { RetTier.Normal, [0, 0] },
+            { RetTier.Optimal, [0, 0] },
         };
 
         public PoolReward(uint itemId)
@@ -90,6 +90,9 @@ public class SubLoot
             Total += quantity;
             
             var minMax = MinMax[type];
+            if (minMax[0] == 0)
+                minMax[0] = quantity;
+            
             minMax[0] = Math.Min(minMax[0], quantity);
             minMax[1] = Math.Max(minMax[1], quantity);
             MinMax[type] = minMax;

@@ -21,7 +21,7 @@ export interface CofferVariant {
     Patches: { [key: string]: CofferContent };
 }
 
-interface CofferContent {
+export interface CofferContent {
     Total: number;
     Items: Reward[];
 }
