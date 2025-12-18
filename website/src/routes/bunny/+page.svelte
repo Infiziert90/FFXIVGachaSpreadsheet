@@ -22,12 +22,8 @@
     let { data }: Props = $props();
     let cofferData: Coffer[] = data.content;
 
-    let patches: string[] = $state([])
-    for (const patch of Object.keys(cofferData[0].Variants[0].Patches)) {
-        patches.push(patch)
-    }
-
-    let selectedPatch = $state(0);
+    let patches: string[] = $state(Object.keys(cofferData[0].Variants[0].Patches))
+    // svelte-ignore state_referenced_locally
     let selectedPatches: Option[] = $state([...patches.values()])
 
     // Table data
@@ -65,11 +61,6 @@
         openTab(territory, coffer, false)
     })
 
-    $effect(() => {
-        $inspect(selectedPatches)
-        $inspect(titleStats)
-    })
-
     /**
      * Opens a tab and displays its data
      * @param territoryId - The territory ID to display
@@ -96,18 +87,16 @@
 
         // Check if the selected patch is invalid, if so reset to default
         let availablePatches = Object.keys(selection.variant.Patches);
-        if (availablePatches.length !== patches.length || patches.length <= selectedPatch || !availablePatches.includes(patches[selectedPatch])) {
+        if (availablePatches.length !== patches.length || !selectedPatches.every(v => availablePatches.includes(v.toString()))) {
             // Update the available patches list
             patches.length = 0;
-            for (const key of availablePatches) {
-                patches.push(key);
-            }
+            patches = availablePatches;
 
-            selectedPatch = 0;
+            selectedPatches.length = 0;
+            selectedPatches = [...patches.values()];
         }
 
         // Get the patch data for the selected patch
-        const requestedPatch = patches[selectedPatch];
         const patchData = selectedPatches.length === 1
             ? selection.variant.Patches[selectedPatches[0]]
             : combineCoffer(selection.variant.Patches, selectedPatches);

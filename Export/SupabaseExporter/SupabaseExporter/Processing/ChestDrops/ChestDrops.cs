@@ -5,7 +5,7 @@ namespace SupabaseExporter.Processing.ChestDrops;
 
 public class ChestDrops : IDisposable
 {
-    private Dictionary<string, Models.ChestDropModel> HashedCache = [];
+    private readonly Dictionary<string, int> HashedCache = [];
     
     private readonly Dictionary<uint, ChestDrop> ProcessedData = [];
     private readonly Dictionary<uint, ChestDropTemp> CollectedData = [];
@@ -29,10 +29,10 @@ public class ChestDrops : IDisposable
 
     private void Fetch(Models.ChestDropModel[] data)
     {
-        foreach (var record in data)
+        foreach (var (record, idx) in data.Select((val, idx) => (val, idx)))
         {
-            if (!HashedCache.TryAdd(record.Hashed, record))
-                if (HashedCache[record.Hashed].GetContent().SequenceEqual(record.GetContent()))
+            if (!HashedCache.TryAdd(record.Hashed, idx))
+                if (data[HashedCache[record.Hashed]].GetContent().SequenceEqual(record.GetContent()))
                     continue;
 
             if (!Sheets.TerritoryTypeSheet.TryGetRow(record.Territory, out var territoryType))
