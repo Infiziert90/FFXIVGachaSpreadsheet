@@ -9,9 +9,12 @@ public abstract class BaseModel
     [Column("version")]
     public string Version { get; set; } = string.Empty;
 
+    [Ignore]
     private bool IsCalculated;
+    [Ignore]
     private int NumberVersion;
-    private string Patch;
+    [Ignore]
+    private string Patch = string.Empty;
         
     public int GetVersion
     {

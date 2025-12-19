@@ -105,24 +105,23 @@ public class Exporter
 
     public async Task ExportSubmarineData(DatabaseContext context, Submarines processor)
     {
-        // Logger.Information("Exporting submarine data");
-        // var result = await context.SubmarineLoot.Where(l => l.Version != "0").OrderBy(l => l.Id).ToListAsync();
-        //
-        // Logger.Information($"Rows found {result.Count:N0}");
-        // if (result.Count == 0)
-        // {
-        //     Logger.Warning("No records found");
-        //     return;
-        // }
-        //
-        // var lastId = result.Last().Id.ToString();
-        //
-        // await WriteCsv(lastId, result);
+        Logger.Information("Exporting submarine data");
+        var result = await context.SubmarineLoot.Where(l => l.Version != "0").OrderBy(l => l.Id).ToListAsync();
+        
+        Logger.Information($"Rows found {result.Count:N0}");
+        if (result.Count == 0)
+        {
+            Logger.Warning("No records found");
+            return;
+        }
+        
+        var lastId = result.Last().Id.ToString();
+        
+        await WriteCsv(lastId, result);
         //
         // await context.SubmarineLoot.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
         // await context.Database.ExecuteSqlAsync($"vacuum full;");
-
-
+        
         var mapping = new SubmarineLootMap();
         foreach (var data in ReadCsvFolder<Models.SubmarineLootModel>("LocalCache/Submarine/", mapping))
             processor.Fetch(data);
@@ -216,7 +215,7 @@ public class Exporter
 
     private async Task WriteCsv<T>(string fileName, IEnumerable<T> result, ClassMap<T>? classMap = null)
     {
-        await using var writer = new StreamWriter(Path.Combine($"{fileName}.csv"));
+        await using var writer = new StreamWriter(Path.Combine($"LocalCache/Submarine/{fileName}.csv"));
         await using var csv = new CsvWriter(writer, CsvConfig);
 
         csv.Context.UnregisterClassMap();

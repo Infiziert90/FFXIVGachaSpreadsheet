@@ -1,18 +1,13 @@
 ﻿<script lang="ts">
     import type {Sector, SubLoot} from "$lib/interfaces";
-    import DropsTable from "../../component/DropsTable.svelte";
-    import {FullColumnSetup} from "$lib/table";
     import {Icon, Table} from '@sveltestrap/sveltestrap';
-    import VentureAccordion from "../../component/VentureAccordion.svelte";
-    import ItemCard from "../../component/ItemCard.svelte";
     import SubmarineAccordion from "../../component/SubmarineAccordion.svelte";
-    import {MapToStartSector, ReversedMaps, SubmarineExplorationSheet, SubmarineMapSheet} from "$lib/sheets";
+    import {MapToStartSector, SubmarineExplorationSheet, SubmarineMapSheet} from "$lib/sheets";
     import {page} from "$app/state";
     import {replaceState} from "$app/navigation";
-    import {tryGetSubmarineSearchParams, tryGetVentureSearchParams} from "$lib/searchParamHelper";
+    import {tryGetSubmarineSearchParams} from "$lib/searchParamHelper";
     import {onMount} from "svelte";
     import {Mappings} from "$lib/mappings";
-    import {ToName} from "$lib/sheets/submarineExploration";
 
     interface Props {
         content: SubLoot;
@@ -68,7 +63,7 @@
 
         sectorData.length = 0;
         for (let i = start; SubmarineExplorationSheet[i].SurveyDistance !== 0; i++) {
-            sectorData.push(subData.Sectors[i]);
+            if (i in subData.Sectors) sectorData.push(subData.Sectors[i]);
         }
 
         // Scroll to the top of the page
@@ -175,6 +170,8 @@
                     </div>
                 </div>
             {/each}
+        {:else}
+            <p>No data found</p>
         {/if}
     </div>
 </div>

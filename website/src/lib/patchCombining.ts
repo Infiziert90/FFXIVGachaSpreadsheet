@@ -51,7 +51,7 @@ function processItem(item: Reward, data: Record<string, CofferContent>, selected
         } else {
             processedReward.Min = Math.min(processedReward.Min, reward.Min);
         }
-        processedReward.Max = Math.min(processedReward.Max, reward.Max);
+        processedReward.Max = Math.max(processedReward.Max, reward.Max);
     }
 
     processedReward.Pct = processedReward.Amount / sumOfAllRecords;
