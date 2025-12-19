@@ -160,7 +160,7 @@ public class Ventures : IDisposable
         PrintStats("Total quick ventures (Max Level):", data.Where(v => v is { QuickVenture: true, MaxLevel: true }).ToArray());
         
         // Calculate current patch 
-        PrintStats("Total quick ventures (7.3X):", data.Where(v => v.QuickVenture).Where(v => v.GetVersion >= Utils.Patch730).ToArray());
+        PrintStats("Total quick ventures (7.4X):", data.Where(v => v.QuickVenture).Where(v => v.GetVersion >= Utils.Patch740).ToArray());
     }
     
     private static void PrintStats(string title, Models.VentureModel[] ventures)
