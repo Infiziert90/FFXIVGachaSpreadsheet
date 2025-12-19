@@ -1,12 +1,22 @@
-using SupabaseExporter.Models;
+using Newtonsoft.Json;
 using SupabaseExporter.Structures.Exports;
 
 namespace SupabaseExporter.Processing.Submarines;
 
 public class Submarines : IDisposable
 {
-    private readonly SubLoot CollectedData = new();
+    public readonly SubLoot CollectedData = new();
     private readonly HashSet<string> DeduplicationCache = [];
+
+    public Submarines()
+    {
+        // Try to read internal cache to save up lots of processing
+        var data = ExportHandler.ReadDataJson("Submarines.json");
+        if (data == string.Empty)
+            return;
+        
+        CollectedData = JsonConvert.DeserializeObject<SubLoot>(data) ?? new SubLoot();
+    }
     
     public void ProcessAllData()
     {
@@ -26,6 +36,11 @@ public class Submarines : IDisposable
     {
         foreach (var record in data)
         {
+            if (record.Id <= CollectedData.ProcessedId)
+                continue;
+            
+            CollectedData.ProcessedId = record.Id;
+
             if (!DeduplicationCache.Add(record.Hash))
             {
                 Logger.Warning($"Duplicated hash found: {record.Id}");

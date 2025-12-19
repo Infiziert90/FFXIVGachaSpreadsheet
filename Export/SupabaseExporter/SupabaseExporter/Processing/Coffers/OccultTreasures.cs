@@ -69,7 +69,7 @@ public class OccultTreasures : CofferBase
                     Logger.Error($"Invalid amount: {amount} {treasure.Id}");
 
                 var item = Sheets.ItemSheet.GetRow(itemId);
-                if (item.Rarity >= 3)
+                if (item.Rarity >= 4)
                     Logger.Error($"Invalid rarity?: {item.Name.ExtractText()} {item.Rarity} {treasure.Id}");
             }
         }

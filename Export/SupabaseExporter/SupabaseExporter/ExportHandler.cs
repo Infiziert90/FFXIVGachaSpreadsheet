@@ -6,6 +6,15 @@ public static class ExportHandler
 {
     private const string WebsitePath = "../../../../../../website";
     private const string AssetsPath = "static/data";
+
+    public static string ReadDataJson(string filename)
+    {
+        var fileInfo = new FileInfo($"{WebsitePath}/{AssetsPath}/{filename}");
+        if (!fileInfo.Exists)
+            return string.Empty;
+        
+        return File.ReadAllText(fileInfo.FullName);
+    }
     
     public static void WriteTimestamp()
     {

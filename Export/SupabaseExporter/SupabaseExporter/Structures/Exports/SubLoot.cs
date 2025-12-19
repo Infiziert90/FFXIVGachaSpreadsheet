@@ -8,6 +8,9 @@ namespace SupabaseExporter.Structures.Exports;
 [Serializable]
 public class SubLoot
 {
+    // Used for internal cache keeping
+    public uint ProcessedId;
+    
     public int Total;
     public Dictionary<uint, Sector> Sectors = [];
     

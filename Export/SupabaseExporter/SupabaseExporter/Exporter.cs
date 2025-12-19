@@ -118,12 +118,14 @@ public class Exporter
         var lastId = result.Last().Id.ToString();
         
         await WriteCsv(lastId, result);
-        //
-        // await context.SubmarineLoot.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
-        // await context.Database.ExecuteSqlAsync($"vacuum full;");
+        
+        await context.SubmarineLoot.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+        await context.Database.ExecuteSqlAsync($"vacuum full;");
+        result.Clear();
+        context.ChangeTracker.Clear();
         
         var mapping = new SubmarineLootMap();
-        foreach (var data in ReadCsvFolder<Models.SubmarineLootModel>("LocalCache/Submarine/", mapping))
+        foreach (var data in ReadSubmarineFolder<Models.SubmarineLootModel>("LocalCache/Submarine/", processor.CollectedData.ProcessedId, mapping))
             processor.Fetch(data);
 
         Logger.Information("Done exporting submarine data...");
@@ -240,11 +242,11 @@ public class Exporter
         return csv.GetRecords<T>().ToArray();
     }
     
-    private IEnumerable<IEnumerable<T>> ReadCsvFolder<T>(string folder, ClassMap? map = null)
+    private IEnumerable<IEnumerable<T>> ReadSubmarineFolder<T>(string folder, uint lastId, ClassMap? map = null)
     {
-        foreach (var file in new DirectoryInfo(folder).EnumerateFiles())
+        foreach (var pair in new DirectoryInfo(folder).EnumerateFiles().Select(f => (f, uint.Parse(Path.GetFileNameWithoutExtension(f.Name)))).Where(pair => lastId < pair.Item2).OrderBy(pair => pair.Item2))
         {
-            using var reader = file.OpenText();
+            using var reader = pair.f.OpenText();
             using var csv = new CsvReader(reader, CsvReaderConfig);
             
             if (map != null)
