@@ -6,8 +6,8 @@
     import DropsTable from "../../component/DropsTable.svelte";
     import {FullColumnSetup} from "$lib/table";
     import CofferAccordion from "../../component/CofferAccordion.svelte";
-    import { Icon } from '@sveltestrap/sveltestrap';
     import {tryGetCoffer} from "$lib/cofferHelper";
+    import PageSidebar from "../../component/PageSidebar.svelte";
     import {tryGetCofferSearchParams} from "$lib/searchParamHelper";
     import {combineCoffer, combineVariantTotal} from "$lib/patchCombining";
     import MultiSelect, {type Option} from "svelte-multiselect";
@@ -149,27 +149,15 @@
     <meta property="og:description" content={description} />
 </svelte:head>
 
-<button class="btn btn-primary btn-lg rounded-xl d-lg-none position-fixed bottom-0 end-0 m-3 w-auto z-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
-    <Icon name="funnel-fill" />
-</button>
-
-<div class="col-12 col-lg-3 order-0 order-lg-1 sticky-left-col">
-    <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="offcanvasFilter" aria-labelledby="offcanvasFilterLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasFilterLabel">Filter your category</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasFilter" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <CofferAccordion
-                {cofferData} 
-                {territory}
-                {coffer}
-                {openTab} 
-                {tabElements} 
-            />
-        </div>
-    </div>
-</div>
+<PageSidebar>
+    <CofferAccordion
+        {cofferData} 
+        {territory}
+        {coffer}
+        {openTab} 
+        {tabElements} 
+    />
+</PageSidebar>
 <div class="col-12 col-lg-2 order-0 order-lg-3">
     <div id="stats" class="stats">
         <div class="card">

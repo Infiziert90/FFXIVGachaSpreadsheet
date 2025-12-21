@@ -8,6 +8,7 @@
     import {tryGetDutyLootSearchParams} from "$lib/searchParamHelper";
     import DropsTable from "../../component/DropsTable.svelte";
     import DutyAccordion from "../../component/DutyAccordion.svelte";
+    import PageSidebar from "../../component/PageSidebar.svelte";
 
     interface Props {
         data: { content: ChestDrop[] };
@@ -153,21 +154,9 @@
     <meta property="og:description" content={description} />
 </svelte:head>
 
-<button class="btn btn-primary btn-lg rounded-xl d-lg-none position-fixed bottom-0 end-0 m-3 w-auto z-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
-    <Icon name="funnel-fill" />
-</button>
-
-<div class="col-12 col-lg-3 order-0 order-lg-1 sticky-left-col">
-    <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="offcanvasFilter" aria-labelledby="offcanvasFilterLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasFilterLabel">Filter your category</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasFilter" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <DutyAccordion {chestDropData} {category} {expansion} {header} {duty} {openTab} />
-        </div>
-    </div>
-</div>
+<PageSidebar>
+    <DutyAccordion {chestDropData} {category} {expansion} {header} {duty} {openTab} />
+</PageSidebar>
 <div class="col-12 col-lg-2 order-0 order-lg-3">
     <div id="stats" class="stats">
         <div class="card">
