@@ -1,10 +1,10 @@
 ﻿<script lang="ts">
     import { page } from '$app/state';
     import {replaceState} from "$app/navigation";
-    import type {Chest, ChestDrop, Duty, Expansion, Header, Reward} from "$lib/interfaces";
+    import type {Chest, ChestDrop, Duty, Expansion, Header} from "$lib/interfaces";
     import {onMount} from "svelte";
     import {FullColumnSetup} from "$lib/table";
-    import {Accordion, AccordionHeader, AccordionItem, Icon} from '@sveltestrap/sveltestrap';
+    import {Accordion, AccordionItem, Icon} from '@sveltestrap/sveltestrap';
     import {tryGetDutyLootSearchParams} from "$lib/searchParamHelper";
     import DropsTable from "../../component/DropsTable.svelte";
     import DutyAccordion from "../../component/DutyAccordion.svelte";

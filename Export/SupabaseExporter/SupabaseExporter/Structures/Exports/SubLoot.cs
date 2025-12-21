@@ -20,11 +20,11 @@ public class SubLoot
     {
         public int Records;
         
-        public readonly uint Id;
-        public readonly string Name;
-        public readonly string Letter;
-        public readonly uint Rank;
-        public readonly uint Stars;
+        public uint Id;
+        public string Name;
+        public string Letter;
+        public uint Rank;
+        public uint Stars;
         
         public Dictionary<SurvTier, LootPool> Pools = new()
         {

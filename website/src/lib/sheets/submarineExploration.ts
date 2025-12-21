@@ -19,6 +19,6 @@ export interface SubmarineExploration {
     StartingPoint: boolean;
 }
 
-export function ToName(self: SubmarineExploration): string {
+export function ToSectorName(self: SubmarineExploration): string {
     return UpperCaseStr(self.Destination);
 }

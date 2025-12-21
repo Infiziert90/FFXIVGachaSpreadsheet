@@ -1,11 +1,14 @@
 ﻿import {error} from "@sveltejs/kit";
 
+
 const HEADERS = new Headers({
     'Content-Type': 'application/json;charset=UTF-8',
     "User-Agent": "FFXIV Gacha"
 });
 
-export async function getLastUpdate(): Promise<string> {
+export async function getLastUpdate(browser: boolean): Promise<string> {
+    if (!browser) return 'Unknown';
+
     let data = await fetch('/data/LastUpdate.json', {
         method: 'GET',
         headers: HEADERS

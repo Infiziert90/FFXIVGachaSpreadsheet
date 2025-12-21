@@ -1,6 +1,7 @@
 <script lang="ts">
     import {getLastUpdate} from "$lib/utils";
     import CardLink from "../component/CardLink.svelte";
+    import { browser } from '$app/environment';
 </script>
 
 <svelte:head>
@@ -17,7 +18,7 @@
 
     <p>
         <strong>Last Update</strong>:
-        {#await getLastUpdate() then value}
+        {#await getLastUpdate(browser) then value}
             {value}
         {/await}
     </p>
@@ -46,6 +47,7 @@
         <CardLink cardTitle={'Desynthesis'} cardIcon={'000000/000120'} cardLink={'desynth/'} />
         <CardLink cardTitle={'Loot'} cardIcon={'061000/061801'} cardLink={'loot/'} />
         <CardLink cardTitle={'Occult'} cardIcon={'061000/061851'} cardLink={'occult/'} />
+        <CardLink cardTitle={'Submarine Loot'} cardIcon={'063000/063191'} cardLink={'submarine/'} />
         <CardLink cardTitle={'Logograms and Fragments'} cardIcon={'061000/061837'} cardLink={'logofrag/'} />
     </div>
 </div>

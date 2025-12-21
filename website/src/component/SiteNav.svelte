@@ -58,7 +58,14 @@
                 { label: 'Desynthesis', href: '/desynth/' },
                 { label: 'Ventures', href: '/venture/' }
             ]
-        }
+        },
+        {
+            label: 'Submarines',
+            id: 'submarine',
+            items: [
+                { label: 'Submarines', href: '/submarine/' }
+            ]
+        },
     ];
 
     // Normalize path for comparison (remove trailing slashes)
