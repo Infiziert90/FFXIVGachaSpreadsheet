@@ -85,7 +85,6 @@
     }
 
     function getBreakpoints(idx: number) {
-        console.log(idx);
         if (idx in MapBreakpoints) return MapBreakpoints[idx];
 
         return EmptyBreakpoint();
