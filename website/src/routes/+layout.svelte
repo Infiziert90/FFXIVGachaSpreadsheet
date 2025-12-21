@@ -7,7 +7,6 @@
     import Footer from "../component/Footer.svelte";
     import { page } from '$app/state';
     import SiteNav from '../component/SiteNav.svelte';
-
 	let { children } = $props();
 </script>
 

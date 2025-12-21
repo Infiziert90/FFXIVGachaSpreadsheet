@@ -1,7 +1,8 @@
 ﻿<script lang="ts">
     import type {Sector, SubLoot} from "$lib/interfaces";
-    import {Icon, Table} from '@sveltestrap/sveltestrap';
+    import {Table} from '@sveltestrap/sveltestrap';
     import SubmarineAccordion from "../../component/SubmarineAccordion.svelte";
+    import PageSidebar from "../../component/PageSidebar.svelte";
     import {MapToStartSector, SubmarineExplorationSheet, SubmarineMapSheet} from "$lib/sheets";
     import {page} from "$app/state";
     import {replaceState} from "$app/navigation";
@@ -100,25 +101,13 @@
     <meta property="og:description" content={description} />
 </svelte:head>
 
-<button class="btn btn-primary btn-lg rounded-xl d-lg-none position-fixed bottom-0 end-0 m-3 w-auto z-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
-    <Icon name="funnel-fill" />
-</button>
-
-<div class="col-12 col-lg-2 order-0 order-lg-1 sticky-left-col">
-    <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="offcanvasFilter" aria-labelledby="offcanvasFilterLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasFilterLabel">Filter your category</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasFilter" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <SubmarineAccordion
-                {mapData}
-                {map}
-                {openTab} 
-            />
-        </div>
-    </div>
-</div>
+<PageSidebar colClass="col-12 col-lg-2 order-0 order-lg-1 sticky-left-col">
+    <SubmarineAccordion
+        {mapData}
+        {map}
+        {openTab} 
+    />
+</PageSidebar>
 <div class="col-12 col-lg-10 order-0 order-lg-2">
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
         <h1 class="text-center">Work in Progress, feedback and ideas welcome</h1>

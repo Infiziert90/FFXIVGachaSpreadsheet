@@ -5,10 +5,10 @@
     import {onMount} from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
     import {FullColumnSetup} from "$lib/table";
-    import { Icon } from '@sveltestrap/sveltestrap';
     import VentureAccordion from "../../component/VentureAccordion.svelte";
     import ItemCard from "../../component/ItemCard.svelte";
     import {tryGetVentureSearchParams} from "$lib/searchParamHelper.ts";
+    import PageSidebar from "../../component/PageSidebar.svelte";
 
     interface Props {
         content: Venture[];
@@ -163,26 +163,14 @@
     <meta property="og:description" content={description} />
 </svelte:head>
 
-<button class="btn btn-primary btn-lg rounded-xl d-lg-none position-fixed bottom-0 end-0 m-3 w-auto z-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
-    <Icon name="funnel-fill" />
-</button>
-
-<div class="col-12 col-lg-3 order-0 order-lg-1 sticky-left-col">
-    <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="offcanvasFilter" aria-labelledby="offcanvasFilterLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasFilterLabel">Filter your category</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasFilter" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <VentureAccordion
-                {ventureData}
-                {category}
-                {taskType}
-                {openTab} 
-            />
-        </div>
-    </div>
-</div>
+<PageSidebar>
+    <VentureAccordion
+        {ventureData}
+        {category}
+        {taskType}
+        {openTab} 
+    />
+</PageSidebar>
 <div class="col-12 col-lg-2 order-0 order-lg-3">
     <div id="stats" class="stats">
         <div class="card">
