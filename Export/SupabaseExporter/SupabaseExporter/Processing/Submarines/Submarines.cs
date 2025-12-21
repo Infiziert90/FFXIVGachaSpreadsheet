@@ -86,6 +86,10 @@ public class Submarines : IDisposable
     
     private void Export()
     {
+        // The loop over fetch isn't guaranteed to contain all item IDs, so we add them here after everything has been processed
+        foreach (var itemId in CollectedData.Sectors.Values.SelectMany(s => s.Pools.Values).SelectMany(s => s.Rewards.Keys))
+            MappingHelper.AddItem(itemId);
+        
         ExportHandler.WriteDataJson("Submarines.json", CollectedData);
         Logger.Information("Done exporting data ...");
     }
