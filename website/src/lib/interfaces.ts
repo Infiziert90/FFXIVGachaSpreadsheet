@@ -81,7 +81,7 @@ export interface Duty {
     Chests: Chest[];
 }
 
-interface Chest {
+export interface Chest {
     Records: number;
     Id: number;
     Name: string;

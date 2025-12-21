@@ -1,10 +1,10 @@
 ﻿<script lang="ts">
     import { page } from '$app/state';
     import {replaceState} from "$app/navigation";
-    import type {ChestDrop, Duty, Expansion, Header, Reward} from "$lib/interfaces";
+    import type {Chest, ChestDrop, Duty, Expansion, Header, Reward} from "$lib/interfaces";
     import {onMount} from "svelte";
     import {FullColumnSetup} from "$lib/table";
-    import { Icon } from '@sveltestrap/sveltestrap';
+    import {Accordion, AccordionHeader, AccordionItem, Icon} from '@sveltestrap/sveltestrap';
     import {tryGetDutyLootSearchParams} from "$lib/searchParamHelper";
     import DropsTable from "../../component/DropsTable.svelte";
     import DutyAccordion from "../../component/DutyAccordion.svelte";
@@ -21,7 +21,7 @@
     let chestDropData: ChestDrop[] = data.content;
 
     // Table data
-    let tables: Record<number, Reward[]> = $state({});
+    let tables: Record<number, Chest> = $state({});
 
     // Stats
     let titleStats = $state('');
@@ -92,7 +92,7 @@
         // Update table data
         tables = {};
         selection.duty.Chests.forEach((c) => {
-            tables[c.Id] = c.Rewards;
+            tables[c.Id] = c;
         })
 
         // Update stats display
@@ -183,12 +183,16 @@
 </div>
 <div class="col-12 col-lg-7 order-0 order-lg-2">
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
-        {#each Object.entries(tables) as [tableId, tableItems]}
-            {#if tableItems.length > 0}
-                <DropsTable items={tableItems} columns={FullColumnSetup} />
-            {:else}
-                <p>No data found</p>
-            {/if}
+        <Accordion>
+        {#each Object.entries(tables) as [tableId, chest], idx}
+            <AccordionItem active={idx === 0} header="{chest.Id} {chest.Name.length > 0 ? `| ${chest.Name}` : ''} {chest.PlaceNameSub.length > 0 ? `| ${chest.PlaceNameSub}` : ''}">
+                {#if chest.Rewards.length > 0}
+                    <DropsTable items={chest.Rewards} columns={FullColumnSetup} />
+                {:else}
+                    <p>No data found</p>
+                {/if}
+            </AccordionItem>
         {/each}
+        </Accordion>
     </div>
 </div>
