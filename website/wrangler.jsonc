@@ -1,6 +1,6 @@
 {
-    "name": "svelte-rewrite",
-    "compatibility_date": "2025-12-01",
+    "name": "gacha-website",
+    "compatibility_date": "2025-12-21",
     "compatibility_flags": [
       "global_fetch_strictly_public"
     ],
@@ -14,7 +14,7 @@
     },
     "routes": [
       {
-        "pattern": "rewrite.infi.ovh",
+        "pattern": "gacha.infi.ovh",
         "custom_domain": true
       }
     ]
