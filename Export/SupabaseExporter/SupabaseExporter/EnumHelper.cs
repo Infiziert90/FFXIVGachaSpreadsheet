@@ -1,5 +1,49 @@
 ﻿namespace SupabaseExporter;
 
+#region Submarine
+public enum SurvTier : uint
+{
+    Invalid = 0,
+    
+    Tier1 = 1,
+    Tier2 = 2,
+    Tier3 = 3,
+}
+
+public enum RetTier : uint
+{
+    Invalid = 0,
+    
+    Poor = 1,
+    Normal = 2,
+    Optimal = 3,
+}
+
+public enum RetrievalProc : uint
+{
+    Optimal = 14,
+    Normal = 15,
+    Poor = 16
+}
+
+public enum SurveillanceProc : uint
+{
+    T3High = 4,
+    T2High = 5,
+    T1High = 6,
+    T2Mid = 7,
+    T1Mid = 8,
+    T1Low = 9
+}
+
+public enum FavorProc : uint
+{
+    Yes = 18,
+    StatsEnoughButFailed = 19,
+    Low = 20
+}
+#endregion
+
 public enum Territory : uint
 {
     Anemos = 732,
@@ -43,11 +87,6 @@ public enum DeepDungeon : uint
     Pt = 4,
 }
 
-public enum Coffer : uint
-{
-    Any = 1,
-}
-
 public enum LockboxTypes : uint
 {
     // Eureka
@@ -74,11 +113,6 @@ public enum LogoFrag : uint
 {
     Logogram = 1,
     Fragment = 2,
-}
-
-public enum TripleTriad : uint
-{
-    Any = 1,
 }
 
 
@@ -119,24 +153,6 @@ public static class EnumExtensions
             DeepDungeon.HoH => "Heaven-on-High",
             DeepDungeon.Eo => "Eureka Orthos",
             DeepDungeon.Pt => "Pilgrim's Traverse",
-            _ => "Unknown"
-        };
-    }
-
-    public static string ToName(this Coffer coffer)
-    {
-        return coffer switch
-        {
-            Coffer.Any => "Coffer",
-            _ => "Unknown"
-        };
-    }
-    
-    public static string ToName(this TripleTriad card)
-    {
-        return card switch
-        {
-            TripleTriad.Any => "Card Packs",
             _ => "Unknown"
         };
     }

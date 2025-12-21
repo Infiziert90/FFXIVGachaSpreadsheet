@@ -1,0 +1,264 @@
+.icon-small {
+    zoom: 0.7;
+}
+
+.menu-social .nav-link {
+    padding-block: 0;
+    padding-inline: 0.5rem;
+}
+
+.content div {
+    align-items: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+}
+
+.contenthead {
+    padding: 3px;
+}
+
+.contentheading {
+    display: flex;
+    font-family: inherit;
+    font-size: 20px;
+    justify-content: center;
+    margin: 0%;
+    padding: 5px;
+    text-shadow: 0 0 3px #fff;
+}
+
+.animatedText {
+    font-size: 18px;
+    height: 5vh;
+    padding-bottom: 10px;
+    text-shadow: 0 0 5px #fff;
+    width: 100%;
+}
+
+/* Style for both button and anchor */
+.contentbtn button,
+.contentbtn a {
+    border-radius: 5px;
+    display: inline-block;
+    /* Ensure consistent spacing */
+    letter-spacing: .025em;
+    margin-bottom: 20px;
+    text-decoration: none;
+    /* Remove default underline on anchor elements */
+    text-shadow: 0 0 1px #fff;
+    transition: all .15s ease;
+    width: 100%;
+}
+
+.contentbtn button:hover,
+.contentbtn a:hover {
+    background-color: #fff;
+    color: black;
+}
+
+th {
+    white-space: nowrap;
+    user-select: none;
+}
+
+th.sortable {
+    cursor: pointer;
+}
+
+
+td.icon {
+    width: 5%;
+}
+
+td.number {
+    width: 14%;
+}
+
+td.percentage {
+    width: 18%;
+}
+
+td.icon img {
+    border-radius: var(--bs-border-radius);
+    background: radial-gradient(circle, #7b7d6b 15%, #424542 100%);
+    object-fit: contain;
+}
+
+
+.accordion-body {
+    --bs-accordion-body-padding-x: 0;
+    --bs-accordion-body-padding-y: 0;
+}
+
+.accordion-item>.accordion-header>.accordion-button {
+    --bs-accordion-btn-focus-box-shadow: none;
+}
+
+.accordion-body>.list-group {
+    --bs-list-group-border-radius: 0;
+    --bs-list-group-border-width: 0;
+}
+
+.accordion-body-btn.active::after {
+    font-family: 'bootstrap-icons';
+    content: "\f633";
+    /* bi-check-lg */
+    font-size: 1.25em;
+    margin-inline-end: 0.5rem;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.list-group-item-xiv-item {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    line-height: 1;
+}
+
+.list-group-item-xiv-item-name {
+    font-size: 0.875rem;
+    padding-right: 0.5rem;
+    vertical-align: middle;
+}
+
+/* Scroling sidebar */
+
+@property --top-fade {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0;
+}
+
+@property --bottom-fade {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0;
+}
+
+@keyframes scrollfade {
+    0% {
+        --top-fade: 0;
+    }
+
+    10%,
+    100% {
+        --top-fade: 3rem;
+    }
+
+    0%,
+    90% {
+        --bottom-fade: 3rem;
+    }
+
+    100% {
+        --bottom-fade: 0;
+    }
+}
+
+
+/* Loot Tree Styles */
+.loot-tree {
+    width: 100%;
+    border-radius: var(--bs-border-radius);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    overflow: hidden;
+}
+
+.tree-node {
+    margin-left: 0;
+}
+
+.tree-node-folder {
+    cursor: pointer;
+    padding: 8px 12px;
+    border-bottom: var(--bs-border-width) solid var(--bs-border-color);
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-radius 0.15s ease
+}
+
+.tree-node-folder[data-open="true"] {
+    color: hsl(var(--node-hue, 216), 90.57%, 20.78%);
+    background-color: hsl(var(--node-hue, 216), 100%, 90.59%);
+}
+
+[data-bs-theme="dark"] .tree-node-folder[data-open="true"] {
+    color: hsl(var(--node-hue, 216), 98.63%, 71.37%);
+    background-color: hsl(var(--node-hue, 216), 88.89%, 10.59%);
+}
+
+.tree-node-element {
+    padding: 6px 12px 6px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    background-color: transparent;
+}
+
+.tree-node-element:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.tree-node-element.active {
+    background-color: var(--bs-primary);
+    color: white;
+    font-weight: 500;
+}
+
+
+.tree-indent {
+    margin-left: 0px;
+    position: relative;
+    border-left: 8px solid hsl(var(--node-hue, 216), 100%, 90.59%);
+    border-bottom: var(--bs-border-width) solid var(--bs-border-color);
+}
+
+[data-bs-theme="dark"] .tree-indent {
+    border-left-color: hsl(var(--node-hue, 216), 88.89%, 10.59%);
+}
+
+.tree-icon {
+    width: 16px;
+}
+
+.tree-label {
+    flex: 1;
+}
+
+.category-icon,
+.expansion-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+@media (min-width: 992px) {
+    .sticky-left-col {
+        max-height: calc(100vh - 6rem);
+        /* 9rem is around the height of the navbar */
+        overflow-y: scroll;
+        position: sticky;
+        top: calc(40px + 2rem);
+        /* 1rem from the padding of .container, and 40px from the nav, finally we add 1rem to the top to account for a small padding*/
+
+        scrollbar-width: thin;
+        scrollbar-color: var(--bs-secondary-bg) var(--bs-body-bg);
+
+        /* progressive enhancement, add shadows on top and bottom of the scrollable area if there's content outside of it */
+        mask: linear-gradient(to bottom,
+                #0000,
+                #ffff var(--top-fade) calc(100% - var(--bottom-fade)),
+                #0000);
+        animation: scrollfade;
+        animation-timeline: --scrollfade;
+        scroll-timeline: --scrollfade y;
+        padding-bottom: 0.25rem;
+    }
+}

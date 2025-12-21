@@ -7,8 +7,28 @@ namespace SupabaseExporter;
 
 public static class Utils
 {
+    public static readonly int Patch740 = VersionToNumber("1.6.4.0");
     public static readonly int Patch730 = VersionToNumber("1.6.1.0");
     public static readonly int Patch720 = VersionToNumber("1.5.8.1");
+    
+    /// <summary>
+    /// Match a specific version number to patch name.
+    /// </summary>
+    /// <param name="version">Version as number</param>
+    /// <returns>The patch name, with default 7.10</returns>
+    public static string VersionToPatch(int version)
+    {
+        if (version >= Patch740)
+            return "7.4";        
+        
+        if (version >= Patch730)
+            return "7.3";
+        
+        if (version >= Patch720)
+            return "7.2";
+        
+        return "7.1";
+    }
     
     /// <summary>
     /// Convert a version string to a number.
@@ -33,22 +53,6 @@ public static class Utils
     }
     
     /// <summary>
-    /// Match a specific version number to patch name.
-    /// </summary>
-    /// <param name="version">Version as number</param>
-    /// <returns>The patch name, with default 7.10</returns>
-    public static string VersionToPatch(int version)
-    {
-        if (version >= Patch730)
-            return "7.3";
-        
-        if (version >= Patch720)
-            return "7.2";
-        
-        return "7.1";
-    }
-    
-    /// <summary>
     /// Return the ui path for usage with XIVAPI.
     /// </summary>
     /// <param name="iconId">The items icon id</param>
@@ -69,7 +73,7 @@ public static class Utils
             return item.Icon;
 
         var itemAction = item.ItemAction.Value;
-        return itemAction.Type switch
+        return itemAction.Action.RowId switch
         {
             1322 => Sheets.MountSheet.GetRow(itemAction.Data[0]).Icon, // Mount ID
             3357 => 87000 + (uint)itemAction.Data[0], // Triple Triad ID
