@@ -129,7 +129,7 @@
                     <div style="margin: -.5rem .5rem 1rem -.5rem" class="pt-3 px-2"><h3>{ToSectorName(SubmarineExplorationSheet[sector.Id])}</h3></div>
                     <div class="row">
                         {#each Object.entries(sector.Pools) as [tier, pool], idx}
-                            <div class="col-4 p-0 ps-2 pb-1">
+                            <div class="col-lg-4 col-12 p-0 ps-2 pb-1">
                                 <div class="text-center text-black" style="background-color: var({getBorderColor(idx)});">
                                     Tier {idx+1}
                                     <br>
@@ -163,7 +163,7 @@
                                 </div>
                             </div>
                         {/each}
-                        <div class="col-3 pb-3">
+                        <div class="col-lg-3 col-12 pb-3">
                             <div class="card">
                                 <div class="card-header">
                                     Additional information
