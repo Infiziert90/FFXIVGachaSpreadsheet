@@ -103,6 +103,7 @@ export interface Sector {
     Letter: string;
     Rank: number;
     Stars: number;
+    UnlockedFrom: number;
 
     Pools: Record<string, LootPool>;
 }

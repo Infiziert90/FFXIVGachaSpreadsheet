@@ -25,6 +25,7 @@ public class SubLoot
         public string Letter;
         public uint Rank;
         public uint Stars;
+        public uint UnlockedFrom;
         
         public Dictionary<SurvTier, LootPool> Pools = new()
         {

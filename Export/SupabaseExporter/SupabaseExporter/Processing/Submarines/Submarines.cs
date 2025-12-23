@@ -47,11 +47,10 @@ public class Submarines : IDisposable
                 continue;
             }
 
-            var sector = Sheets.ExplorationSheet.GetRow(record.Sector);
-            if (!CollectedData.Sectors.ContainsKey(sector.RowId))
-                CollectedData.Sectors[sector.RowId] = new SubLoot.Sector(sector);
+            if (!CollectedData.Sectors.ContainsKey(record.Sector))
+                CollectedData.Sectors[record.Sector] = new SubLoot.Sector(Sheets.ExplorationSheet.GetRow(record.Sector));
 
-            var sectorData = CollectedData.Sectors[sector.RowId];
+            var sectorData = CollectedData.Sectors[record.Sector];
 
             CollectedData.Total += 1;
             sectorData.Records += 1;
@@ -61,9 +60,6 @@ public class Submarines : IDisposable
                 Logger.Error($"Invalid primary tier found: {record.Id}");
                 continue;
             }
-            
-            if (!sectorData.Pools.ContainsKey(survTier))
-                sectorData.Pools[survTier] = new SubLoot.LootPool();
             
             var lootPool = sectorData.Pools[survTier];
             lootPool.AddRecord(record.Primary, record.PrimaryCount, GetRetTier(record.PrimaryRetProc));
@@ -81,6 +77,15 @@ public class Submarines : IDisposable
             // }
             //
             // stats.IncreaseRetrieval(record.AdditionalSurvProc);
+            
+            // Add the unlocked from state if present
+            if (record.Unlocked > 0)
+            {
+                if (!CollectedData.Sectors.ContainsKey(record.Unlocked))
+                    CollectedData.Sectors[record.Unlocked] = new SubLoot.Sector(Sheets.ExplorationSheet.GetRow(record.Unlocked));
+
+                CollectedData.Sectors[record.Unlocked].UnlockedFrom = record.Sector;
+            }
         }
     }
     
