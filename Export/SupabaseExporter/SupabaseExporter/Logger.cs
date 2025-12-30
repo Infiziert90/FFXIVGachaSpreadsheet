@@ -8,7 +8,10 @@ public static class Logger
 
     static Logger()
     {
-        using var factory = LoggerFactory.Create(builder => builder.AddSimpleConsole(options => { options.SingleLine = true;}));
+        using var factory = LoggerFactory.Create(builder => 
+            builder
+                .AddSimpleConsole(options => { options.SingleLine = true; })
+                .SetMinimumLevel(LogLevel.Information));
         Log = factory.CreateLogger("Exporter");
     }
 
