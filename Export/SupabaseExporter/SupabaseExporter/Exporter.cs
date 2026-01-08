@@ -3,6 +3,7 @@ using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.EntityFrameworkCore;
 using SupabaseExporter.Models;
+using SupabaseExporter.Processing.BnpcPairs;
 using SupabaseExporter.Processing.ChestDrops;
 using SupabaseExporter.Processing.Coffers;
 using SupabaseExporter.Processing.Desynthesis;
@@ -21,6 +22,7 @@ public class DatabaseContext : DbContext
     public DbSet<Models.DesynthesisModel> Desynthesis { get; set; }
     public DbSet<Models.OccultBunnyModel> OccultBunny { get; set; }
     public DbSet<Models.OccultTreasureModel> OccultTreasures { get; set; }
+    public DbSet<Models.BnpcPair> BnpcPairs { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -90,6 +92,13 @@ public static class EntryPoint
         {
             var occultTreasureProcessor = new OccultTreasures();
             occultTreasureProcessor.ProcessAllData(occultTreasureResult.Data, occultBunnyResult.Data);
+        }
+        
+        var bnpcPairs = exporter.LoadBnpcPairData(context);
+        if (bnpcPairs.Success)
+        {
+            var bnpcPairsProcessor = new BnpcPairs();
+            bnpcPairsProcessor.ProcessAllData(bnpcPairs.Data);
         }
         
         // Generate json with all icon paths
@@ -212,6 +221,18 @@ public class Exporter
 
         Logger.Information($"Total records {data.Length:N0}");
         Logger.Information("Loading occult bunny data finished...");
+        return (true, data);
+    }
+    
+    public (bool Success, Models.BnpcPair[] Data) LoadBnpcPairData(DatabaseContext context)
+    {
+        Logger.Information("Loading BnpcPair data");
+        // var previous = ReadCsv<Models.BnpcPair>("LocalCache/Desynthesis");
+        var result = context.BnpcPairs.OrderBy(l => l.Id).AsEnumerable();
+        var data = result.ToArray();
+
+        Logger.Information($"Total records {data.Length:N0}");
+        Logger.Information("Loading BnpcPair data finished...");
         return (true, data);
     }
 
