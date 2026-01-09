@@ -5,42 +5,50 @@ namespace SupabaseExporter.Processing.BnpcPairs;
 
 public class BnpcPairs : IDisposable
 {
-    private readonly HashSet<string> DeduplicationSet = [];
-    private readonly BnpcPairing ProcessedData = new();
+    public readonly BnpcPairing CollectedData = new();
     
-    public void ProcessAllData(Models.BnpcPair[] data)
+    private readonly HashSet<string> DeduplicationSet = [];
+    private readonly Dictionary<uint, BnpcSimple> SimplePairs = [];
+    
+    public void ProcessAllData()
     {
         Logger.Information("Processing BnpcPair data");
-        Fetch(data);
         Combine();
         Export();
         Dispose();
     }
     public void Dispose()
     {
+        SimplePairs.Clear();
         DeduplicationSet.Clear();
-        ProcessedData.BnpcPairings.Clear();
+        CollectedData.BnpcPairings.Clear();
         GC.Collect();
     }
     
-    private void Fetch(Models.BnpcPair[] data)
+    public void Fetch(IEnumerable<Models.BnpcPair> data)
     {
         foreach (var record in data)
         {
-            if (!DeduplicationSet.Add(record.Hashed))
+            if (record.Id <= CollectedData.ProcessedId)
                 continue;
             
-            if (!ProcessedData.BnpcPairings.ContainsKey(record.BaseId))
-                ProcessedData.BnpcPairings[record.BaseId] = new BnpcPairing.Pairing();
+            CollectedData.ProcessedId = record.Id;
             
-            var pairing = ProcessedData.BnpcPairings[record.BaseId];
-            pairing.Records += 1;
-            pairing.Names.Add(record.NameId);
+            if (!DeduplicationSet.Add(record.Hashed))
+                continue;
 
-            if (!pairing.LevelToLocations.ContainsKey(record.LevelId))
-                pairing.LevelToLocations[record.LevelId] = new BnpcPairing.Location(record.TerritoryId, record.MapId);
+            // Both are sheet index, so a fixed uint number, but NameId has flag properties so it goes into the millions at times
+            var combinedId = ((ulong)record.BaseId << 32) + record.NameId;
+            if (!CollectedData.BnpcPairings.ContainsKey(combinedId))
+                CollectedData.BnpcPairings[combinedId] = new BnpcPairing.Pairing(record.BaseId, record.NameId);
             
-            var location = pairing.LevelToLocations[record.LevelId];
+            var pairing = CollectedData.BnpcPairings[combinedId];
+            pairing.Records += 1;
+
+            if (!pairing.Locations.ContainsKey(record.LevelId))
+                pairing.Locations[record.LevelId] = new BnpcPairing.Location(record.TerritoryId, record.MapId);
+            
+            var location = pairing.Locations[record.LevelId];
             location.Records += 1;
             
             var position = new Vector3(record.X, record.Y, record.Z);
@@ -64,19 +72,19 @@ public class BnpcPairs : IDisposable
 
     private void Combine() 
     {
-        foreach (var (baseId, pairing) in ProcessedData.BnpcPairings)
+        foreach (var pair in CollectedData.BnpcPairings.Values)
         {
-            if (pairing.Names.Count == 0)
-                Logger.Error($"Found empty name list? {baseId}");
+            if (!SimplePairs.ContainsKey(pair.Base))
+                SimplePairs[pair.Base] = new BnpcSimple(pair.Base, []);
+
+            SimplePairs[pair.Base].Names.Add(pair.Name);
         }
     }
     
-    public record BnpcSimple(uint Base, HashSet<uint> Names);
-    
     private void Export()
     {
-        ExportHandler.WriteDataJson("BnpcPairs.json", ProcessedData);
-        ExportHandler.WriteDataJson("BnpcPairsSimple.json", ProcessedData.BnpcPairings.Select(pair => new BnpcSimple(pair.Key, pair.Value.Names)));
+        ExportHandler.WriteDataJson("BnpcPairs.json", CollectedData);
+        ExportHandler.WriteDataJson("BnpcPairsSimple.json", SimplePairs.Select(pair => pair.Value));
         Logger.Information("Done exporting data ...");
     }
 }

@@ -14,15 +14,15 @@ namespace SupabaseExporter;
 
 public class DatabaseContext : DbContext
 {
-    public DbSet<Models.SubmarineLootModel> SubmarineLoot { get; set; }
-    public DbSet<Models.RandomCofferModel> RandomCoffers { get; set; }
-    public DbSet<Models.EurekaBunnyModel> EurekaBunnies { get; set; }
-    public DbSet<Models.VentureModel> Ventures { get; set; }
-    public DbSet<Models.ChestDropModel> ChestDrops { get; set; }
-    public DbSet<Models.DesynthesisModel> Desynthesis { get; set; }
-    public DbSet<Models.OccultBunnyModel> OccultBunny { get; set; }
-    public DbSet<Models.OccultTreasureModel> OccultTreasures { get; set; }
-    public DbSet<Models.BnpcPair> BnpcPairs { get; set; }
+    public DbSet<SubmarineLootModel> SubmarineLoot { get; set; }
+    public DbSet<RandomCofferModel> RandomCoffers { get; set; }
+    public DbSet<EurekaBunnyModel> EurekaBunnies { get; set; }
+    public DbSet<VentureModel> Ventures { get; set; }
+    public DbSet<ChestDropModel> ChestDrops { get; set; }
+    public DbSet<DesynthesisModel> Desynthesis { get; set; }
+    public DbSet<OccultBunnyModel> OccultBunny { get; set; }
+    public DbSet<OccultTreasureModel> OccultTreasures { get; set; }
+    public DbSet<BnpcPair> BnpcPairs { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -94,12 +94,9 @@ public static class EntryPoint
             occultTreasureProcessor.ProcessAllData(occultTreasureResult.Data, occultBunnyResult.Data);
         }
         
-        var bnpcPairs = exporter.LoadBnpcPairData(context);
-        if (bnpcPairs.Success)
-        {
-            var bnpcPairsProcessor = new BnpcPairs();
-            bnpcPairsProcessor.ProcessAllData(bnpcPairs.Data);
-        }
+        var bnpcPairsProcessor = new BnpcPairs();
+        await exporter.LoadBnpcPairData(context, bnpcPairsProcessor);
+        bnpcPairsProcessor.ProcessAllData();
         
         // Generate json with all icon paths
         MappingHelper.ExportMappingFile();
@@ -126,7 +123,7 @@ public class Exporter
         
         var lastId = result.Last().Id.ToString();
         
-        await WriteCsv(lastId, result);
+        await WriteCsv("LocalCache/Submarine/", lastId, result);
         
         await context.SubmarineLoot.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
         await context.Database.ExecuteSqlAsync($"vacuum full;");
@@ -134,16 +131,16 @@ public class Exporter
         context.ChangeTracker.Clear();
         
         var mapping = new SubmarineLootMap();
-        foreach (var data in ReadSubmarineFolder<Models.SubmarineLootModel>("LocalCache/Submarine/", processor.CollectedData.ProcessedId, mapping))
+        foreach (var data in ReadFolder<SubmarineLootModel>("LocalCache/Submarine/", processor.CollectedData.ProcessedId, mapping))
             processor.Fetch(data);
 
         Logger.Information("Done exporting submarine data...");
     }
 
-    public (bool Success, Models.RandomCofferModel[] Data) LoadGachaData(DatabaseContext context)
+    public (bool Success, RandomCofferModel[] Data) LoadGachaData(DatabaseContext context)
     {
         Logger.Information("Loading gacha data");
-        var previous = ReadCsv<Models.RandomCofferModel>("LocalCache/Gacha");
+        var previous = ReadCsv<RandomCofferModel>("LocalCache/Gacha");
         var result = context.RandomCoffers.OrderBy(l => l.Id).AsEnumerable();
         var data = previous.Concat(result).ToArray();
 
@@ -152,10 +149,10 @@ public class Exporter
         return (true, data);
     }
 
-    public (bool Success, Models.VentureModel[] Data) LoadVentureData(DatabaseContext context)
+    public (bool Success, VentureModel[] Data) LoadVentureData(DatabaseContext context)
     {
         Logger.Information("Loading venture data");
-        var previous = ReadCsv<Models.VentureModel>("LocalCache/Ventures");
+        var previous = ReadCsv<VentureModel>("LocalCache/Ventures");
         var result = context.Ventures.OrderBy(l => l.Id).AsEnumerable();
         var data = previous.Concat(result).ToArray();
 
@@ -164,10 +161,10 @@ public class Exporter
         return (true, data);
     }
 
-    public (bool Success, Models.EurekaBunnyModel[] Data) LoadBunnyData(DatabaseContext context)
+    public (bool Success, EurekaBunnyModel[] Data) LoadBunnyData(DatabaseContext context)
     {
         Logger.Information("Loading bunny data");
-        var previous = ReadCsv<Models.EurekaBunnyModel>("LocalCache/Bnuuy");
+        var previous = ReadCsv<EurekaBunnyModel>("LocalCache/Bnuuy");
         var result = context.EurekaBunnies.OrderBy(l => l.Id).AsEnumerable();
         var data = previous.Concat(result).ToArray();
 
@@ -176,10 +173,10 @@ public class Exporter
         return (true, data);
     }
 
-    public (bool Success, Models.DesynthesisModel[] Data) LoadDesynthData(DatabaseContext context)
+    public (bool Success, DesynthesisModel[] Data) LoadDesynthData(DatabaseContext context)
     {
         Logger.Information("Loading desynth data");
-        var previous = ReadCsv<Models.DesynthesisModel>("LocalCache/Desynthesis");
+        var previous = ReadCsv<DesynthesisModel>("LocalCache/Desynthesis");
         var result = context.Desynthesis.OrderBy(l => l.Id).AsEnumerable();
         var data = previous.Concat(result).ToArray();
 
@@ -188,10 +185,10 @@ public class Exporter
         return (true, data);
     }
     
-    public (bool Success, Models.ChestDropModel[] Data) LoadDutyLootData(DatabaseContext context)
+    public (bool Success, ChestDropModel[] Data) LoadDutyLootData(DatabaseContext context)
     {
         Logger.Information("Loading duty loot data");
-        var previous = ReadCsv<Models.ChestDropModel>("LocalCache/DutyLoot");
+        var previous = ReadCsv<ChestDropModel>("LocalCache/DutyLoot");
         var result = context.ChestDrops.OrderBy(l => l.Id).AsEnumerable();
         var data = previous.Concat(result).ToArray();
 
@@ -200,10 +197,10 @@ public class Exporter
         return (true, data);
     }
     
-    public (bool Success, Models.OccultTreasureModel[] Data) LoadOccultTreasureData(DatabaseContext context)
+    public (bool Success, OccultTreasureModel[] Data) LoadOccultTreasureData(DatabaseContext context)
     {
         Logger.Information("Loading occult treasure data");
-        var previous = ReadCsv<Models.OccultTreasureModel>("LocalCache/OccultTreasure");
+        var previous = ReadCsv<OccultTreasureModel>("LocalCache/OccultTreasure");
         var result = context.OccultTreasures.OrderBy(l => l.Id).AsEnumerable();
         var data = previous.Concat(result).ToArray();
 
@@ -212,10 +209,10 @@ public class Exporter
         return (true, data);
     }
     
-    public (bool Success, Models.OccultBunnyModel[] Data) LoadOccultBunnyData(DatabaseContext context)
+    public (bool Success, OccultBunnyModel[] Data) LoadOccultBunnyData(DatabaseContext context)
     {
         Logger.Information("Loading occult bunny data");
-        var previous = ReadCsv<Models.OccultBunnyModel>("LocalCache/OccultBunny");
+        var previous = ReadCsv<OccultBunnyModel>("LocalCache/OccultBunny");
         var result = context.OccultBunny.OrderBy(l => l.Id).AsEnumerable();
         var data = previous.Concat(result).ToArray();
 
@@ -224,21 +221,36 @@ public class Exporter
         return (true, data);
     }
     
-    public (bool Success, Models.BnpcPair[] Data) LoadBnpcPairData(DatabaseContext context)
+    public async Task LoadBnpcPairData(DatabaseContext context, BnpcPairs processor)
     {
-        Logger.Information("Loading BnpcPair data");
-        // var previous = ReadCsv<Models.BnpcPair>("LocalCache/Desynthesis");
-        var result = context.BnpcPairs.OrderBy(l => l.Id).AsEnumerable();
-        var data = result.ToArray();
+        Logger.Information("Exporting BnpcPair data");
+        var result = await context.BnpcPairs.Where(l => l.Version != "0").OrderBy(l => l.Id).ToListAsync();
+        
+        Logger.Information($"Rows found {result.Count:N0}");
+        if (result.Count == 0)
+        {
+            Logger.Warning("No records found");
+            return;
+        }
+        
+        var lastId = result.Last().Id.ToString();
+        
+        await WriteCsv("LocalCache/Bnpc/", lastId, result);
+        
+        await context.BnpcPairs.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+        await context.Database.ExecuteSqlAsync($"vacuum full;");
+        result.Clear();
+        context.ChangeTracker.Clear();
+        
+        foreach (var data in ReadFolder<BnpcPair>("LocalCache/Bnpc/", processor.CollectedData.ProcessedId))
+            processor.Fetch(data);
 
-        Logger.Information($"Total records {data.Length:N0}");
-        Logger.Information("Loading BnpcPair data finished...");
-        return (true, data);
+        Logger.Information("Done exporting BnpcPair data...");
     }
 
-    private async Task WriteCsv<T>(string fileName, IEnumerable<T> result, ClassMap<T>? classMap = null)
+    private async Task WriteCsv<T>(string path, string fileName, IEnumerable<T> result, ClassMap<T>? classMap = null)
     {
-        await using var writer = new StreamWriter(Path.Combine($"LocalCache/Submarine/{fileName}.csv"));
+        await using var writer = new StreamWriter(Path.Combine($"{path}{fileName}.csv"));
         await using var csv = new CsvWriter(writer, CsvConfig);
 
         csv.Context.UnregisterClassMap();
@@ -263,7 +275,7 @@ public class Exporter
         return csv.GetRecords<T>().ToArray();
     }
     
-    private IEnumerable<IEnumerable<T>> ReadSubmarineFolder<T>(string folder, uint lastId, ClassMap? map = null)
+    private IEnumerable<IEnumerable<T>> ReadFolder<T>(string folder, uint lastId, ClassMap? map = null)
     {
         foreach (var pair in new DirectoryInfo(folder).EnumerateFiles().Select(f => (f, uint.Parse(Path.GetFileNameWithoutExtension(f.Name)))).Where(pair => lastId < pair.Item2).OrderBy(pair => pair.Item2))
         {

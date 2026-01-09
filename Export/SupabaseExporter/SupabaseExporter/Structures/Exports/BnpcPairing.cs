@@ -4,14 +4,19 @@ namespace SupabaseExporter.Structures.Exports;
 
 public class BnpcPairing
 {
-    public Dictionary<uint, Pairing> BnpcPairings = [];
+    // Used for internal cache keeping
+    public uint ProcessedId;
+    
+    public Dictionary<ulong, Pairing> BnpcPairings = [];
 
-    public class Pairing
+    public class Pairing(uint baseId, uint nameId)
     {
         public uint Records;
+
+        public uint Base = baseId;
+        public uint Name = nameId;
         
-        public HashSet<uint> Names = [];
-        public Dictionary<uint, Location> LevelToLocations = [];
+        public Dictionary<uint, Location> Locations = [];
     }
 
     public class Location(uint territory, uint map)
@@ -24,3 +29,5 @@ public class BnpcPairing
         public Dictionary<Vector3, uint> Positions = [];
     }
 }
+
+public record BnpcSimple(uint Base, HashSet<uint> Names);
