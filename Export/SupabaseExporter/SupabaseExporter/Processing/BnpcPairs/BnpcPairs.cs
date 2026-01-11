@@ -34,6 +34,9 @@ public class BnpcPairs : IDisposable
             
             CollectedData.ProcessedId = record.Id;
             
+            if (record.SpawnType == 2)
+                Logger.Error($"Found BossSpawnPacket!!!! {record.Id} {record.BaseId} {record.NameId}");
+            
             if (!DeduplicationSet.Add(record.Hashed))
                 continue;
 
