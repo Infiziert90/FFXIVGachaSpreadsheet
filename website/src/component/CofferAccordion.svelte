@@ -25,28 +25,42 @@
     });
 
     function handleToggle(cofferId: number, e: CustomEvent) {
+        e.stopPropagation?.();
         const isActive = typeof e.detail === 'boolean' ? e.detail : (e.detail as { active?: boolean })?.active;
         if (isActive !== undefined) {
             openAccordionId = isActive ? cofferId : (openAccordionId === cofferId ? null : openAccordionId);
         }
     }
+
+    function handleItemClick(territory: number, coffer: number, e: Event) {
+        e.stopPropagation?.();
+        openTab(territory, coffer, true);
+    }
 </script>
 
 <Accordion class="w-100">
-    {#each cofferData as cofferItem}
+    /**
+     * Iterates through cofferData array and uses cofferItem.TerritoryId
+     * as the unique key for each item in the each-block.
+     */
+    {#each cofferData as cofferItem (cofferItem.TerritoryId)}
         <AccordionItem 
             active={openAccordionId === cofferItem.TerritoryId}
-            on:toggle={(e) => handleToggle(cofferItem.TerritoryId, e)}
+            ontoggle={(e) => handleToggle(cofferItem.TerritoryId, e)}
         >
             <div slot="header">{cofferItem.Name}</div>
             <ListGroup>
-                {#each cofferItem.Variants as cofferVariant}
+                /**
+                 * Iterates through cofferItem.Variants array and uses cofferVariant.Id
+                 * as the unique key for each item in the each-block.
+                 */
+                {#each cofferItem.Variants as cofferVariant (cofferVariant.Id)}
                     <ListGroupItem 
                         id="{cofferItem.TerritoryId}{cofferVariant.Id}-tab"
                         active={territory === cofferItem.TerritoryId && coffer === cofferVariant.Id}
                         tag="button"
                         action
-                        on:click={() => openTab(cofferItem.TerritoryId, cofferVariant.Id, true)}
+                        onclick={(e) => handleItemClick(cofferItem.TerritoryId, cofferVariant.Id, e)}
                     >
                         {cofferVariant.Name}
                     </ListGroupItem>
