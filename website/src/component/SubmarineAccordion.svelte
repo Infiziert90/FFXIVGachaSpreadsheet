@@ -39,10 +39,10 @@
         <AccordionItem active={true}>
             <div slot="header">Maps</div>
             <ListGroup>
-                /** 
+                <!-- /** 
                  * Iterates through mapData array and uses mapItem.RowId
                  * as the unique key for each item in the each-block.
-                 */
+                 */ -->
                 {#each mapData as mapItem (mapItem.RowId)}
                     <ListGroupItem 
                         id="{mapItem.RowId}-tab"

@@ -39,10 +39,10 @@
 </script>
 
 <Accordion class="w-100">
-    /**
+    <!-- /**
      * Iterates through ventureData array and uses ventureItem.Category as the unique key
      * for each item in the each-block.
-     */
+     */ -->
     {#each ventureData as ventureItem (ventureItem.Category)}
         <AccordionItem 
             active={openAccordionId === ventureItem.Category}
@@ -50,10 +50,10 @@
         >
             <div slot="header">{ventureItem.Name}</div>
             <ListGroup>
-                /**
+                <!-- /**
                  * Iterates through ventureItem.Tasks array and uses taskVariant.Type
                  * as the unique key for each item in the each-block.
-                 */
+                 */ -->
                 {#each ventureItem.Tasks as taskVariant (taskVariant.Type)}
                     <ListGroupItem 
                         id="{ventureItem.Category}{taskVariant.Type}-tab"

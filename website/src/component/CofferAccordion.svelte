@@ -39,10 +39,10 @@
 </script>
 
 <Accordion class="w-100">
-    /**
+    <!-- /**
      * Iterates through cofferData array and uses cofferItem.TerritoryId
      * as the unique key for each item in the each-block.
-     */
+     */ -->
     {#each cofferData as cofferItem (cofferItem.TerritoryId)}
         <AccordionItem 
             active={openAccordionId === cofferItem.TerritoryId}
@@ -50,10 +50,10 @@
         >
             <div slot="header">{cofferItem.Name}</div>
             <ListGroup>
-                /**
+                <!-- /**
                  * Iterates through cofferItem.Variants array and uses cofferVariant.Id
                  * as the unique key for each item in the each-block.
-                 */
+                 */ -->
                 {#each cofferItem.Variants as cofferVariant (cofferVariant.Id)}
                     <ListGroupItem 
                         id="{cofferItem.TerritoryId}{cofferVariant.Id}-tab"
