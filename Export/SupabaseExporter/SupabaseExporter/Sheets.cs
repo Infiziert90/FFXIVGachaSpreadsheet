@@ -17,12 +17,20 @@ public static class Sheets
     public static readonly ExcelSheet<GCSupplyDutyReward> GCSupplySheet;
     public static readonly ExcelSheet<TerritoryType> TerritoryTypeSheet;
     public static readonly ExcelSheet<SubmarineExploration> ExplorationSheet;
+    public static readonly ExcelSheet<BNpcName> BNPCNameSheet;
+    public static readonly ExcelSheet<Pet> PetSheet;
+    public static readonly ExcelSheet<Companion> CompanionSheet;
 
     // Item
     public static readonly uint MaxItemId;
     
     // Submarine
     private static readonly uint[] ReversedMaps;
+    
+    // Bnpc tracking
+    public static HashSet<uint> DisallowedBnpcBase = [3705];
+    public static HashSet<uint> DisallowedBnpcNames;
+
 
     static Sheets()
     {
@@ -37,10 +45,25 @@ public static class Sheets
         GCSupplySheet = Lumina.GetExcelSheet<GCSupplyDutyReward>()!;
         TerritoryTypeSheet = Lumina.GetExcelSheet<TerritoryType>()!;
         ExplorationSheet = Lumina.GetExcelSheet<SubmarineExploration>()!;
+        BNPCNameSheet = Lumina.GetExcelSheet<BNpcName>()!;
+        PetSheet = Lumina.GetExcelSheet<Pet>()!;
+        CompanionSheet = Lumina.GetExcelSheet<Companion>()!;
 
         MaxItemId = ItemSheet.MaxBy(i => i.RowId).RowId;
         
         ReversedMaps = ExplorationSheet.Where(s => s.StartingPoint).Select(s => s.RowId).Reverse().ToArray();
+        
+        var pets = PetSheet.Select(c => c.Name.ToString()).Where( c => c.Length > 0 ).ToArray();
+        var companions = CompanionSheet.Select(c => c.Singular.ToString()).Where( c => c.Length > 0 ).ToArray();
+
+        DisallowedBnpcNames = BNPCNameSheet.Where(c =>
+        {
+            var name = c.Singular.ToString();
+            if (name.Length == 0)
+                return false;
+
+            return pets.Contains(name) || companions.Contains(name);
+        }).Select(c => c.RowId).ToHashSet();
     }
     
     public static SubmarineExploration FindVoyageStart(uint sector)

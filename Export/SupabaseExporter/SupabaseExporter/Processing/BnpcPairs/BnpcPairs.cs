@@ -33,6 +33,9 @@ public class BnpcPairs : IDisposable
                 continue;
             
             CollectedData.ProcessedId = record.Id;
+
+            if (Sheets.DisallowedBnpcNames.Contains(record.NameId) || Sheets.DisallowedBnpcBase.Contains(record.BaseId))
+                continue;
             
             if (record.SpawnType == 2)
                 Logger.Error($"Found BossSpawnPacket!!!! {record.Id} {record.BaseId} {record.NameId}");
