@@ -56,20 +56,27 @@ public class BnpcPairs : IDisposable
             
             var position = new Vector3(record.X, record.Y, record.Z);
 
-            var found = Vector3.Zero;
-            foreach (var existingPosition in location.Positions.Keys)
+            var found = -1;
+            foreach (var (idx, existingPosition) in location.Positions.Index())
             {
                 var difV = existingPosition - position;
                 var dis = Math.Sqrt(Math.Pow(difV.X, 2f) + Math.Pow(difV.Y, 2f) + Math.Pow(difV.Z, 2f));
                 
                 if (dis < 5.0)
-                    found = existingPosition;
+                    found = idx;
             }
 
-            if (found != Vector3.Zero)
-                location.Positions[found] += 1;
+            if (found != -1)
+            {
+                location.PositionCounts[found] += 1;
+            }
             else
-                location.Positions[position] = 1;
+            {
+                var newIdx = location.Positions.Count;
+                location.Positions.Add(position);
+                
+                location.PositionCounts[newIdx] = 1;
+            }
         }
     }
 

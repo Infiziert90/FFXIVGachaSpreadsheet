@@ -25,8 +25,9 @@ public class BnpcPairing
         
         public uint Territory = territory;
         public uint Map = map;
-        
-        public Dictionary<Vector3, uint> Positions = [];
+
+        public List<Vector3> Positions = [];
+        public Dictionary<int, uint> PositionCounts = []; // index to count
     }
 }
 
