@@ -25,28 +25,42 @@
     });
 
     function handleToggle(taskTypeId: number, e: CustomEvent) {
+        e.stopPropagation?.();
         const isActive = typeof e.detail === 'boolean' ? e.detail : (e.detail as { active?: boolean })?.active;
         if (isActive !== undefined) {
             openAccordionId = isActive ? taskTypeId : (openAccordionId === taskTypeId ? null : openAccordionId);
         }
     }
+
+    function handleItemClick(categoryId: number, taskTypeId: number, e: Event) {
+        e.stopPropagation?.();
+        openTab(categoryId, taskTypeId, true);
+    }
 </script>
 
 <Accordion class="w-100">
-    {#each ventureData as ventureItem}
+    <!-- /**
+     * Iterates through ventureData array and uses ventureItem.Category as the unique key
+     * for each item in the each-block.
+     */ -->
+    {#each ventureData as ventureItem (ventureItem.Category)}
         <AccordionItem 
             active={openAccordionId === ventureItem.Category}
-            on:toggle={(e) => handleToggle(ventureItem.Category, e)}
+            ontoggle={(e) => handleToggle(ventureItem.Category, e)}
         >
             <div slot="header">{ventureItem.Name}</div>
             <ListGroup>
-                {#each ventureItem.Tasks as taskVariant}
+                <!-- /**
+                 * Iterates through ventureItem.Tasks array and uses taskVariant.Type
+                 * as the unique key for each item in the each-block.
+                 */ -->
+                {#each ventureItem.Tasks as taskVariant (taskVariant.Type)}
                     <ListGroupItem 
                         id="{ventureItem.Category}{taskVariant.Type}-tab"
                         active={category === ventureItem.Category && taskType === taskVariant.Type}
                         tag="button"
                         action
-                        on:click={() => openTab(ventureItem.Category, taskVariant.Type, true)}
+                        on:click={(e) => handleItemClick(ventureItem.Category, taskVariant.Type, e)}
                     >
                         {taskVariant.Name}
                     </ListGroupItem>

@@ -120,7 +120,7 @@
 
 <Navbar color="dark" dark theme="dark" expand="md" class="border-bottom border-body-tertiary" sticky="top">
 <NavbarBrand href="/">FFXIV Gacha</NavbarBrand>
-<NavbarToggler on:click={toggle} />
+<NavbarToggler onclick={toggle} />
 
 <Collapse {isOpen} navbar expand="md">
     <!-- Main Menu -->

@@ -92,7 +92,7 @@
     color="primary"
     size="lg"
     class="rounded-xl d-lg-none position-fixed bottom-0 end-0 m-3 w-auto z-3" 
-    on:click={toggle}
+    onclick={toggle}
     aria-label="Open filter menu"
 >
     <Icon name="funnel-fill" />

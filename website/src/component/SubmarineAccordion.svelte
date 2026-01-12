@@ -22,10 +22,16 @@
     });
 
     function handleToggle(mapId: number, e: CustomEvent) {
+        e.stopPropagation?.();
         const isActive = typeof e.detail === 'boolean' ? e.detail : (e.detail as { active?: boolean })?.active;
         if (isActive !== undefined) {
             openAccordionId = isActive ? mapId : (openAccordionId === mapId ? null : openAccordionId);
         }
+    }
+
+    function handleItemClick(mapId: number, e: Event) {
+        e.stopPropagation?.();
+        openTab(mapId, true);
     }
 </script>
 
@@ -33,13 +39,17 @@
         <AccordionItem active={true}>
             <div slot="header">Maps</div>
             <ListGroup>
-                {#each mapData as mapItem}
+                <!-- /** 
+                 * Iterates through mapData array and uses mapItem.RowId
+                 * as the unique key for each item in the each-block.
+                 */ -->
+                {#each mapData as mapItem (mapItem.RowId)}
                     <ListGroupItem 
                         id="{mapItem.RowId}-tab"
                         active={map === mapItem.RowId}
                         tag="button"
                         action
-                        on:click={() => openTab(mapItem.RowId, true)}
+                        onclick={(e) => handleItemClick(mapItem.RowId, e)}
                     >
                         {ToName(mapItem)}
                     </ListGroupItem>
