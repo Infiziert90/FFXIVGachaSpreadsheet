@@ -96,5 +96,8 @@ public sealed class SubmarineLootMap : ClassMap<SubmarineLootModel>
         Map(m => m.AdditionalSurvProc).Name("AdditionalSurvProc", "additional_surv_proc");
         Map(m => m.PrimaryRetProc).Name("PrimaryRetProc", "primary_ret_proc");
         Map(m => m.FavProc).Name("FavProc", "fav_proc");
+        
+        Map(m => m.GetVersion).Ignore();
+        Map(m => m.GetPatch).Ignore();
     }
 }

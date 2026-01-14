@@ -11,8 +11,10 @@ public abstract class BaseModel
 
     [Ignore]
     private bool IsCalculated;
+    
     [Ignore]
     private int NumberVersion;
+    
     [Ignore]
     private string Patch = string.Empty;
         

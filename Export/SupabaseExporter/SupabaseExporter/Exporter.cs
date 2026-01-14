@@ -22,7 +22,7 @@ public class DatabaseContext : DbContext
     public DbSet<DesynthesisModel> Desynthesis { get; set; }
     public DbSet<OccultBunnyModel> OccultBunny { get; set; }
     public DbSet<OccultTreasureModel> OccultTreasures { get; set; }
-    public DbSet<BnpcPair> BnpcPairs { get; set; }
+    public DbSet<BnpcPairModel> BnpcPairs { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -242,7 +242,8 @@ public class Exporter
         result.Clear();
         context.ChangeTracker.Clear();
         
-        foreach (var data in ReadFolder<BnpcPair>("LocalCache/Bnpc/", processor.CollectedData.ProcessedId))
+        var mapping = new BnpcPairMap();
+        foreach (var data in ReadFolder<BnpcPairModel>("LocalCache/Bnpc/", processor.CollectedData.ProcessedId, mapping))
             processor.Fetch(data);
 
         Logger.Information("Done exporting BnpcPair data...");

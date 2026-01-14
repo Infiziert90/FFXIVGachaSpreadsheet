@@ -20,6 +20,7 @@ public static class Sheets
     public static readonly ExcelSheet<BNpcName> BNPCNameSheet;
     public static readonly ExcelSheet<Pet> PetSheet;
     public static readonly ExcelSheet<Companion> CompanionSheet;
+    public static readonly ExcelSheet<NotoriousMonster> NotoriousMonsterSheet;
 
     // Item
     public static readonly uint MaxItemId;
@@ -30,6 +31,7 @@ public static class Sheets
     // Bnpc tracking
     public static HashSet<uint> DisallowedBnpcBase = [3705];
     public static HashSet<uint> DisallowedBnpcNames;
+    public static HashSet<uint> RankedBnpcBase;
 
 
     static Sheets()
@@ -48,6 +50,7 @@ public static class Sheets
         BNPCNameSheet = Lumina.GetExcelSheet<BNpcName>()!;
         PetSheet = Lumina.GetExcelSheet<Pet>()!;
         CompanionSheet = Lumina.GetExcelSheet<Companion>()!;
+        NotoriousMonsterSheet = Lumina.GetExcelSheet<NotoriousMonster>()!;
 
         MaxItemId = ItemSheet.MaxBy(i => i.RowId).RowId;
         
@@ -64,6 +67,8 @@ public static class Sheets
 
             return pets.Contains(name) || companions.Contains(name);
         }).Select(c => c.RowId).ToHashSet();
+        
+        RankedBnpcBase = NotoriousMonsterSheet.Where(n => n.Rank is 1 or 2 or 3).Select(n => n.RowId).ToHashSet();
     }
     
     public static SubmarineExploration FindVoyageStart(uint sector)

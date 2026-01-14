@@ -25,7 +25,7 @@ public class BnpcPairs : IDisposable
         GC.Collect();
     }
     
-    public void Fetch(IEnumerable<Models.BnpcPair> data)
+    public void Fetch(IEnumerable<Models.BnpcPairModel> data)
     {
         foreach (var record in data)
         {
@@ -37,22 +37,21 @@ public class BnpcPairs : IDisposable
             if (Sheets.DisallowedBnpcNames.Contains(record.NameId) || Sheets.DisallowedBnpcBase.Contains(record.BaseId))
                 continue;
             
-            if (record.SpawnType == 2)
-                Logger.Error($"Found BossSpawnPacket!!!! {record.Id} {record.BaseId} {record.NameId}");
-            
             if (!DeduplicationSet.Add(record.Hashed))
                 continue;
 
             // Both are sheet index, so a fixed uint number, but NameId has flag properties so it goes into the millions at times
             var combinedId = ((ulong)record.BaseId << 32) + record.NameId;
             if (!CollectedData.BnpcPairings.ContainsKey(combinedId))
-                CollectedData.BnpcPairings[combinedId] = new BnpcPairing.Pairing(record.BaseId, record.NameId);
+                CollectedData.BnpcPairings[combinedId] = new BnpcPairing.Pairing(record.BaseId, record.NameId, record.ObjectKind, record.Battalion);
             
             var pairing = CollectedData.BnpcPairings[combinedId];
             pairing.Records += 1;
+            pairing.Kind = record.ObjectKind; // We overwrite this every time because of old data having just 0 for it
+            pairing.Battalion = record.Battalion;
 
             if (!pairing.Locations.ContainsKey(record.LevelId))
-                pairing.Locations[record.LevelId] = new BnpcPairing.Location(record.TerritoryId, record.MapId);
+                pairing.Locations[record.LevelId] = new BnpcPairing.Location(record.TerritoryId, record.MapId, record.Level);
             
             var location = pairing.Locations[record.LevelId];
             location.Records += 1;
@@ -65,7 +64,7 @@ public class BnpcPairs : IDisposable
                 var difV = existingPosition - position;
                 var dis = Math.Sqrt(Math.Pow(difV.X, 2f) + Math.Pow(difV.Y, 2f) + Math.Pow(difV.Z, 2f));
                 
-                if (dis < 5.0)
+                if (dis < (Sheets.RankedBnpcBase.Contains(record.BaseId) ? 50.0 : 20.0))
                     found = idx;
             }
 

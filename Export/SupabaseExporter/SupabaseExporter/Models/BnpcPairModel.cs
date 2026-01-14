@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
 
 namespace SupabaseExporter.Models;
 
 [Table("BnpcPairs")]
-public class BnpcPair : BaseModel
+public class BnpcPairModel : BaseModel
 {
     [Name("id")] 
     [Column("id")]
@@ -42,31 +43,43 @@ public class BnpcPair : BaseModel
     [Column("z")]
     public float Z { get; set; }
 
-    [Name("rotation")]
-    [Column("rotation")]
-    public uint Rotation { get; set; }
-
-    [Name("enemy_type")]
-    [Column("enemy_type")]
-    public ushort EnemyType { get; set; }
-
     [Name("level")]
     [Column("level")]
     public ushort Level { get; set; }
 
-    [Name("display_flags")]
-    [Column("display_flags")]
-    public uint DisplayFlags { get; set; }
+    [Name("object_kind")]
+    [Column("object_kind")]
+    public ushort ObjectKind { get; set; }
 
-    [Name("gm_rank")]
-    [Column("gm_rank")]
-    public ushort GMRank { get; set; }
-
-    [Name("spawn_type")]
-    [Column("spawn_type")]
-    public ushort SpawnType { get; set; }
+    [Name("enemy_type")]
+    [Column("enemy_type")]
+    public ushort Battalion { get; set; }
 
     [Name("hash")]
     [Column("hash")]
     public string Hashed { get; set; }
+}
+
+public sealed class BnpcPairMap : ClassMap<BnpcPairModel>
+{
+    public BnpcPairMap()
+    {
+        Map(m => m.ObjectKind).Name("object_kind").Optional();
+        
+        Map(m => m.Id).Name("id");
+        Map(m => m.Battalion).Name("enemy_type", "sector");
+        Map(m => m.BaseId).Name("base");
+        Map(m => m.NameId).Name("name");
+        Map(m => m.TerritoryId).Name("territory");
+        Map(m => m.MapId).Name("map");
+        Map(m => m.LevelId).Name("level_id");
+        Map(m => m.X).Name("x");
+        Map(m => m.Y).Name("y");
+        Map(m => m.Z).Name("z");
+        Map(m => m.Level).Name("level");
+        Map(m => m.Hashed).Name("hash");
+
+        Map(m => m.GetVersion).Ignore();
+        Map(m => m.GetPatch).Ignore();
+    }
 }
