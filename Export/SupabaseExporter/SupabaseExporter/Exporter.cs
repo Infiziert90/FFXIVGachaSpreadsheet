@@ -123,14 +123,14 @@ public class Exporter
         
         var lastId = result.Last().Id.ToString();
         
-        await WriteCsv("LocalCache/Submarine/", lastId, result);
+        var mapping = new SubmarineLootMap();
+        await WriteCsv("LocalCache/Submarine/", lastId, result, mapping);
         
         await context.SubmarineLoot.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
         await context.Database.ExecuteSqlAsync($"vacuum full;");
         result.Clear();
         context.ChangeTracker.Clear();
         
-        var mapping = new SubmarineLootMap();
         foreach (var data in ReadFolder<SubmarineLootModel>("LocalCache/Submarine/", processor.CollectedData.ProcessedId, mapping))
             processor.Fetch(data);
 
@@ -235,14 +235,14 @@ public class Exporter
         
         var lastId = result.Last().Id.ToString();
         
-        await WriteCsv("LocalCache/Bnpc/", lastId, result);
+        var mapping = new BnpcPairMap();
+        await WriteCsv("LocalCache/Bnpc/", lastId, result, mapping);
         
         await context.BnpcPairs.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
         await context.Database.ExecuteSqlAsync($"vacuum full;");
         result.Clear();
         context.ChangeTracker.Clear();
         
-        var mapping = new BnpcPairMap();
         foreach (var data in ReadFolder<BnpcPairModel>("LocalCache/Bnpc/", processor.CollectedData.ProcessedId, mapping))
             processor.Fetch(data);
 

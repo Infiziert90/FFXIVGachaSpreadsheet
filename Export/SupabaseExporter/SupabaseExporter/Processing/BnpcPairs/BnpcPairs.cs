@@ -47,6 +47,10 @@ public class BnpcPairs : IDisposable
             
             var pairing = CollectedData.BnpcPairings[combinedId];
             pairing.Records += 1;
+            
+            if (record.Battalion != 0 && pairing.Battalion != 0 && pairing.Battalion != record.Battalion)
+                Logger.Warning($"Found different battalion for id {record.Id}: {record.Battalion} != {pairing.Battalion}");
+            
             pairing.Kind = record.ObjectKind; // We overwrite this every time because of old data having just 0 for it
             pairing.Battalion = record.Battalion;
 
