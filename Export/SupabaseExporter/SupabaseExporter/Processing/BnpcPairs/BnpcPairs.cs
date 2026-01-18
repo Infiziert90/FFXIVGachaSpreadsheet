@@ -37,6 +37,13 @@ public class BnpcPairs : IDisposable
             if (Sheets.DisallowedBnpcNames.Contains(record.NameId) || Sheets.DisallowedBnpcBase.Contains(record.BaseId))
                 continue;
             
+            if (DeduplicationSet.Count > 1_000_000)
+            {
+                var last = DeduplicationSet.Last();
+                DeduplicationSet.Clear();
+                DeduplicationSet.Add(last);
+            }
+            
             if (!DeduplicationSet.Add(record.Hashed))
                 continue;
 

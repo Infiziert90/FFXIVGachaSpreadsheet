@@ -106,23 +106,23 @@
             doubleDip += pool.Stats.DoubleDips;
         })
 
-        console.log(`Favor: ${favorHits} Double Dip: ${doubleDip}`);
-        console.log(doubleDip);
         const doubleDipRate = doubleDip / favorHits * 100;
         return {Breakpoints: breakpoints, UnlockedFrom: unlockedFrom, DoubleDipRate: doubleDipRate.toFixed(2)};
     }
 
     interface RateData {
         poolHitRate: string;
-        sectorHitRate: string;
+        t3Rate: string;
     }
 
-    function getRateData(reward: PoolReward, poolRecords: number, sectorRecords: number): RateData {
-        console.log(`reward: ${reward.Amount} poolRecords: ${poolRecords} sectorRecords: ${sectorRecords}`)
-        let onHit = reward.Amount / poolRecords  * 100;
-        let totalHit = reward.Amount / sectorRecords * 100;
+    function getRateData(reward: PoolReward, poolRecords: number, tier: number, sector: Sector): RateData {
+        if (poolRecords === 0 || sector.T3Capable === 0)
+            return ({poolHitRate: '0.00', t3Rate: '0.00'} as RateData)
 
-        return {poolHitRate: onHit.toFixed(2), sectorHitRate: totalHit.toFixed(2)};
+        let onHit = reward.Amount / poolRecords * 100;
+        let capableHit = reward.WasT3 / sector.T3Capable * 100;
+
+        return {poolHitRate: onHit.toFixed(2), t3Rate: capableHit.toFixed(2)};
     }
 </script>
 
@@ -215,7 +215,7 @@
                                                         </span>
                                                     </td>
                                                     {#if dropChanceView}
-                                                        {@const rateData = getRateData(row, pool.Records, sector.Records)}
+                                                        {@const rateData = getRateData(row, pool.Records, idx+1, sector)}
                                                         <td>{rateData.poolHitRate}%</td>
                                                         <td>{rateData.sectorHitRate}%</td>
                                                     {:else}
@@ -258,7 +258,7 @@
                                 </div>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item border-0 px-4 pt-1 pb-1 text-warning-emphasis">
-                                        Unlocked From: <div class="float-end">{sectorData.UnlockedFrom !== null ? ToSectorName(sectorData.UnlockedFrom) : 'Unknown'}</div>
+                                        Unlocked From: <div class="float-end">{sectorData.UnlockedFrom !== null ? ToSectorName(sectorData.UnlockedFrom) : sector.Id === 1 || sector.Id === 2 ? 'None' : 'Unknown'}</div>
                                     </li>
                                 </ul>
                             </div>

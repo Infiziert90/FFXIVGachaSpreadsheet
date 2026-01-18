@@ -98,6 +98,8 @@ export interface SubLoot {
 
 export interface Sector {
     Records: number;
+    T3Capable: number;
+
     Id: number;
     Name: string;
     Letter: string;
@@ -118,6 +120,7 @@ export interface PoolReward {
     Id: number;
     Amount: number;
     Total: number;
+    WasT3: number;
     MinMax: Record<string, [number, number]>;
 }
 

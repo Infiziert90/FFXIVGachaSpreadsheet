@@ -41,6 +41,13 @@ public class Submarines : IDisposable
             
             CollectedData.ProcessedId = record.Id;
 
+            if (DeduplicationCache.Count > 1_000_000)
+            {
+                var last = DeduplicationCache.Last();
+                DeduplicationCache.Clear();
+                DeduplicationCache.Add(last);
+            }
+            
             if (!DeduplicationCache.Add(record.Hash))
             {
                 Logger.Warning($"Duplicated hash found: {record.Id}");
@@ -54,6 +61,11 @@ public class Submarines : IDisposable
 
             CollectedData.Total += 1;
             sectorData.Records += 1;
+
+            var capable = GetCapableTier(record.PrimarySurvProc);
+            if (capable == SurvTier.Tier3)
+                sectorData.T3Capable += 1;
+            
             var survTier = GetSurvTier(record.PrimarySurvProc);
             if (survTier == SurvTier.Invalid)
             {
@@ -62,7 +74,7 @@ public class Submarines : IDisposable
             }
             
             var lootPool = sectorData.Pools[survTier];
-            lootPool.AddRecord(record.Primary, record.PrimaryCount, GetRetTier(record.PrimaryRetProc));
+            lootPool.AddRecord(record.Primary, record.PrimaryCount, GetRetTier(record.PrimaryRetProc), capable);
             
             lootPool.Stats.IncreaseSurveillance(record.PrimarySurvProc);
             lootPool.Stats.IncreaseRetrieval(record.PrimaryRetProc);
@@ -104,6 +116,14 @@ public class Submarines : IDisposable
         SurveillanceProc.T1Low or SurveillanceProc.T1Mid or SurveillanceProc.T1High => SurvTier.Tier1,
         SurveillanceProc.T2Mid or SurveillanceProc.T2High => SurvTier.Tier2,
         SurveillanceProc.T3High => SurvTier.Tier3,
+        _ => SurvTier.Invalid
+    };
+    
+    private SurvTier GetCapableTier(uint proc) => (SurveillanceProc)proc switch
+    {
+        SurveillanceProc.T1Low => SurvTier.Tier1,
+        SurveillanceProc.T1Mid or SurveillanceProc.T2Mid => SurvTier.Tier2,
+        SurveillanceProc.T1High or SurveillanceProc.T2High or SurveillanceProc.T3High => SurvTier.Tier3,
         _ => SurvTier.Invalid
     };
 
