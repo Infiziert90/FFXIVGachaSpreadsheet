@@ -217,7 +217,7 @@
                                                     {#if dropChanceView}
                                                         {@const rateData = getRateData(row, pool.Records, idx+1, sector)}
                                                         <td>{rateData.poolHitRate}%</td>
-                                                        <td>{rateData.sectorHitRate}%</td>
+                                                        <td>{rateData.t3Rate}%</td>
                                                     {:else}
                                                         <td><span class="text-nowrap">{row.MinMax['Poor'][0]} - {row.MinMax['Poor'][1]}</span></td>
                                                         <td><span class="text-nowrap">{row.MinMax['Normal'][0]} - {row.MinMax['Normal'][1]}</span></td>
