@@ -19,6 +19,7 @@ public class SubLoot
     public class Sector
     {
         public int Records;
+        public int T3Capable;
         
         public uint Id;
         public string Name;
@@ -55,13 +56,13 @@ public class SubLoot
         
         public LootPool() { }
 
-        public void AddRecord(uint itemId, int quantity, RetTier type)
+        public void AddRecord(uint itemId, int quantity, RetTier type, SurvTier tier)
         {
             if (!Rewards.ContainsKey(itemId))
                 Rewards[itemId] = new PoolReward(itemId);
                 
             Records += 1;
-            Rewards[itemId].AddPoorRecord(quantity, type);
+            Rewards[itemId].AddRecord(quantity, type, tier);
         }
     }
     
@@ -70,6 +71,8 @@ public class SubLoot
         public uint Id;
         public long Amount;
         public long Total;
+        
+        public int WasT3;
 
         public Dictionary<RetTier, int[]> MinMax = new()
         {
@@ -85,7 +88,7 @@ public class SubLoot
         
         public PoolReward() { }
 
-        public void AddPoorRecord(int quantity, RetTier type)
+        public void AddRecord(int quantity, RetTier type, SurvTier tier)
         {
             Amount += 1;
             Total += quantity;
@@ -97,6 +100,10 @@ public class SubLoot
             minMax[0] = Math.Min(minMax[0], quantity);
             minMax[1] = Math.Max(minMax[1], quantity);
             MinMax[type] = minMax;
+            
+                        
+            if (tier == SurvTier.Tier3)
+                WasT3 += 1;
         }
     }
 
