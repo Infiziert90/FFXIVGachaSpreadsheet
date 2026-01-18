@@ -3,6 +3,7 @@
     import type { Reward } from "$lib/interfaces";
     import type { ColumnTemplate } from "$lib/table";
     import {Mappings} from "$lib/mappings";
+    import { getIconPath, getWikiUrl } from "$lib/utils";
 
     /**
      * Component props interface
@@ -202,9 +203,9 @@
         -->
         {#snippet templateRender(cellContent: CellContent)}
             {#if cellContent.type === 0}
-                <a href="https://ffxiv.consolegameswiki.com/wiki/{cellContent.wikiName}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">{cellContent.name}</a>
+                <a href={getWikiUrl(cellContent.name)} class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">{cellContent.name}</a>
             {:else if cellContent.type === 1}
-                <img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/{Mappings[cellContent.itemId].Icon}_hr1.tex&format=png" alt="{Mappings[cellContent.itemId].Name} Icon">
+                <img width="40" height="40" loading="lazy" src={getIconPath(Mappings[cellContent.itemId].Icon, true)} alt="{Mappings[cellContent.itemId].Name} Icon">
             {:else if cellContent.type === 2}
                 {cellContent.content}
             {/if}

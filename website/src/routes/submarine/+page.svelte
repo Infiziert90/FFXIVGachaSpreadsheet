@@ -11,6 +11,7 @@
     import {Mappings} from "$lib/mappings";
     import {type Breakpoint, EmptyBreakpoint, MapBreakpoints} from "$lib/submarineData";
     import {type SubmarineExploration, ToSectorName} from "$lib/sheets/submarineExploration";
+    import {getIconPath, getWikiUrl} from "$lib/utils";
 
     interface Props {
         data: { content: SubLoot };
@@ -123,10 +124,6 @@
 
         return {poolHitRate: onHit.toFixed(2), sectorHitRate: totalHit.toFixed(2)};
     }
-
-    function getWikiUrl(itemName: string): string {
-        return `https://ffxiv.consolegameswiki.com/wiki/${itemName.replace(/\s+/g, '_')}`;
-    }
 </script>
 
 <svelte:head>
@@ -211,7 +208,7 @@
                                                             <a id={tooltipId} href={wikiUrl} class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">{itemName}</a>
                                                             <Tooltip target={tooltipId} placement="top">
                                                                 <div class="d-flex flex-row align-items-center">
-                                                                    <img class="item-icon" src="https://v2.xivapi.com/api/asset?path=ui/icon/{itemIcon}_hr1.tex&format=png" alt="{itemName} Icon" width="24" height="24" style="margin-right: 8px;" />
+                                                                    <img class="item-icon" src={getIconPath(itemIcon, false)} alt="{itemName} Icon" width="24" height="24" style="margin-right: 8px;" />
                                                                     <strong class="text-start">{itemName}</strong>
                                                                 </div>
                                                             </Tooltip>

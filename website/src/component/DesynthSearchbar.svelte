@@ -4,6 +4,7 @@
     import { Button, ButtonGroup, ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
     import type { DesynthBase } from "$lib/interfaces";
     import { Mappings } from "$lib/mappings";
+    import { getIconPath } from '$lib/utils';
 
     interface Props {
         desynthBase: DesynthBase;
@@ -155,7 +156,7 @@
                         width="40" 
                         height="40" 
                         loading="lazy" 
-                        src={`https://v2.xivapi.com/api/asset?path=ui/icon/${Mappings[item.id].Icon.toString()}_hr1.tex&format=png`}
+                        src={getIconPath(Mappings[item.id].Icon, true)}
                         style="margin-right: 0.5rem; vertical-align: middle;"
                         alt=""
                     />
