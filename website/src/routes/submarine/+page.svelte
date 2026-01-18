@@ -178,8 +178,8 @@
                                         <colgroup>
                                             <col />
                                             {#if dropChanceView}
-                                                <col style="width: 7ch" />
-                                                <col style="width: 7ch" />
+                                                <col style="width: 8ch" />
+                                                <col style="width: 8ch" />
                                             {:else}
                                                 <col style="width: 7ch" />
                                                 <col style="width: 7ch" />
