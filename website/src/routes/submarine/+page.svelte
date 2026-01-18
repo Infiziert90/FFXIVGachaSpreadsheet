@@ -170,26 +170,39 @@
                                     {/if}
                                 </div>
                                 <div>
-                                    <Table striped size="sm" hover borderless class="align-middle">
+                                    <Table striped size="sm" hover borderless class="align-middle" style="table-layout: fixed; width: 100%;">
                                         {#if dropChanceView}
+                                            <colgroup>
+                                                <col />
+                                                <col style="width: 7ch" />
+                                                <col style="width: 7ch" />
+                                            </colgroup>
                                             <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>T</th>
-                                                <th>D</th>
-                                            </tr>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>T</th>
+                                                    <th>D</th>
+                                                </tr>
                                             </thead>
                                             <tbody>
                                             {#each Object.values(pool.Rewards) as row}
                                                 {@const rateData = getRateData(row, pool.Records, sector.Records)}
                                                 <tr>
-                                                    <td class="text-truncate">{Mappings[row.Id].Name}</td>
+                                                    <td class="text-truncate">
+                                                        {Mappings[row.Id].Name}
+                                                    </td>
                                                     <td>{rateData.poolHitRate}%</td>
                                                     <td>{rateData.sectorHitRate}%</td>
                                                 </tr>
                                             {/each}
                                             </tbody>
                                         {:else}
+                                            <colgroup>
+                                                <col />
+                                                <col style="width: 7ch" />
+                                                <col style="width: 7ch" />
+                                                <col style="width: 7ch" />
+                                            </colgroup>
                                             <thead>
                                             <tr>
                                                 <th>Name</th>
@@ -206,9 +219,9 @@
                                                           {Mappings[row.Id].Name}
                                                         </span>
                                                     </td>
-                                                    <td>{row.MinMax['Poor'][0]} - {row.MinMax['Poor'][1]}</td>
-                                                    <td>{row.MinMax['Normal'][0]} - {row.MinMax['Normal'][1]}</td>
-                                                    <td>{row.MinMax['Optimal'][0]} - {row.MinMax['Optimal'][1]}</td>
+                                                    <td><span class="text-nowrap">{row.MinMax['Poor'][0]} - {row.MinMax['Poor'][1]}</span></td>
+                                                    <td><span class="text-nowrap">{row.MinMax['Normal'][0]} - {row.MinMax['Normal'][1]}</span></td>
+                                                    <td><span class="text-nowrap">{row.MinMax['Optimal'][0]} - {row.MinMax['Optimal'][1]}</span></td>
                                                 </tr>
                                             {/each}
                                             </tbody>
