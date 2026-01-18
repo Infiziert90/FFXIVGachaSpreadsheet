@@ -1,6 +1,6 @@
 ﻿<script lang="ts">
     import type {PoolReward, Sector, Stats, SubLoot} from "$lib/interfaces";
-    import {Button, ButtonGroup, Table} from '@sveltestrap/sveltestrap';
+    import {Button, ButtonGroup, Table, Tooltip} from '@sveltestrap/sveltestrap';
     import SubmarineAccordion from "../../component/SubmarineAccordion.svelte";
     import PageSidebar from "../../component/PageSidebar.svelte";
     import {MapToStartSector, SubmarineExplorationSheet, SubmarineMapSheet} from "$lib/sheets";
@@ -13,7 +13,7 @@
     import {type SubmarineExploration, ToSectorName} from "$lib/sheets/submarineExploration";
 
     interface Props {
-        content: SubLoot;
+        data: { content: SubLoot };
     }
 
     // html elements
@@ -123,6 +123,10 @@
 
         return {poolHitRate: onHit.toFixed(2), sectorHitRate: totalHit.toFixed(2)};
     }
+
+    function getWikiUrl(itemName: string): string {
+        return `https://ffxiv.consolegameswiki.com/wiki/${itemName.replace(/\s+/g, '_')}`;
+    }
 </script>
 
 <svelte:head>
@@ -171,61 +175,60 @@
                                 </div>
                                 <div>
                                     <Table striped size="sm" hover borderless class="align-middle" style="table-layout: fixed; width: 100%;">
-                                        {#if dropChanceView}
-                                            <colgroup>
-                                                <col />
+                                        <colgroup>
+                                            <col />
+                                            {#if dropChanceView}
                                                 <col style="width: 7ch" />
                                                 <col style="width: 7ch" />
-                                            </colgroup>
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>T</th>
-                                                    <th>D</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            {#each Object.values(pool.Rewards) as row}
-                                                {@const rateData = getRateData(row, pool.Records, sector.Records)}
-                                                <tr>
-                                                    <td class="text-truncate">
-                                                        {Mappings[row.Id].Name}
-                                                    </td>
-                                                    <td>{rateData.poolHitRate}%</td>
-                                                    <td>{rateData.sectorHitRate}%</td>
-                                                </tr>
-                                            {/each}
-                                            </tbody>
-                                        {:else}
-                                            <colgroup>
-                                                <col />
+                                            {:else}
                                                 <col style="width: 7ch" />
                                                 <col style="width: 7ch" />
                                                 <col style="width: 7ch" />
-                                            </colgroup>
-                                            <thead>
+                                            {/if}
+                                        </colgroup>
+                                        <thead>
                                             <tr>
                                                 <th>Name</th>
-                                                <th>Poor</th>
-                                                <th>Norm</th>
-                                                <th>Opti</th>
+                                                {#if dropChanceView}
+                                                    <th>T</th>
+                                                    <th>D</th>
+                                                {:else}
+                                                    <th>Poor</th>
+                                                    <th>Norm</th>
+                                                    <th>Opti</th>
+                                                {/if}
                                             </tr>
-                                            </thead>
-                                            <tbody>
+                                        </thead>
+                                        <tbody>
                                             {#each Object.values(pool.Rewards) as row}
+                                                {@const itemName = Mappings[row.Id].Name}
+                                                {@const itemIcon = Mappings[row.Id].Icon}
+                                                {@const wikiUrl = getWikiUrl(itemName)}
+                                                {@const tooltipId = `tooltip-${sector.Id}-${tier}-${row.Id}`}
                                                 <tr>
-                                                    <td>
+                                                    <td class="text-truncate">
                                                         <span class="d-inline-block text-truncate" style="max-width: 100%;">
-                                                          {Mappings[row.Id].Name}
+                                                            <a id={tooltipId} href={wikiUrl} class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">{itemName}</a>
+                                                            <Tooltip target={tooltipId} placement="top">
+                                                                <div class="d-flex flex-row align-items-center">
+                                                                    <img class="item-icon" src="https://v2.xivapi.com/api/asset?path=ui/icon/{itemIcon}_hr1.tex&format=png" alt="{itemName} Icon" width="24" height="24" style="margin-right: 8px;" />
+                                                                    <strong class="text-start">{itemName}</strong>
+                                                                </div>
+                                                            </Tooltip>
                                                         </span>
                                                     </td>
-                                                    <td><span class="text-nowrap">{row.MinMax['Poor'][0]} - {row.MinMax['Poor'][1]}</span></td>
-                                                    <td><span class="text-nowrap">{row.MinMax['Normal'][0]} - {row.MinMax['Normal'][1]}</span></td>
-                                                    <td><span class="text-nowrap">{row.MinMax['Optimal'][0]} - {row.MinMax['Optimal'][1]}</span></td>
+                                                    {#if dropChanceView}
+                                                        {@const rateData = getRateData(row, pool.Records, sector.Records)}
+                                                        <td>{rateData.poolHitRate}%</td>
+                                                        <td>{rateData.sectorHitRate}%</td>
+                                                    {:else}
+                                                        <td><span class="text-nowrap">{row.MinMax['Poor'][0]} - {row.MinMax['Poor'][1]}</span></td>
+                                                        <td><span class="text-nowrap">{row.MinMax['Normal'][0]} - {row.MinMax['Normal'][1]}</span></td>
+                                                        <td><span class="text-nowrap">{row.MinMax['Optimal'][0]} - {row.MinMax['Optimal'][1]}</span></td>
+                                                    {/if}
                                                 </tr>
                                             {/each}
-                                            </tbody>
-                                        {/if}
+                                        </tbody>
                                     </Table>
                                 </div>
                             </div>

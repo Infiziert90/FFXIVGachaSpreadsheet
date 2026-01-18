@@ -82,7 +82,8 @@ td.percentage {
     width: 18%;
 }
 
-td.icon img {
+td.icon img,
+img.item-icon {
     border-radius: var(--bs-border-radius);
     background: radial-gradient(circle, #7b7d6b 15%, #424542 100%);
     object-fit: contain;
