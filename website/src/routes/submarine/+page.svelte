@@ -1,6 +1,6 @@
 ﻿<script lang="ts">
-    import type {Sector, SubLoot} from "$lib/interfaces";
-    import {Table} from '@sveltestrap/sveltestrap';
+    import type {PoolReward, Sector, Stats, SubLoot} from "$lib/interfaces";
+    import {Button, ButtonGroup, Table} from '@sveltestrap/sveltestrap';
     import SubmarineAccordion from "../../component/SubmarineAccordion.svelte";
     import PageSidebar from "../../component/PageSidebar.svelte";
     import {MapToStartSector, SubmarineExplorationSheet, SubmarineMapSheet} from "$lib/sheets";
@@ -25,6 +25,8 @@
     let sectorData: Sector[] = $state([]);
 
     let map = $state(1);
+
+    let dropChanceView = $state(false);
 
     // Set default meta data
     let title = $state('Submarine Loot');
@@ -108,6 +110,19 @@
         const doubleDipRate = doubleDip / favorHits * 100;
         return {Breakpoints: breakpoints, UnlockedFrom: unlockedFrom, DoubleDipRate: doubleDipRate.toFixed(2)};
     }
+
+    interface RateData {
+        poolHitRate: string;
+        sectorHitRate: string;
+    }
+
+    function getRateData(reward: PoolReward, poolRecords: number, sectorRecords: number): RateData {
+        console.log(`reward: ${reward.Amount} poolRecords: ${poolRecords} sectorRecords: ${sectorRecords}`)
+        let onHit = reward.Amount / poolRecords  * 100;
+        let totalHit = reward.Amount / sectorRecords * 100;
+
+        return {poolHitRate: onHit.toFixed(2), sectorHitRate: totalHit.toFixed(2)};
+    }
 </script>
 
 <svelte:head>
@@ -133,7 +148,15 @@
             {#each sectorData as sector}
                 {@const sectorData = getSectorData(sector)}
                 <div class="container mb-5" style="background-color: var(--bs-tertiary-bg);">
-                    <div style="margin: -.5rem .5rem 1rem -.5rem" class="pt-3 px-2"><h3>{ToSectorName(SubmarineExplorationSheet[sector.Id])}</h3></div>
+                    <div>
+                        <div class="pt-3 px-2 title"><h3>{ToSectorName(SubmarineExplorationSheet[sector.Id])}</h3></div>
+                        <div class="pt-3 px-2 toggleButton">
+                            <ButtonGroup>
+                                <Button outline color="secondary" active={!dropChanceView} on:click={() => {dropChanceView = false}}>Yield</Button>
+                                <Button outline color="secondary" active={dropChanceView} on:click={() => {dropChanceView = true}}>Rates</Button>
+                            </ButtonGroup>
+                        </div>
+                    </div>
                     <div class="row">
                         {#each Object.entries(sector.Pools) as [tier, pool], idx}
                             <div class="col-lg-4 col-12 p-0 ps-2 pb-1">
@@ -148,24 +171,48 @@
                                 </div>
                                 <div>
                                     <Table striped size="sm" hover borderless class="align-middle">
-                                        <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Poor</th>
-                                            <th>Norm</th>
-                                            <th>Opti</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {#each Object.values(pool.Rewards) as row}
+                                        {#if dropChanceView}
+                                            <thead>
                                             <tr>
-                                                <td>{Mappings[row.Id].Name}</td>
-                                                <td>{row.MinMax['Poor'][0]} - {row.MinMax['Poor'][1]}</td>
-                                                <td>{row.MinMax['Normal'][0]} - {row.MinMax['Normal'][1]}</td>
-                                                <td>{row.MinMax['Optimal'][0]} - {row.MinMax['Optimal'][1]}</td>
+                                                <th>Name</th>
+                                                <th>T</th>
+                                                <th>D</th>
                                             </tr>
-                                        {/each}
-                                        </tbody>
+                                            </thead>
+                                            <tbody>
+                                            {#each Object.values(pool.Rewards) as row}
+                                                {@const rateData = getRateData(row, pool.Records, sector.Records)}
+                                                <tr>
+                                                    <td class="text-truncate">{Mappings[row.Id].Name}</td>
+                                                    <td>{rateData.poolHitRate}%</td>
+                                                    <td>{rateData.sectorHitRate}%</td>
+                                                </tr>
+                                            {/each}
+                                            </tbody>
+                                        {:else}
+                                            <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Poor</th>
+                                                <th>Norm</th>
+                                                <th>Opti</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {#each Object.values(pool.Rewards) as row}
+                                                <tr>
+                                                    <td>
+                                                        <span class="d-inline-block text-truncate" style="max-width: 100%;">
+                                                          {Mappings[row.Id].Name}
+                                                        </span>
+                                                    </td>
+                                                    <td>{row.MinMax['Poor'][0]} - {row.MinMax['Poor'][1]}</td>
+                                                    <td>{row.MinMax['Normal'][0]} - {row.MinMax['Normal'][1]}</td>
+                                                    <td>{row.MinMax['Optimal'][0]} - {row.MinMax['Optimal'][1]}</td>
+                                                </tr>
+                                            {/each}
+                                            </tbody>
+                                        {/if}
                                     </Table>
                                 </div>
                             </div>
@@ -211,3 +258,16 @@
         {/if}
     </div>
 </div>
+
+<style>
+    .title {
+        margin: -.5rem .5rem 1rem -.5rem;
+        display: inline-block;
+    }
+
+    .toggleButton {
+        margin: -.5rem -.5rem 1rem -.5rem;
+        display: inline-block;
+        float: right;
+    }
+</style>

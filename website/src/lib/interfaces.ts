@@ -108,20 +108,20 @@ export interface Sector {
     Pools: Record<string, LootPool>;
 }
 
-interface LootPool {
+export interface LootPool {
     Records: number;
     Rewards: Record<number, PoolReward>;
     Stats: Stats;
 }
 
-interface PoolReward {
+export interface PoolReward {
     Id: number;
     Amount: number;
     Total: number;
     MinMax: Record<string, [number, number]>;
 }
 
-interface Stats {
+export interface Stats {
     Min: number;
     Mid: number;
     High: number;
