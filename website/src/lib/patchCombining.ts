@@ -26,7 +26,9 @@ export function combineVariantTotal(variants: CofferVariant[], selectedPatches: 
     let total = 0;
     for (const patch of selectedPatches) {
         variants.forEach(c => {
-            total += c.Patches[patch.toString()].Total;
+            if (patch.toString() in c.Patches) {
+                total += c.Patches[patch.toString()].Total;
+            }
         });
     }
 
