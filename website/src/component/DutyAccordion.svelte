@@ -1,6 +1,7 @@
 ﻿<script lang="ts">
     import { Collapse, Icon } from "@sveltestrap/sveltestrap";
     import type { ChestDrop, Expansion, Header } from "$lib/interfaces";
+    import { getIconPath } from "$lib/utils";
 
     interface Props {
         chestDropData: ChestDrop[];
@@ -90,10 +91,6 @@
         'DT': { icon: iconIdToPath(61880), hue: 39 },
         '7.x': { icon: iconIdToPath(61880), hue: 39 },
     };
-
-    function getIconUrl(iconPath: string): string {
-        return `https://v2.xivapi.com/api/asset?path=ui/icon/${iconPath}_hr1.tex&format=png`;
-    }
 
     function getCategoryStyle(categoryName: string, categoryId: number): CategoryStyle | null {
         return categoryStyles[categoryName] || categoryStyles[categoryId] || null;
@@ -231,7 +228,7 @@
             <span class="tree-label flex-grow-1 d-flex align-items-center gap-2">
                 {#if categoryStyle}
                     <img
-                            src={getIconUrl(categoryStyle.icon)}
+                            src={getIconPath(categoryStyle.icon, true)}
                             alt=""
                             class="category-icon"
                     />
@@ -270,7 +267,7 @@
             <span class="tree-label flex-grow-1 d-flex align-items-center gap-2">
                 {#if expansionStyle}
                     <img
-                            src={getIconUrl(expansionStyle.icon)}
+                            src={getIconPath(expansionStyle.icon, true)}
                             alt=""
                             class="expansion-icon"
                     />

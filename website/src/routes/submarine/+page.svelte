@@ -1,6 +1,6 @@
 ﻿<script lang="ts">
     import type {PoolReward, Sector, Stats, SubLoot} from "$lib/interfaces";
-    import {Button, ButtonGroup, Table} from '@sveltestrap/sveltestrap';
+    import {Button, ButtonGroup, Table, Tooltip} from '@sveltestrap/sveltestrap';
     import SubmarineAccordion from "../../component/SubmarineAccordion.svelte";
     import PageSidebar from "../../component/PageSidebar.svelte";
     import {MapToStartSector, SubmarineExplorationSheet, SubmarineMapSheet} from "$lib/sheets";
@@ -11,9 +11,10 @@
     import {Mappings} from "$lib/mappings";
     import {type Breakpoint, EmptyBreakpoint, MapBreakpoints} from "$lib/submarineData";
     import {type SubmarineExploration, ToSectorName} from "$lib/sheets/submarineExploration";
+    import {getIconPath, getWikiUrl} from "$lib/utils";
 
     interface Props {
-        content: SubLoot;
+        data: { content: SubLoot };
     }
 
     // html elements
@@ -170,45 +171,61 @@
                                     {/if}
                                 </div>
                                 <div>
-                                    <Table striped size="sm" hover borderless class="align-middle">
-                                        {#if dropChanceView}
-                                            <thead>
+                                    <Table striped size="sm" hover borderless class="align-middle" style="table-layout: fixed; width: 100%;">
+                                        <colgroup>
+                                            <col />
+                                            {#if dropChanceView}
+                                                <col style="width: 8ch" />
+                                                <col style="width: 8ch" />
+                                            {:else}
+                                                <col style="width: 7ch" />
+                                                <col style="width: 7ch" />
+                                                <col style="width: 7ch" />
+                                            {/if}
+                                        </colgroup>
+                                        <thead>
                                             <tr>
                                                 <th>Name</th>
-                                                <th>T</th>
-                                                <th>D</th>
+                                                {#if dropChanceView}
+                                                    <th>T</th>
+                                                    <th>D</th>
+                                                {:else}
+                                                    <th>Poor</th>
+                                                    <th>Norm</th>
+                                                    <th>Opti</th>
+                                                {/if}
                                             </tr>
-                                            </thead>
-                                            <tbody>
+                                        </thead>
+                                        <tbody>
                                             {#each Object.values(pool.Rewards) as row}
-                                                {@const rateData = getRateData(row, pool.Records, idx+1, sector)}
+                                                {@const itemName = Mappings[row.Id].Name}
+                                                {@const itemIcon = Mappings[row.Id].Icon}
+                                                {@const wikiUrl = getWikiUrl(itemName)}
+                                                {@const tooltipId = `tooltip-${sector.Id}-${tier}-${row.Id}`}
                                                 <tr>
-                                                    <td>{Mappings[row.Id].Name}</td>
-                                                    <td>{rateData.poolHitRate}%</td>
-                                                    <td>{rateData.t3Rate}%</td>
+                                                    <td class="text-truncate">
+                                                        <span class="d-inline-block text-truncate" style="max-width: 100%;">
+                                                            <a id={tooltipId} href={wikiUrl} class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">{itemName}</a>
+                                                            <Tooltip target={tooltipId} placement="top">
+                                                                <div class="d-flex flex-row align-items-center">
+                                                                    <img class="item-icon" src={getIconPath(itemIcon, false)} alt="{itemName} Icon" width="24" height="24" style="margin-right: 8px;" />
+                                                                    <strong class="text-start">{itemName}</strong>
+                                                                </div>
+                                                            </Tooltip>
+                                                        </span>
+                                                    </td>
+                                                    {#if dropChanceView}
+                                                        {@const rateData = getRateData(row, pool.Records, idx+1, sector)}
+                                                        <td>{rateData.poolHitRate}%</td>
+                                                        <td>{rateData.sectorHitRate}%</td>
+                                                    {:else}
+                                                        <td><span class="text-nowrap">{row.MinMax['Poor'][0]} - {row.MinMax['Poor'][1]}</span></td>
+                                                        <td><span class="text-nowrap">{row.MinMax['Normal'][0]} - {row.MinMax['Normal'][1]}</span></td>
+                                                        <td><span class="text-nowrap">{row.MinMax['Optimal'][0]} - {row.MinMax['Optimal'][1]}</span></td>
+                                                    {/if}
                                                 </tr>
                                             {/each}
-                                            </tbody>
-                                        {:else}
-                                            <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Poor</th>
-                                                <th>Norm</th>
-                                                <th>Opti</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {#each Object.values(pool.Rewards) as row}
-                                                <tr>
-                                                    <td>{Mappings[row.Id].Name}</td>
-                                                    <td>{row.MinMax['Poor'][0]} - {row.MinMax['Poor'][1]}</td>
-                                                    <td>{row.MinMax['Normal'][0]} - {row.MinMax['Normal'][1]}</td>
-                                                    <td>{row.MinMax['Optimal'][0]} - {row.MinMax['Optimal'][1]}</td>
-                                                </tr>
-                                            {/each}
-                                            </tbody>
-                                        {/if}
+                                        </tbody>
                                     </Table>
                                 </div>
                             </div>

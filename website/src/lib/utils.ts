@@ -68,3 +68,23 @@ export function UpperCaseStr(s: string, article: number = 0)
 
     return chars.join('');
 }
+
+/**
+ * Converts an item name to a wiki url.
+ * @param itemName - The name of the item in english 
+ * @returns The wiki url
+ */
+export function getWikiUrl(itemName: string): string {
+    return `https://ffxiv.consolegameswiki.com/wiki/${itemName.replace(/\s+/g, '_')}`;
+}
+
+/**
+ * Converts an icon id to a file path for XIVAPI.
+ * @param iconId - The icon id
+ * @param hq - Whether to use the high resolution icon
+ * @returns The file path
+ */
+export function getIconPath(iconId: number | string, hq: boolean = false): string {
+    const suffix = hq ? '_hr1' : '';
+    return `https://v2.xivapi.com/api/asset?path=ui/icon/${iconId}${suffix}.tex&format=png`;
+}

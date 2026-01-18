@@ -1,5 +1,6 @@
 import type {Reward} from "$lib/interfaces";
 import {Mappings} from "$lib/mappings";
+import { getIconPath, getWikiUrl } from "$lib/utils";
 
 export interface ColumnTemplate {
     header: string;
@@ -19,7 +20,7 @@ const IconTemplate: ColumnTemplate = {
     header: '',
     sortable: false,
     templateRenderer: (row: Reward) => {
-        return `<img width="40" height="40" loading="lazy" src="https://v2.xivapi.com/api/asset?path=ui/icon/${Mappings[row.Id].Icon}_hr1.tex&format=png" alt="${Mappings[row.Id].Name} Icon">`
+        return `<img width="40" height="40" loading="lazy" src={getIconPath(Mappings[row.Id].Icon, true)} alt="${Mappings[row.Id].Name} Icon">`
     },
     classExtension: ['icon']
 };
@@ -30,8 +31,7 @@ const NameTemplate: ColumnTemplate = {
     mappingSort: true,
     templateRenderer: (row: Reward) => {
         const name = Mappings[row.Id].Name;
-        const wikiName = name.replace(/\s+/g, '_');
-        return `<a href="https://ffxiv.consolegameswiki.com/wiki/${wikiName}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">${name}</a>`
+        return `<a href={getWikiUrl(name)} class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">${name}</a>`
     }
 };
 
