@@ -161,7 +161,7 @@
                     <div class="row">
                         {#each Object.entries(sector.Pools) as [tier, pool], idx}
                             <div class="col-lg-4 col-12 p-0 ps-2 pb-1">
-                                <div class="text-center text-black" style="background-color: var({getBorderColor(idx)});">
+                                <div class="text-center text-black fw-bold" style="background-color: var({getBorderColor(idx)});">
                                     Tier {idx+1}
                                     <br>
                                     {#if idx > 0}
@@ -187,12 +187,12 @@
                                             <tr>
                                                 <th>Name</th>
                                                 {#if dropChanceView}
-                                                    <th>T</th>
-                                                    <th>D</th>
+                                                    <th class="text-center">T</th>
+                                                    <th class="text-end">D</th>
                                                 {:else}
-                                                    <th>Poor</th>
-                                                    <th>Norm</th>
-                                                    <th>Opti</th>
+                                                    <th class="text-center">Poor</th>
+                                                    <th class="text-center">Norm</th>
+                                                    <th class="text-end">Opti</th>
                                                 {/if}
                                             </tr>
                                         </thead>
@@ -216,12 +216,12 @@
                                                     </td>
                                                     {#if dropChanceView}
                                                         {@const rateData = getRateData(row, pool.Records, idx+1, sector)}
-                                                        <td>{rateData.poolHitRate}%</td>
-                                                        <td>{rateData.t3Rate}%</td>
+                                                        <td class="text-center">{rateData.poolHitRate}%</td>
+                                                        <td class="text-end">{rateData.t3Rate}%</td>
                                                     {:else}
-                                                        <td><span class="text-nowrap">{row.MinMax['Poor'][0]} - {row.MinMax['Poor'][1]}</span></td>
-                                                        <td><span class="text-nowrap">{row.MinMax['Normal'][0]} - {row.MinMax['Normal'][1]}</span></td>
-                                                        <td><span class="text-nowrap">{row.MinMax['Optimal'][0]} - {row.MinMax['Optimal'][1]}</span></td>
+                                                        <td class="text-center"><span class="text-nowrap">{row.MinMax['Poor'][0]} - {row.MinMax['Poor'][1]}</span></td>
+                                                        <td class="text-center"><span class="text-nowrap">{row.MinMax['Normal'][0]} - {row.MinMax['Normal'][1]}</span></td>
+                                                        <td class="text-end"><span class="text-nowrap">{row.MinMax['Optimal'][0]} - {row.MinMax['Optimal'][1]}</span></td>
                                                     {/if}
                                                 </tr>
                                             {/each}
