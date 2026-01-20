@@ -5,7 +5,7 @@
     import { Mappings } from "$lib/mappings";
     import { onMount } from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
-    import {NameObtainedMinChanceSetup} from "$lib/table";
+    import {NameObtainedMinChanceSetup, RewardDesynthSpecial} from "$lib/table";
     import DesynthSearchbar from "../../component/DesynthSearchbar.svelte";
     import {tryGetDesynthSearchParams} from "$lib/searchParamHelper";
     import PageSidebar from "../../component/PageSidebar.svelte";
@@ -37,6 +37,8 @@
     // add defaults if things aren't set correctly
     let sourceParam = $state(0);
     let rewardParam = $state(0);
+
+    let searchType = $state(1);
 
     // Set default meta data
     let title = $state('Desynthesis');
@@ -86,6 +88,9 @@
             replaceState(page.url, page.state);
         }
 
+        // Update search type
+        searchType = statsType === 'Desynths' ? 1 : 2;
+
         const selection = tryGetDesynth(usedData, id);
         if (selection === undefined) return;
 
@@ -114,7 +119,7 @@
         window.scrollTo(0, 0);
 
         // Set the new title
-        let titleAddition = statsType === 'Desynths' ? 'Source Search' : 'Reward Search';
+        let titleAddition = searchType === 1 ? 'Source Search' : 'Reward Search';
         document.title = `Desynthesis - ${titleAddition}`
     }
 
@@ -173,7 +178,7 @@
 <div class="col-12 col-lg-7 order-0 order-lg-2">
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
         {#if tableItems.length > 0}
-            <DropsTable items={tableItems} columns={NameObtainedMinChanceSetup} />
+            <DropsTable items={tableItems} columns={searchType === 1 ? NameObtainedMinChanceSetup : RewardDesynthSpecial} />
         {:else}
             <p>No data found</p>
         {/if}

@@ -41,6 +41,13 @@ const ObtainedTemplate: ColumnTemplate = {
     classExtension: ['number', 'text-center']
 };
 
+const RewardDesynthTemplate: ColumnTemplate = {
+    header: 'Obtained / Desynths',
+    field: 'Amount',
+    valueRenderer: (row: Reward) => `${row.Amount} / ${row.Total}`,
+    classExtension: ['number', 'text-center']
+};
+
 const TotalTemplate: ColumnTemplate = {
     header: 'Total',
     field: 'Total',
@@ -82,6 +89,14 @@ export const NameObtainedMinChanceSetup: ColumnTemplate[] = [
     IconTemplate,
     NameTemplate,
     ObtainedTemplate,
+    MinMaxTemplate,
+    ChanceTemplate,
+];
+
+export const RewardDesynthSpecial: ColumnTemplate[] = [
+    IconTemplate,
+    NameTemplate,
+    RewardDesynthTemplate,
     MinMaxTemplate,
     ChanceTemplate,
 ];

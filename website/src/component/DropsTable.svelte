@@ -51,7 +51,7 @@
             // Toggle direction if clicking the same column
             sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
         } else {
-            // Set new sort field and default to ascending
+            // Set a new sort field and default to ascending
             sortField = column.field;
             sortDirection = 'asc';
         }
