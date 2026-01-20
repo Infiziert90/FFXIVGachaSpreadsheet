@@ -108,15 +108,16 @@ public class Desynthesis : IDisposable
             ProcessedData.Rewards[rewardItemId] = new Desynth.History {Records = history.Records};
             foreach (var tempReward in history.Rewards)
             {
-                var source = ProcessedData.Sources[tempReward.Id].Rewards.Find(r => r.Id == rewardItemId);
-                if (source == null)
+                var source = ProcessedData.Sources[tempReward.Id];
+                var sourceReward = source.Rewards.Find(r => r.Id == rewardItemId);
+                if (sourceReward == null)
                     throw new Exception($"Source for id {rewardItemId} not found!");
                 
                 ProcessedData.Rewards[rewardItemId].Rewards.Add(new Reward(
                     tempReward.Id,
                     tempReward.Amount,
-                    source.Pct,
-                    source.Total,
+                    sourceReward.Pct,
+                    source.Records,
                     tempReward.Min,
                     tempReward.Max
                 ));
