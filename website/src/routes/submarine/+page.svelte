@@ -124,6 +124,30 @@
 
         return {poolHitRate: onHit.toFixed(2), t3Rate: capableHit.toFixed(2)};
     }
+
+    function getStars(stars: number) {
+        const symbol = '★'
+        return symbol.repeat(stars);
+    }
+
+    interface SectorStats {
+        HighSurv: number;
+        OptiRet: number;
+        FavorHits: number;
+    }
+
+    function getSectorStats(sector: Sector): SectorStats {
+        let highSurv = 0;
+        let optiRet = 0;
+        let favorHits = 0;
+        Object.values(sector.Pools).forEach((pool) => {
+            highSurv += pool.Stats.High;
+            optiRet += pool.Stats.Optimal;
+            favorHits += pool.Stats.Favor;
+        })
+
+        return {HighSurv: highSurv, OptiRet: optiRet, FavorHits: favorHits};
+    }
 </script>
 
 <svelte:head>
@@ -148,6 +172,7 @@
         {#if sectorData.length > 0}
             {#each sectorData as sector}
                 {@const sectorData = getSectorData(sector)}
+                {@const sectorStats = getSectorStats(sector)}
                 <div class="container mb-5" style="background-color: var(--bs-tertiary-bg);">
                     <div>
                         <div class="pt-3 px-2 title"><h3>{ToSectorName(SubmarineExplorationSheet[sector.Id])}</h3></div>
@@ -187,8 +212,22 @@
                                             <tr>
                                                 <th>Name</th>
                                                 {#if dropChanceView}
-                                                    <th class="text-center">T</th>
-                                                    <th class="text-end">D</th>
+                                                    <th id="T-tooltip-{sector.Id}-{idx}" class="text-center">
+                                                        T
+                                                        <Tooltip target="T-tooltip-{sector.Id}-{idx}" placement="top">
+                                                            <div class="d-flex flex-row align-items-center">
+                                                                <strong>Drop chance of item when its Tier procs.</strong>
+                                                            </div>
+                                                        </Tooltip>
+                                                    </th>
+                                                    <th id="D-tooltip-{sector.Id}-{idx}" class="text-end">
+                                                        D
+                                                        <Tooltip target="D-tooltip-{sector.Id}-{idx}" placement="top">
+                                                            <div class="d-flex flex-row align-items-center">
+                                                                <strong>Drop chance on a Tier 3 capable sub.</strong>
+                                                            </div>
+                                                        </Tooltip>
+                                                    </th>
                                                 {:else}
                                                     <th class="text-center">Poor</th>
                                                     <th class="text-center">Norm</th>
@@ -246,19 +285,51 @@
                                         Favor <div class="float-end">{sectorData.Breakpoints.Favor}</div>
                                     </li>
                                     <li class="list-group-item border-0 px-4 pt-0 pb-1 ">
-                                        Double Dip Rate <div class="float-end">{sectorData.DoubleDipRate}%</div>
+                                        Double Dip <div class="float-end">{sectorData.DoubleDipRate}%</div>
                                     </li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-12 pb-3">
+                        <div class="col-lg-5 col-12 pb-3">
                             <div class="card">
                                 <div class="card-header">
                                     General Information
                                 </div>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item border-0 px-4 pt-1 pb-1 text-warning-emphasis">
-                                        Unlocked From: <div class="float-end">{sectorData.UnlockedFrom !== null ? ToSectorName(sectorData.UnlockedFrom) : sector.Id === 1 || sector.Id === 2 ? 'None' : 'Unknown'}</div>
+                                        Sector: <div class="float-end">{sector.Letter}</div>
+                                    </li>
+                                    <li class="list-group-item border-0 px-4 pt-0 pb-1 text-warning-emphasis">
+                                        Stars: <div class="float-end">{getStars(sector.Stars)}</div>
+                                    </li>
+                                    <li class="list-group-item border-0 px-4 pt-0 pb-1 text-warning-emphasis">
+                                        Rank: <div class="float-end">{sector.Rank}</div>
+                                    </li>
+                                    {#if sectorData.UnlockedFrom !== null}
+                                        <li class="list-group-item border-0 px-4 pt-0 pb-1 text-warning-emphasis">
+                                            Unlocked by: <div class="float-end">{ToSectorName(sectorData.UnlockedFrom)}</div>
+                                        </li>
+                                    {/if}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-12 pb-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    Extended Information
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item border-0 px-4 pt-1 pb-1 text-warning-emphasis">
+                                        Records: <div class="float-end">{sector.Records.toLocaleString()}</div>
+                                    </li>
+                                    <li class="list-group-item border-0 px-4 pt-0 pb-1 text-warning-emphasis">
+                                        High Surv: <div class="float-end">{sectorStats.HighSurv.toLocaleString()}</div>
+                                    </li>
+                                    <li class="list-group-item border-0 px-4 pt-0 pb-1 text-warning-emphasis">
+                                        Opti Ret: <div class="float-end">{sectorStats.OptiRet.toLocaleString()}</div>
+                                    </li>
+                                    <li class="list-group-item border-0 px-4 pt-0 pb-1 text-warning-emphasis">
+                                        Favor Hits: <div class="float-end">{sectorStats.FavorHits.toLocaleString()}</div>
                                     </li>
                                 </ul>
                             </div>
