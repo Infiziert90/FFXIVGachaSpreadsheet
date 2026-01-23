@@ -136,3 +136,32 @@ export interface Stats {
     Favor: number;
     DoubleDips: number;
 }
+
+export interface BnpcPairing {
+    BnpcPairings: Record<number, Pairing>;
+}
+
+export interface Pairing {
+    Records: number;
+    Base: number;
+    Name: number;
+    Kind: number;
+    Battalion: number;
+    Locations: Record<number, Location>;
+}
+
+interface Location {
+    Records: number;
+    Territory: number;
+    Map: number;
+    Level: number;
+
+    Positions: Vector3[];
+    PositionsCounts: Record<number, number>; // index to count
+}
+
+// Used internally
+export interface UniqueLocation {
+    Territory: number;
+    Map: number;
+}

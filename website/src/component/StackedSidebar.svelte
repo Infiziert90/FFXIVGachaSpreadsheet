@@ -12,7 +12,7 @@
     let { 
         title = 'Filter your category',
         sidebarId = 'offcanvasFilter',
-        colClass = 'col-12 col-lg-3 order-0 order-lg-1 sticky-left-col',
+        colClass = 'col-12 col-lg-2 order-0 order-lg-1 sticky-left-col',
         children
     }: Props = $props();
 
@@ -127,3 +127,9 @@
         {/if}
     </Offcanvas>
 </div>
+
+<style>
+    .offcanvas-lg .offcanvas-body {
+        display: block;
+    }
+</style>

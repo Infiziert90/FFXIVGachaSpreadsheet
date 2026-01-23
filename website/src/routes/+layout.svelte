@@ -1,6 +1,7 @@
 <script lang="ts">
     import 'bootstrap/dist/css/bootstrap.min.css';
     import 'bootstrap-icons/font/bootstrap-icons.css';
+    import 'leaflet/dist/leaflet.css';
 	import '../app.css';
     import {Container} from '@sveltestrap/sveltestrap';
 	import favicon from '$lib/assets/favicon.png';
