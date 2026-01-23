@@ -88,3 +88,14 @@ export function getIconPath(iconId: number | string, hq: boolean = false): strin
     const suffix = hq ? '_hr1' : '';
     return `https://v2.xivapi.com/api/asset?path=ui/icon/${iconId}${suffix}.tex&format=png`;
 }
+
+export function getFormattedIconId(iconId: number): string {
+    let iconGroup = iconId - (iconId % 1000);
+    return `${pad(iconGroup, 6)}/${pad(iconId, 6)}`;
+}
+
+function pad(num: number, size: number): string {
+    let numStr: string = num.toString();
+    while (numStr.length < size) numStr = "0" + numStr;
+    return numStr;
+}

@@ -8,6 +8,7 @@
     import {Vector3} from "$lib/math/vector3";
     import {BNpcNameSheet} from "$lib/sheets.ts";
     import StackedSidebar from "../../component/StackedSidebar.svelte";
+    import {getFormattedIconId, getIconPath} from "$lib/utils";
 
     interface Props {
         content: BnpcPairing;
@@ -150,7 +151,19 @@
                     console.log(`Coords: `, coords);
                     coords = swapCoords(coords);
 
-                    let marker = leaflet.marker([coords.X, coords.Y], {draggable: false}).addTo(map);
+                    const iconUrl = getIconPath(getFormattedIconId(93047));
+                    const iconMarker = leaflet.icon({
+                        iconUrl: iconUrl,
+                        shadowUrl: iconUrl,
+
+                        iconSize:     [64, 64], // size of the icon
+                        shadowSize:   [0, 0], // size of the shadow
+                        iconAnchor:   [32, 64], // point of the icon which will correspond to marker's location
+                        shadowAnchor: [0, 0],  // the same for the shadow
+                        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+                    });
+
+                    let marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: iconMarker}).addTo(map);
                     marker.bindPopup(`${BNpcNameSheet[pairs[idx].Name]}<br>Level: ${location.Level}`);
                 }
             }
