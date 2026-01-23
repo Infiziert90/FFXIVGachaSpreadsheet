@@ -3,12 +3,12 @@
     import {onMount} from "svelte";
     import MapSearchbar from "../../component/MapSearchbar.svelte";
     import {MapSheet} from "$lib/sheets";
-    import MonsterSearchbar from "../../component/MonsterSearchbar.svelte";
     import {convertToMapCoords, type SimpleCoords, swapCoords} from "$lib/coordHelper";
     import {Vector3} from "$lib/math/vector3";
     import {BNpcNameSheet} from "$lib/sheets.ts";
     import StackedSidebar from "../../component/StackedSidebar.svelte";
     import {getFormattedIconId, getIconPath} from "$lib/utils";
+    import MultiSelect, {type Option} from "svelte-multiselect";
 
     interface Props {
         content: BnpcPairing;
@@ -37,8 +37,6 @@
     let leaflet;
 
     let selectedId = $state(0);
-    let selectedMonsterId = $state(0);
-    let selectedMonsterIndexes: number[] = $state([]);
     let selectedMapId = $state({name: ''});
     let resolvedMapUrl = $state('');
     let selectedLocation: UniqueLocation = $state({Territory: 0, Map: 0});
@@ -47,22 +45,47 @@
     let position;
 
     let names: Record<number, number[]> = $state({});
+    let deduplicateNames: Record<number, number> = $state({});
+
     let pairs: Pairing[];
+
+    let nameOptions: string[] = $state([]);
+    let optionsToId: Record<number, number> = $state({});
+    let selectedOptions: Option[] = $state([]);
 
     function fillPairs(location: UniqueLocation) {
         names = {};
+        deduplicateNames = {};
         pairs = [];
 
         for (const pairing of Object.values(pairingData.BnpcPairings).filter((pair) => Object.values(pair.Locations).some((l) => l.Territory === location.Territory && l.Map === location.Map)).sort((a, b) => a.Base - b.Base)) {
             let idx = pairs.length;
             pairs.push(pairing);
 
-            if (pairing.Name in names) {
-                names[pairing.Name].push(idx);
+            // Some names are duplicates and need to be sorted into the same Id
+            let name = pairing.Name;
+            let evaluatedName = BNpcNameSheet[name];
+            if (evaluatedName in deduplicateNames) {
+                name = deduplicateNames[evaluatedName];
+            } else {
+                deduplicateNames[evaluatedName] = name;
+            }
+
+            if (name in names) {
+                names[name].push(idx);
                 continue;
             }
 
-            names[pairing.Name] = [idx];
+            names[name] = [idx];
+        }
+
+        nameOptions = [];
+        optionsToId = {};
+        for (const name of Object.keys(names)) {
+            let idx = nameOptions.length;
+            nameOptions.push(BNpcNameSheet[name] ?? 'Unknown');
+
+            optionsToId[idx] = parseInt(name);
         }
     }
 
@@ -87,12 +110,13 @@
         });
 
         let bounds = new leaflet.LatLngBounds( [1, 1], [42, 42]);
+        let maxBounds = new leaflet.LatLngBounds( [-5, -5], [50, 50]);
         leaflet.imageOverlay(
             resolvedMapUrl,
             bounds
         ).addTo(m);
 
-        m.setMaxBounds(bounds);
+        m.setMaxBounds(maxBounds);
 
         return m;
     }
@@ -142,8 +166,10 @@
         });
     }
 
-    function createMarkers() {
-        for (const idx of selectedMonsterIndexes) {
+    let createdMarkersDict: Record<number, object[]> = {};
+    function createMarkers(selectedMonster: number) {
+        let indexes = names[selectedMonster];
+        for (const idx of indexes) {
             for (const [_, location] of Object.entries(pairs[idx].Locations).filter(([_, l]) => l.Territory === selectedLocation.Territory && l.Map === selectedLocation.Map)) {
                 for (const worldPos of Object.values(location.Positions)) {
                     console.log(`World: `, worldPos);
@@ -160,11 +186,16 @@
                         shadowSize:   [0, 0], // size of the shadow
                         iconAnchor:   [32, 64], // point of the icon which will correspond to marker's location
                         shadowAnchor: [0, 0],  // the same for the shadow
-                        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+                        popupAnchor:  [0, -48] // point from which the popup should open relative to the iconAnchor
                     });
 
                     let marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: iconMarker}).addTo(map);
                     marker.bindPopup(`${BNpcNameSheet[pairs[idx].Name]}<br>Level: ${location.Level}`);
+
+                    if (!(selectedMonster in createdMarkersDict))
+                        createdMarkersDict[selectedMonster] = [marker]
+                    else
+                        createdMarkersDict[selectedMonster].push(marker)
                 }
             }
         }
@@ -186,11 +217,41 @@
         console.log(names)
     }
 
-    function onMonsterButtonClick(id: number, usedData: number[], addQuery: boolean) {
-        selectedMonsterId = id;
-        selectedMonsterIndexes = usedData;
+    /**
+     * Called when user changes the patch selection dropdown
+     */
+    function nameOptionChanged(payload: {type: 'add' | 'remove' | 'removeAll' | 'selectAll' | 'reorder', option: Option}) {
+        if (payload.type === 'selectAll' || payload.type === 'selectAll' && payload.type === 'reorder')
+            return;
 
-        createMarkers();
+        if (payload.type === 'removeAll') {
+            for (const markers of Object.values(createdMarkersDict)) {
+                for (const marker of markers) {
+                    map.removeLayer(marker);
+                }
+            }
+
+            createdMarkersDict = {};
+            return;
+        }
+
+        let optionIndex = nameOptions.indexOf(payload.option.toString());
+        if (optionIndex === -1) {
+            console.error(`Option ${payload.option} not found in options array`);
+            return;
+        }
+
+        let selectedMonster = optionsToId[optionIndex];
+        if (payload.type === 'add') {
+            createMarkers(selectedMonster)
+        }
+        else {
+            for (const marker of createdMarkersDict[selectedMonster]) {
+                map.removeLayer(marker);
+            }
+
+            createdMarkersDict[selectedMonster] = [];
+        }
     }
 </script>
 <svelte:window on:resize={resizeMap} />
@@ -216,11 +277,13 @@
         <div class="m-5"></div>
 
         {#if selectedMapId.name !== ''}
-            <MonsterSearchbar
-                    {names}
-                    {selectedMonsterId}
-                    {onMonsterButtonClick}
-                    {tabMonsterElements}
+            <MultiSelect
+                    bind:selected={selectedOptions}
+                    options={nameOptions}
+                    ulSelectedStyle="width: 85%;"
+                    ulOptionsStyle="background-color: var(--bs-body-bg);"
+                    onchange={nameOptionChanged}
+                    placeholder="Select a monster"
             />
         {/if}
     </div>
