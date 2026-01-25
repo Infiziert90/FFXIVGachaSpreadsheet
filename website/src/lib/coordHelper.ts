@@ -1,7 +1,7 @@
 ﻿// From: Dalamuds MapUtil
 
-import {MapSheet} from "$lib/sheets";
 import type {Vector3} from "$lib/math/vector3";
+import {SimpleMapSheet} from "$lib/sheets/simplifiedSheets";
 
 export interface SimpleCoords {
     X: number;
@@ -25,7 +25,7 @@ function worldToMap(worldCoordinates: Vector3, xOffset: number = 0, yOffset: num
 }
 
 export function convertToMapCoords(worldCoordinates: Vector3, map: number): SimpleCoords {
-    let mapData = MapSheet[map];
+    let mapRow = SimpleMapSheet[map];
 
-    return worldToMap(worldCoordinates, mapData.OffsetX, mapData.OffsetY, mapData.SizeFactor);
+    return worldToMap(worldCoordinates, mapRow.OffsetX, mapRow.OffsetY, mapRow.SizeFactor);
 }

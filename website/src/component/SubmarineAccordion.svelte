@@ -1,9 +1,9 @@
 <script lang="ts">
     import { Accordion, AccordionItem, ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
-    import {type SubmarineMap, ToName} from "$lib/sheets/submarineMap";
+    import {type SubMapRow, ToMapName} from "$lib/sheets/structure/subMap";
 
     interface Props {
-        mapData: SubmarineMap[];
+        mapData: SubMapRow[];
         map: number;
         openTab: (map: number, addQuery: boolean) => void;
     }
@@ -16,7 +16,7 @@
     // Update openAccordionId when territory prop changes
     $effect(() => {
         const newId = mapData[map];
-        if (newId !== null) {
+        if (newId !== undefined) {
             openAccordionId = newId;
         }
     });
@@ -51,7 +51,7 @@
                         action
                         onclick={(e) => handleItemClick(mapItem.RowId, e)}
                     >
-                        {ToName(mapItem)}
+                        {ToMapName(mapItem)}
                     </ListGroupItem>
                 {/each}
             </ListGroup>

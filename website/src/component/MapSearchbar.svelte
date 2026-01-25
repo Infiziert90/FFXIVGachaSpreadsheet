@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';
     import { ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
     import type {UniqueLocation} from "$lib/interfaces";
-    import {TerritoryTypeSheet} from "$lib/sheets";
+    import {SimpleMapSheet, SimpleTerritorySheet} from "$lib/sheets/simplifiedSheets";
 
     interface Props {
         uniqueLocations: UniqueLocation[];
@@ -17,10 +17,10 @@
     let searchQuery = $state('');
 
     // Convert Sources and Rewards records to arrays for iteration
-    const allSourcesArray = $derived(uniqueLocations.filter((value) => value.Territory < 500).map((value, index) => ({
+    const allSourcesArray = $derived(uniqueLocations.map((value, index) => ({
         id: index,
         data: value,
-        name: `${TerritoryTypeSheet[value.Territory].PlaceName} (${value.Territory})`
+        name: getMapName(value)
     })).sort((a, b) => a.name.localeCompare(b.name)));
 
     // Get the current array based on search type
@@ -80,6 +80,8 @@
             const singleItem = filteredArray[0];
             // Only auto-select if it's not already selected and we haven't auto-selected it already
             if (selectedId !== singleItem.id && lastAutoSelectedId !== singleItem.id) {
+                searchQuery = '';
+
                 lastAutoSelectedId = singleItem.id;
                 onButtonClick(singleItem.id, singleItem.data, true);
             }
@@ -92,6 +94,16 @@
     // Load from URL on mount
     onMount(() => {
     });
+
+    function getMapName(location: UniqueLocation): string {
+        let map = SimpleMapSheet[location.Map];
+        let territory = SimpleTerritorySheet[location.Territory];
+
+        let subName = map.PlaceNameSub.Name.length > 1 ? ` - ${map.PlaceNameSub.Name}` : '';
+        let instancedWarning = territory.ContentFinderCondition > 0 ? ` [Instanced]` : '';
+
+        return `${map.PlaceName.Name}${subName}${instancedWarning} (${location.Map} - ${location.Territory})`
+    }
 </script>
 
 <div class="d-block w-100 gap-2">
@@ -105,7 +117,7 @@
         >
     </div>
     {#if searchQuery.trim() === ''}
-        <p class="text-muted">Enter a search query to find an area</p>
+        <p class="text-muted">Enter a search query to find a map</p>
     {:else if filteredArray.length === 0}
         <p class="text-muted">No area found</p>
     {:else}
@@ -114,10 +126,13 @@
                 <ListGroupItem 
                     class="list-group-item-xiv-item"
                     active={selectedId === item.id}
-                    onclick={() => onButtonClick(item.id, item.data, true)}
+                    onclick={() => {
+                        searchQuery = '';
+                        onButtonClick(item.id, item.data, true);
+                    }}
                     style="cursor: pointer;"
                 >
-                    <span class="list-group-item-xiv-item-name">
+                    <span class="list-group-item-xiv-map-name">
                         {item.name}
                     </span>
                 </ListGroupItem>

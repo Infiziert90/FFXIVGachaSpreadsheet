@@ -1,17 +1,18 @@
 ﻿<script lang="ts">
-    import type {PoolReward, Sector, Stats, SubLoot} from "$lib/interfaces";
+    import type {PoolReward, Sector, SubLoot} from "$lib/interfaces";
     import {Button, ButtonGroup, Table, Tooltip} from '@sveltestrap/sveltestrap';
     import SubmarineAccordion from "../../component/SubmarineAccordion.svelte";
     import PageSidebar from "../../component/PageSidebar.svelte";
-    import {MapToStartSector, SubmarineExplorationSheet, SubmarineMapSheet} from "$lib/sheets";
     import {page} from "$app/state";
     import {replaceState} from "$app/navigation";
     import {tryGetSubmarineSearchParams} from "$lib/searchParamHelper";
     import {onMount} from "svelte";
     import {Mappings} from "$lib/mappings";
     import {type Breakpoint, EmptyBreakpoint, MapBreakpoints} from "$lib/submarineData";
-    import {type SubmarineExploration, ToSectorName} from "$lib/sheets/submarineExploration";
     import {getIconPath, getWikiUrl} from "$lib/utils";
+    import {SimpleSubExplorationSheet, SimpleSubMapSheet} from "$lib/sheets/simplifiedSheets";
+    import {MapToStartSector} from "$lib/sheets/sheetHelper";
+    import {type SubExplorationRow, ToSectorName} from "$lib/sheets/structure/subExploration";
 
     interface Props {
         data: { content: SubLoot };
@@ -22,7 +23,7 @@
 
     let { data }: Props = $props();
     let subData: SubLoot = data.content;
-    let mapData = Object.values(SubmarineMapSheet).filter( (v) => v.RowId !== 0);
+    let mapData = Object.values(SimpleSubMapSheet).filter( (v) => v.RowId !== 0);
     let sectorData: Sector[] = $state([]);
 
     let map = $state(1);
@@ -39,8 +40,8 @@
         map = submarineSearchParams.mapId;
 
         // svelte-ignore state_referenced_locally
-        if (map in SubmarineMapSheet) {
-            title = `Submarine Loot - ${SubmarineMapSheet[map].Name}`;
+        if (map in SimpleSubMapSheet) {
+            title = `Submarine Loot - ${SimpleSubMapSheet[map].Name}`;
         }
     }
 
@@ -51,7 +52,7 @@
 
     function openTab(mapId: number, addQuery: boolean = false) {
         // Check if map exists, if not default to Deep-sea Site
-        if (!(mapId in SubmarineMapSheet)) {
+        if (!(mapId in SimpleSubMapSheet)) {
             mapId = 1;
         }
 
@@ -68,7 +69,7 @@
         start = MapToStartSector[map].RowId + 1;
 
         sectorData.length = 0;
-        for (let i = start; SubmarineExplorationSheet[i].SurveyDistance !== 0; i++) {
+        for (let i = start; SimpleSubExplorationSheet[i].SurveyDistance !== 0; i++) {
             if (i in subData.Sectors) sectorData.push(subData.Sectors[i]);
         }
 
@@ -76,7 +77,7 @@
         window.scrollTo(0, 0);
 
         // Set the new title
-        document.title = `Submarine Loot - ${SubmarineMapSheet[map].Name}`;
+        document.title = `Submarine Loot - ${SimpleSubMapSheet[map].Name}`;
     }
 
     function getBorderColor(idx: number) {
@@ -90,14 +91,14 @@
 
     interface SectorData {
         Breakpoints: Breakpoint;
-        UnlockedFrom: SubmarineExploration | null;
+        UnlockedFrom: SubExplorationRow | null;
 
         DoubleDipRate: string;
     }
 
     function getSectorData(sector: Sector): SectorData {
         const breakpoints = sector.Id in MapBreakpoints ? MapBreakpoints[sector.Id] : EmptyBreakpoint();
-        const unlockedFrom = sector.UnlockedFrom > 0 ? SubmarineExplorationSheet[sector.UnlockedFrom] : null;
+        const unlockedFrom = sector.UnlockedFrom > 0 ? SimpleSubExplorationSheet[sector.UnlockedFrom] : null;
 
         let favorHits = 0;
         let doubleDip = 0;
@@ -175,7 +176,7 @@
                 {@const sectorStats = getSectorStats(sector)}
                 <div class="container mb-5" style="background-color: var(--bs-tertiary-bg);">
                     <div>
-                        <div class="pt-3 px-2 title"><h3>{ToSectorName(SubmarineExplorationSheet[sector.Id])}</h3></div>
+                        <div class="pt-3 px-2 title"><h3>{ToSectorName(SimpleSubExplorationSheet[sector.Id])}</h3></div>
                         <div class="pt-3 px-2 toggleButton">
                             <ButtonGroup>
                                 <Button outline color="secondary" active={!dropChanceView} on:click={() => {dropChanceView = false}}>Yield</Button>

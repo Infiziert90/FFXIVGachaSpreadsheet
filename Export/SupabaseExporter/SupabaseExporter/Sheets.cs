@@ -21,6 +21,9 @@ public static class Sheets
     public static readonly ExcelSheet<Pet> PetSheet;
     public static readonly ExcelSheet<Companion> CompanionSheet;
     public static readonly ExcelSheet<NotoriousMonster> NotoriousMonsterSheet;
+    
+    public static readonly ExcelSheet<SubmarineExploration> SubmarineExplorationSheet;
+    public static readonly ExcelSheet<SubmarineMap> SubmarineMapSheet;
 
     // Item
     public static readonly uint MaxItemId;
@@ -32,7 +35,6 @@ public static class Sheets
     public static HashSet<uint> DisallowedBnpcBase = [3705];
     public static HashSet<uint> DisallowedBnpcNames;
     public static HashSet<uint> RankedBnpcBase;
-
 
     static Sheets()
     {
@@ -51,6 +53,8 @@ public static class Sheets
         PetSheet = Lumina.GetExcelSheet<Pet>()!;
         CompanionSheet = Lumina.GetExcelSheet<Companion>()!;
         NotoriousMonsterSheet = Lumina.GetExcelSheet<NotoriousMonster>()!;
+        SubmarineExplorationSheet = Lumina.GetExcelSheet<SubmarineExploration>()!;
+        SubmarineMapSheet = Lumina.GetExcelSheet<SubmarineMap>()!;
 
         MaxItemId = ItemSheet.MaxBy(i => i.RowId).RowId;
         

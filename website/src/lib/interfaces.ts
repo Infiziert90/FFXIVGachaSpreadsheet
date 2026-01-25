@@ -156,7 +156,7 @@ interface Location {
     Map: number;
     Level: number;
 
-    Positions: Vector3[];
+    Positions: { X: number, Y: number, Z: number }[];
     PositionsCounts: Record<number, number>; // index to count
 }
 

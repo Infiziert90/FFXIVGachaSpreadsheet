@@ -6,6 +6,7 @@ public static class ExportHandler
 {
     private const string WebsitePath = "../../../../../../website";
     private const string AssetsPath = "static/data";
+    private const string SheetsPath = "static/sheets";
 
     public static string ReadDataJson(string filename)
     {
@@ -24,5 +25,10 @@ public static class ExportHandler
     public static void WriteDataJson<T>(string filename, T data)
     {
         File.WriteAllText($"{WebsitePath}/{AssetsPath}/{filename}", JsonConvert.SerializeObject(data));
+    }
+    
+    public static void WriteSheetJson<T>(string filename, T data)
+    {
+        File.WriteAllText($"{WebsitePath}/{SheetsPath}/{filename}", JsonConvert.SerializeObject(data));
     }
 }

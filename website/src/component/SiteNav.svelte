@@ -14,9 +14,7 @@
         DropdownItem,
 
         colorMode,
-        Icon,
-
-        Button
+        Icon
     } from '@sveltestrap/sveltestrap';
 
     interface MenuItem {

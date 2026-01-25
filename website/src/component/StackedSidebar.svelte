@@ -127,9 +127,3 @@
         {/if}
     </Offcanvas>
 </div>
-
-<style>
-    .offcanvas-lg .offcanvas-body {
-        display: block;
-    }
-</style>

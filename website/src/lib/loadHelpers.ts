@@ -2,7 +2,9 @@
 import type {BnpcPairing, ChestDrop, Coffer, SubLoot, Venture} from "$lib/interfaces";
 import {type ItemInfo, Mappings} from "$lib/mappings";
 
-export async function loadMapping(fetch: any) {
+type Fetch = typeof fetch;
+
+export async function loadMapping(fetch: Fetch) {
     try {
         if (Object.keys(Mappings).length > 0) return;
 
@@ -24,7 +26,7 @@ export async function loadMapping(fetch: any) {
     }
 }
 
-export async function loadCoffer(path: string, fetch: any): Promise<{content: Coffer[]}> {
+export async function loadCoffer(path: string, fetch: Fetch): Promise<{content: Coffer[]}> {
     try {
         const res: Coffer[] = await fetch(path)
             .then(responseHandler)
@@ -42,7 +44,7 @@ export async function loadCoffer(path: string, fetch: any): Promise<{content: Co
     }
 }
 
-export async function loadDesynth(path: string, fetch: any): Promise<{content: Coffer[]}> {
+export async function loadDesynth(path: string, fetch: Fetch): Promise<{content: Coffer[]}> {
     try {
         const res = await fetch(path)
             .then(responseHandler)
@@ -60,7 +62,7 @@ export async function loadDesynth(path: string, fetch: any): Promise<{content: C
     }
 }
 
-export async function loadVentures(path: string, fetch: any): Promise<{content: Venture[]}> {
+export async function loadVentures(path: string, fetch: Fetch): Promise<{content: Venture[]}> {
     try {
         const res: Venture[] = await fetch(path)
             .then(responseHandler)
@@ -78,7 +80,7 @@ export async function loadVentures(path: string, fetch: any): Promise<{content: 
     }
 }
 
-export async function loadChestDrops(path: string, fetch: any): Promise<{content: ChestDrop[]}> {
+export async function loadChestDrops(path: string, fetch: Fetch): Promise<{content: ChestDrop[]}> {
     try {
         const res: ChestDrop[] = await fetch(path)
             .then(responseHandler)
@@ -96,7 +98,7 @@ export async function loadChestDrops(path: string, fetch: any): Promise<{content
     }
 }
 
-export async function loadSubmarines(path: string, fetch: any): Promise<{content: SubLoot}> {
+export async function loadSubmarines(path: string, fetch: Fetch): Promise<{content: SubLoot}> {
     try {
         const res: SubLoot = await fetch(path)
             .then(responseHandler)
@@ -114,7 +116,7 @@ export async function loadSubmarines(path: string, fetch: any): Promise<{content
     }
 }
 
-export async function loadBnpc(path: string, fetch: any): Promise<{content: BnpcPairing}> {
+export async function loadBnpc(path: string, fetch: Fetch): Promise<{content: BnpcPairing}> {
     try {
         const res: BnpcPairing = await fetch(path)
             .then(responseHandler)

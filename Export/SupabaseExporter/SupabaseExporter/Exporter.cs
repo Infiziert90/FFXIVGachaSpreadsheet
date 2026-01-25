@@ -9,6 +9,7 @@ using SupabaseExporter.Processing.Coffers;
 using SupabaseExporter.Processing.Desynthesis;
 using SupabaseExporter.Processing.Submarines;
 using SupabaseExporter.Processing.Ventures;
+using SupabaseExporter.Structures.Sheets;
 
 namespace SupabaseExporter;
 
@@ -101,6 +102,7 @@ public static class EntryPoint
         // Generate json with all icon paths
         MappingHelper.ExportMappingFile();
         ExportHandler.WriteTimestamp();
+        new SimplifiedSheets().Export();
     }
 }
 
