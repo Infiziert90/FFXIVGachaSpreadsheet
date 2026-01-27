@@ -5,7 +5,7 @@ namespace SupabaseExporter.Processing.Coffers;
 
 public class FieldOpLockboxes : CofferBase
 {
-    private static readonly uint[] ValidLockboxes = [22508, 23142, 23379, 24141, 24142, 24848, 24849, 31357, 33797];
+    private static readonly uint[] ValidLockboxes = [22508, 23142, 23379, 24141, 24142, 24848, 24849, 31357, 33797, 50411, 50412, 50413];
     
     public void ProcessAllData(Models.RandomCofferModel[] data)
     {
