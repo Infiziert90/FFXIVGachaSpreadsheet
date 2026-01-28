@@ -41,7 +41,7 @@ public class FieldOpLockboxes : CofferBase
         foreach (var (territory, rarities) in CollectedData)
         {
             var cofferList = new List<Coffer.Variant>();
-            foreach (var (cofferId, patches) in rarities.OrderBy(c => c.Key))
+            foreach (var (cofferId, patches) in rarities.OrderBy(c => RaritySort(c.Key)))
             {
                 var coffer = Sheets.ItemSheet.GetRow(cofferId);
                 var cofferVariant = new Coffer.Variant(cofferId, coffer.Name.ExtractText(), []);
@@ -68,4 +68,18 @@ public class FieldOpLockboxes : CofferBase
 
         return new Coffer.Content(coffer.Total, rewards);   
     }
+    
+    private uint RaritySort(uint key)
+    {
+        // Moon treasure has the order Gold, Silver, Bronze
+        // but we want it the opposite way
+        var enumKey = (LockboxTypes)key;
+        if (enumKey == LockboxTypes.GoldRecord)
+            return key + 100;
+
+        if (enumKey == LockboxTypes.SilverRecord)
+            return key + 50;
+
+        return key;
+    } 
 }
