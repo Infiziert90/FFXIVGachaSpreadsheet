@@ -348,8 +348,8 @@
     }
 
     // Set default meta data
-    let title = $state('BattleNPC Locations');
-    let description = $state('A searchable map with all monster locations.');
+    let title = $state('Open Housing Plot Viewer');
+    let description = $state('An overview of all housing wards and their open plots.');
 
     async function optionChanged(payload: {type: 'add' | 'remove' | 'removeAll' | 'selectAll' | 'reorder', option: Option}) {
         if (payload.type === 'selectAll' || payload.type === 'selectAll' || payload.type === 'reorder' || payload.type === 'removeAll' || payload.type === 'remove')
