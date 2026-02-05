@@ -84,9 +84,9 @@ export function getWikiUrl(itemName: string): string {
  * @param hq - Whether to use the high resolution icon
  * @returns The file path
  */
-export function getIconPath(iconId: number | string, hq: boolean = false): string {
+export function getIconPath(iconId: number | string, hq: boolean = true): string {
     const suffix = hq ? '_hr1' : '';
-    return `https://v2.xivapi.com/api/asset?path=ui/icon/${iconId}${suffix}_hr1.tex&format=png`;
+    return `https://v2.xivapi.com/api/asset?path=ui/icon/${iconId}${suffix}.tex&format=png`;
 }
 
 export function getFormattedIconId(iconId: number): string {
