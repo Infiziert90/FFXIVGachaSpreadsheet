@@ -24,6 +24,13 @@ public static class Sheets
     
     public static readonly ExcelSheet<SubmarineExploration> SubmarineExplorationSheet;
     public static readonly ExcelSheet<SubmarineMap> SubmarineMapSheet;
+    
+    public static readonly SubrowExcelSheet<MapMarker> MapMarkerSheet;
+    public static readonly ExcelSheet<HousingLandSet> HousingLandSetSheet;
+    public static readonly SubrowExcelSheet<HousingMapMarkerInfo> HousingMapMarkerSheet;
+    
+    public static readonly ExcelSheet<World> WorldSheet;
+    public static readonly ExcelSheet<WorldDCGroupType> WorldDCGroupSheet;
 
     // Item
     public static readonly uint MaxItemId;
@@ -55,6 +62,11 @@ public static class Sheets
         NotoriousMonsterSheet = Lumina.GetExcelSheet<NotoriousMonster>()!;
         SubmarineExplorationSheet = Lumina.GetExcelSheet<SubmarineExploration>()!;
         SubmarineMapSheet = Lumina.GetExcelSheet<SubmarineMap>()!;
+        MapMarkerSheet = Lumina.GetSubrowExcelSheet<MapMarker>()!;
+        HousingLandSetSheet = Lumina.GetExcelSheet<HousingLandSet>()!;
+        HousingMapMarkerSheet = Lumina.GetSubrowExcelSheet<HousingMapMarkerInfo>()!;
+        WorldSheet = Lumina.GetExcelSheet<World>()!;
+        WorldDCGroupSheet = Lumina.GetExcelSheet<WorldDCGroupType>()!;
 
         MaxItemId = ItemSheet.MaxBy(i => i.RowId).RowId;
         

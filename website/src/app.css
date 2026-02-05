@@ -246,6 +246,11 @@ img.item-icon {
     flex-shrink: 0;
 }
 
+.transparent-divIcon {
+    background-color: transparent;
+    border: none;
+}
+
 @media (min-width: 992px) {
     .sticky-left-col {
         max-height: calc(100vh - 6rem);

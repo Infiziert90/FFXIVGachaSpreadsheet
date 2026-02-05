@@ -2,7 +2,7 @@
     import type {BnpcPairing, Location, Pairing, UniqueLocation} from "$lib/interfaces";
     import {onMount} from "svelte";
     import MapSearchbar from "../../component/MapSearchbar.svelte";
-    import {convertToMapCoords, type SimpleCoords, swapCoords} from "$lib/coordHelper";
+    import {convertSizeFactorToMapMaxCoord, convertToMapCoords, type SimpleCoords, swapCoords} from "$lib/coordHelper";
     import {Vector3} from "$lib/math/vector3";
     import StackedSidebar from "../../component/StackedSidebar.svelte";
     import {getFormattedIconId, getIconPath} from "$lib/utils";
@@ -105,18 +105,21 @@
             projection: leaflet.Projection.LonLat,
             transformation: new leaflet.Transformation(1, 0, 1, 0)
         });
+
+        let boundMaxCoord = convertSizeFactorToMapMaxCoord(selectedLocation.Map);
+        console.log(`Bound max coord: ${boundMaxCoord}`);
         let m = leaflet.map(container, {
             minZoom: 3.0,
             maxZoom: 8.0,
-            center: [21, 21],
+            center: [boundMaxCoord / 2, boundMaxCoord / 2],
             zoom: 4.5,
             zoomSnap: 0.5,
             crs: leaflet.CRS.XY,
             wheelPxPerZoomLevel: 200,
         });
 
-        let bounds = new leaflet.LatLngBounds( [1, 1], [42, 42]);
-        let maxBounds = new leaflet.LatLngBounds( [-5, -5], [50, 50]);
+        let bounds = new leaflet.LatLngBounds( [1, 1], [boundMaxCoord, boundMaxCoord]);
+        let maxBounds = new leaflet.LatLngBounds( [-5, -5], [boundMaxCoord + 10, boundMaxCoord + 10]);
         leaflet.imageOverlay(
             resolvedMapUrl,
             bounds
@@ -179,9 +182,9 @@
             for (const [_, location] of Object.entries(pairs[idx].Locations).filter(([_, l]) => l.Territory === selectedLocation.Territory && l.Map === selectedLocation.Map)) {
                 for (const worldPos of Object.values(location.Positions)) {
                     console.log(`World: `, worldPos);
-                    let coords = convertToMapCoords(new Vector3(worldPos.X, worldPos.Y, worldPos.Z), location.Map);
-                    console.log(`Coords: `, coords);
-                    coords = swapCoords(coords);
+                    let ingameCoords = convertToMapCoords(new Vector3(worldPos.X, worldPos.Y, worldPos.Z), location.Map);
+                    console.log(`Coords: `, ingameCoords);
+                    let coords = swapCoords(ingameCoords);
 
                     const iconUrl = getIconPath(getFormattedIconId(93047));
                     const iconMarker = leaflet.icon({
@@ -190,13 +193,13 @@
 
                         iconSize:     [64, 64], // size of the icon
                         shadowSize:   [0, 0], // size of the shadow
-                        iconAnchor:   [32, 64], // point of the icon which will correspond to marker's location
+                        iconAnchor:   [32, 32], // point of the icon which will correspond to marker's location
                         shadowAnchor: [0, 0],  // the same for the shadow
                         popupAnchor:  [0, -48] // point from which the popup should open relative to the iconAnchor
                     });
 
                     let marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: iconMarker}).addTo(map);
-                    marker.bindPopup(`${SimpleBNpcNameSheet[pairs[idx].Name]}<br>Level: ${location.Level}`);
+                    marker.bindPopup(`${SimpleBNpcNameSheet[pairs[idx].Name]}<br>Level: ${location.Level}<br>${ingameCoords.X.toFixed(2)} ${ingameCoords.Y.toFixed(2)}`);
 
                     if (!(selectedMonster in createdMarkersDict))
                         createdMarkersDict[selectedMonster] = [marker]
@@ -224,7 +227,7 @@
      * Called when user changes the patch selection dropdown
      */
     function nameOptionChanged(payload: {type: 'add' | 'remove' | 'removeAll' | 'selectAll' | 'reorder', option: Option}) {
-        if (payload.type === 'selectAll' || payload.type === 'selectAll' && payload.type === 'reorder')
+        if (payload.type === 'selectAll' || payload.type === 'selectAll' ||  payload.type === 'reorder')
             return;
 
         if (payload.type === 'removeAll') {
