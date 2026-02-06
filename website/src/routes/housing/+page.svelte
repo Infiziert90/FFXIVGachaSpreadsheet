@@ -335,7 +335,6 @@
 
                 let height = tmpElem.offsetHeight;
                 let width = tmpElem.offsetWidth;
-                let fontSize = parseFloat(window.getComputedStyle(tmpElem).fontSize);
 
                 document.body.removeChild(tmpElem);
 
@@ -343,7 +342,7 @@
 
                 switch (mapMarkerSubRow.SubtextOrientation) {
                     case 2: // right of point
-                        anchorX = -fontSize;
+                        anchorX = 0;
                         anchorY = height / 2;
                         break;
                     case 4: // above point
@@ -355,7 +354,7 @@
                         anchorY = -height / 2;
                         break;
                     case 1: // left of point
-                        anchorX = width - fontSize;
+                        anchorX = width;
                         anchorY = height / 2;
                         break;
                     default: // centered
