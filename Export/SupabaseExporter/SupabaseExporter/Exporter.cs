@@ -95,9 +95,9 @@ public static class EntryPoint
             occultTreasureProcessor.ProcessAllData(occultTreasureResult.Data, occultBunnyResult.Data);
         }
         
-        // var bnpcPairsProcessor = new BnpcPairs();
-        // await exporter.LoadBnpcPairData(context, bnpcPairsProcessor);
-        // bnpcPairsProcessor.ProcessAllData();
+        var bnpcPairsProcessor = new BnpcPairs();
+        await exporter.LoadBnpcPairData(context, bnpcPairsProcessor);
+        bnpcPairsProcessor.ProcessAllData();
         
         // Generate json with all icon paths
         MappingHelper.ExportMappingFile();
