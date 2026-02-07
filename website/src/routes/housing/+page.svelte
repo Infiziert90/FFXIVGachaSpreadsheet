@@ -325,18 +325,49 @@
 
             if (mapMarkerSubRow.PlaceNameSubtext.RowId !== 0) {
                 let text = mapMarkerSubRow.PlaceNameSubtext.Name.replace("\r\n", "\n");
-                // var attachmentPoint = mapMarker.SubtextOrientation switch
-                // {
-                //     2 => new Vector2(x + fontSize, y - textHeight / 2),
-                //         4 => new Vector2(x - textWidth / 2, y - textHeight ),
-                //         3 => new Vector2(x - textWidth / 2, y + textHeight / 2),
-                //         1 => new Vector2(x - textWidth + fontSize, y - textHeight  / 2),
-                //         _ => new Vector2(x - textWidth / 2, y - textHeight / 2)
-                // }
+
+                let cssText = 'text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black; width:300px;'
+
+                let tmpElem = document.createElement('h6');
+                tmpElem.style.cssText = cssText + 'visibility:hidden;';
+                tmpElem.textContent = text;
+                document.body.appendChild(tmpElem);
+
+                let height = tmpElem.offsetHeight;
+                let width = tmpElem.offsetWidth;
+
+                document.body.removeChild(tmpElem);
+
+                let anchorX, anchorY;
+
+                switch (mapMarkerSubRow.SubtextOrientation) {
+                    case 2: // right of point
+                        anchorX = 0;
+                        anchorY = height / 2;
+                        break;
+                    case 4: // above point
+                        anchorX = width / 2;
+                        anchorY = height;
+                        break;
+                    case 3: // below point
+                        anchorX = width / 2;
+                        anchorY = -height / 2;
+                        break;
+                    case 1: // left of point
+                        anchorX = width;
+                        anchorY = height / 2;
+                        break;
+                    default: // centered
+                        anchorX = width / 2;
+                        anchorY = height / 2;
+                        break;
+                }
 
                 let divIcon = leaflet.divIcon({
-                    html: `<h6 style="text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black; width:300px;">${text}</h6>`,
-                    className: 'transparent-divIcon'
+                    html: `<h6 style="${cssText}">${text}</h6>`,
+                    className: 'transparent-divIcon',
+                    iconSize: [width, height],
+                    iconAnchor: [anchorX, anchorY]
                 })
 
                 let marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: divIcon}).addTo(map);
