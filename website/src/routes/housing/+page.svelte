@@ -325,8 +325,14 @@
 
             if (mapMarkerSubRow.PlaceNameSubtext.RowId !== 0) {
                 let text = mapMarkerSubRow.PlaceNameSubtext.Name.replace("\r\n", "\n");
-
-                let cssText = 'text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black; width:300px;'
+                let fontSize = 14;
+                let cssText = /*css*/`
+                    font-size: ${fontSize}px;
+                    width:fit-content;
+                    text-wrap: nowrap;
+                    font-family: var(--bs-body-font-family);
+                    text-shadow: 0px 0px 2px black, 0px 0px 3px black, 0px 0px 4px black
+                `
 
                 let tmpElem = document.createElement('h6');
                 tmpElem.style.cssText = cssText + 'visibility:hidden;';
@@ -342,19 +348,21 @@
 
                 switch (mapMarkerSubRow.SubtextOrientation) {
                     case 2: // right of point
-                        anchorX = 0;
+                        anchorX = mapMarkerSubRow.Icon !== 0 ? -(fontSize*1.5) : 0;
+                        // if icon is present, offset the text to the right to avoid it being on top of the point
                         anchorY = height / 2;
                         break;
                     case 4: // above point
                         anchorX = width / 2;
-                        anchorY = height;
+                        anchorY = height * 2; // Text is always slightly above the point, further away from the point
                         break;
                     case 3: // below point
                         anchorX = width / 2;
                         anchorY = -height / 2;
                         break;
                     case 1: // left of point
-                        anchorX = width;
+                        anchorX = mapMarkerSubRow.Icon !== 0 ? width + (fontSize*1.5) : width;
+                        // if icon is present, offset the text to the left to avoid it being on top of the point
                         anchorY = height / 2;
                         break;
                     default: // centered
@@ -371,7 +379,7 @@
                 })
 
                 let marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: divIcon}).addTo(map);
-                marker.bindPopup(`X: ${ingameCoords.X.toFixed(2)} Y: ${ingameCoords.Y.toFixed(2)}<br>Name: ${mapMarkerSubRow.PlaceNameSubtext.Name}`);
+                marker.bindPopup(`X: ${ingameCoords.X.toFixed(2)} Y: ${ingameCoords.Y.toFixed(2)}${mapMarkerSubRow.PlaceNameSubtext.Name !== '' ? `<br>Name: ${mapMarkerSubRow.PlaceNameSubtext.Name}` : ''}`);
 
                 createdMarkersDict[mapMarkerSubRow.RowId + 2_000_000] = marker;
             }
