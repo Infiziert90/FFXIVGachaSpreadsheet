@@ -1,6 +1,7 @@
 <script lang="ts">
-    import { Icon, Button, Offcanvas } from '@sveltestrap/sveltestrap';
+    import { Offcanvas } from '@sveltestrap/sveltestrap';
     import { browser } from '$app/environment';
+    import { pageSidebarStore } from '$lib/stores/pageSidebar';
 
     interface Props {
         title?: string;
@@ -85,18 +86,18 @@
         
         return () => clearTimeout(timeoutId);
     });
-</script>
 
-<!-- Mobile toggle button - only visible on screens smaller than lg (992px) -->
-<Button 
-    color="primary"
-    size="lg"
-    class="rounded-xl d-lg-none position-fixed bottom-0 end-0 m-3 w-auto z-3" 
-    onclick={toggle}
-    aria-label="Open filter menu"
->
-    <Icon name="funnel-fill" />
-</Button>
+    /**
+     * Register with the shared store so SiteNav can show the filter button.
+     * Unregister on unmount.
+     */
+    $effect(() => {
+        pageSidebarStore.set({ showButton: true, toggle });
+        return () => {
+            pageSidebarStore.set({ showButton: false, toggle: null });
+        };
+    });
+</script>
 
 <!-- Sidebar container with responsive column classes -->
 <div class={colClass}>
