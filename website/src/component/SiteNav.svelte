@@ -12,10 +12,11 @@
         DropdownToggle,
         DropdownMenu,
         DropdownItem,
-
+        Button,
         colorMode,
         Icon
     } from '@sveltestrap/sveltestrap';
+    import { pageSidebarStore } from '$lib/stores/pageSidebar';
 
     interface MenuItem {
         label: string;
@@ -116,11 +117,22 @@
     });
 </script>
 
-<Navbar color="dark" dark theme="dark" expand="md" class="border-bottom border-body-tertiary" sticky="top">
-<NavbarBrand href="/">FFXIV Gacha</NavbarBrand>
-<NavbarToggler onclick={toggle} />
+<Navbar color="dark" dark theme="dark" expand="lg" class="border-bottom border-body-tertiary" sticky="top">
+    {#if $pageSidebarStore.showButton && $pageSidebarStore.toggle}
+        <Button
+            class="navbar-toggler d-lg-none"
+            onclick={() => $pageSidebarStore.toggle?.()}
+            aria-label="Open filter menu"
+        >
+            <div class="d-flex align-items-center justify-content-center" style="width: 1.5em;height: 1.5em;">
+                <Icon name="funnel-fill" />
+            </div>
+        </Button>
+    {/if}
+    <NavbarBrand href="/">FFXIV Gacha</NavbarBrand>
+    <NavbarToggler onclick={toggle} />
 
-<Collapse {isOpen} navbar expand="md">
+<Collapse {isOpen} navbar expand="lg">
     <!-- Main Menu -->
     <Nav class="me-auto" navbar>
         {#each menuCategories as category}
