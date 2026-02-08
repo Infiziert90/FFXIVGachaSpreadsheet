@@ -117,7 +117,7 @@
     });
 </script>
 
-<Navbar color="dark" dark theme="dark" expand="md" class="border-bottom border-body-tertiary" sticky="top">
+<Navbar color="dark" dark theme="dark" expand="lg" class="border-bottom border-body-tertiary" sticky="top">
     {#if $pageSidebarStore.showButton && $pageSidebarStore.toggle}
         <Button
             class="navbar-toggler d-lg-none"
@@ -132,23 +132,7 @@
     <NavbarBrand href="/">FFXIV Gacha</NavbarBrand>
     <NavbarToggler onclick={toggle} />
 
-<Collapse {isOpen} navbar expand="md">
-    
-    {#if $pageSidebarStore.showButton && $pageSidebarStore.toggle}
-    <Nav navbar>
-        <NavItem class="d-none d-md-block d-lg-none">
-            <Button
-                color="secondary"
-                outline={true}
-                onclick={() => $pageSidebarStore.toggle?.()}
-                aria-label="Open filter menu"
-            >
-                <Icon name="funnel-fill"  />
-            </Button>
-        </NavItem>
-    </Nav>
-    {/if}
-
+<Collapse {isOpen} navbar expand="lg">
     <!-- Main Menu -->
     <Nav class="me-auto" navbar>
         {#each menuCategories as category}
