@@ -8,4 +8,6 @@ export interface MapMarkerRow {
     Y: number;
     SubtextOrientation: number;
     Icon: number;
+    DataType: number;
+    Unknown0: number;
 }

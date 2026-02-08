@@ -192,6 +192,8 @@ public struct MapMarkerRow(MapMarker mapMarker)
     public short Y = mapMarker.Y;
     public byte SubtextOrientation = mapMarker.SubtextOrientation;
     public ushort Icon = mapMarker.Icon;
+    public byte DataType = mapMarker.DataType;
+    public byte Unknown0 = mapMarker.Unknown0;
     
     public static MapMarkerRow From(MapMarker mapMarker) => new(mapMarker);
 }
