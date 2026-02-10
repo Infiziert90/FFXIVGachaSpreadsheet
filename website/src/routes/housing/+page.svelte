@@ -324,6 +324,9 @@
             }
 
             if (mapMarkerSubRow.PlaceNameSubtext.RowId !== 0) {
+                // If mapMarkerSubRow.DataType is 1, then it's a link to another region - color it light blue
+                let textColor = mapMarkerSubRow.DataType === 1 ? '#9CD8DE' : 'white';
+
                 let text = mapMarkerSubRow.PlaceNameSubtext.Name.replace("\r\n", "\n");
                 let fontSize = 14;
                 let cssText = /*css*/`
@@ -331,9 +334,10 @@
                     width:fit-content;
                     text-wrap: nowrap;
                     font-family: var(--bs-body-font-family);
+                    color: ${textColor};
                     text-shadow: 0px 0px 2px black, 0px 0px 3px black, 0px 0px 4px black
-                `
-
+                `;
+                
                 let tmpElem = document.createElement('h6');
                 tmpElem.style.cssText = cssText + 'visibility:hidden;';
                 tmpElem.textContent = text;
