@@ -1,3 +1,8 @@
+/* Portalled MultiSelect dropdowns (e.g. in offcanvas) need to sit above Bootstrap offcanvas (z-index 1045) */
+body {
+    --sms-options-z-index: 1050;
+}
+
 .icon-small {
     zoom: 0.7;
 }

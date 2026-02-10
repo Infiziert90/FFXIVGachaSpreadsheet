@@ -8,7 +8,7 @@
         swapCoords
     } from "$lib/coordHelper";
     import {Vector3} from "$lib/math/vector3";
-    import StackedSidebar from "../../component/StackedSidebar.svelte";
+    import PageSidebar from "../../component/PageSidebar.svelte";
     import {getFormattedIconId, getIconPath} from "$lib/utils";
     import MultiSelect, {type Option} from "svelte-multiselect";
     import {
@@ -511,8 +511,8 @@
     <meta property="og:description" content={description} />
 </svelte:head>
 
-<StackedSidebar>
-    <div class="container p-0">
+<PageSidebar title="Housing filters" colClass="col-12 col-lg-2 order-0 order-lg-1 sticky-left-col">
+    <div class="d-flex flex-column gap-2 max-w-100 overflow-x-hidden">
         <MultiSelect
                 bind:value={selectedOption}
                 options={nameOptions}
@@ -522,6 +522,7 @@
                 onchange={optionChanged}
                 maxSelect={1}
                 required={true}
+                portal={{ active: true }}
         />
 
         <MultiSelect
@@ -533,6 +534,7 @@
                 onchange={serverOptionChanged}
                 maxSelect={1}
                 required={true}
+                portal={{ active: true }}
         />
 
         <MultiSelect
@@ -544,9 +546,10 @@
                 onchange={wardOptionChanged}
                 maxSelect={1}
                 required={true}
+                portal={{ active: true }}
         />
     </div>
-</StackedSidebar>
+</PageSidebar>
 <div class="col-12 col-lg-10 order-0 order-lg-2">
     <h1 class="text-center">Work in Progress, feedback and ideas welcome</h1>
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
