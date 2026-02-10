@@ -39,8 +39,6 @@ public static class Sheets
     private static readonly uint[] ReversedMaps;
     
     // Bnpc tracking
-    public static HashSet<uint> DisallowedBnpcBase = [3705];
-    public static HashSet<uint> DisallowedBnpcNames;
     public static HashSet<uint> RankedBnpcBase;
 
     static Sheets()
@@ -71,18 +69,6 @@ public static class Sheets
         MaxItemId = ItemSheet.MaxBy(i => i.RowId).RowId;
         
         ReversedMaps = ExplorationSheet.Where(s => s.StartingPoint).Select(s => s.RowId).Reverse().ToArray();
-        
-        var pets = PetSheet.Select(c => c.Name.ToString()).Where( c => c.Length > 0 ).ToArray();
-        var companions = CompanionSheet.Select(c => c.Singular.ToString()).Where( c => c.Length > 0 ).ToArray();
-
-        DisallowedBnpcNames = BNPCNameSheet.Where(c =>
-        {
-            var name = c.Singular.ToString();
-            if (name.Length == 0)
-                return false;
-
-            return pets.Contains(name) || companions.Contains(name);
-        }).Select(c => c.RowId).ToHashSet();
         
         RankedBnpcBase = NotoriousMonsterSheet.Where(n => n.Rank is 1 or 2 or 3).Select(n => n.RowId).ToHashSet();
     }

@@ -33,11 +33,8 @@ public class BnpcPairs : IDisposable
                 continue;
             
             CollectedData.ProcessedId = record.Id;
-
-            if (Sheets.DisallowedBnpcNames.Contains(record.NameId) || Sheets.DisallowedBnpcBase.Contains(record.BaseId))
-                continue;
             
-            if (DeduplicationSet.Count > 1_000_000)
+            if (DeduplicationSet.Count > 5_000_000)
             {
                 var last = DeduplicationSet.Last();
                 DeduplicationSet.Clear();

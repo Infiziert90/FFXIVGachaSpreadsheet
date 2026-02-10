@@ -41,7 +41,7 @@ public class Submarines : IDisposable
             
             CollectedData.ProcessedId = record.Id;
 
-            if (DeduplicationCache.Count > 1_000_000)
+            if (DeduplicationCache.Count > 5_000_000)
             {
                 var last = DeduplicationCache.Last();
                 DeduplicationCache.Clear();

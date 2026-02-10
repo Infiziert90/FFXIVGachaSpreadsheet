@@ -65,7 +65,7 @@ public sealed class BnpcPairMap : ClassMap<BnpcPairModel>
     public BnpcPairMap()
     {
         Map(m => m.Id).Name("id");
-        Map(m => m.Battalion).Name("enemy_type", "sector");
+        Map(m => m.Battalion).Name("enemy_type");
         Map(m => m.BaseId).Name("base");
         Map(m => m.NameId).Name("name");
         Map(m => m.TerritoryId).Name("territory");
@@ -77,6 +77,7 @@ public sealed class BnpcPairMap : ClassMap<BnpcPairModel>
         Map(m => m.Level).Name("level");
         Map(m => m.Hashed).Name("hash");
         
+        Map(m => m.Version).Name("version").Optional();
         Map(m => m.ObjectKind).Name("object_kind").Optional();
 
         Map(m => m.GetVersion).Ignore();
