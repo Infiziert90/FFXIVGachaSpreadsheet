@@ -1,4 +1,4 @@
-﻿<script lang="ts">
+<script lang="ts">
     import {onMount, tick} from "svelte";
     import {
         convertSheetToMapCoord,
@@ -208,6 +208,9 @@
                 position.updateHTML({X: lat, Y: lng});
             });
 
+            // Re-run text label visibility when the user zooms in/out
+            map.on('zoomend', updateTextMarkersVisibility);
+
             return () => {
                 map.remove();
                 map = null;
@@ -215,13 +218,34 @@
         });
     }
 
+    // Map markers keyed by RowId (housing), RowId+1e6 (icons), RowId+2e6 (text labels)
     let createdMarkersDict: Record<number, object> = {};
+    // Zoom level at which text labels become visible. dataType1 = link-to-region (light blue) labels.
+    const TEXT_MARKER_MIN_ZOOM = { default: 6.5, dataType1: 5 };
+    let textMarkersByMinZoom: { marker: object; minZoom: number }[] = [];
+
     function clearMarkers() {
         for (const marker of Object.values(createdMarkersDict)) {
             map.removeLayer(marker);
         }
-
         createdMarkersDict = {};
+        textMarkersByMinZoom = [];
+    }
+
+    /**
+     * Show or hide map text labels based on the current zoom level.
+     * - textMarkersByMinZoom holds every text label plus the zoom at which it should appear
+     *   (e.g. region-link labels use 5, normal labels use 6.5).
+     * - We read the current zoom from the map, then for each label set opacity to 1 (visible)
+     *   if zoom >= that label’s minZoom, otherwise 0 (hidden). Labels stay on the map;
+     *   we only toggle visibility so we don’t have to remove/add layers on zoom.
+     * Called on map "zoomend" and after createMarkers() so the initial zoom is applied.
+     */
+    function updateTextMarkersVisibility() {
+        if (!map) return;
+        const zoom = map.getZoom();
+        const setOpacity = (m: object, visible: boolean) => (m as { setOpacity: (n: number) => void }).setOpacity(visible ? 1 : 0);
+        textMarkersByMinZoom.forEach(({ marker, minZoom }) => setOpacity(marker, zoom >= minZoom));
     }
 
     function createMarkers(mapId: number) {
@@ -386,8 +410,15 @@
                 marker.bindPopup(`X: ${ingameCoords.X.toFixed(2)} Y: ${ingameCoords.Y.toFixed(2)}${mapMarkerSubRow.PlaceNameSubtext.Name !== '' ? `<br>Name: ${mapMarkerSubRow.PlaceNameSubtext.Name}` : ''}`);
 
                 createdMarkersDict[mapMarkerSubRow.RowId + 2_000_000] = marker;
+                // DataType 1 (region links) use lower minZoom so they stay visible when zoomed out.
+                textMarkersByMinZoom.push({
+                    marker,
+                    minZoom: mapMarkerSubRow.DataType === 1 ? TEXT_MARKER_MIN_ZOOM.dataType1 : TEXT_MARKER_MIN_ZOOM.default
+                });
             }
         }
+        // Apply current zoom so new labels are shown/hidden correctly right away
+        updateTextMarkersVisibility();
     }
 
     // Set default meta data
