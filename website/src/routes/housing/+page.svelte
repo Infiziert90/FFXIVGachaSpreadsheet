@@ -1,4 +1,4 @@
-﻿<script lang="ts">
+<script lang="ts">
     import {onMount, tick} from "svelte";
     import {
         convertSheetToMapCoord,
@@ -8,7 +8,7 @@
         swapCoords
     } from "$lib/coordHelper";
     import {Vector3} from "$lib/math/vector3";
-    import StackedSidebar from "../../component/StackedSidebar.svelte";
+    import PageSidebar from "../../component/PageSidebar.svelte";
     import {getFormattedIconId, getIconPath} from "$lib/utils";
     import MultiSelect, {type Option} from "svelte-multiselect";
     import {
@@ -208,6 +208,9 @@
                 position.updateHTML({X: lat, Y: lng});
             });
 
+            // Re-run text label visibility when the user zooms in/out
+            map.on('zoomend', updateTextMarkersVisibility);
+
             return () => {
                 map.remove();
                 map = null;
@@ -215,13 +218,34 @@
         });
     }
 
+    // Map markers keyed by RowId (housing), RowId+1e6 (icons), RowId+2e6 (text labels)
     let createdMarkersDict: Record<number, object> = {};
+    // Zoom level at which text labels become visible. dataType1 = link-to-region (light blue) labels.
+    const TEXT_MARKER_MIN_ZOOM = { default: 6.5, dataType1: 5 };
+    let textMarkersByMinZoom: { marker: object; minZoom: number }[] = [];
+
     function clearMarkers() {
         for (const marker of Object.values(createdMarkersDict)) {
             map.removeLayer(marker);
         }
-
         createdMarkersDict = {};
+        textMarkersByMinZoom = [];
+    }
+
+    /**
+     * Show or hide map text labels based on the current zoom level.
+     * - textMarkersByMinZoom holds every text label plus the zoom at which it should appear
+     *   (e.g. region-link labels use 5, normal labels use 6.5).
+     * - We read the current zoom from the map, then for each label set opacity to 1 (visible)
+     *   if zoom >= that label’s minZoom, otherwise 0 (hidden). Labels stay on the map;
+     *   we only toggle visibility so we don’t have to remove/add layers on zoom.
+     * Called on map "zoomend" and after createMarkers() so the initial zoom is applied.
+     */
+    function updateTextMarkersVisibility() {
+        if (!map) return;
+        const zoom = map.getZoom();
+        const setOpacity = (m: object, visible: boolean) => (m as { setOpacity: (n: number) => void }).setOpacity(visible ? 1 : 0);
+        textMarkersByMinZoom.forEach(({ marker, minZoom }) => setOpacity(marker, zoom >= minZoom));
     }
 
     function createMarkers(mapId: number) {
@@ -324,6 +348,9 @@
             }
 
             if (mapMarkerSubRow.PlaceNameSubtext.RowId !== 0) {
+                // If mapMarkerSubRow.DataType is 1, then it's a link to another region - color it light blue
+                let textColor = mapMarkerSubRow.DataType === 1 ? '#9CD8DE' : 'white';
+
                 let text = mapMarkerSubRow.PlaceNameSubtext.Name.replace("\r\n", "\n");
                 let fontSize = 14;
                 let cssText = /*css*/`
@@ -331,9 +358,10 @@
                     width:fit-content;
                     text-wrap: nowrap;
                     font-family: var(--bs-body-font-family);
+                    color: ${textColor};
                     text-shadow: 0px 0px 2px black, 0px 0px 3px black, 0px 0px 4px black
-                `
-
+                `;
+                
                 let tmpElem = document.createElement('h6');
                 tmpElem.style.cssText = cssText + 'visibility:hidden;';
                 tmpElem.textContent = text;
@@ -382,8 +410,15 @@
                 marker.bindPopup(`X: ${ingameCoords.X.toFixed(2)} Y: ${ingameCoords.Y.toFixed(2)}${mapMarkerSubRow.PlaceNameSubtext.Name !== '' ? `<br>Name: ${mapMarkerSubRow.PlaceNameSubtext.Name}` : ''}`);
 
                 createdMarkersDict[mapMarkerSubRow.RowId + 2_000_000] = marker;
+                // DataType 1 (region links) use lower minZoom so they stay visible when zoomed out.
+                textMarkersByMinZoom.push({
+                    marker,
+                    minZoom: mapMarkerSubRow.DataType === 1 ? TEXT_MARKER_MIN_ZOOM.dataType1 : TEXT_MARKER_MIN_ZOOM.default
+                });
             }
         }
+        // Apply current zoom so new labels are shown/hidden correctly right away
+        updateTextMarkersVisibility();
     }
 
     // Set default meta data
@@ -476,8 +511,8 @@
     <meta property="og:description" content={description} />
 </svelte:head>
 
-<StackedSidebar>
-    <div class="container p-0">
+<PageSidebar title="Housing filters" colClass="col-12 col-lg-2 order-0 order-lg-1 sticky-left-col">
+    <div class="d-flex flex-column gap-2 max-w-100 overflow-x-hidden">
         <MultiSelect
                 bind:value={selectedOption}
                 options={nameOptions}
@@ -487,6 +522,7 @@
                 onchange={optionChanged}
                 maxSelect={1}
                 required={true}
+                portal={{ active: true }}
         />
 
         <MultiSelect
@@ -498,6 +534,7 @@
                 onchange={serverOptionChanged}
                 maxSelect={1}
                 required={true}
+                portal={{ active: true }}
         />
 
         <MultiSelect
@@ -509,9 +546,10 @@
                 onchange={wardOptionChanged}
                 maxSelect={1}
                 required={true}
+                portal={{ active: true }}
         />
     </div>
-</StackedSidebar>
+</PageSidebar>
 <div class="col-12 col-lg-10 order-0 order-lg-2">
     <h1 class="text-center">Work in Progress, feedback and ideas welcome</h1>
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
