@@ -8,16 +8,17 @@
         swapCoords
     } from "$lib/coordHelper";
     import {Vector3} from "$lib/math/vector3";
-    import StackedSidebar from "../../component/StackedSidebar.svelte";
-    import {getFormattedIconId, getIconPath} from "$lib/utils";
+    import {getFormattedIconId, getIconPath, pad} from "$lib/utils";
     import MultiSelect, {type Option} from "svelte-multiselect";
     import {
         SimpleHousingLandSet,
         SimpleHousingMapMarker, SimpleMapMarker,
         SimpleMapSheet, SimpleWorld
     } from "$lib/sheets/simplifiedSheets";
-    import type {WorldDetail} from "$lib/paissa/paissaStruct";
+    import {PurchaseSystem, type WorldDetail} from "$lib/paissa/paissaStruct";
     import {RequestWorld} from "$lib/paissa/paissaRequest";
+    import PageSidebar from "../../component/PageSidebar.svelte";
+    import {getPurchaseType} from "$lib/paissa/paissaUtils";
 
     // html elements
     let tabContentElement: HTMLDivElement = $state() as HTMLDivElement;
@@ -67,7 +68,10 @@
 
     let worldData: WorldDetail | null = $state(null);
 
-    for (const mapId of Object.keys(housingWards)) {
+    for (const [mapId, mainDiv] of Object.entries(housingWards)) {
+        if (!mainDiv)
+            continue;
+
         let idx = nameOptions.length;
         nameOptions.push(SimpleMapSheet[parseInt(mapId)].PlaceNameSub.Name);
 
@@ -166,6 +170,9 @@
             position = new Position();
             map.addControl(position);
 
+            // Re-run text label visibility when the user zooms in/out
+            map.on('zoomend', updateTextMarkersVisibility);
+
             map.addEventListener('mousemove', (event) => {
                 let lat = Math.round(event.latlng.lat * 100000) / 100000;
                 let lng = Math.round(event.latlng.lng * 100000) / 100000;
@@ -179,7 +186,12 @@
         });
     }
 
+    // Map markers keyed by RowId (housing), RowId+1e6 (icons), RowId+2e6 (text labels)
     let createdMarkersDict: Record<number, object> = {};
+    // Zoom level at which text labels become visible. dataType1 = link-to-region (light blue) labels.
+    const TEXT_MARKER_MIN_ZOOM = { default: 6.5, dataType1: 5 };
+    let textMarkersByMinZoom: { marker: object; minZoom: number }[] = [];
+
     function clearMarkers() {
         for (const marker of Object.values(createdMarkersDict)) {
             map.removeLayer(marker);
@@ -188,121 +200,187 @@
         createdMarkersDict = {};
     }
 
+    interface OpenPlot {
+        Plot: number;
+        Ward: number;
+        Type: number;
+        Tenant: PurchaseSystem;
+        Bids: number | null;
+    }
+
     function createMarkers(mapId: number) {
         if (map === undefined)
             return;
 
+        const bidIconMarker = leaflet.icon({
+            iconUrl: getIconPath(getFormattedIconId(60758)),
+
+            iconSize:     [32, 32], // size of the icon
+            popupAnchor:  [0, -20] // point from which the popup should open relative to the iconAnchor
+        });
+
+        const redXMarker = leaflet.icon({
+            iconUrl: getIconPath(getFormattedIconId(61502)),
+
+            iconSize:     [32, 32], // size of the icon
+            popupAnchor:  [0, -20] // point from which the popup should open relative to the iconAnchor
+        });
+
         // Always clear markers before replacing them
         clearMarkers();
-
-        const smallHouseIconUrl = getIconPath(getFormattedIconId(60754));
-        const smallHouseIconMarker = leaflet.icon({
-            iconUrl: smallHouseIconUrl,
-
-            iconSize:     [24, 24], // size of the icon
-            popupAnchor:  [0, -48] // point from which the popup should open relative to the iconAnchor
-        });
-
-        const mediumHouseIconUrl = getIconPath(getFormattedIconId(60755));
-        const mediumHouseIconMarker = leaflet.icon({
-            iconUrl: mediumHouseIconUrl,
-
-            iconSize:     [28, 28], // size of the icon
-            popupAnchor:  [0, -48] // point from which the popup should open relative to the iconAnchor
-        });
-
-        const largeHouseIconUrl = getIconPath(getFormattedIconId(60756));
-        const largeHouseIconMarker = leaflet.icon({
-            iconUrl: largeHouseIconUrl,
-
-            iconSize:     [32, 32], // size of the icon
-            popupAnchor:  [0, -48] // point from which the popup should open relative to the iconAnchor
-        });
-
-        const bidIconUrl = getIconPath(getFormattedIconId(60758));
-        const bidIconMarker = leaflet.icon({
-            iconUrl: bidIconUrl,
-
-            iconSize:     [32, 32], // size of the icon
-            popupAnchor:  [0, -48] // point from which the popup should open relative to the iconAnchor
-        });
 
         let mapRow = SimpleMapSheet[mapId];
         let housingMapMarkerRow = SimpleHousingMapMarker[mapRow.Territory];
         for (const mapMarkerSubRow of Object.values(housingMapMarkerRow)) {
-            if (mapMarkerSubRow.RowId > 59)
-                continue;
-
-            // Main
-            if (housingWards[mapId]) {
-                if (mapMarkerSubRow.RowId > 29)
-                    continue;
-            } else { // SubRow
-                if (mapMarkerSubRow.RowId < 30)
-                    continue;
-            }
+            if (mapMarkerSubRow.RowId > 29)
+                continue
 
             let location = new Vector3(mapMarkerSubRow.X, mapMarkerSubRow.Y, mapMarkerSubRow.Z);
             let ingameCoords = convertToMapCoords(location, mapId);
             let coords = swapCoords(ingameCoords);
 
-            let openWards: number[] = [];
+            let openPlots: OpenPlot[] = [];
             for (const openBid of Object.values(worldData.districts[getDistrict(mapId)].open_plots)) {
-                if (openBid.plot_number === mapMarkerSubRow.RowId)
-                    openWards.push(openBid.ward_number);
+                if (openBid.plot_number === mapMarkerSubRow.RowId || openBid.plot_number === mapMarkerSubRow.RowId + 30)
+                    openPlots.push({Plot: openBid.plot_number, Ward: openBid.ward_number, Type: openBid.size, Tenant: openBid.purchase_system, Bids: openBid.lotto_entries});
             }
 
-            if (openWards.length === 0)
-                continue;
+            let marker;
+            if (openPlots.length !== 0) {
+                marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: bidIconMarker}).addTo(map);
 
-            let marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: bidIconMarker}).addTo(map);
-            marker.bindPopup(`Wards: ${openWards.map(w => w + 1).join(', ')}`);
+                let houseSet = SimpleHousingLandSet[getDistrict(mapId)].Sets[mapMarkerSubRow.RowId];
+                let size = houseSet.PlotSize === 0
+                    ? 'Small' : houseSet.PlotSize === 1
+                        ? 'Medium' : 'Large';
+
+
+                let text = `${size} ${houseSet.InitialPrice.toLocaleString()}<br><br>
+                             <table class="table table-light">
+                             <thead>
+                              <tr>
+                                <th>Tenant</th>
+                                <th>Ward</th>
+                                <th>Plot</th>
+                                <th>Bids</th>
+                              </tr>
+                            </thead>
+                            <tbody>`;
+                for (const plot of openPlots) {
+                    // text += `[${getPurchaseType(plot.Tenant)}]&nbsp;&nbsp;Ward: ${pad(plot.Ward + 1, 2)} Plot: ${pad(plot.Plot + 1, 2)} Bids: ${plot.Bids ?? 'Missing Data'}<br>`
+                    text += `
+                              <tr>
+                                <td class="py-0">${getPurchaseType(plot.Tenant)}</td>
+                                <td class="py-0">${pad(plot.Ward + 1, 2)}</td>
+                                <td class="py-0">${pad(plot.Plot + 1, 2)}</td>
+                                <td class="py-0">${plot.Bids ?? 'Missing Data'}</td>
+                              </tr>`
+                }
+                text += `</tbody></table>`;
+
+                marker.bindPopup(text);
+            }
+            else {
+                marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: redXMarker}).addTo(map);
+                marker.bindPopup(`No Plot Available`);
+            }
 
             createdMarkersDict[mapMarkerSubRow.RowId] = marker;
         }
 
-        // let mapMarkerRow = SimpleMapMarker[mapRow.MapMarkerRange];
-        // for (const mapMarkerSubRow of Object.values(mapMarkerRow)) {
-        //     let ingameCoords = convertSheetToMapCoord(mapMarkerSubRow, mapRow.SizeFactor);
-        //     let coords = swapCoords(ingameCoords);
-        //
-        //     if (mapMarkerSubRow.Icon !== 0) {
-        //         let iconUrl = getIconPath(getFormattedIconId(mapMarkerSubRow.Icon));
-        //         let iconMarker = leaflet.icon({
-        //             iconUrl: iconUrl,
-        //
-        //             iconSize:     [32, 32], // size of the icon
-        //             popupAnchor:  [0, -48] // point from which the popup should open relative to the iconAnchor
-        //         });
-        //
-        //         let marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: iconMarker}).addTo(map);
-        //         marker.bindPopup(`X: ${ingameCoords.X.toFixed(2)} Y: ${ingameCoords.Y.toFixed(2)}<br>Name: ${mapMarkerSubRow.PlaceNameSubtext.Name}`);
-        //
-        //         createdMarkersDict[mapMarkerSubRow.RowId + 1_000_000] = marker;
-        //     }
-        //
-        //     // if (mapMarkerSubRow.PlaceNameSubtext.RowId !== 0) {
-        //     //     let text = mapMarkerSubRow.PlaceNameSubtext.Name.replace("\r\n", "\n");
-        //     //     // var attachmentPoint = mapMarker.SubtextOrientation switch
-        //     //     // {
-        //     //     //     2 => new Vector2(x + fontSize, y - textHeight / 2),
-        //     //     //         4 => new Vector2(x - textWidth / 2, y - textHeight ),
-        //     //     //         3 => new Vector2(x - textWidth / 2, y + textHeight / 2),
-        //     //     //         1 => new Vector2(x - textWidth + fontSize, y - textHeight  / 2),
-        //     //     //         _ => new Vector2(x - textWidth / 2, y - textHeight / 2)
-        //     //     // }
-        //     //
-        //     //     let divIcon = leaflet.divIcon({
-        //     //         html: `<h6 style="text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black; width:300px;">${text}</h6>`,
-        //     //         className: 'transparent-divIcon'
-        //     //     })
-        //     //
-        //     //     let marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: divIcon}).addTo(map);
-        //     //     marker.bindPopup(`X: ${ingameCoords.X.toFixed(2)} Y: ${ingameCoords.Y.toFixed(2)}<br>Name: ${mapMarkerSubRow.PlaceNameSubtext.Name}`);
-        //     //
-        //     //     createdMarkersDict[mapMarkerSubRow.RowId + 2_000_000] = marker;
-        //     // }
-        // }
+        let mapMarkerRow = SimpleMapMarker[mapRow.MapMarkerRange];
+        for (const mapMarkerSubRow of Object.values(mapMarkerRow)) {
+            let ingameCoords = convertSheetToMapCoord(mapMarkerSubRow, mapRow.SizeFactor);
+            let coords = swapCoords(ingameCoords);
+
+            if (mapMarkerSubRow.Icon !== 0) {
+                let iconUrl = getIconPath(getFormattedIconId(mapMarkerSubRow.Icon));
+                let iconMarker = leaflet.icon({
+                    iconUrl: iconUrl,
+
+                    iconSize:     [32, 32], // size of the icon
+                    popupAnchor:  [0, -48] // point from which the popup should open relative to the iconAnchor
+                });
+
+                let marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: iconMarker}).addTo(map);
+                marker.bindPopup(`X: ${ingameCoords.X.toFixed(2)} Y: ${ingameCoords.Y.toFixed(2)}<br>Name: ${mapMarkerSubRow.PlaceNameSubtext.Name}`);
+
+                createdMarkersDict[mapMarkerSubRow.RowId + 1_000_000] = marker;
+            }
+
+            if (mapMarkerSubRow.PlaceNameSubtext.RowId !== 0) {
+                // If mapMarkerSubRow.DataType is 1, then it's a link to another region - color it light blue
+                let textColor = mapMarkerSubRow.DataType === 1 ? '#9CD8DE' : 'white';
+
+                let text = mapMarkerSubRow.PlaceNameSubtext.Name.replace("\r\n", "\n");
+                let fontSize = 14;
+                let cssText = /*css*/`
+                    font-size: ${fontSize}px;
+                    width:fit-content;
+                    text-wrap: nowrap;
+                    font-family: var(--bs-body-font-family);
+                    color: ${textColor};
+                    text-shadow: 0px 0px 2px black, 0px 0px 3px black, 0px 0px 4px black
+                `;
+
+                let tmpElem = document.createElement('h6');
+                tmpElem.style.cssText = cssText + 'visibility:hidden;';
+                tmpElem.textContent = text;
+                document.body.appendChild(tmpElem);
+
+                let height = tmpElem.offsetHeight;
+                let width = tmpElem.offsetWidth;
+
+                document.body.removeChild(tmpElem);
+
+                let anchorX, anchorY;
+
+                switch (mapMarkerSubRow.SubtextOrientation) {
+                    case 2: // right of point
+                        anchorX = mapMarkerSubRow.Icon !== 0 ? -(fontSize*1.5) : 0;
+                        // if icon is present, offset the text to the right to avoid it being on top of the point
+                        anchorY = height / 2;
+                        break;
+                    case 4: // above point
+                        anchorX = width / 2;
+                        anchorY = height * 2; // Text is always slightly above the point, further away from the point
+                        break;
+                    case 3: // below point
+                        anchorX = width / 2;
+                        anchorY = -height / 2;
+                        break;
+                    case 1: // left of point
+                        anchorX = mapMarkerSubRow.Icon !== 0 ? width + (fontSize*1.5) : width;
+                        // if icon is present, offset the text to the left to avoid it being on top of the point
+                        anchorY = height / 2;
+                        break;
+                    default: // centered
+                        anchorX = width / 2;
+                        anchorY = height / 2;
+                        break;
+                }
+
+                let divIcon = leaflet.divIcon({
+                    html: `<h6 style="${cssText}">${text}</h6>`,
+                    className: 'transparent-divIcon',
+                    iconSize: [width, height],
+                    iconAnchor: [anchorX, anchorY]
+                })
+
+                let marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: divIcon}).addTo(map);
+                marker.bindPopup(`X: ${ingameCoords.X.toFixed(2)} Y: ${ingameCoords.Y.toFixed(2)}${mapMarkerSubRow.PlaceNameSubtext.Name !== '' ? `<br>Name: ${mapMarkerSubRow.PlaceNameSubtext.Name}` : ''}`);
+
+                createdMarkersDict[mapMarkerSubRow.RowId + 2_000_000] = marker;
+                // DataType 1 (region links) use lower minZoom so they stay visible when zoomed out.
+                textMarkersByMinZoom.push({
+                    marker,
+                    minZoom: mapMarkerSubRow.DataType === 1 ? TEXT_MARKER_MIN_ZOOM.dataType1 : TEXT_MARKER_MIN_ZOOM.default
+                });
+            }
+        }
+
+        // Apply current zoom so new labels are shown/hidden correctly right away
+        updateTextMarkersVisibility();
     }
 
     // Set default meta data
@@ -366,6 +444,22 @@
 
         return district
     }
+
+    /**
+     * Show or hide map text labels based on the current zoom level.
+     * - textMarkersByMinZoom holds every text label plus the zoom at which it should appear
+     *   (e.g. region-link labels use 5, normal labels use 6.5).
+     * - We read the current zoom from the map, then for each label set opacity to 1 (visible)
+     *   if zoom >= that label’s minZoom, otherwise 0 (hidden). Labels stay on the map;
+     *   we only toggle visibility so we don’t have to remove/add layers on zoom.
+     * Called on map "zoomend" and after createMarkers() so the initial zoom is applied.
+     */
+    function updateTextMarkersVisibility() {
+        if (!map) return;
+        const zoom = map.getZoom();
+        const setOpacity = (m: object, visible: boolean) => (m as { setOpacity: (n: number) => void }).setOpacity(visible ? 1 : 0);
+        textMarkersByMinZoom.forEach(({ marker, minZoom }) => setOpacity(marker, zoom >= minZoom));
+    }
 </script>
 <svelte:window on:resize={resizeMap} />
 
@@ -378,8 +472,8 @@
     <meta property="og:description" content={description} />
 </svelte:head>
 
-<StackedSidebar>
-    <div class="container p-0">
+<PageSidebar title="Housing filters" colClass="col-12 col-lg-2 order-0 order-lg-1 sticky-left-col">
+    <div class="d-flex flex-column gap-2 max-w-100 overflow-x-hidden">
         <MultiSelect
                 bind:value={selectedOption}
                 options={nameOptions}
@@ -389,6 +483,7 @@
                 onchange={optionChanged}
                 maxSelect={1}
                 required={true}
+                portal={{ active: true }}
         />
 
         <MultiSelect
@@ -400,9 +495,10 @@
                 onchange={serverOptionChanged}
                 maxSelect={1}
                 required={true}
+                portal={{ active: true }}
         />
     </div>
-</StackedSidebar>
+</PageSidebar>
 <div class="col-12 col-lg-10 order-0 order-lg-2">
     <h1 class="text-center">Work in Progress, feedback and ideas welcome</h1>
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>

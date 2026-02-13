@@ -9,15 +9,16 @@
     } from "$lib/coordHelper";
     import {Vector3} from "$lib/math/vector3";
     import PageSidebar from "../../component/PageSidebar.svelte";
-    import {getFormattedIconId, getIconPath} from "$lib/utils";
+    import {getFormattedIconId, getIconPath, pad} from "$lib/utils";
     import MultiSelect, {type Option} from "svelte-multiselect";
     import {
         SimpleHousingLandSet,
         SimpleHousingMapMarker, SimpleMapMarker,
         SimpleMapSheet, SimpleWorld
     } from "$lib/sheets/simplifiedSheets";
-    import type {WorldDetail} from "$lib/paissa/paissaStruct";
+    import {PurchaseSystem, type WorldDetail} from "$lib/paissa/paissaStruct";
     import {RequestWorld} from "$lib/paissa/paissaRequest";
+    import {getPurchaseType} from "$lib/paissa/paissaUtils";
 
     // html elements
     let tabContentElement: HTMLDivElement = $state() as HTMLDivElement;
@@ -248,6 +249,14 @@
         textMarkersByMinZoom.forEach(({ marker, minZoom }) => setOpacity(marker, zoom >= minZoom));
     }
 
+    interface OpenPlot {
+        Plot: number;
+        Ward: number;
+        Type: number;
+        Tenant: PurchaseSystem;
+        Bids: number | null;
+    }
+
     function createMarkers(mapId: number) {
         if (map === undefined)
             return;
@@ -260,7 +269,7 @@
             iconUrl: smallHouseIconUrl,
 
             iconSize:     [24, 24], // size of the icon
-            popupAnchor:  [0, -48] // point from which the popup should open relative to the iconAnchor
+            popupAnchor:  [0, -20] // point from which the popup should open relative to the iconAnchor
         });
 
         const mediumHouseIconUrl = getIconPath(getFormattedIconId(60755));
@@ -268,7 +277,7 @@
             iconUrl: mediumHouseIconUrl,
 
             iconSize:     [28, 28], // size of the icon
-            popupAnchor:  [0, -48] // point from which the popup should open relative to the iconAnchor
+            popupAnchor:  [0, -20] // point from which the popup should open relative to the iconAnchor
         });
 
         const largeHouseIconUrl = getIconPath(getFormattedIconId(60756));
@@ -276,7 +285,7 @@
             iconUrl: largeHouseIconUrl,
 
             iconSize:     [32, 32], // size of the icon
-            popupAnchor:  [0, -48] // point from which the popup should open relative to the iconAnchor
+            popupAnchor:  [0, -20] // point from which the popup should open relative to the iconAnchor
         });
 
         const bidIconUrl = getIconPath(getFormattedIconId(60758));
@@ -284,7 +293,7 @@
             iconUrl: bidIconUrl,
 
             iconSize:     [32, 32], // size of the icon
-            popupAnchor:  [0, -48] // point from which the popup should open relative to the iconAnchor
+            popupAnchor:  [0, -20] // point from which the popup should open relative to the iconAnchor
         });
 
         let mapRow = SimpleMapSheet[mapId];
@@ -308,12 +317,16 @@
 
             let houseType = SimpleHousingLandSet[getDistrict(mapId)].Sets[mapMarkerSubRow.RowId].PlotSize;
             let hasBid = false;
+            let plotInfo: OpenPlot;
             for (const openBid of Object.values(worldData.districts[getDistrict(mapId)].open_plots)) {
                 if (openBid.ward_number !== selectWardId)
                     continue;
 
                 if (openBid.plot_number === mapMarkerSubRow.RowId)
+                {
                     hasBid = true;
+                    plotInfo = {Plot: openBid.plot_number, Ward: openBid.ward_number, Type: openBid.size, Tenant: openBid.purchase_system, Bids: openBid.lotto_entries}
+                }
             }
 
             let iconUsed = hasBid
@@ -322,9 +335,35 @@
                         ? mediumHouseIconMarker : largeHouseIconMarker;
 
             let marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: iconUsed}).addTo(map);
-            marker.bindPopup(`X: ${ingameCoords.X.toFixed(2)} Y: ${ingameCoords.Y.toFixed(2)}`);
+            let houseSet = SimpleHousingLandSet[getDistrict(mapId)].Sets[mapMarkerSubRow.RowId];
+            let size = houseSet.PlotSize === 0
+                ? 'Small' : houseSet.PlotSize === 1
+                    ? 'Medium' : 'Large';
 
-            createdMarkersDict[mapMarkerSubRow.RowId] = marker;
+            if (hasBid) {
+                let text = `${size} ${houseSet.InitialPrice.toLocaleString()}<br><br>
+                        <table class="table table-light">
+                            <thead>
+                              <tr>
+                                <th>Tenant</th>
+                                <th>Ward</th>
+                                <th>Plot</th>
+                                <th>Bids</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-0">${getPurchaseType(plotInfo.Tenant)}</td>
+                                    <td class="py-0">${pad(plotInfo.Ward + 1, 2)}</td>
+                                    <td class="py-0">${pad(plotInfo.Plot + 1, 2)}</td>
+                                    <td class="py-0">${plotInfo.Bids ?? 'Missing Data'}</td>
+                                  </tr>
+                            </tbody>
+                        </table>`;
+                marker.bindPopup(text);
+
+                createdMarkersDict[mapMarkerSubRow.RowId] = marker;
+            }
         }
 
         let mapMarkerRow = SimpleMapMarker[mapRow.MapMarkerRange];

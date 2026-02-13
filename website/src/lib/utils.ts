@@ -94,8 +94,16 @@ export function getFormattedIconId(iconId: number): string {
     return `${pad(iconGroup, 6)}/${pad(iconId, 6)}`;
 }
 
-function pad(num: number, size: number): string {
+/**
+ * Pads a number with leading zeros to a specific size.
+ * @param num - The number to pad
+ * @param size - The size to pad to
+ * @returns The padded number as a string
+ */
+export function pad(num: number, size: number): string {
     let numStr: string = num.toString();
-    while (numStr.length < size) numStr = "0" + numStr;
+    while (numStr.length < size)
+        numStr = "0" + numStr;
+
     return numStr;
 }
