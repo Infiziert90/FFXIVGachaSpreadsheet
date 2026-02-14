@@ -4,11 +4,11 @@
     import MapSearchbar from "../../component/MapSearchbar.svelte";
     import {convertSizeFactorToMapMaxCoord, convertToMapCoords, type SimpleCoords, swapCoords} from "$lib/coordHelper";
     import {Vector3} from "$lib/math/vector3";
-    import StackedSidebar from "../../component/StackedSidebar.svelte";
     import {getFormattedIconId, getIconPath} from "$lib/utils";
     import MultiSelect, {type Option} from "svelte-multiselect";
     import {SimpleBNpcNameSheet, SimpleMapSheet} from "$lib/sheets/simplifiedSheets";
     import {SimpleTerritorySheet} from "$lib/sheets/simplifiedSheets.ts";
+    import PageSidebar from "../../component/PageSidebar.svelte";
 
     interface Props {
         content: BnpcPairing;
@@ -276,8 +276,8 @@
     <meta property="og:description" content={description} />
 </svelte:head>
 
-<StackedSidebar>
-    <div class="container p-0">
+<PageSidebar title="Housing filters" colClass="col-12 col-lg-2 order-0 order-lg-1 sticky-left-col">
+    <div class="d-flex flex-column gap-2 max-w-100 overflow-x-hidden">
         <h6>Map Selection:</h6>
         {#if selectedLocation.Map !== 0}
             <h6>{getMapName(selectedLocation.Map)}</h6>
@@ -303,7 +303,7 @@
             />
         {/if}
     </div>
-</StackedSidebar>
+</PageSidebar>
 <div class="col-12 col-lg-10 order-0 order-lg-2">
     <h1 class="text-center">Work in Progress, feedback and ideas welcome</h1>
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
