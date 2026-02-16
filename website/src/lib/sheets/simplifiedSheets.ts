@@ -17,7 +17,7 @@ export const SimpleTerritorySheet: Record<number, TerritoryRow> = {};
 export const SimpleSubMapSheet: Record<number, SubMapRow> = {};
 export const SimpleSubExplorationSheet: Record<number, SubExplorationRow> = {};
 
-export const SimpleBNpcNameSheet: Record<number, string> = {};
+export const SimpleBNpcNameSheet: Record<number, Record<string, string>> = {};
 
 export const SimpleMapMarker: Record<number, Record<number, MapMarkerRow>> = {};
 export const SimpleHousingLandSet: Record<number, HousingLandSetRow> = {};
@@ -92,9 +92,9 @@ export async function LoadBNpcNameSheet(fetch: Fetch) {
 
     return await fetch('/sheets/bNpcNames.json', { method: 'GET' })
         .then(responseHandler)
-        .then((data: Record<number, string>) => {
-            for (const [id, name] of Object.entries(data))
-                SimpleBNpcNameSheet[parseInt(id)] = name;
+        .then((data: Record<number, Record<string, string>>) => {
+            for (const [id, names] of Object.entries(data))
+                SimpleBNpcNameSheet[parseInt(id)] = names;
         })
         .catch((err) => {
             logAndThrow('Error loading bNpc name data.', err);

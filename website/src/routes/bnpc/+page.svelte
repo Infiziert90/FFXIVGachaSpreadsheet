@@ -70,7 +70,7 @@
 
             // Some names are duplicates and need to be sorted into the same Id
             let name = pairing.Name;
-            let evaluatedName = SimpleBNpcNameSheet[name];
+            let evaluatedName = SimpleBNpcNameSheet[name]['En'];
             if (evaluatedName in deduplicateNames) {
                 name = deduplicateNames[evaluatedName];
             } else {
@@ -89,7 +89,7 @@
         optionsToId = {};
         for (const name of Object.keys(names)) {
             let idx = nameOptions.length;
-            nameOptions.push(SimpleBNpcNameSheet[name] ?? 'Unknown');
+            nameOptions.push(SimpleBNpcNameSheet[name]['En'] ?? 'Unknown');
 
             optionsToId[idx] = parseInt(name);
         }
@@ -189,17 +189,14 @@
                     const iconUrl = getIconPath(getFormattedIconId(93047));
                     const iconMarker = leaflet.icon({
                         iconUrl: iconUrl,
-                        shadowUrl: iconUrl,
 
-                        iconSize:     [64, 64], // size of the icon
-                        shadowSize:   [0, 0], // size of the shadow
-                        iconAnchor:   [32, 32], // point of the icon which will correspond to marker's location
-                        shadowAnchor: [0, 0],  // the same for the shadow
-                        popupAnchor:  [0, -48] // point from which the popup should open relative to the iconAnchor
+                        iconSize:     [48, 48], // size of the icon
+                        iconAnchor:   [24, 24], // point of the icon which will correspond to marker's location
+                        popupAnchor:  [0, -20] // point from which the popup should open relative to the iconAnchor
                     });
 
                     let marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: iconMarker}).addTo(map);
-                    marker.bindPopup(`${SimpleBNpcNameSheet[pairs[idx].Name]}<br>Level: ${location.Level}<br>${ingameCoords.X.toFixed(2)} ${ingameCoords.Y.toFixed(2)}`);
+                    marker.bindPopup(`${SimpleBNpcNameSheet[pairs[idx].Name]['En']}<br>Level: ${location.Level}<br>${ingameCoords.X.toFixed(2)} ${ingameCoords.Y.toFixed(2)}`);
 
                     if (!(selectedMonster in createdMarkersDict))
                         createdMarkersDict[selectedMonster] = [marker]
@@ -300,6 +297,7 @@
                     ulOptionsStyle="background-color: var(--bs-body-bg);"
                     onchange={nameOptionChanged}
                     placeholder="Select a monster"
+                    portal={{ active: true }}
             />
         {/if}
     </div>
