@@ -55,5 +55,6 @@ public sealed class EurekaBunnyMap : ClassMap<EurekaBunnyModel>
         Map(m => m.Territory).Index(0).Name("Territory");
         Map(m => m.Coffer).Index(1).Name("Coffer");
         Map(m => m.Items).Index(2).Name("Items").Convert(l => $"[{string.Join(",", l.Value.Items)}]");
+        Map(m => m.Version).Name("version").Optional();
     }
 }
