@@ -47,7 +47,7 @@ public class SimplifiedSheets
         ExportHandler.WriteSheetJson("housingMapMarker.json", SimpleHousingMapMarker);
         
         ExportHandler.WriteSheetJson("world.json", SimpleWorld);
-        ExportHandler.WriteSheetJson("WorldDCGroup.json", SimpleWorldDcGroup);
+        ExportHandler.WriteSheetJson("worldDCGroup.json", SimpleWorldDcGroup);
     }
 }
 
@@ -190,10 +190,9 @@ public struct MapMarkerRow(MapMarker mapMarker)
     public PlaceRow PlaceNameSubtext = new(mapMarker.PlaceNameSubtext.Value);
     public short X = mapMarker.X;
     public short Y = mapMarker.Y;
-    public byte SubtextOrientation = mapMarker.SubtextOrientation;
     public ushort Icon = mapMarker.Icon;
+    public byte SubtextOrientation = mapMarker.SubtextOrientation;
     public byte DataType = mapMarker.DataType;
-    public byte Unknown0 = mapMarker.Unknown0;
     
     public static MapMarkerRow From(MapMarker mapMarker) => new(mapMarker);
 }

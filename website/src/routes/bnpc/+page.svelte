@@ -181,9 +181,7 @@
         for (const idx of indexes) {
             for (const [_, location] of Object.entries(pairs[idx].Locations).filter(([_, l]) => l.Territory === selectedLocation.Territory && l.Map === selectedLocation.Map)) {
                 for (const worldPos of Object.values(location.Positions)) {
-                    console.log(`World: `, worldPos);
                     let ingameCoords = convertToMapCoords(new Vector3(worldPos.X, worldPos.Y, worldPos.Z), location.Map);
-                    console.log(`Coords: `, ingameCoords);
                     let coords = swapCoords(ingameCoords);
 
                     const iconUrl = getIconPath(getFormattedIconId(93047));

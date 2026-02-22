@@ -38,16 +38,25 @@
 
     <h3 id="content">Content</h3>
     <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
-        <CardLink cardTitle={'Random Coffers'} cardIcon={'061000/061812'} cardLink={'coffer/'} />
-        <CardLink cardTitle={'Lockboxes'} cardIcon={'061000/061808'} cardLink={'lockbox/'} />
-        <CardLink cardTitle={'Card Packs'} cardIcon={'061000/061820'} cardLink={'card/'} />
-        <CardLink cardTitle={'Ventures'} cardIcon={'061000/061818'} cardLink={'venture/'} />
-        <CardLink cardTitle={'Eureka Bunnies'} cardIcon={'061000/061833'} cardLink={'bunny/'} />
-        <CardLink cardTitle={'Deep Dungeons'} cardIcon={'061000/061824'} cardLink={'deep/'} />
-        <CardLink cardTitle={'Desynthesis'} cardIcon={'000000/000120'} cardLink={'desynth/'} />
-        <CardLink cardTitle={'Loot'} cardIcon={'061000/061801'} cardLink={'loot/'} />
-        <CardLink cardTitle={'Occult'} cardIcon={'061000/061851'} cardLink={'occult/'} />
-        <CardLink cardTitle={'Submarine Loot'} cardIcon={'063000/063191'} cardLink={'submarine/'} />
-        <CardLink cardTitle={'Logograms and Fragments'} cardIcon={'061000/061837'} cardLink={'logofrag/'} />
+        <CardLink cardTitle={'Random Coffers'} cardIcon={61812} cardLink={'coffer/'} />
+        <CardLink cardTitle={'Lockboxes'} cardIcon={61808} cardLink={'lockbox/'} />
+        <CardLink cardTitle={'Card Packs'} cardIcon={61820} cardLink={'card/'} />
+        <CardLink cardTitle={'Ventures'} cardIcon={61818} cardLink={'venture/'} />
+        <CardLink cardTitle={'Eureka Bunnies'} cardIcon={61833} cardLink={'bunny/'} />
+        <CardLink cardTitle={'Deep Dungeons'} cardIcon={61824} cardLink={'deep/'} />
+        <CardLink cardTitle={'Desynthesis'} cardIcon={120} cardLink={'desynth/'} />
+        <CardLink cardTitle={'Loot'} cardIcon={61801} cardLink={'loot/'} />
+        <CardLink cardTitle={'Occult'} cardIcon={61851} cardLink={'occult/'} />
+        <CardLink cardTitle={'Logograms and Fragments'} cardIcon={61837} cardLink={'logofrag/'} />
+    </div>
+    <h3 id="content">Submarines</h3>
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
+        <CardLink cardTitle={'Submarine Loot'} cardIcon={63191} cardLink={'submarine/'} />
+    </div>
+    <h3 id="content">Maps</h3>
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
+        <CardLink cardTitle={'Monster Locations'} cardIcon={61837} cardLink={'bnpc/'} />
+        <CardLink cardTitle={'Housing Info'} cardIcon={60756} cardLink={'housing/'} />
+        <CardLink cardTitle={'Open Plots'} cardIcon={60758} cardLink={'housingOpen/'} />
     </div>
 </div>

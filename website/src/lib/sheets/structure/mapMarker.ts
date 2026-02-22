@@ -6,8 +6,7 @@ export interface MapMarkerRow {
     PlaceNameSubtext: PlaceRow;
     X: number;
     Y: number;
-    SubtextOrientation: number;
     Icon: number;
+    SubtextOrientation: number;
     DataType: number;
-    Unknown0: number;
 }

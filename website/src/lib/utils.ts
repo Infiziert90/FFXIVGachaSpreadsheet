@@ -89,6 +89,11 @@ export function getIconPath(iconId: number | string, hq: boolean = true): string
     return `https://v2.xivapi.com/api/asset?path=ui/icon/${iconId}${suffix}.tex&format=png`;
 }
 
+/**
+ * Returns a valid formatting for icon Ids.
+ * @param iconId - The icon id to format
+ * @returns The formatted number
+ */
 export function getFormattedIconId(iconId: number): string {
     let iconGroup = iconId - (iconId % 1000);
     return `${pad(iconGroup, 6)}/${pad(iconId, 6)}`;

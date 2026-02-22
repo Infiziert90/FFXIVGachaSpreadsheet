@@ -165,7 +165,7 @@ export async function LoadWorldDCGroupSheet(fetch: Fetch) {
     if (Object.keys(SimpleWorldDCGroup).length > 0)
         return;
 
-    return await fetch('/sheets/WorldDCGroup.json', { method: 'GET' })
+    return await fetch('/sheets/worldDCGroup.json', { method: 'GET' })
         .then(responseHandler)
         .then((data: Record<number, WorldDCGroupRow>) => {
             for (const row of Object.values(data))
