@@ -1,38 +1,36 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
+    import {onMount, tick} from 'svelte';
     import { page } from '$app/state';
     import { Button, ButtonGroup, ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
-    import type { DesynthBase } from "$lib/interfaces";
+    import type {DesynthesisBase} from "$lib/interfaces";
     import { Mappings } from "$lib/mappings";
     import { getIconPath } from '$lib/utils';
+    import {tryGetDesynthSearchParams} from "$lib/searchParamHelper";
 
     interface Props {
-        desynthBase: DesynthBase;
+        desynthesisBase: DesynthesisBase;
         selectedId: number;
-        onButtonClick: (id: number, usedData: Record<number, any>, statsType: string, addQuery: boolean) => void;
+        onButtonClick: (id: number, statsType: string, addQuery: boolean) => Promise<void>;
         tabElements: { [key: string]: HTMLButtonElement };
     }
 
-    let { desynthBase, selectedId, onButtonClick, tabElements }: Props = $props();
+    let { desynthesisBase, selectedId, onButtonClick, tabElements }: Props = $props();
 
     // Search state
     let searchType = $state<'sources' | 'rewards'>('sources');
     let searchQuery = $state('');
 
     // Convert Sources and Rewards records to arrays for iteration
-    const allSourcesArray = $derived(Object.entries(desynthBase.Sources).map(([id, data]) => ({
-        id: parseInt(id),
-        history: data
+    const allSourcesArray = $derived(Object.values(desynthesisBase.Sources).map((id) => ({
+        id: id
     })).sort((a, b) => Mappings[a.id].Name.localeCompare(Mappings[b.id].Name)));
 
-    const allRewardsArray = $derived(Object.entries(desynthBase.Rewards).map(([id, data]) => ({
-        id: parseInt(id),
-        history: data
+    const allRewardsArray = $derived(Object.values(desynthesisBase.Rewards).map((id) => ({
+        id: id,
     })).sort((a, b) => Mappings[a.id].Name.localeCompare(Mappings[b.id].Name)));
 
     // Get the current array based on search type
     const currentArray = $derived(searchType === 'sources' ? allSourcesArray : allRewardsArray);
-    const currentData = $derived(searchType === 'sources' ? desynthBase.Sources : desynthBase.Rewards);
     const currentStatsType = $derived(searchType === 'sources' ? 'Desynths' : 'Received');
 
     // Intelligent filtering function
@@ -82,6 +80,7 @@
     );
 
     // Auto-select if there's only one item in search results
+    let preventClicksUntilAfterMount = true;
     let lastAutoSelectedId = $state<number | null>(null);
     $effect(() => {
         if (filteredArray.length === 1 && searchQuery.trim() !== '') {
@@ -89,7 +88,13 @@
             // Only auto-select if it's not already selected and we haven't auto-selected it already
             if (selectedId !== singleItem.id && lastAutoSelectedId !== singleItem.id) {
                 lastAutoSelectedId = singleItem.id;
-                onButtonClick(singleItem.id, currentData, currentStatsType, true);
+
+                if (preventClicksUntilAfterMount) {
+                    return;
+                }
+
+
+                onButtonClick(singleItem.id, currentStatsType, true).then();
             }
         } else if (filteredArray.length !== 1) {
             // Reset tracking when there's not exactly one result
@@ -99,19 +104,26 @@
 
     // Load from URL on mount
     onMount(() => {
-        if (page.url.searchParams.has('source')) {
-            const sourceId = parseInt(page.url.searchParams.get('source')!);
-            if (Mappings[sourceId]) {
-                searchType = 'sources';
-                searchQuery = Mappings[sourceId].Name;
+        // Override defaults with URL parameters if they exist
+        let desynthSearchParams = tryGetDesynthSearchParams(page.url.searchParams);
+        if (desynthSearchParams !== undefined) {
+            if (desynthSearchParams.sourceId > 0) {
+                if (Mappings[desynthSearchParams.sourceId]) {
+                    searchType = 'sources';
+                    searchQuery = Mappings[desynthSearchParams.sourceId].Name;
+                }
             }
-        } else if (page.url.searchParams.has('reward')) {
-            const rewardId = parseInt(page.url.searchParams.get('reward')!);
-            if (Mappings[rewardId]) {
-                searchType = 'rewards';
-                searchQuery = Mappings[rewardId].Name;
+            else if (desynthSearchParams.rewardId > 0) {
+                if (Mappings[desynthSearchParams.rewardId]) {
+                    searchType = 'rewards';
+                    searchQuery = Mappings[desynthSearchParams.rewardId].Name;
+                }
             }
         }
+
+        tick().then(() => {
+            preventClicksUntilAfterMount = false;
+        })
     });
 </script>
 
@@ -149,7 +161,10 @@
                 <ListGroupItem 
                     class="list-group-item-xiv-item"
                     active={selectedId === item.id}
-                    onclick={() => onButtonClick(item.id, currentData, currentStatsType, true)}
+                    onclick={async () => {
+                        console.log('Selected item:', item.id);
+                        await onButtonClick(item.id, currentStatsType, true)
+                    }}
                     style="cursor: pointer;"
                 >
                     <img 

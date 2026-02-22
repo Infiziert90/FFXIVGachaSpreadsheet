@@ -1,5 +1,5 @@
 ﻿import {logAndThrow, responseHandler} from "$lib/utils";
-import type {BnpcPairing, ChestDrop, Coffer, SubLoot, Venture} from "$lib/interfaces";
+import type {BnpcPairing, ChestDrop, Coffer, DesynthBase, DesynthesisBase, SubLoot, Venture} from "$lib/interfaces";
 import {type ItemInfo, Mappings} from "$lib/mappings";
 
 type Fetch = typeof fetch;
@@ -44,11 +44,30 @@ export async function loadCoffer(path: string, fetch: Fetch): Promise<{content: 
     }
 }
 
-export async function loadDesynth(path: string, fetch: Fetch): Promise<{content: Coffer[]}> {
+export async function loadDesynth(path: string, fetch: Fetch): Promise<{content: DesynthBase}> {
     try {
         const res = await fetch(path)
             .then(responseHandler)
-            .then((data: Coffer[]) => {
+            .then((data: DesynthBase) => {
+                return data;
+            });
+
+        if (!res) {
+            throw new Error(`${path} resource is invalid.`);
+        }
+
+        return {content: res};
+    } catch (err) {
+        logAndThrow(`Failed to load ${path} data set.`, err)
+    }
+}
+
+
+export async function loadDesynthesisBase(path: string, fetch: Fetch): Promise<{content: DesynthesisBase}> {
+    try {
+        const res = await fetch(path)
+            .then(responseHandler)
+            .then((data: DesynthesisBase) => {
                 return data;
             });
 

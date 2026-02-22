@@ -128,6 +128,28 @@ public class Desynthesis : IDisposable
     private void Export()
     {
         ExportHandler.WriteDataJson("Desynthesis.json", ProcessedData);
+        
+        Logger.Information("Splitting data ...");
+        var desynthBase = new DesynthesisBase();
+        for (var i = 1000; i <= Sheets.MaxItemId; i += 1000)
+        {
+            var split = new Desynth();
+            foreach (var (sourceId, history) in ProcessedData.Sources.Where(pair => pair.Key >= i - 999 && pair.Key <= i))
+            {
+                desynthBase.Sources.Add(sourceId);
+                split.Sources[sourceId] = history;
+            }
+            
+            foreach (var (rewardId, history) in ProcessedData.Rewards.Where(pair => pair.Key >= i - 999 && pair.Key <= i))
+            {
+                desynthBase.Rewards.Add(rewardId);
+                split.Rewards[rewardId] = history;
+            }
+            
+            ExportHandler.WriteDataJson($"desynthesis/{i:D6}.json", split);
+        }
+        ExportHandler.WriteDataJson("desynthesis/base.json", desynthBase);
+        
         Logger.Information("Done exporting data ...");
     }
 }

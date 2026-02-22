@@ -37,6 +37,11 @@ export interface DesynthHistory {
     Rewards: Reward[]
 }
 
+export interface DesynthesisBase {
+    Sources: number[];
+    Rewards: number[];
+}
+
 export interface Venture {
     Name: string;
     Category: number;

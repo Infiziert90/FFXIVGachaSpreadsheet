@@ -3,7 +3,7 @@
 namespace SupabaseExporter.Structures.Exports;
 
 /// <summary>
-/// The base of desynthesis data.
+/// Struct filled with history of desynthesis results.
 /// </summary>
 public class Desynth
 {
@@ -21,4 +21,13 @@ public class Desynth
             Rewards.Add(Reward.FromDesyntReward(itemId, 10000, reward)); // Total is unknown at this point, so give it a fake value
         }
     }
+}
+
+/// <summary>
+/// The base of desynthesis data.
+/// </summary>
+public class DesynthesisBase
+{
+    public HashSet<uint> Sources = [];
+    public HashSet<uint> Rewards = [];
 }

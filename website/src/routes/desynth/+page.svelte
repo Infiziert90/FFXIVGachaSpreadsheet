@@ -1,17 +1,19 @@
 ﻿<script lang="ts">
     import { page } from '$app/state';
     import { replaceState } from "$app/navigation";
-    import type {DesynthBase, DesynthHistory, Reward} from "$lib/interfaces";
+    import type {DesynthBase, DesynthesisBase, DesynthHistory, Reward} from "$lib/interfaces";
     import { Mappings } from "$lib/mappings";
-    import { onMount } from "svelte";
+    import {onMount, tick} from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
     import {NameObtainedMinChanceSetup, RewardDesynthSpecial} from "$lib/table";
     import DesynthSearchbar from "../../component/DesynthSearchbar.svelte";
     import {tryGetDesynthSearchParams} from "$lib/searchParamHelper";
     import PageSidebar from "../../component/PageSidebar.svelte";
+    import {pad} from "$lib/utils";
+    import {loadDesynth} from "$lib/loadHelpers";
 
     interface Props {
-        content: DesynthBase;
+        content: DesynthesisBase;
     }
 
     // html elements
@@ -20,7 +22,11 @@
 
     let { data }: Props = $props();
 
-    const desynthBase: DesynthBase = data.content;
+    const desynthesisBase: DesynthesisBase = data.content;
+
+    // Loaded at runtime
+    const loadedSplits: string[] = [];
+    const desynthBase: DesynthBase = {Sources: {}, Rewards: {}};
 
     // Table data
     let tableItems: Reward[] = $state([]);
@@ -53,28 +59,26 @@
         // svelte-ignore state_referenced_locally
         let isSourceSearch = sourceParam > 0;
 
-        let data = isSourceSearch ? desynthBase.Sources : desynthBase.Rewards;
         // svelte-ignore state_referenced_locally
         let id = isSourceSearch ? sourceParam : rewardParam;
         let titleAddition = isSourceSearch ? 'Source Search' : 'Reward Search';
         let descriptionAddition = isSourceSearch ? 'Rewards' : 'Sources';
 
-        const selection = tryGetDesynth(data, id);
-        if (selection !== undefined) {
+        if (id in Mappings[id]) {
             title = `Desynthesis - ${titleAddition}`;
             description = `${descriptionAddition} for ${Mappings[id].Name}.`;
         }
     }
 
-    onMount(() => {
+    onMount(async () => {
         if (sourceParam > 0) {
-            onButtonClick(sourceParam, desynthBase.Sources, 'Desynths', false);
+            await onButtonClick(sourceParam, 'Desynths', false);
         } else if (rewardParam > 0) {
-            onButtonClick(rewardParam, desynthBase.Rewards, 'Received', false);
+            await onButtonClick(rewardParam,'Received', false);
         }
     });
 
-    function onButtonClick(id: number, usedData: Record<number, DesynthHistory>, statsType: string, addQuery: boolean) {
+    async function onButtonClick(id: number, statsType: string, addQuery: boolean) {
         if (addQuery) {
             // Clear the other param and set the current one
             if (statsType === 'Desynths') {
@@ -90,8 +94,9 @@
 
         // Update search type
         searchType = statsType === 'Desynths' ? 1 : 2;
+        let usedData = searchType === 1 ? desynthBase.Sources : desynthBase.Rewards;
 
-        const selection = tryGetDesynth(usedData, id);
+        const selection = await tryGetDesynth(usedData, id);
         if (selection === undefined) return;
 
         // Update selected tracking
@@ -133,12 +138,29 @@
      * @param requestedId - The item id to resolve
      * @returns Desynth selection if successful, undefined otherwise.
      */
-    function tryGetDesynth(data: Record<number, DesynthHistory>, requestedId: number): DesynthSelection | undefined {
+    async function tryGetDesynth(data: Record<number, DesynthHistory>, requestedId: number): Promise<DesynthSelection | undefined> {
+        // load split data if not already in memory
+        await loadSplitData(requestedId);
+
         // Find the history for the selected id
         const history = data[requestedId]
         if (!history) return undefined;
 
         return { history };
+    }
+
+    async function loadSplitData(itemId: number) {
+        let paddedSplitId = pad(Math.ceil(itemId/1000)*1000, 6)
+        if (loadedSplits.includes(paddedSplitId)) return;
+
+        loadedSplits.push(paddedSplitId);
+        let split = await loadDesynth(`/data/desynthesis/${paddedSplitId}.json`, fetch);
+
+        for (const [sourceId, history] of Object.entries(split.content.Sources))
+            desynthBase.Sources[sourceId] = history;
+
+        for (const [rewardId, history] of Object.entries(split.content.Rewards))
+            desynthBase.Rewards[rewardId] = history;
     }
 </script>
 
@@ -153,7 +175,7 @@
 
 <PageSidebar>
     <DesynthSearchbar
-        {desynthBase}
+        {desynthesisBase}
         {selectedId}
         {onButtonClick}
         {tabElements}

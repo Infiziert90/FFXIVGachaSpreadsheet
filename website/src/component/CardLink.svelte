@@ -1,8 +1,8 @@
 ﻿<script lang="ts">
     let {cardTitle, cardLink, cardIcon} = $props();
-    import { getIconPath } from '$lib/utils';
+    import {getFormattedIconId, getIconPath} from '$lib/utils';
 
-    let formattedIconPath = getIconPath(cardIcon);
+    let formattedIconPath = getFormattedIconId(cardIcon);
 </script>
 
 <div class="col">
