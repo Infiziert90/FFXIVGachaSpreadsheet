@@ -39,7 +39,46 @@ public static class Sheets
     private static readonly uint[] ReversedMaps;
     
     // Bnpc tracking
-    public static HashSet<uint> RankedBnpcBase;
+    public static readonly HashSet<uint> HousingTerritory;
+    public static readonly HashSet<uint> RankedBnpcBase;
+    
+    public static readonly HashSet<uint> DisallowedBnpcBase = [
+        0, // Retainer
+        952, // Transporting Chocobo
+        1008, // Eos
+        3256, // Rook Autoturret
+        6982, // Demi-Bahamut
+        7245, // Earthly Star
+        9037, // Happy Bunny
+        9179, // Happy Bunny
+        9181, // Happy Bunny
+        9591, // Happy Bunny
+        9610, // Happy Bunny
+        9597, // Happy Bunny
+        10055, // Happy Bunny
+        10060, // Happy Bunny
+        10064, // Happy Bunny
+        10065, // Happy Bunny
+        10487, // Seraph
+        10897, // Bunshin
+        11213, // Bunshin
+        10489, // Esteem
+        10490, // Queen Automaton
+        13498, // Carbuncle
+        13505, // Ruby Ifrit
+        13506, // Emerald Garuda
+        13507, // Topaz Titan
+        13961, // Liturgic Bell
+        14673, // Bishop Autoturret (PvP)
+        16926, // Solar Bahamut
+        18280, // Persistent Pot
+        18281, // Persistent Pot
+        18282, // Persistent Pot
+        18287, // Persistent Pot
+        18379, // Persistent Pot
+        18868, // Feo Ul
+        18869, // Feo Ul
+    ];
 
     static Sheets()
     {
@@ -70,6 +109,7 @@ public static class Sheets
         
         ReversedMaps = ExplorationSheet.Where(s => s.StartingPoint).Select(s => s.RowId).Reverse().ToArray();
         
+        HousingTerritory = TerritoryTypeSheet.Where(r => r.TerritoryIntendedUse.RowId is 13 or 14).Select(r => r.RowId).ToHashSet();
         RankedBnpcBase = NotoriousMonsterSheet.Where(n => n.Rank is 1 or 2 or 3).Select(n => n.RowId).ToHashSet();
     }
     

@@ -33,6 +33,11 @@ public class BnpcPairs : IDisposable
                 continue;
             
             CollectedData.ProcessedId = record.Id;
+            if (Sheets.DisallowedBnpcBase.Contains(record.BaseId))
+                continue;
+            
+            if (Sheets.HousingTerritory.Contains(record.TerritoryId))
+                continue;
             
             if (DeduplicationSet.Count > 5_000_000)
             {
@@ -44,7 +49,7 @@ public class BnpcPairs : IDisposable
             if (!DeduplicationSet.Add(record.Hashed))
                 continue;
 
-            // Both are sheet index, so a fixed uint number, but NameId has flag properties so it goes into the millions at times
+            // Both are sheet index, so a fixed uint number, but NameId has flag properties, so it goes into the millions at times
             var combinedId = ((ulong)record.BaseId << 32) + record.NameId;
             if (!CollectedData.BnpcPairings.ContainsKey(combinedId))
                 CollectedData.BnpcPairings[combinedId] = new BnpcPairing.Pairing(record.BaseId, record.NameId, record.ObjectKind, record.Battalion);
