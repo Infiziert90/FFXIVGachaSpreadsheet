@@ -9,11 +9,11 @@
     } from "$lib/coordHelper";
     import {Vector3} from "$lib/math/vector3";
     import {getFormattedIconId, getIconPath, pad} from "$lib/utils";
-    import MultiSelect, {type Option} from "svelte-multiselect";
+    import MultiSelect, {type ObjectOption, type Option} from "svelte-multiselect";
     import {
         SimpleHousingLandSet,
         SimpleHousingMapMarker, SimpleMapMarker,
-        SimpleMapSheet, SimpleWorld
+        SimpleMapSheet, SimpleWorld, SimpleWorldDCGroup
     } from "$lib/sheets/simplifiedSheets";
     import {PurchaseSystem, type WorldDetail} from "$lib/paissa/paissaStruct";
     import {RequestWorld} from "$lib/paissa/paissaRequest";
@@ -61,9 +61,9 @@
     let selectedOption: Option = $state('' as Option);
     let selectOptionId = $state(0);
 
-    let serverOptions: string[] = $state([]);
+    let serverOptions: ObjectOption[] = $state([]);
     let serverToId: Record<number, number> = $state({});
-    let selectedServerOption: Option = $state('' as Option);
+    let selectedServerOption: ObjectOption = $state({label: ''});
     let selectServerId = $state(0);
 
     let worldData: WorldDetail | null = $state(null);
@@ -80,13 +80,15 @@
     selectedOption = nameOptions[0];
     selectOptionId = optionsToId[0];
 
-
     for (const worldRow of Object.values(SimpleWorld)) {
         if (!worldRow.IsPublic)
             continue;
 
+        if (worldRow.Name.length < 2)
+            continue;
+
         let idx = serverOptions.length;
-        serverOptions.push(worldRow.Name);
+        serverOptions.push({label: worldRow.Name, group: SimpleWorldDCGroup[worldRow.DataCenter].Name});
 
         serverToId[idx] = worldRow.RowId;
     }
@@ -404,11 +406,11 @@
         createMarkers(selectedMap);
     }
 
-    async function serverOptionChanged(payload: {type: 'add' | 'remove' | 'removeAll' | 'selectAll' | 'reorder', option: Option}) {
+    async function serverOptionChanged(payload: {type: 'add' | 'remove' | 'removeAll' | 'selectAll' | 'reorder', option: ObjectOption}) {
         if (payload.type === 'selectAll' || payload.type === 'selectAll' || payload.type === 'reorder' || payload.type === 'removeAll' || payload.type === 'remove')
             return;
 
-        let optionIndex = serverOptions.indexOf(payload.option.toString());
+        let optionIndex = serverOptions.indexOf(payload.option);
         if (optionIndex === -1) {
             console.error(`Option ${payload.option} not found in options array`);
             return;
@@ -475,25 +477,25 @@
 <PageSidebar title="Housing filters" colClass="col-12 col-lg-2 order-0 order-lg-1 sticky-left-col">
     <div class="d-flex flex-column gap-2 max-w-100 overflow-x-hidden">
         <MultiSelect
-                bind:value={selectedOption}
-                options={nameOptions}
-                ulSelectedStyle="width: 85%;"
-                ulOptionsStyle="background-color: var(--bs-body-bg);"
-                placeholder="Select a housing area"
-                onchange={optionChanged}
+                bind:value={selectedServerOption}
+                options={serverOptions}
+                ulOptionsStyle="padding-left:0.5rem;"
+                placeholder="Select a server"
+                onchange={serverOptionChanged}
                 maxSelect={1}
+                minSelect={1}
                 required={true}
                 portal={{ active: true }}
         />
 
         <MultiSelect
-                bind:value={selectedServerOption}
-                options={serverOptions}
-                ulSelectedStyle="width: 85%;"
-                ulOptionsStyle="background-color: var(--bs-body-bg);"
-                placeholder="Select a server"
-                onchange={serverOptionChanged}
+                bind:value={selectedOption}
+                options={nameOptions}
+                ulOptionsStyle="padding-left:0.5rem;"
+                placeholder="Select a housing area"
+                onchange={optionChanged}
                 maxSelect={1}
+                minSelect={1}
                 required={true}
                 portal={{ active: true }}
         />
