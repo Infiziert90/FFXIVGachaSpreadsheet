@@ -173,8 +173,8 @@
                             bind:selected={selectedPatches}
                             options={patches}
                             required={true}
-                            ulSelectedStyle="width: 91%;"
-                            ulOptionsStyle="background-color: var(--bs-body-bg);"
+                            ulSelectedClass="multiSelect-selection"
+                            ulOptionsStyle="padding-left:0.5rem;"
                             onchange={patchSelectionChanged}
                     />
                 </li>

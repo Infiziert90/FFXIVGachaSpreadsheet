@@ -256,6 +256,12 @@ img.item-icon {
     border: none;
 }
 
+.multiSelect-selection {
+    margin: 0.3rem;
+    padding: 0;
+    width: 85%;
+}
+
 @media (min-width: 992px) {
     .sticky-left-col {
         max-height: calc(100vh - 6rem);

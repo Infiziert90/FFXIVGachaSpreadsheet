@@ -70,6 +70,7 @@
     let wardToId: Record<number, number> = $state({});
     let selectedWardOption: Option = $state('' as Option);
     let selectWardId = $state(0);
+    let serverSelectionLimited: boolean = $state(false);
 
     let worldData: WorldDetail | null = $state(null);
 
@@ -493,8 +494,11 @@
             return;
         }
 
+        let rateLimitPromise = LimitServerSelection();
         await changeServerSelection(serverToId[optionIndex]);
         createMarkers(selectedMap);
+
+        await rateLimitPromise;
     }
 
     async function wardOptionChanged(payload: {type: 'add' | 'remove' | 'removeAll' | 'selectAll' | 'reorder', option: Option}) {
@@ -540,6 +544,11 @@
 
         return district
     }
+
+    async function LimitServerSelection() {
+        serverSelectionLimited = true;
+        await new Promise(_ => setTimeout(_ => serverSelectionLimited = false, 10_000)); // Wait 10s before allowing another server change
+    }
 </script>
 <svelte:window on:resize={resizeMap} />
 
@@ -557,6 +566,7 @@
         <MultiSelect
                 bind:value={selectedServerOption}
                 options={serverOptions}
+                ulSelectedClass="multiSelect-selection"
                 ulOptionsStyle="padding-left:0.5rem;"
                 placeholder="Select a server"
                 onchange={serverOptionChanged}
@@ -564,13 +574,15 @@
                 minSelect={1}
                 required={true}
                 portal={{ active: true }}
+                disabled={serverSelectionLimited}
+                disabledInputTitle="Disabled for 10 seconds"
         />
 
         <MultiSelect
                 bind:value={selectedOption}
                 options={nameOptions}
-                ulSelectedStyle="width: 85%;"
-                ulOptionsStyle="background-color: var(--bs-body-bg);"
+                ulSelectedClass="multiSelect-selection"
+                ulOptionsStyle="padding-left:0.5rem;"
                 placeholder="Select a housing area"
                 onchange={optionChanged}
                 maxSelect={1}
@@ -582,8 +594,8 @@
         <MultiSelect
                 bind:value={selectedWardOption}
                 options={wardOptions}
-                ulSelectedStyle="width: 85%;"
-                ulOptionsStyle="background-color: var(--bs-body-bg);"
+                ulSelectedClass="multiSelect-selection"
+                ulOptionsStyle="padding-left:0.5rem;"
                 placeholder="Select a ward"
                 onchange={wardOptionChanged}
                 maxSelect={1}

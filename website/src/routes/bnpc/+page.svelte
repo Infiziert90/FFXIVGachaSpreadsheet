@@ -291,8 +291,8 @@
             <MultiSelect
                     bind:selected={selectedOptions}
                     options={nameOptions}
-                    ulSelectedStyle="width: 85%;"
-                    ulOptionsStyle="background-color: var(--bs-body-bg);"
+                    ulSelectedClass="multiSelect-selection"
+                    ulOptionsStyle="padding-left:0.5rem;"
                     onchange={nameOptionChanged}
                     placeholder="Select a monster"
                     portal={{ active: true }}

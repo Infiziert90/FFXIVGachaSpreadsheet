@@ -65,6 +65,7 @@
     let serverToId: Record<number, number> = $state({});
     let selectedServerOption: ObjectOption = $state({label: ''});
     let selectServerId = $state(0);
+    let serverSelectionLimited: boolean = $state(false);
 
     let worldData: WorldDetail | null = $state(null);
 
@@ -416,8 +417,11 @@
             return;
         }
 
+        let rateLimitPromise = LimitServerSelection();
         await changeServerSelection(serverToId[optionIndex]);
         createMarkers(selectedMap);
+
+        await rateLimitPromise;
     }
 
     function changeMapSelection(mapId: number) {
@@ -462,6 +466,11 @@
         const setOpacity = (m: object, visible: boolean) => (m as { setOpacity: (n: number) => void }).setOpacity(visible ? 1 : 0);
         textMarkersByMinZoom.forEach(({ marker, minZoom }) => setOpacity(marker, zoom >= minZoom));
     }
+
+    async function LimitServerSelection() {
+        serverSelectionLimited = true;
+        await new Promise(_ => setTimeout(_ => serverSelectionLimited = false, 10_000)); // Wait 10s before allowing another server change
+    }
 </script>
 <svelte:window on:resize={resizeMap} />
 
@@ -479,6 +488,7 @@
         <MultiSelect
                 bind:value={selectedServerOption}
                 options={serverOptions}
+                ulSelectedClass="multiSelect-selection"
                 ulOptionsStyle="padding-left:0.5rem;"
                 placeholder="Select a server"
                 onchange={serverOptionChanged}
@@ -486,11 +496,14 @@
                 minSelect={1}
                 required={true}
                 portal={{ active: true }}
+                disabled={serverSelectionLimited}
+                disabledInputTitle="Disabled for 10 seconds"
         />
 
         <MultiSelect
                 bind:value={selectedOption}
                 options={nameOptions}
+                ulSelectedClass="multiSelect-selection"
                 ulOptionsStyle="padding-left:0.5rem;"
                 placeholder="Select a housing area"
                 onchange={optionChanged}
