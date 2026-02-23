@@ -44,6 +44,10 @@
         680: false,
     }
 
+    // Set default meta data
+    let title = $state('Open Plot Viewer');
+    let description = $state('An overview of all housing wards and their open plots.');
+
     let leaflet;
 
     let selectedId = $state(0);
@@ -161,7 +165,7 @@
         });
 
         let bounds = new leaflet.LatLngBounds( [1, 1], [boundMaxCoord, boundMaxCoord]);
-        let maxBounds = new leaflet.LatLngBounds( [-5, -5], [boundMaxCoord + 10, boundMaxCoord + 10]);
+        let maxBounds = new leaflet.LatLngBounds( [-20, -20], [boundMaxCoord + 20, boundMaxCoord + 20]);
         leaflet.imageOverlay(
             resolvedMapUrl,
             bounds
@@ -271,7 +275,7 @@
         const smallHouseIconMarker = leaflet.icon({
             iconUrl: smallHouseIconUrl,
 
-            iconSize:     [24, 24], // size of the icon
+            iconSize:     [32, 32], // size of the icon
             popupAnchor:  [0, -20] // point from which the popup should open relative to the iconAnchor
         });
 
@@ -279,7 +283,7 @@
         const mediumHouseIconMarker = leaflet.icon({
             iconUrl: mediumHouseIconUrl,
 
-            iconSize:     [28, 28], // size of the icon
+            iconSize:     [32, 32], // size of the icon
             popupAnchor:  [0, -20] // point from which the popup should open relative to the iconAnchor
         });
 
@@ -319,6 +323,7 @@
             let coords = swapCoords(ingameCoords);
 
             let houseType = SimpleHousingLandSet[getDistrict(mapId)].Sets[mapMarkerSubRow.RowId].PlotSize;
+
             let hasBid = false;
             let plotInfo: OpenPlot;
             for (const openBid of Object.values(worldData.districts[getDistrict(mapId)].open_plots)) {
@@ -364,9 +369,9 @@
                             </tbody>
                         </table>`;
                 marker.bindPopup(text);
-
-                createdMarkersDict[mapMarkerSubRow.RowId] = marker;
             }
+
+            createdMarkersDict[mapMarkerSubRow.RowId] = marker;
         }
 
         let mapMarkerRow = SimpleMapMarker[mapRow.MapMarkerRange];
@@ -380,7 +385,7 @@
                     iconUrl: iconUrl,
 
                     iconSize:     [32, 32], // size of the icon
-                    popupAnchor:  [0, -48] // point from which the popup should open relative to the iconAnchor
+                    popupAnchor:  [0, -20] // point from which the popup should open relative to the iconAnchor
                 });
 
                 let marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: iconMarker}).addTo(map);
@@ -462,10 +467,6 @@
         // Apply current zoom so new labels are shown/hidden correctly right away
         updateTextMarkersVisibility();
     }
-
-    // Set default meta data
-    let title = $state('Open Housing Plot Viewer');
-    let description = $state('An overview of all housing wards and their open plots.');
 
     async function optionChanged(payload: {type: 'add' | 'remove' | 'removeAll' | 'selectAll' | 'reorder', option: Option}) {
         if (payload.type === 'selectAll' || payload.type === 'selectAll' || payload.type === 'reorder' || payload.type === 'removeAll' || payload.type === 'remove')

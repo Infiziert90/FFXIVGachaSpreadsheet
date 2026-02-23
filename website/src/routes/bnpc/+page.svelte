@@ -1,12 +1,18 @@
 ﻿<script lang="ts">
     import type {BnpcPairing, Location, Pairing, UniqueLocation} from "$lib/interfaces";
-    import {onMount} from "svelte";
+    import {onMount, tick} from "svelte";
     import MapSearchbar from "../../component/MapSearchbar.svelte";
-    import {convertSizeFactorToMapMaxCoord, convertToMapCoords, type SimpleCoords, swapCoords} from "$lib/coordHelper";
+    import {
+        convertSheetToMapCoord,
+        convertSizeFactorToMapMaxCoord,
+        convertToMapCoords,
+        type SimpleCoords,
+        swapCoords
+    } from "$lib/coordHelper";
     import {Vector3} from "$lib/math/vector3";
-    import {getFormattedIconId, getIconPath} from "$lib/utils";
+    import {getFormattedIconId, getIconPath, logAndThrow} from "$lib/utils";
     import MultiSelect, {type Option} from "svelte-multiselect";
-    import {SimpleBNpcNameSheet, SimpleMapSheet} from "$lib/sheets/simplifiedSheets";
+    import {SimpleBNpcNameSheet, SimpleMapMarker, SimpleMapSheet} from "$lib/sheets/simplifiedSheets";
     import {SimpleTerritorySheet} from "$lib/sheets/simplifiedSheets.ts";
     import PageSidebar from "../../component/PageSidebar.svelte";
 
@@ -37,6 +43,10 @@
                 uniqueLocations.push(uniqueLocation);
         }
     }
+
+    // Set default meta data
+    let title = $state('Monster Locations');
+    let description = $state('A searchable map with all monster locations.');
 
     let leaflet;
 
@@ -97,6 +107,16 @@
 
     onMount(async () => {
         leaflet = await import("leaflet");
+
+        await tick();
+
+        let locationIdx = uniqueLocations.findIndex(u => u.Territory === 134 && u.Map === 15);
+        if (locationIdx === -1) {
+            logAndThrow("Unable to find default map.", undefined);
+        }
+
+        selectedId = locationIdx;
+        await onButtonClick(uniqueLocations[locationIdx], false)
     })
 
     function createMap(container) {
@@ -110,7 +130,7 @@
         console.log(`Bound max coord: ${boundMaxCoord}`);
         let m = leaflet.map(container, {
             minZoom: 3.0,
-            maxZoom: 8.0,
+            maxZoom: 10.0,
             center: [boundMaxCoord / 2, boundMaxCoord / 2],
             zoom: 4.5,
             zoomSnap: 0.5,
@@ -119,7 +139,7 @@
         });
 
         let bounds = new leaflet.LatLngBounds( [1, 1], [boundMaxCoord, boundMaxCoord]);
-        let maxBounds = new leaflet.LatLngBounds( [-5, -5], [boundMaxCoord + 10, boundMaxCoord + 10]);
+        let maxBounds = new leaflet.LatLngBounds( [-20, -20], [boundMaxCoord + 20, boundMaxCoord + 20]);
         leaflet.imageOverlay(
             resolvedMapUrl,
             bounds
@@ -168,6 +188,9 @@
                 position.updateHTML({X: lat, Y: lng});
             });
 
+            // Re-run text label visibility when the user zooms in/out
+            map.on('zoomend', updateTextMarkersVisibility);
+
             return () => {
                 map.remove();
                 map = null;
@@ -175,8 +198,59 @@
         });
     }
 
+    // Map markers keyed by RowId (housing), RowId+1e6 (icons), RowId+2e6 (text labels)
     let createdMarkersDict: Record<number, object[]> = {};
+    // Zoom level at which text labels become visible. dataType1 = link-to-region (light blue) labels.
+    const TEXT_MARKER_MIN_ZOOM = { default: 6.5, dataType1: 5 };
+    let textMarkersByMinZoom: { marker: object; minZoom: number }[] = [];
+
+    function clearMarker(selectedMonster: number) {
+        for (const marker of createdMarkersDict[selectedMonster]) {
+            map.removeLayer(marker);
+        }
+
+        createdMarkersDict[selectedMonster] = [];
+    }
+
+    function clearAllMonsterMarkers() {
+        for (const id of Object.keys(createdMarkersDict)) {
+            if (parseInt(id) < 1_000_000) {
+                clearMarker(parseInt(id));
+            }
+        }
+    }
+
+    function clearAllMarkers() {
+        for (const markers of Object.values(createdMarkersDict)) {
+            for (const marker of markers) {
+                map.removeLayer(marker);
+            }
+        }
+
+        createdMarkersDict = {};
+        textMarkersByMinZoom = [];
+    }
+
+    /**
+     * Show or hide map text labels based on the current zoom level.
+     * - textMarkersByMinZoom holds every text label plus the zoom at which it should appear
+     *   (e.g. region-link labels use 5, normal labels use 6.5).
+     * - We read the current zoom from the map, then for each label set opacity to 1 (visible)
+     *   if zoom >= that label’s minZoom, otherwise 0 (hidden). Labels stay on the map;
+     *   we only toggle visibility so we don’t have to remove/add layers on zoom.
+     * Called on map "zoomend" and after createMarkers() so the initial zoom is applied.
+     */
+    function updateTextMarkersVisibility() {
+        if (!map) return;
+        const zoom = map.getZoom();
+        const setOpacity = (m: object, visible: boolean) => (m as { setOpacity: (n: number) => void }).setOpacity(visible ? 1 : 0);
+        textMarkersByMinZoom.forEach(({ marker, minZoom }) => setOpacity(marker, zoom >= minZoom));
+    }
+
     function createMarkers(selectedMonster: number) {
+        if (map === undefined)
+            return;
+
         let indexes = names[selectedMonster];
         for (const idx of indexes) {
             for (const [_, location] of Object.entries(pairs[idx].Locations).filter(([_, l]) => l.Territory === selectedLocation.Territory && l.Map === selectedLocation.Map)) {
@@ -189,7 +263,6 @@
                         iconUrl: iconUrl,
 
                         iconSize:     [48, 48], // size of the icon
-                        iconAnchor:   [24, 24], // point of the icon which will correspond to marker's location
                         popupAnchor:  [0, -20] // point from which the popup should open relative to the iconAnchor
                     });
 
@@ -203,36 +276,125 @@
                 }
             }
         }
+
+        // Check if we already placed all map markers
+        if (Object.keys(createdMarkersDict).some(key => key > 1_000_000))
+            return;
+
+        let mapRow = SimpleMapSheet[selectedLocation.Map];
+        let mapMarkerRow = SimpleMapMarker[mapRow.MapMarkerRange];
+        for (const mapMarkerSubRow of Object.values(mapMarkerRow)) {
+            let ingameCoords = convertSheetToMapCoord(mapMarkerSubRow, mapRow.SizeFactor);
+            let coords = swapCoords(ingameCoords);
+
+            if (mapMarkerSubRow.Icon !== 0) {
+                let iconUrl = getIconPath(getFormattedIconId(mapMarkerSubRow.Icon));
+                let iconMarker = leaflet.icon({
+                    iconUrl: iconUrl,
+
+                    iconSize:     [32, 32], // size of the icon
+                    popupAnchor:  [0, -20] // point from which the popup should open relative to the iconAnchor
+                });
+
+                let marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: iconMarker}).addTo(map);
+                marker.bindPopup(`X: ${ingameCoords.X.toFixed(2)} Y: ${ingameCoords.Y.toFixed(2)}<br>Name: ${mapMarkerSubRow.PlaceNameSubtext.Name}`);
+
+                createdMarkersDict[mapMarkerSubRow.RowId + 1_000_000] = [marker];
+            }
+
+            if (mapMarkerSubRow.PlaceNameSubtext.RowId !== 0) {
+                // If mapMarkerSubRow.DataType is 1, then it's a link to another region - color it light blue
+                let textColor = mapMarkerSubRow.DataType === 1 ? '#9CD8DE' : 'white';
+
+                let text = mapMarkerSubRow.PlaceNameSubtext.Name.replace("\r\n", "\n");
+                let fontSize = 14;
+                let cssText = /*css*/`
+                    font-size: ${fontSize}px;
+                    width:fit-content;
+                    text-wrap: nowrap;
+                    font-family: var(--bs-body-font-family);
+                    color: ${textColor};
+                    text-shadow: 0px 0px 2px black, 0px 0px 3px black, 0px 0px 4px black
+                `;
+
+                let tmpElem = document.createElement('h6');
+                tmpElem.style.cssText = cssText + 'visibility:hidden;';
+                tmpElem.textContent = text;
+                document.body.appendChild(tmpElem);
+
+                let height = tmpElem.offsetHeight;
+                let width = tmpElem.offsetWidth;
+
+                document.body.removeChild(tmpElem);
+
+                let anchorX, anchorY;
+
+                switch (mapMarkerSubRow.SubtextOrientation) {
+                    case 2: // right of point
+                        anchorX = mapMarkerSubRow.Icon !== 0 ? -(fontSize*1.5) : 0;
+                        // if icon is present, offset the text to the right to avoid it being on top of the point
+                        anchorY = height / 2;
+                        break;
+                    case 4: // above point
+                        anchorX = width / 2;
+                        anchorY = height * 2; // Text is always slightly above the point, further away from the point
+                        break;
+                    case 3: // below point
+                        anchorX = width / 2;
+                        anchorY = -height / 2;
+                        break;
+                    case 1: // left of point
+                        anchorX = mapMarkerSubRow.Icon !== 0 ? width + (fontSize*1.5) : width;
+                        // if icon is present, offset the text to the left to avoid it being on top of the point
+                        anchorY = height / 2;
+                        break;
+                    default: // centered
+                        anchorX = width / 2;
+                        anchorY = height / 2;
+                        break;
+                }
+
+                let divIcon = leaflet.divIcon({
+                    html: `<h6 style="${cssText}">${text}</h6>`,
+                    className: 'transparent-divIcon',
+                    iconSize: [width, height],
+                    iconAnchor: [anchorX, anchorY]
+                })
+
+                let marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: divIcon}).addTo(map);
+                marker.bindPopup(`X: ${ingameCoords.X.toFixed(2)} Y: ${ingameCoords.Y.toFixed(2)}${mapMarkerSubRow.PlaceNameSubtext.Name !== '' ? `<br>Name: ${mapMarkerSubRow.PlaceNameSubtext.Name}` : ''}`);
+
+                createdMarkersDict[mapMarkerSubRow.RowId + 2_000_000] = [marker];
+                // DataType 1 (region links) use lower minZoom so they stay visible when zoomed out.
+                textMarkersByMinZoom.push({
+                    marker,
+                    minZoom: mapMarkerSubRow.DataType === 1 ? TEXT_MARKER_MIN_ZOOM.dataType1 : TEXT_MARKER_MIN_ZOOM.default
+                });
+            }
+        }
+
+        // Apply current zoom so new labels are shown/hidden correctly right away
+        updateTextMarkersVisibility();
     }
 
-    // Set default meta data
-    let title = $state('BattleNPC Locations');
-    let description = $state('A searchable map with all monster locations.');
-
-
-    function onButtonClick(id: number, usedData: UniqueLocation, addQuery: boolean) {
+    async function onButtonClick(usedData: UniqueLocation, addQuery: boolean) {
         selectedMapId.name = SimpleMapSheet[usedData.Map].Id;
         resolvedMapUrl = `https://v2.xivapi.com/api/asset/map/${selectedMapId.name}`
         selectedLocation = usedData;
 
         fillPairs(usedData);
+        clearAllMarkers();
     }
 
     /**
-     * Called when user changes the patch selection dropdown
+     * Called when user changes the monster selection dropdown
      */
     function nameOptionChanged(payload: {type: 'add' | 'remove' | 'removeAll' | 'selectAll' | 'reorder', option: Option}) {
         if (payload.type === 'selectAll' || payload.type === 'selectAll' ||  payload.type === 'reorder')
             return;
 
         if (payload.type === 'removeAll') {
-            for (const markers of Object.values(createdMarkersDict)) {
-                for (const marker of markers) {
-                    map.removeLayer(marker);
-                }
-            }
-
-            createdMarkersDict = {};
+            clearAllMonsterMarkers();
             return;
         }
 
@@ -247,11 +409,7 @@
             createMarkers(selectedMonster)
         }
         else {
-            for (const marker of createdMarkersDict[selectedMonster]) {
-                map.removeLayer(marker);
-            }
-
-            createdMarkersDict[selectedMonster] = [];
+            clearMarker(selectedMonster);
         }
     }
 

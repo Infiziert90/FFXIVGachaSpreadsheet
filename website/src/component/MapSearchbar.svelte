@@ -7,7 +7,7 @@
     interface Props {
         uniqueLocations: UniqueLocation[];
         selectedId: number;
-        onButtonClick: (id: number, usedData: UniqueLocation, addQuery: boolean) => void;
+        onButtonClick: (usedData: UniqueLocation, addQuery: boolean) => void;
         tabElements: { [key: string]: HTMLButtonElement };
     }
 
@@ -25,7 +25,6 @@
 
     // Get the current array based on search type
     const currentArray = $derived(allSourcesArray);
-    const currentData = $derived(uniqueLocations);
 
     // Intelligent filtering function
     function getMatchScore(itemName: string, query: string): number {
@@ -83,7 +82,7 @@
                 searchQuery = '';
 
                 lastAutoSelectedId = singleItem.id;
-                onButtonClick(singleItem.id, singleItem.data, true);
+                onButtonClick(singleItem.data, true);
             }
         } else if (filteredArray.length !== 1) {
             // Reset tracking when there's not exactly one result
@@ -128,7 +127,7 @@
                     active={selectedId === item.id}
                     onclick={() => {
                         searchQuery = '';
-                        onButtonClick(item.id, item.data, true);
+                        onButtonClick(item.data, true);
                     }}
                     style="cursor: pointer;"
                 >

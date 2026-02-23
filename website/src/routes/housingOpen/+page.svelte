@@ -44,6 +44,10 @@
         680: false,
     }
 
+    // Set default meta data
+    let title = $state('Housing Ward Viewer');
+    let description = $state('An overview of all housing wards and their plot allocations.');
+
     let leaflet;
 
     let selectedId = $state(0);
@@ -128,7 +132,7 @@
         });
 
         let bounds = new leaflet.LatLngBounds( [1, 1], [boundMaxCoord, boundMaxCoord]);
-        let maxBounds = new leaflet.LatLngBounds( [-5, -5], [boundMaxCoord + 10, boundMaxCoord + 10]);
+        let maxBounds = new leaflet.LatLngBounds( [-20, -20], [boundMaxCoord + 20, boundMaxCoord + 20]);
         leaflet.imageOverlay(
             resolvedMapUrl,
             bounds
@@ -302,7 +306,7 @@
                     iconUrl: iconUrl,
 
                     iconSize:     [32, 32], // size of the icon
-                    popupAnchor:  [0, -48] // point from which the popup should open relative to the iconAnchor
+                    popupAnchor:  [0, -20] // point from which the popup should open relative to the iconAnchor
                 });
 
                 let marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: iconMarker}).addTo(map);
@@ -385,10 +389,6 @@
         // Apply current zoom so new labels are shown/hidden correctly right away
         updateTextMarkersVisibility();
     }
-
-    // Set default meta data
-    let title = $state('Open Housing Plot Viewer');
-    let description = $state('An overview of all housing wards and their open plots.');
 
     async function optionChanged(payload: {type: 'add' | 'remove' | 'removeAll' | 'selectAll' | 'reorder', option: Option}) {
         if (payload.type === 'selectAll' || payload.type === 'selectAll' || payload.type === 'reorder' || payload.type === 'removeAll' || payload.type === 'remove')
