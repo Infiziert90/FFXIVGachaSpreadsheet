@@ -9,7 +9,7 @@
     } from "$lib/coordHelper";
     import {Vector3} from "$lib/math/vector3";
     import PageSidebar from "../../component/PageSidebar.svelte";
-    import {getFormattedIconId, getIconPath, pad} from "$lib/utils";
+    import {getFormattedIconId, getIconPath, getReviewUrl, HousingMaps, pad} from "$lib/utils";
     import MultiSelect, {type ObjectOption, type Option} from "svelte-multiselect";
     import {
         SimpleHousingLandSet,
@@ -19,6 +19,7 @@
     import {PurchaseSystem, type WorldDetail} from "$lib/paissa/paissaStruct";
     import {RequestWorld} from "$lib/paissa/paissaRequest";
     import {getPurchaseType} from "$lib/paissa/paissaUtils";
+    import {Input} from "@sveltestrap/sveltestrap";
 
     // html elements
     let tabContentElement: HTMLDivElement = $state() as HTMLDivElement;
@@ -26,23 +27,6 @@
     let tabMonsterElements: {[key: string]: HTMLButtonElement} = $state({});
 
     let { data } = $props();
-
-    const housingWards: Record<number, boolean> = {
-        72: true,
-        192: false,
-
-        82: true,
-        193: false,
-
-        83: true,
-        194: false,
-
-        364: true,
-        365: false,
-
-        679: true,
-        680: false,
-    }
 
     // Set default meta data
     let title = $state('Open Plot Viewer');
@@ -76,9 +60,14 @@
     let selectWardId = $state(0);
     let serverSelectionLimited: boolean = $state(false);
 
+    let showSmall = $state(true);
+    let showMedium = $state(true);
+    let showLarge = $state(true);
+    let showMarkers = $state(true);
+
     let worldData: WorldDetail | null = $state(null);
 
-    for (const mapId of Object.keys(housingWards)) {
+    for (const mapId of Object.keys(HousingMaps)) {
         let idx = nameOptions.length;
         nameOptions.push(SimpleMapSheet[parseInt(mapId)].PlaceNameSub.Name);
 
@@ -109,7 +98,7 @@
         if (worldData === null)
             return;
 
-        let isMainDivision = housingWards[selectedMap];
+        let isMainDivision = HousingMaps[selectedMap];
         for (const plot of Object.values(worldData.districts[getDistrict(selectedMap)].open_plots)) {
             if (isMainDivision) {
                 if (plot.plot_number > 29)
@@ -137,12 +126,14 @@
     onMount(async () => {
         leaflet = await import("leaflet");
 
+        let rateLimitPromise = limitServerSelection();
         worldData = await RequestWorld(selectServerId);
         changeMapSelection(selectOptionId);
 
         // await map rebuild
         await tick();
         createMarkers(selectedMap);
+        await rateLimitPromise;
     })
 
     function createMap(container) {
@@ -183,9 +174,7 @@
 
     function mapAction(container) {
         $effect(() => {
-            console.log('Triggering mapAction')
             map = createMap(container);
-            console.log('Map assigned')
 
             let Position = leaflet.Control.extend({
                 _container: null,
@@ -310,7 +299,7 @@
                 continue;
 
             // Main
-            if (housingWards[mapId]) {
+            if (HousingMaps[mapId]) {
                 if (mapMarkerSubRow.RowId > 29)
                     continue;
             } else { // SubRow
@@ -321,8 +310,6 @@
             let location = new Vector3(mapMarkerSubRow.X, mapMarkerSubRow.Y, mapMarkerSubRow.Z);
             let ingameCoords = convertToMapCoords(location, mapId);
             let coords = swapCoords(ingameCoords);
-
-            let houseType = SimpleHousingLandSet[getDistrict(mapId)].Sets[mapMarkerSubRow.RowId].PlotSize;
 
             let hasBid = false;
             let plotInfo: OpenPlot;
@@ -337,19 +324,47 @@
                 }
             }
 
-            let iconUsed = hasBid
-                ? bidIconMarker : houseType === 0
-                    ? smallHouseIconMarker : houseType === 1
-                        ? mediumHouseIconMarker : largeHouseIconMarker;
+            let iconUsed = bidIconMarker;
+
+            let size;
+            let houseSet = SimpleHousingLandSet[getDistrict(mapId)].Sets[mapMarkerSubRow.RowId];
+            switch (houseSet.PlotSize) {
+                case 0:
+                    size = 'Small';
+
+                    if (!hasBid)
+                        iconUsed = smallHouseIconMarker;
+
+                    if (!showSmall)
+                        continue;
+                    break;
+                case 1:
+                    size = 'Medium';
+
+                    if (!hasBid)
+                        iconUsed = mediumHouseIconMarker;
+
+                    if (!showMedium)
+                        continue;
+                    break;
+                case 2:
+                    size = 'Large';
+
+                    if (!hasBid)
+                        iconUsed = largeHouseIconMarker
+
+                    if (!showLarge)
+                        continue;
+                    break;
+            }
 
             let marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: iconUsed}).addTo(map);
-            let houseSet = SimpleHousingLandSet[getDistrict(mapId)].Sets[mapMarkerSubRow.RowId];
-            let size = houseSet.PlotSize === 0
-                ? 'Small' : houseSet.PlotSize === 1
-                    ? 'Medium' : 'Large';
 
             if (hasBid) {
-                let text = `${size} ${houseSet.InitialPrice.toLocaleString()}<br><br>
+                let text = `${size} ${houseSet.InitialPrice.toLocaleString()}
+                        <br>
+                        Review & Pictures: <a href="${getReviewUrl(mapId, mapMarkerSubRow.RowId)}" target="_blank">GameTora</a>
+                        <br><br>
                         <table class="table table-light">
                             <thead>
                               <tr>
@@ -373,6 +388,9 @@
 
             createdMarkersDict[mapMarkerSubRow.RowId] = marker;
         }
+
+        if (!showMarkers)
+            return;
 
         let mapMarkerRow = SimpleMapMarker[mapRow.MapMarkerRange];
         for (const mapMarkerSubRow of Object.values(mapMarkerRow)) {
@@ -495,7 +513,7 @@
             return;
         }
 
-        let rateLimitPromise = LimitServerSelection();
+        let rateLimitPromise = limitServerSelection();
         await changeServerSelection(serverToId[optionIndex]);
         createMarkers(selectedMap);
 
@@ -546,9 +564,16 @@
         return district
     }
 
-    async function LimitServerSelection() {
+    async function limitServerSelection() {
         serverSelectionLimited = true;
         await new Promise(_ => setTimeout(_ => serverSelectionLimited = false, 10_000)); // Wait 10s before allowing another server change
+    }
+
+    /**
+     * User checked one of the checkboxes so we redraw all markers.
+     */
+    function showStateChanged() {
+        createMarkers(selectedMap);
     }
 </script>
 <svelte:window on:resize={resizeMap} />
@@ -604,6 +629,12 @@
                 required={true}
                 portal={{ active: true }}
         />
+
+        <h5 class="mt-3">Options:</h5>
+        <Input class="mb-0" type="checkbox" bind:checked={showSmall} label="Show Small Plots" on:change={showStateChanged}></Input>
+        <Input class="mb-0" type="checkbox" bind:checked={showMedium} label="Show Medium Plots" on:change={showStateChanged}></Input>
+        <Input class="mb-0" type="checkbox" bind:checked={showLarge} label="Show Large Plots" on:change={showStateChanged}></Input>
+        <Input class="mb-0" type="checkbox" bind:checked={showMarkers} label="Show Map Markers" on:change={showStateChanged}></Input>
     </div>
 </PageSidebar>
 <div class="col-12 col-lg-10 order-0 order-lg-2">

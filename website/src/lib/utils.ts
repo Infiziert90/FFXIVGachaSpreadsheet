@@ -1,10 +1,40 @@
 ﻿import {error} from "@sveltejs/kit";
 
-
 const HEADERS = new Headers({
     'Content-Type': 'application/json;charset=UTF-8',
     "User-Agent": "FFXIV Gacha"
 });
+
+export const HousingMaps: Record<number, boolean> = {
+    72: true,
+    192: false,
+
+    82: true,
+    193: false,
+
+    83: true,
+    194: false,
+
+    364: true,
+    365: false,
+
+    679: true,
+    680: false,
+}
+
+const GameTora: string = 'https://gametora.com/ffxiv/housing-plot-viewer/'
+const GameToraMaps: Record<number, string> = {
+    72: 'mist',
+    192: 'mist',
+    82: 'lavender-beds',
+    193: 'lavender-beds',
+    83: 'goblet',
+    194: 'goblet',
+    364: 'shirogane',
+    365: 'shirogane',
+    679: 'empyreum',
+    680: 'empyreum'
+}
 
 export async function getLastUpdate(browser: boolean): Promise<string> {
     if (!browser) return 'Unknown';
@@ -76,6 +106,19 @@ export function UpperCaseStr(s: string, article: number = 0)
  */
 export function getWikiUrl(itemName: string): string {
     return `https://ffxiv.consolegameswiki.com/wiki/${itemName.replace(/\s+/g, '_')}`;
+}
+
+/**
+ * Generate a valid GameTora url for the house review and pictures
+ * @param map - The map id
+ * @param plot - The plot number
+ */
+export function getReviewUrl(map: number, plot: number): string {
+    // sub division plots
+    if (plot > 29)
+        plot -= 30;
+
+    return `${GameTora}${GameToraMaps[map]}?plot=${plot+1}`
 }
 
 /**

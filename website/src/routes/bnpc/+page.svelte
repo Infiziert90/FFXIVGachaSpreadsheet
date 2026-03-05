@@ -281,6 +281,10 @@
         if (Object.keys(createdMarkersDict).some(key => key > 1_000_000))
             return;
 
+        createDefaultMapMarkers();
+    }
+
+    function createDefaultMapMarkers() {
         let mapRow = SimpleMapSheet[selectedLocation.Map];
         let mapMarkerRow = SimpleMapMarker[mapRow.MapMarkerRange];
         for (const mapMarkerSubRow of Object.values(mapMarkerRow)) {
@@ -384,6 +388,9 @@
 
         fillPairs(usedData);
         clearAllMarkers();
+
+        await tick();
+        createDefaultMapMarkers();
     }
 
     /**
