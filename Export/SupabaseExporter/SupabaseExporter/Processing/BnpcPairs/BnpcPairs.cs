@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using Newtonsoft.Json;
 using SupabaseExporter.Structures.Exports;
 
 namespace SupabaseExporter.Processing.BnpcPairs;
@@ -9,6 +10,16 @@ public class BnpcPairs : IDisposable
     
     private readonly HashSet<string> DeduplicationSet = [];
     private readonly Dictionary<uint, BnpcSimple> SimplePairs = [];
+    
+    public BnpcPairs()
+    {
+        // Try to read internal cache to save up lots of processing
+        var data = ExportHandler.ReadDataJson("BnpcPairs.json");
+        if (data == string.Empty)
+            return;
+        
+        CollectedData = JsonConvert.DeserializeObject<BnpcPairing>(data) ?? new BnpcPairing();
+    }
     
     public void ProcessAllData()
     {
