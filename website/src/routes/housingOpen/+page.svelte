@@ -15,10 +15,10 @@
         SimpleHousingMapMarker, SimpleMapMarker,
         SimpleMapSheet, SimpleWorld, SimpleWorldDCGroup
     } from "$lib/sheets/simplifiedSheets";
-    import {PurchaseSystem, type WorldDetail} from "$lib/paissa/paissaStruct";
+    import {type WorldDetail} from "$lib/paissa/paissaStruct";
     import {RequestWorld} from "$lib/paissa/paissaRequest";
     import PageSidebar from "../../component/PageSidebar.svelte";
-    import {getPurchaseType} from "$lib/paissa/paissaUtils";
+    import {createOpenPlot, getPhaseOrBids, getPurchaseType, type OpenPlot} from "$lib/paissa/paissaUtils";
     import {Input} from "@sveltestrap/sveltestrap";
 
     // html elements
@@ -197,14 +197,6 @@
         createdMarkersDict = {};
     }
 
-    interface OpenPlot {
-        Plot: number;
-        Ward: number;
-        Type: number;
-        Tenant: PurchaseSystem;
-        Bids: number | null;
-    }
-
     function createMarkers(mapId: number) {
         if (map === undefined)
             return;
@@ -239,7 +231,7 @@
             let openPlots: OpenPlot[] = [];
             for (const openBid of Object.values(worldData.districts[getDistrict(mapId)].open_plots)) {
                 if (openBid.plot_number === mapMarkerSubRow.RowId || openBid.plot_number === mapMarkerSubRow.RowId + 30)
-                    openPlots.push({Plot: openBid.plot_number, Ward: openBid.ward_number, Type: openBid.size, Tenant: openBid.purchase_system, Bids: openBid.lotto_entries});
+                    openPlots.push(createOpenPlot(openBid));
             }
 
             let size;
@@ -289,7 +281,7 @@
                                 <td class="py-0">${getPurchaseType(plot.Tenant)}</td>
                                 <td class="py-0">${pad(plot.Ward + 1, 2)}</td>
                                 <td class="py-0">${pad(plot.Plot + 1, 2)}</td>
-                                <td class="py-0">${plot.Bids ?? 'Missing Data'}</td>
+                                <td class="py-0">${getPhaseOrBids(plot)}</td>
                               </tr>`
                 }
                 text += `</tbody></table>`;

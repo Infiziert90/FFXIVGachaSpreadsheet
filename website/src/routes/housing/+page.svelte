@@ -18,7 +18,7 @@
     } from "$lib/sheets/simplifiedSheets";
     import {PurchaseSystem, type WorldDetail} from "$lib/paissa/paissaStruct";
     import {RequestWorld} from "$lib/paissa/paissaRequest";
-    import {getPurchaseType} from "$lib/paissa/paissaUtils";
+    import {createOpenPlot, getPhaseOrBids, getPurchaseType, type OpenPlot} from "$lib/paissa/paissaUtils";
     import {Input} from "@sveltestrap/sveltestrap";
 
     // html elements
@@ -245,14 +245,6 @@
         textMarkersByMinZoom.forEach(({ marker, minZoom }) => setOpacity(marker, zoom >= minZoom));
     }
 
-    interface OpenPlot {
-        Plot: number;
-        Ward: number;
-        Type: number;
-        Tenant: PurchaseSystem;
-        Bids: number | null;
-    }
-
     function createMarkers(mapId: number) {
         if (map === undefined)
             return;
@@ -320,7 +312,7 @@
                 if (openBid.plot_number === mapMarkerSubRow.RowId)
                 {
                     hasBid = true;
-                    plotInfo = {Plot: openBid.plot_number, Ward: openBid.ward_number, Type: openBid.size, Tenant: openBid.purchase_system, Bids: openBid.lotto_entries}
+                    plotInfo = createOpenPlot(openBid)
                 }
             }
 
@@ -379,7 +371,7 @@
                                     <td class="py-0">${getPurchaseType(plotInfo.Tenant)}</td>
                                     <td class="py-0">${pad(plotInfo.Ward + 1, 2)}</td>
                                     <td class="py-0">${pad(plotInfo.Plot + 1, 2)}</td>
-                                    <td class="py-0">${plotInfo.Bids ?? 'Missing Data'}</td>
+                                    <td class="py-0">${getPhaseOrBids(plotInfo)}</td>
                                   </tr>
                             </tbody>
                         </table>`;
