@@ -37,8 +37,6 @@ export function getPurchaseType(purchaseSystem: PurchaseSystem): string {
 }
 
 export function getPhaseOrBids(plot: OpenPlot): string {
-    console.log(plot);
-
     if (plot.Phase === null || plot.PhaseUntil === null)
         return 'Missing Data';
 

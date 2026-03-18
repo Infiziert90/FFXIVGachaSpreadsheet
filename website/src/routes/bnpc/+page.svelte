@@ -15,6 +15,7 @@
     import {SimpleBNpcNameSheet, SimpleMapMarker, SimpleMapSheet} from "$lib/sheets/simplifiedSheets";
     import {SimpleTerritorySheet} from "$lib/sheets/simplifiedSheets.ts";
     import PageSidebar from "../../component/PageSidebar.svelte";
+    import { browser } from '$app/environment';
 
     interface Props {
         content: BnpcPairing;
@@ -27,22 +28,6 @@
 
     let { data }: Props = $props();
     let pairingData: BnpcPairing = data.content;
-
-    const uniqueLocations: UniqueLocation[] = [];
-    for (const pairing of Object.values(pairingData.BnpcPairings)) {
-        if (pairing.Base === 0 || pairing.Name === 0)
-            continue;
-
-        for (const location of Object.values(pairing.Locations)) {
-            // TODO Add checkbox to allow quest areas be searched
-            if (SimpleTerritorySheet[location.Territory].QuestBattle > 0)
-                continue;
-
-            const uniqueLocation: UniqueLocation = {Territory: location.Territory, Map: location.Map};
-            if (!uniqueLocations.some((e) => e.Territory === uniqueLocation.Territory && e.Map === uniqueLocation.Map))
-                uniqueLocations.push(uniqueLocation);
-        }
-    }
 
     // Set default meta data
     let title = $state('Monster Locations');
@@ -66,6 +51,38 @@
     let nameOptions: string[] = $state([]);
     let optionsToId: Record<number, number> = $state({});
     let selectedOptions: Option[] = $state([]);
+
+    const uniqueLocations: UniqueLocation[] = [];
+    if (browser) {
+        for (const pairing of Object.values(pairingData.BnpcPairings)) {
+            if (pairing.Base === 0 || pairing.Name === 0)
+                continue;
+
+            for (const location of Object.values(pairing.Locations)) {
+                // TODO Add checkbox to allow quest areas be searched
+                if (SimpleTerritorySheet[location.Territory].QuestBattle > 0)
+                    continue;
+
+                const uniqueLocation: UniqueLocation = {Territory: location.Territory, Map: location.Map};
+                if (!uniqueLocations.some((e) => e.Territory === uniqueLocation.Territory && e.Map === uniqueLocation.Map))
+                    uniqueLocations.push(uniqueLocation);
+            }
+        }
+    }
+
+    onMount(async () => {
+        leaflet = await import("leaflet");
+
+        await tick();
+
+        let locationIdx = uniqueLocations.findIndex(u => u.Territory === 134 && u.Map === 15);
+        if (locationIdx === -1) {
+            logAndThrow("Unable to find default map.", undefined);
+        }
+
+        selectedId = locationIdx;
+        await onButtonClick(uniqueLocations[locationIdx], false)
+    })
 
     function fillPairs(location: UniqueLocation) {
         selectedOptions = []; // Reset the multiselect array
@@ -105,20 +122,6 @@
         }
     }
 
-    onMount(async () => {
-        leaflet = await import("leaflet");
-
-        await tick();
-
-        let locationIdx = uniqueLocations.findIndex(u => u.Territory === 134 && u.Map === 15);
-        if (locationIdx === -1) {
-            logAndThrow("Unable to find default map.", undefined);
-        }
-
-        selectedId = locationIdx;
-        await onButtonClick(uniqueLocations[locationIdx], false)
-    })
-
     function createMap(container) {
         leaflet.CRS.XY = leaflet.Util.extend({}, leaflet.CRS.Simple, {
             code: 'XY',
@@ -127,7 +130,6 @@
         });
 
         let boundMaxCoord = convertSizeFactorToMapMaxCoord(selectedLocation.Map);
-        console.log(`Bound max coord: ${boundMaxCoord}`);
         let m = leaflet.map(container, {
             minZoom: 3.0,
             maxZoom: 10.0,
@@ -156,7 +158,6 @@
 
     function mapAction(container) {
         $effect(() => {
-            console.log('Triggering mapAction')
             map = createMap(container);
 
             let Position = leaflet.Control.extend({

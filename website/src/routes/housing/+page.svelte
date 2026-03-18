@@ -16,10 +16,11 @@
         SimpleHousingMapMarker, SimpleMapMarker,
         SimpleMapSheet, SimpleWorld, SimpleWorldDCGroup
     } from "$lib/sheets/simplifiedSheets";
-    import {PurchaseSystem, type WorldDetail} from "$lib/paissa/paissaStruct";
+    import {type WorldDetail} from "$lib/paissa/paissaStruct";
     import {RequestWorld} from "$lib/paissa/paissaRequest";
     import {createOpenPlot, getPhaseOrBids, getPurchaseType, type OpenPlot} from "$lib/paissa/paissaUtils";
     import {Input} from "@sveltestrap/sveltestrap";
+    import {currentWorld} from "$lib/stores/worldSelection";
 
     // html elements
     let tabContentElement: HTMLDivElement = $state() as HTMLDivElement;
@@ -51,8 +52,7 @@
 
     let serverOptions: ObjectOption[] = $state([]);
     let serverToId: Record<number, number> = $state({});
-    let selectedServerOption: ObjectOption = $state({label: ''});
-    let selectServerId = $state(0);
+    let selectedWorldOption: ObjectOption = $state({label: ''});
 
     let wardOptions: string[] = $state([]);
     let wardToId: Record<number, number> = $state({});
@@ -89,9 +89,6 @@
         serverToId[idx] = worldRow.RowId;
     }
 
-    selectedServerOption = serverOptions[0];
-    selectServerId = serverToId[0];
-
     function fillWards() {
         wardOptions = [];
         wardToId = {};
@@ -126,8 +123,18 @@
     onMount(async () => {
         leaflet = await import("leaflet");
 
+        let worldId: number = $currentWorld;
+
+        let idx = Object.entries(serverToId).find(([key, value]) => value === worldId);
+        if (idx === undefined) {
+            worldId = serverToId[0];
+            selectedWorldOption = serverOptions[0]
+        } else {
+            selectedWorldOption = serverOptions[parseInt(idx[0])];
+        }
+
         let rateLimitPromise = limitServerSelection();
-        worldData = await RequestWorld(selectServerId);
+        worldData = await RequestWorld(worldId);
         changeMapSelection(selectOptionId);
 
         // await map rebuild
@@ -144,7 +151,6 @@
         });
 
         let boundMaxCoord = convertSizeFactorToMapMaxCoord(selectedMap);
-        console.log(`Bound max coord: ${boundMaxCoord}`);
         let m = leaflet.map(container, {
             minZoom: 4.5,
             maxZoom: 10.0,
@@ -527,7 +533,6 @@
     }
 
     function changeMapSelection(mapId: number) {
-        console.log(`Changing map selection to ${mapId}`);
         let mapRow = SimpleMapSheet[mapId];
 
         selectedMap = mapId;
@@ -537,8 +542,9 @@
         fillWards()
     }
 
-    async function changeServerSelection(serverId: number) {
-        worldData = await RequestWorld(serverId);
+    async function changeServerSelection(worldId: number) {
+        currentWorld.set(worldId);
+        worldData = await RequestWorld(worldId);
         fillWards()
     }
 
@@ -582,7 +588,7 @@
 <PageSidebar title="Housing filters" colClass="col-12 col-lg-2 order-0 order-lg-1 sticky-left-col">
     <div class="d-flex flex-column gap-2 max-w-100 overflow-x-hidden">
         <MultiSelect
-                bind:value={selectedServerOption}
+                bind:value={selectedWorldOption}
                 options={serverOptions}
                 ulSelectedClass="multiSelect-selection"
                 ulOptionsStyle="padding-left:0.5rem;"

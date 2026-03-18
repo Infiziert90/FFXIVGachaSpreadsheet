@@ -162,7 +162,6 @@
                     class="list-group-item-xiv-item"
                     active={selectedId === item.id}
                     onclick={async () => {
-                        console.log('Selected item:', item.id);
                         await onButtonClick(item.id, currentStatsType, true)
                     }}
                     style="cursor: pointer;"

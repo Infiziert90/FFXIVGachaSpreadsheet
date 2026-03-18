@@ -13,6 +13,7 @@ const HEADERS: RequestInit = {
 };
 
 export async function RequestWorld(world: number): Promise<WorldDetail> {
+    console.log(`Requesting paissa world ${world}`);
     return await fetch(`${PaissaURL}${world}`, HEADERS)
         .then(responseHandler)
         .then((data: WorldDetail) => {
