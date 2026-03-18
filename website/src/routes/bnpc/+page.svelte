@@ -267,7 +267,17 @@
                     });
 
                     let marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: iconMarker}).addTo(map);
-                    marker.bindPopup(`${SimpleBNpcNameSheet[pairs[idx].Name]['En']}<br>Level: ${location.Level}<br>${ingameCoords.X.toFixed(2)} ${ingameCoords.Y.toFixed(2)}`);
+                    marker.bindPopup(`
+                                    ${SimpleBNpcNameSheet[pairs[idx].Name]['En']}
+                                    <br>
+                                    Level: ${location.Level}
+                                    <br>
+                                    X ${ingameCoords.X.toFixed(2)} Y ${ingameCoords.Y.toFixed(2)}
+                                    <br>
+                                    <br>
+                                    Base: ${pairs[idx].Base}
+                                    <br>
+                                    Name: ${pairs[idx].Name}`);
 
                     if (!(selectedMonster in createdMarkersDict))
                         createdMarkersDict[selectedMonster] = [marker]
