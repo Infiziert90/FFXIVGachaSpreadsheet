@@ -21,6 +21,7 @@
     import {createOpenPlot, getPhaseOrBids, getPurchaseType, type OpenPlot} from "$lib/paissa/paissaUtils";
     import {Input} from "@sveltestrap/sveltestrap";
     import {currentWorld} from "$lib/stores/worldSelection";
+    import {getLotteryPhase, getNextPhaseLeftover, getNextPhaseStart, getPhaseName} from "$lib/time/lotteryPhase";
 
     // html elements
     let tabContentElement: HTMLDivElement = $state() as HTMLDivElement;
@@ -66,6 +67,8 @@
     let showMarkers = $state(true);
 
     let worldData: WorldDetail | null = $state(null);
+
+    let lotteryPhase = $state(getLotteryPhase());
 
     for (const mapId of Object.keys(HousingMaps)) {
         let idx = nameOptions.length;
@@ -636,7 +639,7 @@
     </div>
 </PageSidebar>
 <div class="col-12 col-lg-10 order-0 order-lg-2">
-    <h1 class="text-center">Work in Progress, feedback and ideas welcome</h1>
+    <h2 class="text-center">{getPhaseName(lotteryPhase.phase)} phase ends {getNextPhaseStart(lotteryPhase.nextStart)} ({getNextPhaseLeftover(lotteryPhase.nextStart)})</h2>
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
         {#if selectedMapId.name !== ''}
             <div class="map" style="height:1024px;width:1024px" use:mapAction />
