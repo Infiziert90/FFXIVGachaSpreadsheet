@@ -22,6 +22,7 @@
     import {Input} from "@sveltestrap/sveltestrap";
     import {currentWorld} from "$lib/stores/worldSelection";
     import {getLotteryPhase, getNextPhaseLeftover, getNextPhaseStart, getPhaseName} from "$lib/time/lotteryPhase";
+    import {currentRateLimit} from "$lib/stores/rateLimit";
 
     // html elements
     let tabContentElement: HTMLDivElement = $state() as HTMLDivElement;
@@ -31,12 +32,11 @@
     let { data } = $props();
 
     // Set default meta data
-    let title = $state('Housing Ward Viewer');
+    let title = $state('Open Plot Viewer');
     let description = $state('An overview of all housing wards and their plot allocations.');
 
     let leaflet;
 
-    let selectedId = $state(0);
     let selectedMap = $state(0);
     let selectedMapId = $state({name: ''});
     let resolvedMapUrl = $state('');
@@ -54,7 +54,6 @@
     let serverOptions: ObjectOption[] = $state([]);
     let serverToId: Record<number, number> = $state({});
     let selectedWorldOption: ObjectOption = $state({label: ''});
-    let serverSelectionLimited: boolean = $state(false);
 
     let showSmall = $state(true);
     let showMedium = $state(true);
@@ -62,6 +61,8 @@
     let showMarkers = $state(true);
 
     let worldData: WorldDetail | null = $state(null);
+
+    let isLoading: boolean = $state(false);
 
     let lotteryPhase = $state(getLotteryPhase());
 
@@ -103,15 +104,7 @@
             selectedWorldOption = serverOptions[parseInt(idx[0])];
         }
 
-        let rateLimitPromise = limitServerSelection();
-        worldData = await RequestWorld(worldId);
-        changeMapSelection(selectOptionId);
-
-        // await map rebuild
-        await tick();
-
-        createMarkers(selectedMap);
-        await rateLimitPromise;
+        await loadWorldDataWithRateLimit(worldId);
     })
 
     function createMap(container) {
@@ -430,11 +423,7 @@
             return;
         }
 
-        let rateLimitPromise = limitServerSelection();
-        await changeServerSelection(serverToId[optionIndex]);
-        createMarkers(selectedMap);
-
-        await rateLimitPromise;
+        await loadWorldDataWithRateLimit(serverToId[optionIndex]);
     }
 
     function changeMapSelection(mapId: number) {
@@ -443,11 +432,6 @@
         selectedMap = mapId;
         selectedMapId.name = mapRow.Id;
         resolvedMapUrl = `https://v2.xivapi.com/api/asset/map/${selectedMapId.name}`
-    }
-
-    async function changeServerSelection(serverId: number) {
-        currentWorld.set(serverId);
-        worldData = await RequestWorld(serverId);
     }
 
     function getDistrict(mapId: number) {
@@ -480,16 +464,37 @@
         textMarkersByMinZoom.forEach(({ marker, minZoom }) => setOpacity(marker, zoom >= minZoom));
     }
 
-    async function limitServerSelection() {
-        serverSelectionLimited = true;
-        await new Promise(_ => setTimeout(_ => serverSelectionLimited = false, 10_000)); // Wait 10s before allowing another server change
-    }
-
     /**
      * User checked one of the checkboxes so we redraw all markers.
      */
     function showStateChanged() {
         createMarkers(selectedMap);
+    }
+
+    /**
+     * Load the world data from Paissa, while respecting the rate limit.
+     * @param worldId
+     */
+    async function loadWorldDataWithRateLimit(worldId: number) {
+        isLoading = true;
+
+        currentWorld.set(worldId);
+        selectedMapId.name = '';
+
+        let rateLimit = $currentRateLimit;
+        if (rateLimit > Date.now())
+            await new Promise(resolve => setTimeout(resolve, rateLimit - Date.now()));
+
+        worldData = await RequestWorld(worldId);
+        currentRateLimit.set(Date.now() + 12_000) // 12 seconds
+
+        changeMapSelection(selectOptionId);
+
+        // await map rebuild
+        await tick();
+
+        createMarkers(selectedMap);
+        isLoading = false;
     }
 </script>
 <svelte:window on:resize={resizeMap} />
@@ -516,8 +521,8 @@
                 minSelect={1}
                 required={true}
                 portal={{ active: true }}
-                disabled={serverSelectionLimited}
-                disabledInputTitle="Disabled for 10 seconds"
+                disabled={isLoading}
+                disabledInputTitle="Loading"
         />
 
         <MultiSelect
@@ -531,6 +536,8 @@
                 minSelect={1}
                 required={true}
                 portal={{ active: true }}
+                disabled={isLoading}
+                disabledInputTitle="Loading"
         />
 
         <h5 class="mt-3">Options:</h5>
@@ -541,10 +548,12 @@
     </div>
 </PageSidebar>
 <div class="col-12 col-lg-10 order-0 order-lg-2">
-    <h2 class="text-center">{getPhaseName(lotteryPhase.phase)} phase ends {getNextPhaseStart(lotteryPhase.nextStart)} ({getNextPhaseLeftover(lotteryPhase.nextStart)})</h2>
-    <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
-        {#if selectedMapId.name !== ''}
+    {#if selectedMapId.name === ''}
+        <h2 class="text-center">Loading data ...</h2>
+    {:else}
+        <h2 class="text-center">{getPhaseName(lotteryPhase.phase)} phase ends {getNextPhaseStart(lotteryPhase.nextStart)} ({getNextPhaseLeftover(lotteryPhase.nextStart)})</h2>
+        <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
             <div class="map" style="height:1024px;width:1024px" use:mapAction />
-        {/if}
-    </div>
+        </div>
+    {/if}
 </div>
