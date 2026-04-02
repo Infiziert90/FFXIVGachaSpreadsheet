@@ -116,6 +116,12 @@ public class BnpcPairs : IDisposable
     
     private void Export()
     {
+        var web = new BnpcPairingWeb();
+        foreach (var (key, value) in CollectedData.BnpcPairings)
+            web.BnpcPairings[key] = BnpcPairingWeb.PairingWeb.From(value);
+                
+        ExportHandler.WriteDataJson("BnpcPairsWeb.json", web);
+        
         ExportHandler.WriteDataJson("BnpcPairs.json", CollectedData);
         ExportHandler.WriteDataJson("BnpcPairsSimple.json", SimplePairs.Select(pair => pair.Value));
         Logger.Information("Done exporting data ...");

@@ -4,7 +4,7 @@ import {LoadBNpcNameSheet, LoadMapMarkerSheet, LoadMapSheet, LoadTerritorySheet}
 
 // @ts-ignore
 export const load: PageLoad = async ({ fetch }) => {
-    let dataPromise = loadBnpc('/data/BnpcPairs.json', fetch);
+    let dataPromise = loadBnpc('/data/BnpcPairsWeb.json', fetch);
     let mapPromise = LoadMapSheet(fetch);
     let mapMarkerPromise = LoadMapMarkerSheet(fetch);
     let bNpcPromise = LoadBNpcNameSheet(fetch);

@@ -150,19 +150,15 @@ export interface Pairing {
     Records: number;
     Base: number;
     Name: number;
-    Kind: number;
-    Battalion: number;
     Locations: Record<number, Location>;
 }
 
 interface Location {
-    Records: number;
     Territory: number;
     Map: number;
     Level: number;
 
     Positions: { X: number, Y: number, Z: number }[];
-    PositionsCounts: Record<number, number>; // index to count
 }
 
 // Used internally
