@@ -11,10 +11,7 @@ public static class ExportHandler
     public static string ReadDataJson(string filename)
     {
         var file = new FileInfo(Path.Combine(WebsitePath, AssetsPath, filename));
-        if (!file.Exists)
-            return string.Empty;
-        
-        return File.ReadAllText(file.FullName);
+        return file.Exists ? File.ReadAllText(file.FullName) : string.Empty;
     }
     
     public static void WriteTimestamp()
