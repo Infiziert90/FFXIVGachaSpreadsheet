@@ -64,7 +64,7 @@
         let titleAddition = isSourceSearch ? 'Source Search' : 'Reward Search';
         let descriptionAddition = isSourceSearch ? 'Rewards' : 'Sources';
 
-        if (id in Mappings[id]) {
+        if (id in Mappings) {
             title = `Desynthesis - ${titleAddition}`;
             description = `${descriptionAddition} for ${Mappings[id].Name}.`;
         }
