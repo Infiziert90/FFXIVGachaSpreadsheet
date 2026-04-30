@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
 
 namespace SupabaseExporter.Models;
@@ -47,4 +48,26 @@ public class VentureModel : BaseModel
     public bool QuickVenture { get; set; }
 
     public VentureModel() {}
+}
+
+public sealed class VentureMap : ClassMap<VentureModel>
+{
+    public VentureMap()
+    {
+        Map(m => m.Version).Name("version");
+        
+        Map(m => m.Id).Name("id");
+        Map(m => m.VentureType).Name("venture_type");
+        Map(m => m.PrimaryId).Name("primary_id");
+        Map(m => m.PrimaryCount).Name("primary_count");
+        Map(m => m.PrimaryHq).Name("primary_hq");
+        Map(m => m.AdditionalId).Name("additional_id");
+        Map(m => m.AdditionalCount).Name("additional_count");
+        Map(m => m.AdditionalHq).Name("additional_hq");
+        Map(m => m.MaxLevel).Name("max_level");
+        Map(m => m.QuickVenture).Name("quick_venture");
+        
+        Map(m => m.GetVersion).Ignore();
+        Map(m => m.GetPatch).Ignore();
+    }
 }

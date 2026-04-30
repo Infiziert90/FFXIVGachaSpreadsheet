@@ -155,7 +155,7 @@ public class Ventures : IDisposable
     {
         // All valid gears are rarity green or higher
         PrintStats("Total quick ventures:", data.Where(v => v.QuickVenture).ToArray());
-
+    
         // Calculate for only max level retainers
         PrintStats("Total quick ventures (Max Level):", data.Where(v => v is { QuickVenture: true, MaxLevel: true }).ToArray());
         

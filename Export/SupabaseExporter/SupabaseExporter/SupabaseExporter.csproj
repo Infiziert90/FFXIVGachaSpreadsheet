@@ -9,11 +9,15 @@
 
     <ItemGroup>
       <PackageReference Include="CsvHelper" Version="33.1.0" />
-      <PackageReference Include="Lumina" Version="7.1.0" />
-      <PackageReference Include="Lumina.Excel" Version="7.4.3" />
+      <PackageReference Include="Lumina" Version="7.3.0" />
+<!--      <PackageReference Include="Lumina.Excel" Version="7.4.3" />-->
       <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.1" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
       <PackageReference Include="Npgsql" Version="10.0.0" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Lumina.Excel\src\Lumina.Excel\Lumina.Excel.csproj" />
     </ItemGroup>
 </Project>

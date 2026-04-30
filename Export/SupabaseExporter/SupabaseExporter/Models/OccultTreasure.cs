@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
 
 namespace SupabaseExporter.Models;
@@ -70,5 +71,45 @@ public class OccultTreasureModel : BaseModel
 
         Rewards = string.Empty;
         return RewardsArray;
+    }
+}
+
+public sealed class OccultTreasureExportMap : ClassMap<OccultTreasureModel>
+{
+    public OccultTreasureExportMap()
+    {
+        Map(m => m.Version).Name("version");
+        
+        Map(m => m.Id).Name("id");
+        Map(m => m.BaseId).Name("base_id");
+        Map(m => m.RewardsArray).Name("rewards").Convert(l =>
+        {
+            l.Value.GetRewards();
+            return $"{{{string.Join(",", l.Value.RewardsArray)}}}";
+        });
+        Map(m => m.ChestX).Name("pos_x");
+        Map(m => m.ChestY).Name("pos_y");
+        Map(m => m.ChestZ).Name("pos_z");
+        
+        Map(m => m.GetVersion).Ignore();
+        Map(m => m.GetPatch).Ignore();
+    }
+}
+
+public sealed class OccultTreasureImportMap : ClassMap<OccultTreasureModel>
+{
+    public OccultTreasureImportMap()
+    {
+        Map(m => m.Version).Name("version");
+        
+        Map(m => m.Id).Name("id");
+        Map(m => m.BaseId).Name("base_id");
+        Map(m => m.Rewards).Name("rewards");
+        Map(m => m.ChestX).Name("pos_x");
+        Map(m => m.ChestY).Name("pos_y");
+        Map(m => m.ChestZ).Name("pos_z");
+        
+        Map(m => m.GetVersion).Ignore();
+        Map(m => m.GetPatch).Ignore();
     }
 }

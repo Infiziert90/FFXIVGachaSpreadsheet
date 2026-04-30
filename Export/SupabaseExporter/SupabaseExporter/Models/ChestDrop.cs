@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
 
 namespace SupabaseExporter.Models;
@@ -81,5 +82,53 @@ public class ChestDropModel : BaseModel
         
         Content = string.Empty;
         return ContentArray;
+    }
+}
+
+public sealed class ChestDropExportMap : ClassMap<ChestDropModel>
+{
+    public ChestDropExportMap()
+    {
+        Map(m => m.Version).Name("version");
+        
+        Map(m => m.Id).Name("id");
+        Map(m => m.Map).Name("map");
+        Map(m => m.Territory).Name("territory");
+        Map(m => m.ChestId).Name("chest_id");
+        Map(m => m.ContentArray).Name("content").Convert(l =>
+        {
+            l.Value.GetContent();
+            return $"{{{string.Join(",", l.Value.ContentArray)}}}";
+        });
+        Map(m => m.Hashed).Name("hashed");
+        Map(m => m.CreatedAt).Name("created_at");
+        Map(m => m.ChestX).Name("chest_x");
+        Map(m => m.ChestY).Name("chest_y");
+        Map(m => m.ChestZ).Name("chest_z");
+        
+        Map(m => m.GetVersion).Ignore();
+        Map(m => m.GetPatch).Ignore();
+    }
+}
+
+public sealed class ChestDropImportMap : ClassMap<ChestDropModel>
+{
+    public ChestDropImportMap()
+    {
+        Map(m => m.Version).Name("version");
+        
+        Map(m => m.Id).Name("id");
+        Map(m => m.Map).Name("map");
+        Map(m => m.Territory).Name("territory");
+        Map(m => m.ChestId).Name("chest_id");
+        Map(m => m.Content).Name("content");
+        Map(m => m.Hashed).Name("hashed");
+        Map(m => m.CreatedAt).Name("created_at");
+        Map(m => m.ChestX).Name("chest_x");
+        Map(m => m.ChestY).Name("chest_y");
+        Map(m => m.ChestZ).Name("chest_z");
+        
+        Map(m => m.GetVersion).Ignore();
+        Map(m => m.GetPatch).Ignore();
     }
 }

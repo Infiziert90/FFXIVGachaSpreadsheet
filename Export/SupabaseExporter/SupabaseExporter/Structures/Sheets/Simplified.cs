@@ -177,7 +177,7 @@ public struct WorldDCGroupRow(WorldDCGroupType dc)
     
     public string Name = dc.Name.ToString();
     public byte NeolobbyId = dc.NeolobbyId;
-    public byte Region = dc.Region;
+    public byte Region = (byte)dc.Region.RowId;
     
     public static WorldDCGroupRow From(WorldDCGroupType dc) => new(dc);
 }

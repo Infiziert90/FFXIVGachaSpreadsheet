@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
 
 namespace SupabaseExporter.Models;
@@ -24,4 +25,20 @@ public class RandomCofferModel : BaseModel
     public uint Amount { get; set; }
 
     public RandomCofferModel() {}
+}
+
+public sealed class RandomCofferMap : ClassMap<RandomCofferModel>
+{
+    public RandomCofferMap()
+    {
+        Map(m => m.Version).Name("version");
+        
+        Map(m => m.Id).Name("Id", "id");
+        Map(m => m.Coffer).Name("coffer");
+        Map(m => m.ItemId).Name("item_id");
+        Map(m => m.Amount).Name("amount");
+        
+        Map(m => m.GetVersion).Ignore();
+        Map(m => m.GetPatch).Ignore();
+    }
 }

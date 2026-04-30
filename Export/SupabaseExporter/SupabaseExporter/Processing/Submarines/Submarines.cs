@@ -55,7 +55,7 @@ public class Submarines : IDisposable
             }
 
             if (!CollectedData.Sectors.ContainsKey(record.Sector))
-                CollectedData.Sectors[record.Sector] = new SubLoot.Sector(Sheets.ExplorationSheet.GetRow(record.Sector));
+                CollectedData.Sectors[record.Sector] = new SubLoot.Sector(Sheets.SubmarineExplorationSheet.GetRow(record.Sector));
 
             var sectorData = CollectedData.Sectors[record.Sector];
 
@@ -94,7 +94,7 @@ public class Submarines : IDisposable
             if (record.Unlocked > 0)
             {
                 if (!CollectedData.Sectors.ContainsKey(record.Unlocked))
-                    CollectedData.Sectors[record.Unlocked] = new SubLoot.Sector(Sheets.ExplorationSheet.GetRow(record.Unlocked));
+                    CollectedData.Sectors[record.Unlocked] = new SubLoot.Sector(Sheets.SubmarineExplorationSheet.GetRow(record.Unlocked));
 
                 CollectedData.Sectors[record.Unlocked].UnlockedFrom = record.Sector;
             }

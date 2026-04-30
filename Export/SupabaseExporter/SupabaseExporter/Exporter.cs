@@ -43,8 +43,9 @@ public static class EntryPoint
         await exporter.ExportSubmarineData(context, submarineProcessor);
         submarineProcessor.ProcessAllData();
         
-        var gachaResult = exporter.LoadGachaData(context);
-        if (gachaResult.Success)
+        // TODO Rewrite for enumerator usage
+        var gachaResult = await exporter.LoadGachaData(context);
+        if (gachaResult.Length > 0)
         {
             var randomProcessor = new RandomCoffers();
             var deepDungeonProcessor = new DeepDungeonSacks();
@@ -52,47 +53,47 @@ public static class EntryPoint
             var cardProcessor = new TripleTriadPacks();
             var logoFragProcessor = new FieldOpContainers();
             
-            randomProcessor.ProcessAllData(gachaResult.Data);
-            deepDungeonProcessor.ProcessAllData(gachaResult.Data);
-            lockboxProcessor.ProcessAllData(gachaResult.Data);
-            cardProcessor.ProcessAllData(gachaResult.Data);
-            logoFragProcessor.ProcessAllData(gachaResult.Data);
+            randomProcessor.ProcessAllData(gachaResult);
+            deepDungeonProcessor.ProcessAllData(gachaResult);
+            lockboxProcessor.ProcessAllData(gachaResult);
+            cardProcessor.ProcessAllData(gachaResult);
+            logoFragProcessor.ProcessAllData(gachaResult);
         }
         
-        var ventureResult = exporter.LoadVentureData(context);
-        if (ventureResult.Success)
+        var ventureResult = await exporter.LoadVentureData(context);
+        if (ventureResult.Length > 0)
         {
             var ventureProcessor = new Ventures();
-            ventureProcessor.ProcessAllData(ventureResult.Data);
+            ventureProcessor.ProcessAllData(ventureResult);
         }
         
-        var bunnyResult = exporter.LoadBunnyData(context);
-        if (bunnyResult.Success)
+        var bunnyResult = await exporter.LoadBunnyData(context);
+        if (bunnyResult.Length > 0)
         {
             var bunnyProcessor = new EurekaBunnies();
-            bunnyProcessor.ProcessAllData(bunnyResult.Data);
+            bunnyProcessor.ProcessAllData(bunnyResult);
         }
         
-        var desynthResult = exporter.LoadDesynthData(context);
-        if (desynthResult.Success)
+        var desynthResult = await exporter.LoadDesynthData(context);
+        if (desynthResult.Length > 0)
         {
             var desynthesisProcessor = new Desynthesis();
-            desynthesisProcessor.ProcessAllData(desynthResult.Data);
+            desynthesisProcessor.ProcessAllData(desynthResult);
         }
         
-        var dutyLootResult = exporter.LoadDutyLootData(context);
-        if (dutyLootResult.Success)
+        var dutyLootResult = await exporter.LoadDutyLootData(context);
+        if (dutyLootResult.Length > 0)
         {
             var dutyLootProcessor = new ChestDrops();
-            dutyLootProcessor.ProcessAllData(dutyLootResult.Data);
+            dutyLootProcessor.ProcessAllData(dutyLootResult);
         }
         
-        var occultTreasureResult = exporter.LoadOccultTreasureData(context);
-        var occultBunnyResult = exporter.LoadOccultBunnyData(context);
-        if (occultTreasureResult.Success && occultBunnyResult.Success)
+        var occultTreasureResult = await exporter.LoadOccultTreasureData(context);
+        var occultBunnyResult = await exporter.LoadOccultBunnyData(context);
+        if (occultTreasureResult.Length > 0 && occultBunnyResult.Length > 0)
         {
             var occultTreasureProcessor = new OccultTreasures();
-            occultTreasureProcessor.ProcessAllData(occultTreasureResult.Data, occultBunnyResult.Data);
+            occultTreasureProcessor.ProcessAllData(occultTreasureResult, occultBunnyResult);
         }
         
         var bnpcPairsProcessor = new BnpcPairs();
@@ -128,8 +129,8 @@ public class Exporter
         var mapping = new SubmarineLootMap();
         await WriteCsv("LocalCache/Submarine/", lastId, result, mapping);
         
-        await context.SubmarineLoot.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
-        await context.Database.ExecuteSqlAsync($"vacuum full;");
+        // await context.SubmarineLoot.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+        // await context.Database.ExecuteSqlAsync($"vacuum full;");
         result.Clear();
         context.ChangeTracker.Clear();
         
@@ -139,88 +140,205 @@ public class Exporter
         Logger.Information("Done exporting submarine data...");
     }
 
-    public (bool Success, RandomCofferModel[] Data) LoadGachaData(DatabaseContext context)
+    public async Task<RandomCofferModel[]> LoadGachaData(DatabaseContext context)
     {
-        Logger.Information("Loading gacha data");
-        var previous = ReadCsv<RandomCofferModel>("LocalCache/Gacha");
-        var result = context.RandomCoffers.OrderBy(l => l.Id).AsEnumerable();
-        var data = previous.Concat(result).ToArray();
+        Logger.Information("Exporting gacha data");
+        var result = await context.RandomCoffers.Where(l => l.Version != "0").OrderBy(l => l.Id).ToListAsync();
+        
+        Logger.Information($"Rows found {result.Count:N0}");
+        if (result.Count == 0)
+        {
+            Logger.Warning("No records found");
+            return [];
+        }
+        
+        var lastId = result.Last().Id.ToString();
+        
+        var path = "LocalCache/Gacha/";
+        var mapping = new RandomCofferMap();
+        await WriteCsv(path, lastId, result, mapping);
+        
+        // await context.RandomCoffers.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+        // await context.Database.ExecuteSqlAsync($"vacuum full;");
+        result.Clear();
+        context.ChangeTracker.Clear();
 
-        Logger.Information($"Total records {data.Length:N0}");
-        Logger.Information("Loading gacha data finished...");
-        return (true, data);
+        var data = ReadFolderStatic<RandomCofferModel>(path, 0, mapping).ToArray();
+        Logger.Information("Done exporting gacha data...");
+        return data;
     }
 
-    public (bool Success, VentureModel[] Data) LoadVentureData(DatabaseContext context)
+    public async Task<VentureModel[]> LoadVentureData(DatabaseContext context)
     {
-        Logger.Information("Loading venture data");
-        var previous = ReadCsv<VentureModel>("LocalCache/Ventures");
-        var result = context.Ventures.OrderBy(l => l.Id).AsEnumerable();
-        var data = previous.Concat(result).ToArray();
+        Logger.Information("Exporting venture data");
+        var result = await context.Ventures.OrderBy(l => l.Id).ToListAsync();
+        
+        Logger.Information($"Rows found {result.Count:N0}");
+        if (result.Count == 0)
+        {
+            Logger.Warning("No records found");
+            return [];
+        }
+        
+        var lastId = result.Last().Id.ToString();
+        
+        var path = "LocalCache/Ventures/";
+        var mapping = new VentureMap();
+        await WriteCsv(path, lastId, result, mapping);
+        
+        // await context.RandomCoffers.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+        // await context.Database.ExecuteSqlAsync($"vacuum full;");
+        result.Clear();
+        context.ChangeTracker.Clear();
 
-        Logger.Information($"Total records {data.Length:N0}");
-        Logger.Information("Loading venture data finished...");
-        return (true, data);
+        var data = ReadFolderStatic<VentureModel>(path, 0, mapping).ToArray();
+        Logger.Information("Done exporting venture data...");
+        return data;
     }
 
-    public (bool Success, EurekaBunnyModel[] Data) LoadBunnyData(DatabaseContext context)
+    public async Task<EurekaBunnyModel[]> LoadBunnyData(DatabaseContext context)
     {
-        Logger.Information("Loading bunny data");
-        var previous = ReadCsv<EurekaBunnyModel>("LocalCache/Bnuuy");
-        var result = context.EurekaBunnies.OrderBy(l => l.Id).AsEnumerable();
-        var data = previous.Concat(result).ToArray();
+        Logger.Information("Exporting bunny data");
+        var result = await context.EurekaBunnies.OrderBy(l => l.Id).ToListAsync();
+        
+        Logger.Information($"Rows found {result.Count:N0}");
+        if (result.Count == 0)
+        {
+            Logger.Warning("No records found");
+            return [];
+        }
+        
+        var lastId = result.Last().Id.ToString();
+        
+        var path = "LocalCache/Bnuuy/";
+        var mapping = new EurekaBunnyExportMap();
+        await WriteCsv(path, lastId, result, mapping);
+        
+        // await context.RandomCoffers.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+        // await context.Database.ExecuteSqlAsync($"vacuum full;");
+        result.Clear();
+        context.ChangeTracker.Clear();
 
-        Logger.Information($"Total records {data.Length:N0}");
-        Logger.Information("Loading bunny data finished...");
-        return (true, data);
+        var importMapping = new EurekaBunnyImportMap();
+        var data = ReadFolderStatic<EurekaBunnyModel>(path, 0, importMapping).ToArray();
+        Logger.Information("Done exporting bunny data...");
+        return data;
     }
 
-    public (bool Success, DesynthesisModel[] Data) LoadDesynthData(DatabaseContext context)
+    public async Task<DesynthesisModel[]> LoadDesynthData(DatabaseContext context)
     {
-        Logger.Information("Loading desynth data");
-        var previous = ReadCsv<DesynthesisModel>("LocalCache/Desynthesis");
-        var result = context.Desynthesis.OrderBy(l => l.Id).AsEnumerable();
-        var data = previous.Concat(result).ToArray();
+        Logger.Information("Exporting desynth data");
+        var result = await context.Desynthesis.OrderBy(l => l.Id).ToListAsync();
+        
+        Logger.Information($"Rows found {result.Count:N0}");
+        if (result.Count == 0)
+        {
+            Logger.Warning("No records found");
+            return [];
+        }
+        
+        var lastId = result.Last().Id.ToString();
+        
+        var path = "LocalCache/Desynthesis/";
+        var mapping = new DesynthesisExportMap();
+        await WriteCsv(path, lastId, result, mapping);
+        
+        // await context.RandomCoffers.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+        // await context.Database.ExecuteSqlAsync($"vacuum full;");
+        result.Clear();
+        context.ChangeTracker.Clear();
 
-        Logger.Information($"Total records {data.Length:N0}");
-        Logger.Information("Loading desynth data finished...");
-        return (true, data);
+        var importMapping = new DesynthesisImportMap();
+        var data = ReadFolderStatic<DesynthesisModel>(path, 0, importMapping).ToArray();
+        Logger.Information("Done exporting desynth data...");
+        return data;
     }
     
-    public (bool Success, ChestDropModel[] Data) LoadDutyLootData(DatabaseContext context)
+    public async Task<ChestDropModel[]> LoadDutyLootData(DatabaseContext context)
     {
-        Logger.Information("Loading duty loot data");
-        var previous = ReadCsv<ChestDropModel>("LocalCache/DutyLoot");
-        var result = context.ChestDrops.OrderBy(l => l.Id).AsEnumerable();
-        var data = previous.Concat(result).ToArray();
+        Logger.Information("Exporting duty loot data");
+        var result = await context.ChestDrops.OrderBy(l => l.Id).ToListAsync();
+        
+        Logger.Information($"Rows found {result.Count:N0}");
+        if (result.Count == 0)
+        {
+            Logger.Warning("No records found");
+            return [];
+        }
+        
+        var lastId = result.Last().Id.ToString();
+        
+        var path = "LocalCache/DutyLoot/";
+        var mapping = new ChestDropExportMap();
+        await WriteCsv(path, lastId, result, mapping);
+        
+        // await context.RandomCoffers.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+        // await context.Database.ExecuteSqlAsync($"vacuum full;");
+        result.Clear();
+        context.ChangeTracker.Clear();
 
-        Logger.Information($"Total records {data.Length:N0}");
-        Logger.Information("Loading duty loot data finished...");
-        return (true, data);
+        var importMapping = new ChestDropImportMap();
+        var data = ReadFolderStatic<ChestDropModel>(path, 0, importMapping).ToArray();
+        Logger.Information("Done exporting duty loot data...");
+        return data;
     }
     
-    public (bool Success, OccultTreasureModel[] Data) LoadOccultTreasureData(DatabaseContext context)
+    public async Task<OccultTreasureModel[]> LoadOccultTreasureData(DatabaseContext context)
     {
-        Logger.Information("Loading occult treasure data");
-        var previous = ReadCsv<OccultTreasureModel>("LocalCache/OccultTreasure");
-        var result = context.OccultTreasures.OrderBy(l => l.Id).AsEnumerable();
-        var data = previous.Concat(result).ToArray();
+        Logger.Information("Exporting occult treasure data");
+        var result = await context.OccultTreasures.OrderBy(l => l.Id).ToListAsync();
+        
+        Logger.Information($"Rows found {result.Count:N0}");
+        if (result.Count == 0)
+        {
+            Logger.Warning("No records found");
+            return [];
+        }
+        
+        var lastId = result.Last().Id.ToString();
+        
+        var path = "LocalCache/OccultTreasure/";
+        var mapping = new OccultTreasureExportMap();
+        await WriteCsv(path, lastId, result, mapping);
+        
+        // await context.RandomCoffers.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+        // await context.Database.ExecuteSqlAsync($"vacuum full;");
+        result.Clear();
+        context.ChangeTracker.Clear();
 
-        Logger.Information($"Total records {data.Length:N0}");
-        Logger.Information("Loading occult treasure data finished...");
-        return (true, data);
+        var importMapping = new OccultTreasureImportMap();
+        var data = ReadFolderStatic<OccultTreasureModel>(path, 0, importMapping).ToArray();
+        Logger.Information("Done exporting occult treasure data...");
+        return data;
     }
     
-    public (bool Success, OccultBunnyModel[] Data) LoadOccultBunnyData(DatabaseContext context)
+    public async Task<OccultBunnyModel[]> LoadOccultBunnyData(DatabaseContext context)
     {
-        Logger.Information("Loading occult bunny data");
-        var previous = ReadCsv<OccultBunnyModel>("LocalCache/OccultBunny");
-        var result = context.OccultBunny.OrderBy(l => l.Id).AsEnumerable();
-        var data = previous.Concat(result).ToArray();
+        Logger.Information("Exporting occult bunny data");
+        var result = await context.OccultBunny.OrderBy(l => l.Id).ToListAsync();
+        
+        Logger.Information($"Rows found {result.Count:N0}");
+        if (result.Count == 0)
+        {
+            Logger.Warning("No records found");
+            return [];
+        }
+        
+        var lastId = result.Last().Id.ToString();
+        
+        var path = "LocalCache/OccultBunny/";
+        var mapping = new OccultBunnyExportMap();
+        await WriteCsv(path, lastId, result, mapping);
+        
+        // await context.RandomCoffers.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+        // await context.Database.ExecuteSqlAsync($"vacuum full;");
+        result.Clear();
+        context.ChangeTracker.Clear();
 
-        Logger.Information($"Total records {data.Length:N0}");
-        Logger.Information("Loading occult bunny data finished...");
-        return (true, data);
+        var importMapping = new OccultBunnyImportMap();
+        var data = ReadFolderStatic<OccultBunnyModel>(path, 0, importMapping).ToArray();
+        Logger.Information("Done exporting occult bunny data...");
+        return data;
     }
     
     public async Task LoadBnpcPairData(DatabaseContext context, BnpcPairs processor)
@@ -240,8 +358,8 @@ public class Exporter
         var mapping = new BnpcPairMap();
         await WriteCsv("LocalCache/Bnpc/", lastId, result, mapping);
         
-        await context.BnpcPairs.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
-        await context.Database.ExecuteSqlAsync($"vacuum full;");
+        // await context.BnpcPairs.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+        // await context.Database.ExecuteSqlAsync($"vacuum full;");
         result.Clear();
         context.ChangeTracker.Clear();
         
@@ -290,5 +408,22 @@ public class Exporter
             
             yield return csv.GetRecords<T>();
         }
+    }    
+    
+    private List<T> ReadFolderStatic<T>(string folder, uint lastId, ClassMap? map = null)
+    {
+        var results = new List<T>();
+        foreach (var pair in new DirectoryInfo(folder).EnumerateFiles().Select(f => (f, uint.Parse(Path.GetFileNameWithoutExtension(f.Name)))).Where(pair => lastId < pair.Item2).OrderBy(pair => pair.Item2))
+        {
+            using var reader = pair.f.OpenText();
+            using var csv = new CsvReader(reader, CsvReaderConfig);
+            
+            if (map != null)
+                csv.Context.RegisterClassMap(map);
+            
+            results.AddRange(csv.GetRecords<T>());
+        }
+
+        return results;
     }
 }

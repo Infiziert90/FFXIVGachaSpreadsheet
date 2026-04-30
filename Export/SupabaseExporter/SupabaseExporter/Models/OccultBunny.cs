@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
 
 namespace SupabaseExporter.Models;
@@ -78,5 +79,49 @@ public class OccultBunnyModel : BaseModel
 
         Rewards = string.Empty;
         return RewardsArray;
+    }
+}
+
+public sealed class OccultBunnyExportMap : ClassMap<OccultBunnyModel>
+{
+    public OccultBunnyExportMap()
+    {
+        Map(m => m.Version).Name("version");
+        
+        Map(m => m.Id).Name("id");
+        Map(m => m.Coffer).Name("coffer");
+        Map(m => m.Territory).Name("territory");
+        Map(m => m.RewardsArray).Name("rewards").Convert(l =>
+        {
+            l.Value.GetRewards();
+            return $"{{{string.Join(",", l.Value.RewardsArray)}}}";
+        });
+        Map(m => m.ChestX).Name("pos_x");
+        Map(m => m.ChestY).Name("pos_y");
+        Map(m => m.ChestZ).Name("pos_z");
+        Map(m => m.FateId).Name("fate_id");
+        
+        Map(m => m.GetVersion).Ignore();
+        Map(m => m.GetPatch).Ignore();
+    }
+}
+
+public sealed class OccultBunnyImportMap : ClassMap<OccultBunnyModel>
+{
+    public OccultBunnyImportMap()
+    {
+        Map(m => m.Version).Name("version");
+        
+        Map(m => m.Id).Name("id");
+        Map(m => m.Coffer).Name("coffer");
+        Map(m => m.Territory).Name("territory");
+        Map(m => m.Rewards).Name("rewards");
+        Map(m => m.ChestX).Name("pos_x");
+        Map(m => m.ChestY).Name("pos_y");
+        Map(m => m.ChestZ).Name("pos_z");
+        Map(m => m.FateId).Name("fate_id");
+        
+        Map(m => m.GetVersion).Ignore();
+        Map(m => m.GetPatch).Ignore();
     }
 }

@@ -26,7 +26,7 @@ public static class MappingHelper
         }
         
         ExportHandler.WriteDataJson("Mappings.json", mappings);
-    }
+    } 
 
     /// <summary>
     /// Adds the item id to the mapping set for later deduplication.

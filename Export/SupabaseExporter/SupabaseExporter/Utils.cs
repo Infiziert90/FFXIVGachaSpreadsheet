@@ -7,6 +7,7 @@ namespace SupabaseExporter;
 
 public static class Utils
 {
+    public static readonly int Patch750 = VersionToNumber("1.6.8.0");
     public static readonly int Patch740 = VersionToNumber("1.6.4.0");
     public static readonly int Patch730 = VersionToNumber("1.6.1.0");
     public static readonly int Patch720 = VersionToNumber("1.5.8.1");
@@ -18,6 +19,9 @@ public static class Utils
     /// <returns>The patch name, with default 7.10</returns>
     public static string VersionToPatch(int version)
     {
+        if (version >= Patch750)
+            return "7.5";    
+        
         if (version >= Patch740)
             return "7.4";        
         
@@ -71,15 +75,16 @@ public static class Utils
     {
         if (item.ItemAction.RowId == 0)
             return item.Icon;
-
+    
         var itemAction = item.ItemAction.Value;
         return itemAction.Action.RowId switch
         {
+            // 1322 => Sheets.MountSheet.GetRow(itemAction.Data[0]).Icon, // Mount ID
             1322 => Sheets.MountSheet.GetRow(itemAction.Data[0]).Icon, // Mount ID
             3357 => 87000 + (uint)itemAction.Data[0], // Triple Triad ID
             _ => item.Icon,
         };
-    }
+    }    
     
     /// <summary>
     /// Calculates the number of FC points a trade-in item would give.

@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupabaseExporter", "Export\SupabaseExporter\SupabaseExporter\SupabaseExporter.csproj", "{BE1E13FA-D1FA-41FE-922E-E726E0F000BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumina.Excel", "Lumina.Excel\src\Lumina.Excel\Lumina.Excel.csproj", "{78BEBBDB-E2BE-4414-9617-1C230132DCDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumina.Excel.Generator", "Lumina.Excel\src\Lumina.Excel.Generator\Lumina.Excel.Generator.csproj", "{28AC3D66-BBD2-4FBA-A9B2-160CAC6DFFC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{BE1E13FA-D1FA-41FE-922E-E726E0F000BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE1E13FA-D1FA-41FE-922E-E726E0F000BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE1E13FA-D1FA-41FE-922E-E726E0F000BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78BEBBDB-E2BE-4414-9617-1C230132DCDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78BEBBDB-E2BE-4414-9617-1C230132DCDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78BEBBDB-E2BE-4414-9617-1C230132DCDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78BEBBDB-E2BE-4414-9617-1C230132DCDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28AC3D66-BBD2-4FBA-A9B2-160CAC6DFFC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28AC3D66-BBD2-4FBA-A9B2-160CAC6DFFC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28AC3D66-BBD2-4FBA-A9B2-160CAC6DFFC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28AC3D66-BBD2-4FBA-A9B2-160CAC6DFFC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

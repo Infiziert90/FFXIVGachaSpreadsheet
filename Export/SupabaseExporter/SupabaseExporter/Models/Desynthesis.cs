@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
 
 namespace SupabaseExporter.Models;
@@ -21,6 +22,10 @@ public class DesynthesisModel : BaseModel
     [Column("rewards")]
     [Ignore]
     public uint[] RewardArray { get; set; } = new uint[6];
+    
+    [Name("class_level")]
+    [Column("class_level")]
+    public uint ClassLevel { get; set; }
 
     public DesynthesisModel() {}
         
@@ -49,5 +54,42 @@ public class DesynthesisModel : BaseModel
             
         Rewards = string.Empty;
         return RewardArray;
+    }
+}
+
+public sealed class DesynthesisExportMap : ClassMap<DesynthesisModel>
+{
+    public DesynthesisExportMap()
+    {
+        Map(m => m.Version).Name("version");
+        
+        Map(m => m.Id).Name("id");
+        Map(m => m.Source).Name("source");
+        Map(m => m.Rewards).Name("rewards");
+        Map(m => m.RewardArray).Name("rewards").Convert(l =>
+        {
+            l.Value.GetRewards();
+            return $"{{{string.Join(",", l.Value.RewardArray)}}}";
+        });
+        Map(m => m.ClassLevel).Name("class_level").Optional();
+        
+        Map(m => m.GetVersion).Ignore();
+        Map(m => m.GetPatch).Ignore();
+    }
+}
+
+public sealed class DesynthesisImportMap : ClassMap<DesynthesisModel>
+{
+    public DesynthesisImportMap()
+    {
+        Map(m => m.Version).Name("version");
+        
+        Map(m => m.Id).Name("id");
+        Map(m => m.Source).Name("source");
+        Map(m => m.Rewards).Name("rewards");
+        Map(m => m.ClassLevel).Name("class_level").Optional();
+        
+        Map(m => m.GetVersion).Ignore();
+        Map(m => m.GetPatch).Ignore();
     }
 }

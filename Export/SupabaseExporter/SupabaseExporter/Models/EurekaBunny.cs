@@ -48,13 +48,38 @@ public class EurekaBunnyModel : BaseModel
     }
 }
 
-public sealed class EurekaBunnyMap : ClassMap<EurekaBunnyModel>
+public sealed class EurekaBunnyExportMap : ClassMap<EurekaBunnyModel>
 {
-    public EurekaBunnyMap()
+    public EurekaBunnyExportMap()
     {
-        Map(m => m.Territory).Index(0).Name("Territory");
-        Map(m => m.Coffer).Index(1).Name("Coffer");
-        Map(m => m.Items).Index(2).Name("Items").Convert(l => $"[{string.Join(",", l.Value.Items)}]");
         Map(m => m.Version).Name("version").Optional();
+        
+        Map(m => m.Id).Name("id");
+        Map(m => m.Territory).Index(0).Name("territory");
+        Map(m => m.Coffer).Index(1).Name("coffer");
+        Map(m => m.ItemsArray).Index(2).Name("items").Convert(l =>
+        {
+            l.Value.GetItems();
+            return $"{{{string.Join(",", l.Value.ItemsArray)}}}";
+        });
+        
+        Map(m => m.GetVersion).Ignore();
+        Map(m => m.GetPatch).Ignore();
+    }
+}
+
+public sealed class EurekaBunnyImportMap : ClassMap<EurekaBunnyModel>
+{
+    public EurekaBunnyImportMap()
+    {
+        Map(m => m.Version).Name("version").Optional();
+        
+        Map(m => m.Id).Name("id");
+        Map(m => m.Territory).Index(0).Name("territory");
+        Map(m => m.Coffer).Index(1).Name("coffer");
+        Map(m => m.Items).Index(2).Name("items");
+        
+        Map(m => m.GetVersion).Ignore();
+        Map(m => m.GetPatch).Ignore();
     }
 }
