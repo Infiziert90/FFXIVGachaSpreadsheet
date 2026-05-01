@@ -65,7 +65,6 @@ public sealed class DesynthesisExportMap : ClassMap<DesynthesisModel>
         
         Map(m => m.Id).Name("id");
         Map(m => m.Source).Name("source");
-        Map(m => m.Rewards).Name("rewards");
         Map(m => m.RewardArray).Name("rewards").Convert(l =>
         {
             l.Value.GetRewards();

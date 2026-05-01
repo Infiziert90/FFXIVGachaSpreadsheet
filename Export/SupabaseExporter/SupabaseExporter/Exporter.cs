@@ -186,7 +186,7 @@ public class Exporter
         var mapping = new VentureMap();
         await WriteCsv(path, lastId, result, mapping);
         
-        await context.RandomCoffers.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+        await context.Ventures.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
         await context.Database.ExecuteSqlAsync($"vacuum full;");
         result.Clear();
         context.ChangeTracker.Clear();
@@ -214,7 +214,7 @@ public class Exporter
         var mapping = new EurekaBunnyExportMap();
         await WriteCsv(path, lastId, result, mapping);
         
-        await context.RandomCoffers.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+        await context.EurekaBunnies.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
         await context.Database.ExecuteSqlAsync($"vacuum full;");
         result.Clear();
         context.ChangeTracker.Clear();
@@ -243,7 +243,7 @@ public class Exporter
         var mapping = new DesynthesisExportMap();
         await WriteCsv(path, lastId, result, mapping);
         
-        await context.RandomCoffers.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+        await context.Desynthesis.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
         await context.Database.ExecuteSqlAsync($"vacuum full;");
         result.Clear();
         context.ChangeTracker.Clear();
@@ -272,7 +272,7 @@ public class Exporter
         var mapping = new ChestDropExportMap();
         await WriteCsv(path, lastId, result, mapping);
         
-        await context.RandomCoffers.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+        await context.ChestDrops.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
         await context.Database.ExecuteSqlAsync($"vacuum full;");
         result.Clear();
         context.ChangeTracker.Clear();
@@ -301,7 +301,7 @@ public class Exporter
         var mapping = new OccultTreasureExportMap();
         await WriteCsv(path, lastId, result, mapping);
         
-        await context.RandomCoffers.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+        await context.OccultTreasures.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
         await context.Database.ExecuteSqlAsync($"vacuum full;");
         result.Clear();
         context.ChangeTracker.Clear();
@@ -330,7 +330,7 @@ public class Exporter
         var mapping = new OccultBunnyExportMap();
         await WriteCsv(path, lastId, result, mapping);
         
-        await context.RandomCoffers.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+        await context.OccultBunny.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
         await context.Database.ExecuteSqlAsync($"vacuum full;");
         result.Clear();
         context.ChangeTracker.Clear();
