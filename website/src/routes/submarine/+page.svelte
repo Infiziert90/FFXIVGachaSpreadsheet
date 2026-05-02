@@ -175,7 +175,7 @@
                 {@const sectorData = getSectorData(sector)}
                 {@const sectorStats = getSectorStats(sector)}
                 <div class="container mb-5" style="background-color: var(--bs-tertiary-bg);">
-                    <div>
+                    <div class="header">
                         <div class="pt-3 px-2 title"><h3>{ToSectorName(SimpleSubExplorationSheet[sector.Id])}</h3></div>
                         <div class="pt-3 px-2 toggleButton">
                             <ButtonGroup>
@@ -345,14 +345,23 @@
 </div>
 
 <style>
+    .header {
+        display: flex;
+        justify-content: space-between
+    }
+
     .title {
         margin: -.5rem .5rem 1rem -.5rem;
-        display: inline-block;
     }
 
     .toggleButton {
         margin: -.5rem -.5rem 1rem -.5rem;
-        display: inline-block;
-        float: right;
+    }
+
+    @media (max-width: 800px) {
+        .header {
+            flex-wrap: wrap;
+            & > * { width: 100%; }
+        }
     }
 </style>
