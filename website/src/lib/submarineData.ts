@@ -159,7 +159,13 @@ export const SectorToUnlock: Record<number, UnlockedFrom> =
     140: CreateUnlockedFrom(139),                         // D    Oeyaseik                        <-       Southernmost Hanthbyrt
     141: CreateUnlockedFrom(138),                         // E    Northeast Hanthbyrt             <-      Sea Wolf Cove
     142: CreateUnlockedFrom(140),                         // F    Vyrstrant                       <-       Oeyaseik
-    143: CreateUnlockedFrom(SectorType.UnknownUnlock as number),          // G    The Sunken Jawbone (G)          <-
+    143: CreateUnlockedFrom(142),                         // G    The Sunken Jawbone (G)          <-      Vyrstrant
+    144: CreateUnlockedFrom(143),                         // H    the Vyrstrant Dropoff               <-      The Sunken Jawbone (G)
+    145: CreateUnlockedFrom(141),                         // I    Axeblade Bight                      <-      Northeast Hanthbyrt
+    146: CreateUnlockedFrom(145),                         // J    the Puffin Assembly                 <-      Axeblade Bight
+    147: CreateUnlockedFrom(144),                         // K    southern Aerslaent Plunge           <-     the Vyrstrant Dropoff
+    148: CreateUnlockedFrom(146),                         // L    the Solkronn Gallery                <-      the Puffin Assembly
+    149: CreateUnlockedFrom(144),                         // M    central Den of the Greatsword       <-    the Vyrstrant Dropoff
 }
 
 export interface Breakpoint {
@@ -323,4 +329,10 @@ export const MapBreakpoints: Record<number, Breakpoint> =
     141: CreateBreakpoint(254, 269, 309, 354, 259),
     142: CreateBreakpoint(255, 270, 310, 355, 260),
     143: CreateBreakpoint(255, 270, 310, 355, 260),
+    144: CreateBreakpoint(256, 271, 311, 356, 261),
+    145: CreateBreakpoint(257, 272, 312, 357, 262),
+    146: CreateBreakpoint(258, 273, 313, 358, 263),
+    147: CreateBreakpoint(258, 273, 313, 358, 263),
+    148: CreateBreakpoint(259, 274, 314, 359, 264),
+    149: CreateBreakpoint(260, 275, 315, 360, 265),
 }
