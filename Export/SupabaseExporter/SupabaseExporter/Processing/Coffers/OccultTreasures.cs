@@ -49,6 +49,12 @@ public class OccultTreasures : CofferBase
             patches[patch].AddMultiRecordWithAmount(treasure.GetRewards());
             
             var pos = new Vector3(treasure.ChestX, treasure.ChestY, treasure.ChestZ);
+            if (pos == Vector3.Zero)
+            {
+                Logger.Error($"Treasure Invalid position, {treasure.Id}");
+                continue;
+            }
+            
             if (!Positions.TryAdd(pos, (1, adjustedCofferId.RowId, treasure.Id)))
             {
                 var valueTuple = Positions[pos];
@@ -56,7 +62,7 @@ public class OccultTreasures : CofferBase
                 Positions[pos] = valueTuple;
                 
                 if (valueTuple.Item2 != adjustedCofferId.RowId)
-                    Logger.Warning("Different BaseId");
+                    Logger.Warning($"Different BaseId, {treasure.Id} | {valueTuple.Item2} | {adjustedCofferId.RowId}");
             }
             
             // Check all entries for erroneous data
@@ -109,7 +115,10 @@ public class OccultTreasures : CofferBase
 
             var pos = new Vector3(treasure.ChestX, treasure.ChestY, treasure.ChestZ);
             if (pos == Vector3.Zero)
+            {
+                Logger.Error($"Bunny Invalid position, {treasure.Id}");
                 continue;
+            }
             
             if (category == OccultCategory.Pot)
             {
