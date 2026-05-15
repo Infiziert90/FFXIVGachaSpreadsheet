@@ -75,7 +75,7 @@ public class Desynthesis : IDisposable
                         }
                         
                         // Check item rarity
-                        if (Sheets.ItemSheet.GetRow(itemId).Rarity >= 2)
+                        if (Sheets.ItemSheet.GetRow(itemId).Rarity >= 3)
                         {
                             Logger.Error($"Reward rarity check, ID: {record.Id}");
                             break;
