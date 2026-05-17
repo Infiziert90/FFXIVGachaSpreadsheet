@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { Accordion, AccordionItem, ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
+    import AccordionItem from "./AccordionItem.svelte";
+    import { ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
     import type { Coffer } from "$lib/interfaces";
 
     interface Props {
@@ -24,12 +25,8 @@
         }
     });
 
-    function handleToggle(cofferId: number, e: CustomEvent) {
-        e.stopPropagation?.();
-        const isActive = typeof e.detail === 'boolean' ? e.detail : (e.detail as { active?: boolean })?.active;
-        if (isActive !== undefined) {
-            openAccordionId = isActive ? cofferId : (openAccordionId === cofferId ? null : openAccordionId);
-        }
+    function toggleNode(cofferId: number) {
+        openAccordionId = openAccordionId === cofferId ? null : cofferId;
     }
 
     function handleItemClick(territory: number, coffer: number, e: Event) {
@@ -38,17 +35,19 @@
     }
 </script>
 
-<Accordion class="w-100">
+<div class="accordion w-100">
     <!-- /**
      * Iterates through cofferData array and uses cofferItem.TerritoryId
      * as the unique key for each item in the each-block.
      */ -->
     {#each cofferData as cofferItem (cofferItem.TerritoryId)}
-        <AccordionItem 
-            active={openAccordionId === cofferItem.TerritoryId}
-            ontoggle={(e) => handleToggle(cofferItem.TerritoryId, e)}
+        <AccordionItem
+            open={openAccordionId === cofferItem.TerritoryId}
+            ontoggle={() => toggleNode(cofferItem.TerritoryId)}
         >
-            <div slot="header">{cofferItem.Name}</div>
+            {#snippet header()}
+                {cofferItem.Name}
+            {/snippet}
             <ListGroup>
                 <!-- /**
                  * Iterates through cofferItem.Variants array and uses cofferVariant.Id
@@ -68,4 +67,4 @@
             </ListGroup>
         </AccordionItem>
     {/each}
-</Accordion>
+</div>

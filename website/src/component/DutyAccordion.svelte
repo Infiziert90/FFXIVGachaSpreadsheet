@@ -1,5 +1,6 @@
 ﻿<script lang="ts">
-    import { Collapse, Icon } from "@sveltestrap/sveltestrap";
+    import Collapse from "./Collapse.svelte";
+    import { Icon } from "@sveltestrap/sveltestrap";
     import type { ChestDrop, Expansion, Header } from "$lib/interfaces";
     import { getIconPath } from "$lib/utils";
 

@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { Accordion, AccordionItem, ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
+    import AccordionItem from "./AccordionItem.svelte";
+    import { ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
     import type { Venture } from "$lib/interfaces";
 
     interface Props {
@@ -24,12 +25,8 @@
         }
     });
 
-    function handleToggle(taskTypeId: number, e: CustomEvent) {
-        e.stopPropagation?.();
-        const isActive = typeof e.detail === 'boolean' ? e.detail : (e.detail as { active?: boolean })?.active;
-        if (isActive !== undefined) {
-            openAccordionId = isActive ? taskTypeId : (openAccordionId === taskTypeId ? null : openAccordionId);
-        }
+    function toggleNode(categoryId: number) {
+        openAccordionId = openAccordionId === categoryId ? null : categoryId;
     }
 
     function handleItemClick(categoryId: number, taskTypeId: number, e: Event) {
@@ -38,17 +35,19 @@
     }
 </script>
 
-<Accordion class="w-100">
+<div class="accordion w-100">
     <!-- /**
      * Iterates through ventureData array and uses ventureItem.Category as the unique key
      * for each item in the each-block.
      */ -->
     {#each ventureData as ventureItem (ventureItem.Category)}
-        <AccordionItem 
-            active={openAccordionId === ventureItem.Category}
-            ontoggle={(e) => handleToggle(ventureItem.Category, e)}
+        <AccordionItem
+            open={openAccordionId === ventureItem.Category}
+            ontoggle={() => toggleNode(ventureItem.Category)}
         >
-            <div slot="header">{ventureItem.Name}</div>
+            {#snippet header()}
+                {ventureItem.Name}
+            {/snippet}
             <ListGroup>
                 <!-- /**
                  * Iterates through ventureItem.Tasks array and uses taskVariant.Type
@@ -60,7 +59,7 @@
                         active={category === ventureItem.Category && taskType === taskVariant.Type}
                         tag="button"
                         action
-                        on:click={(e) => handleItemClick(ventureItem.Category, taskVariant.Type, e)}
+                        onclick={(e) => handleItemClick(ventureItem.Category, taskVariant.Type, e)}
                     >
                         {taskVariant.Name}
                     </ListGroupItem>
@@ -68,4 +67,4 @@
             </ListGroup>
         </AccordionItem>
     {/each}
-</Accordion>
+</div>
