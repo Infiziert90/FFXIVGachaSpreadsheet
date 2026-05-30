@@ -6,6 +6,7 @@
     import {Container} from '@sveltestrap/sveltestrap';
 	import favicon from '$lib/assets/favicon.png';
     import Footer from "../component/Footer.svelte";
+    import { layoutWidth } from '$lib/stores/layoutWidth';
     import { page } from '$app/state';
     import SiteNav from '../component/SiteNav.svelte';
 	let { children } = $props();
@@ -26,7 +27,7 @@
     <div>
         <SiteNav />
 
-        <Container>
+        <Container fluid={$layoutWidth === 'fluid'}>
             <div class="row gy-3 pt-3">
                 {@render children()}
             </div>  
