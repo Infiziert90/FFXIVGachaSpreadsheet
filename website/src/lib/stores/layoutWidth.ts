@@ -4,7 +4,7 @@ type LayoutWidth = 'fixed' | 'fluid';
 
 function createLayoutWidthStore() {
     const key = 'layoutWidth';
-    const initial: LayoutWidth = (typeof window !== 'undefined' ? (localStorage.getItem(key) as LayoutWidth | null) : null) ?? 'fixed';
+    const initial: LayoutWidth = (typeof window !== 'undefined' ? (localStorage.getItem(key) as LayoutWidth | null) : null) ?? 'fluid';
 
     const { subscribe, set, update } = writable<LayoutWidth>(initial);
 
@@ -24,7 +24,7 @@ function createLayoutWidthStore() {
             if (typeof window === 'undefined') {
                 return;
             }
-            const current = (localStorage.getItem(key) as LayoutWidth) ?? 'fixed';
+            const current = (localStorage.getItem(key) as LayoutWidth) ?? 'fluid';
             const next: LayoutWidth = current === 'fluid' ? 'fixed' : 'fluid';
             try {
                 localStorage.setItem(key, next);
