@@ -61,6 +61,13 @@
         openTab(category, expansion, header, duty, false)
     })
 
+    // Current open loot accordion
+    let openIdx = $state(0);
+
+    function toggleOpen(idx: number) {
+        openIdx = idx;
+    }
+
     /**
      * Opens a tab and displays its data
      * @param categoryId - The category ID to display
@@ -84,6 +91,9 @@
             page.url.searchParams.set('duty', duty.toString());
             replaceState(page.url, page.state);
         }
+
+        // Reset accordion
+        openIdx = 0;
 
         // Show the tab content area
         tabContentElement.style.display = "block";
@@ -175,7 +185,7 @@
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
         <div class="accordion">
             {#each Object.entries(tables) as [tableId, chest], idx}
-                <AccordionItem open={idx === 0}>
+                <AccordionItem open={idx === openIdx} ontoggle={() => toggleOpen(idx)}>
                     {#snippet header()}
                         {chest.Id} {chest.Name.length > 0 ? `| ${chest.Name}` : ''} {chest.PlaceNameSub.length > 0 ? `| ${chest.PlaceNameSub}` : ''}
                     {/snippet}
