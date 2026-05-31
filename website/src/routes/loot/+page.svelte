@@ -4,7 +4,8 @@
     import type {Chest, ChestDrop, Duty, Expansion, Header} from "$lib/interfaces";
     import {onMount} from "svelte";
     import {FullColumnSetup} from "$lib/table";
-    import {Accordion, AccordionItem, Icon} from '@sveltestrap/sveltestrap';
+    import AccordionItem from "../../component/AccordionItem.svelte";
+    import { Icon } from '@sveltestrap/sveltestrap';
     import {tryGetDutyLootSearchParams} from "$lib/searchParamHelper";
     import DropsTable from "../../component/DropsTable.svelte";
     import DutyAccordion from "../../component/DutyAccordion.svelte";
@@ -172,16 +173,19 @@
 </div>
 <div class="col-12 col-lg-7 order-0 order-lg-2">
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
-        <Accordion>
-        {#each Object.entries(tables) as [tableId, chest], idx}
-            <AccordionItem active={idx === 0} header="{chest.Id} {chest.Name.length > 0 ? `| ${chest.Name}` : ''} {chest.PlaceNameSub.length > 0 ? `| ${chest.PlaceNameSub}` : ''}">
-                {#if chest.Rewards.length > 0}
-                    <DropsTable items={chest.Rewards} columns={FullColumnSetup} />
-                {:else}
-                    <p>No data found</p>
-                {/if}
-            </AccordionItem>
-        {/each}
-        </Accordion>
+        <div class="accordion">
+            {#each Object.entries(tables) as [tableId, chest], idx}
+                <AccordionItem open={idx === 0}>
+                    {#snippet header()}
+                        {chest.Id} {chest.Name.length > 0 ? `| ${chest.Name}` : ''} {chest.PlaceNameSub.length > 0 ? `| ${chest.PlaceNameSub}` : ''}
+                    {/snippet}
+                    {#if chest.Rewards.length > 0}
+                        <DropsTable items={chest.Rewards} columns={FullColumnSetup} />
+                    {:else}
+                        <p>No data found</p>
+                    {/if}
+                </AccordionItem>
+            {/each}
+        </div>
     </div>
 </div>

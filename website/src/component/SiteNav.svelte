@@ -17,6 +17,7 @@
         Icon
     } from '@sveltestrap/sveltestrap';
     import { pageSidebarStore } from '$lib/stores/pageSidebar';
+    import { layoutWidth } from '$lib/stores/layoutWidth';
 
     interface MenuItem {
         label: string;
@@ -167,13 +168,30 @@
 
         <NavItem>
             <Dropdown nav>
-                <DropdownToggle nav caret>
-                    <Icon name={$colorMode === 'light' ? 'sun-fill' : $colorMode === 'dark' ? 'moon-stars-fill' : 'circle-half'} />
+                <DropdownToggle nav caret aria-label="Settings">
+                    <Icon name="gear" />
                 </DropdownToggle>
                 <DropdownMenu end>
-                    <DropdownItem onclick={() => colorMode.set('light')} active={$colorMode === 'light'}>Light <Icon name="sun-fill" /></DropdownItem>
-                    <DropdownItem onclick={() => colorMode.set('dark')} active={$colorMode === 'dark'}>Dark <Icon name="moon-stars-fill" /></DropdownItem>
-                    <DropdownItem onclick={() => colorMode.set('auto')} active={$colorMode === 'auto'}>Auto <Icon name="circle-half" /></DropdownItem>
+                    <div class="dropdown-header">Layout width</div>
+                    <DropdownItem onclick={() => layoutWidth.set('fixed')} active={$layoutWidth === 'fixed'}>
+                        <Icon name="arrows-angle-contract" class="me-2" /> Fixed
+                    </DropdownItem>
+                    <DropdownItem onclick={() => layoutWidth.set('fluid')} active={$layoutWidth === 'fluid'}>
+                        <Icon name="arrows-angle-expand" class="me-2" /> Fluid
+                    </DropdownItem>
+
+                    <div class="dropdown-divider"></div>
+
+                    <div class="dropdown-header">Theme</div>
+                    <DropdownItem onclick={() => colorMode.set('light')} active={$colorMode === 'light'}>
+                        <Icon name="sun-fill" class="me-2" /> Light
+                    </DropdownItem>
+                    <DropdownItem onclick={() => colorMode.set('dark')} active={$colorMode === 'dark'}>
+                        <Icon name="moon-stars-fill" class="me-2" /> Dark
+                    </DropdownItem>
+                    <DropdownItem onclick={() => colorMode.set('auto')} active={$colorMode === 'auto'}>
+                        <Icon name="circle-half" class="me-2" /> Auto
+                    </DropdownItem>
                 </DropdownMenu>
             </Dropdown>
         </NavItem>

@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { Accordion, AccordionItem, ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
+    import AccordionItem from "./AccordionItem.svelte";
+    import { ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
     import {type SubMapRow, ToMapName} from "$lib/sheets/structure/subMap";
 
     interface Props {
@@ -11,22 +12,10 @@
     let { mapData, map, openTab }: Props = $props();
     
     // Open accordion when territory changes - sync with territory prop
-    let openAccordionId = $state<number | null>(map);
-    
-    // Update openAccordionId when territory prop changes
-    $effect(() => {
-        const newId = mapData[map];
-        if (newId !== undefined) {
-            openAccordionId = newId;
-        }
-    });
+    let isOpen = $state<boolean>(true);
 
-    function handleToggle(mapId: number, e: CustomEvent) {
-        e.stopPropagation?.();
-        const isActive = typeof e.detail === 'boolean' ? e.detail : (e.detail as { active?: boolean })?.active;
-        if (isActive !== undefined) {
-            openAccordionId = isActive ? mapId : (openAccordionId === mapId ? null : openAccordionId);
-        }
+    function toggleOpen() {
+        isOpen = !isOpen;
     }
 
     function handleItemClick(mapId: number, e: Event) {
@@ -35,25 +24,27 @@
     }
 </script>
 
-<Accordion class="w-100">
-        <AccordionItem active={true}>
-            <div slot="header">Maps</div>
-            <ListGroup>
-                <!-- /** 
-                 * Iterates through mapData array and uses mapItem.RowId
-                 * as the unique key for each item in the each-block.
-                 */ -->
-                {#each mapData as mapItem (mapItem.RowId)}
-                    <ListGroupItem 
-                        id="{mapItem.RowId}-tab"
-                        active={map === mapItem.RowId}
-                        tag="button"
-                        action
-                        onclick={(e) => handleItemClick(mapItem.RowId, e)}
-                    >
-                        {ToMapName(mapItem)}
-                    </ListGroupItem>
-                {/each}
-            </ListGroup>
-        </AccordionItem>
-</Accordion>
+<div class="accordion w-100">
+    <AccordionItem open={isOpen} ontoggle={toggleOpen}>
+        {#snippet header()}
+            Maps
+        {/snippet}
+        <ListGroup>
+            <!-- /** 
+             * Iterates through mapData array and uses mapItem.RowId
+             * as the unique key for each item in the each-block.
+             */ -->
+            {#each mapData as mapItem (mapItem.RowId)}
+                <ListGroupItem 
+                    id="{mapItem.RowId}-tab"
+                    active={map === mapItem.RowId}
+                    tag="button"
+                    action
+                    onclick={(e) => handleItemClick(mapItem.RowId, e)}
+                >
+                    {ToMapName(mapItem)}
+                </ListGroupItem>
+            {/each}
+        </ListGroup>
+    </AccordionItem>
+</div>
