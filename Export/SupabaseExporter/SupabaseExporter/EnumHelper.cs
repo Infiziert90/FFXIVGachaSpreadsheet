@@ -56,6 +56,7 @@ public enum Territory : uint
     SouthHorn = 1252,
     
     Oizys = 1310,
+    Auxesia = 1319,
 }
 
 public enum OccultCategory : uint
@@ -107,7 +108,12 @@ public enum LockboxTypes : uint
     // Moon
     GoldRecord = 50411, 
     SilverRecord = 50412, 
-    BronzeRecord = 50413
+    BronzeRecord = 50413, 
+    BotanicRecord = 52093, 
+    CivicRecord = 52094, 
+    ArborealRecord = 52095,
+    
+    
 }
 
 public enum VentureTypes : uint
@@ -138,6 +144,7 @@ public static class EnumExtensions
             Territory.Bozja => "Bozja",
             Territory.SouthHorn => "South Horn",
             Territory.Oizys => "Oizys",
+            Territory.Auxesia => "Auxesia",
             _ => "Unknown"
         };
     }
@@ -187,6 +194,7 @@ public static class EnumExtensions
             LockboxTypes.Hydatos or LockboxTypes.MoistureWarped => Territory.Hydatos,
             LockboxTypes.SouthernFront or LockboxTypes.Zadnor => Territory.Bozja,
             LockboxTypes.BronzeRecord or LockboxTypes.SilverRecord or LockboxTypes.GoldRecord => Territory.Oizys,
+            LockboxTypes.BotanicRecord or LockboxTypes.CivicRecord or LockboxTypes.ArborealRecord => Territory.Auxesia,
             _ => throw new ArgumentOutOfRangeException(nameof(lockboxType), lockboxType, null)
         };
     }
