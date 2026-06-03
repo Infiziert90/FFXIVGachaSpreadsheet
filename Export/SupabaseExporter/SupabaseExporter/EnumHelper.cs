@@ -112,8 +112,6 @@ public enum LockboxTypes : uint
     BotanicRecord = 52093, 
     CivicRecord = 52094, 
     ArborealRecord = 52095,
-    
-    
 }
 
 public enum VentureTypes : uint
