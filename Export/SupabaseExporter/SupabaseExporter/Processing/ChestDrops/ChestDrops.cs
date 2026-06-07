@@ -9,6 +9,7 @@ public class ChestDrops : IDisposable
     private readonly Dictionary<string, int> HashedCache = [];
     
     private readonly Dictionary<uint, ChestDrop> ProcessedData = [];
+    private readonly Dictionary<uint, ChestDropWithPatch> ProcessedPatchData = [];
     private readonly Dictionary<uint, ChestDropTemp> CollectedData = [];
     
     public void ProcessAllData(Models.ChestDropModel[] data)
@@ -16,6 +17,7 @@ public class ChestDrops : IDisposable
         Logger.Information("Processing chest drop data");
         Fetch(data);
         Combine();
+        CombineWithPatch();
         Export();
         Dispose();
     }
@@ -24,6 +26,7 @@ public class ChestDrops : IDisposable
     {
         HashedCache.Clear();
         ProcessedData.Clear();
+        ProcessedPatchData.Clear();
         CollectedData.Clear();
         GC.Collect();
     }
@@ -74,10 +77,15 @@ public class ChestDrops : IDisposable
                 }
             }
             
-            if (!dutyLoot.Chests.ContainsKey(record.ChestId))
-                dutyLoot.Chests[record.ChestId] = new ChestDropTemp.Chest(record.ChestId, Utils.UpperCaseStr(treasure.Unknown0), record.Territory, record.Map, Utils.UpperCaseStr(map.PlaceNameSub.Value.Name), new Vector3(record.ChestX, record.ChestY, record.ChestZ));
+            var patch = record.GetPatch;
+            if (!dutyLoot.Chests.ContainsKey(patch))
+                dutyLoot.Chests[patch] = [];
 
-            var chest = dutyLoot.Chests[record.ChestId];
+            var patchChests = dutyLoot.Chests[patch];
+            if (!patchChests.ContainsKey(record.ChestId))
+                patchChests[record.ChestId] = new ChestDropTemp.Chest(record.ChestId, Utils.UpperCaseStr(treasure.Unknown0), record.Territory, record.Map, Utils.UpperCaseStr(map.PlaceNameSub.Value.Name), new Vector3(record.ChestX, record.ChestY, record.ChestZ));
+
+            var chest = patchChests[record.ChestId];
             foreach (var (itemId, amount) in record.GetRewards())
             {
                 if (!chest.Rewards.ContainsKey(itemId))
@@ -89,7 +97,7 @@ public class ChestDrops : IDisposable
             dutyLoot.Records++;
             chest.Records++;
             
-            dutyLoot.Chests[record.ChestId] = chest;
+            dutyLoot.Chests[patch][record.ChestId] = chest;
             CollectedData[contentRowId] = dutyLoot;
         }
     }
@@ -115,7 +123,30 @@ public class ChestDrops : IDisposable
             var selectedTitle = selectedExpansion.InternalHeaders[dutyLoot.UICategoryKey];
             
             var finalDutyLoot = new ChestDrop.Duty(dutyLoot);
-            foreach (var chestLoot in dutyLoot.Chests.Values.OrderBy(c => c.ChestId))
+
+            var tempChests = new Dictionary<uint, ChestDropTemp.Chest>();
+            foreach (var chests in dutyLoot.Chests.Values)
+            {
+                foreach (var (chestId, chest) in chests)
+                {
+                    if (!tempChests.ContainsKey(chestId))
+                        tempChests[chestId] = new ChestDropTemp.Chest(chest.ChestId, chest.ChestName, chest.TerritoryId, chest.MapId, chest.PlaceNameSub, chest.Position);
+
+                    var tempChest = tempChests[chestId];
+                    tempChest.Records += chest.Records;
+                    foreach (var (itemId, reward) in chest.Rewards)
+                    {
+                        if (!tempChest.Rewards.ContainsKey(itemId))
+                            tempChest.Rewards[itemId] = new ChestDropTemp.ChestReward();
+                    
+                        tempChest.Rewards[itemId].AddExistingRecord(reward);
+                    }
+
+                    tempChests[chestId] = tempChest;
+                }
+            }
+            
+            foreach (var chestLoot in tempChests.Values.OrderBy(c => c.ChestId))
             {
                 var lootContainer = new ChestDrop.Chest(chestLoot);
                 foreach (var (itemId, reward) in chestLoot.Rewards)
@@ -140,10 +171,66 @@ public class ChestDrops : IDisposable
         }
     }
     
+    private void CombineWithPatch() 
+    {
+        foreach (var dutyLoot in CollectedData.Values)
+        {
+            var dutyCategoryName = "Open World";
+            if (Sheets.ContentTypeSheet.TryGetRow(dutyLoot.DutyCategory, out var categoryRow))
+                dutyCategoryName = Utils.UpperCaseStr(categoryRow.Name);
+            
+            if (!ProcessedPatchData.ContainsKey(dutyLoot.DutyCategory))
+                ProcessedPatchData[dutyLoot.DutyCategory] = new ChestDropWithPatch(dutyCategoryName, dutyLoot.DutyCategory);
+            var selectedCategory = ProcessedPatchData[dutyLoot.DutyCategory];
+            
+            if (!selectedCategory.InternalExpansions.ContainsKey(dutyLoot.ExpansionKey))
+                selectedCategory.InternalExpansions[dutyLoot.ExpansionKey] = new ChestDropWithPatch.Expansion(dutyLoot.Expansion, dutyLoot.ExpansionKey);
+            var selectedExpansion = selectedCategory.InternalExpansions[dutyLoot.ExpansionKey];
+            
+            if (!selectedExpansion.InternalHeaders.ContainsKey(dutyLoot.UICategoryKey))
+                selectedExpansion.InternalHeaders[dutyLoot.UICategoryKey] = new ChestDropWithPatch.Header(dutyLoot.UICategory, dutyLoot.UICategoryKey);
+            var selectedTitle = selectedExpansion.InternalHeaders[dutyLoot.UICategoryKey];
+            
+            var finalDutyLoot = new ChestDropWithPatch.Duty(dutyLoot);
+            foreach (var (patch, chests) in dutyLoot.Chests)
+            {
+                if (!finalDutyLoot.Chests.ContainsKey(patch))
+                    finalDutyLoot.Chests[patch] = [];
+                
+                foreach (var chest in chests.Values.OrderBy(c => c.ChestId))
+                {
+                    var lootContainer = new ChestDropWithPatch.Chest(chest);
+                    foreach (var (itemId, reward) in chest.Rewards)
+                        lootContainer.AddReward(itemId, reward);
+                    
+                    finalDutyLoot.Chests[patch].Add(lootContainer);
+                }
+            }
+
+
+            foreach (var patch in finalDutyLoot.Chests.Keys)
+                finalDutyLoot.Chests[patch] = finalDutyLoot.Chests[patch].OrderBy(c => c.MapId).ThenBy(c => c.Id).ToList();
+            
+            selectedTitle.Duties.Add(finalDutyLoot);
+        }
+
+        foreach (var dutyLoot in ProcessedPatchData.Values)
+        {
+            dutyLoot.Expansions = dutyLoot.InternalExpansions.Values.OrderBy(e => e.Id).ToList();
+            foreach (var expansion in dutyLoot.Expansions)
+            {
+                expansion.Headers = expansion.InternalHeaders.Values.OrderBy(h => h.Id).ToList();
+                foreach (var title in expansion.Headers)
+                    title.Duties = title.Duties.OrderBy(t => t.SortKey).ToList();
+            }
+        }
+    }
+    
     private void Export()
     {
         Logger.Information("Start export of processed chest drop data ...");
         ExportHandler.WriteDataJson("ChestDrops.json", ProcessedData.Values.OrderBy(cd => cd.Id));
+        ExportHandler.WriteDataJson("ChestDropsWeb.json", ProcessedPatchData.Values.OrderBy(cd => cd.Id));
         Logger.Information("Done ...");
     }
 }

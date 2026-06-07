@@ -5,7 +5,7 @@ namespace SupabaseExporter.Structures.Temps;
 public class ChestDropTemp(uint dutyId, string name, uint category, string expansion, uint expansionKey, string uiCategory, uint uiCategoryKey, uint sort)
 {
     public int Records;
-    public Dictionary<uint, Chest> Chests = [];
+    public Dictionary<string, Dictionary<uint, Chest>> Chests = [];
 
     public uint DutyId = dutyId;
     public string DutyName = name;
@@ -46,6 +46,14 @@ public class ChestDropTemp(uint dutyId, string name, uint category, string expan
             Total += quantity;
             Min = Math.Min(Min, quantity);
             Max = Math.Max(Max, quantity);
+        }
+
+        public void AddExistingRecord(ChestReward reward)
+        {
+            Amount += reward.Amount;
+            Total += reward.Total;
+            Min = Math.Min(Min, reward.Min);
+            Max = Math.Max(Max, reward.Max);
         }
     }
 }

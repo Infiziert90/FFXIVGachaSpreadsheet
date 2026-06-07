@@ -6,7 +6,7 @@ import {LoadMapSheet} from "$lib/sheets/simplifiedSheets";
 export const load: PageLoad = async ({ fetch }) => {
     let mappingPromise = loadMapping(fetch);
 
-    const res = await loadChestDrops('/data/ChestDrops.json', fetch)
+    const res = await loadChestDrops('/data/ChestDropsWeb.json', fetch)
     await LoadMapSheet(fetch);
     await mappingPromise;
 

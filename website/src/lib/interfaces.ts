@@ -83,7 +83,7 @@ export interface Duty {
     Id: number;
     Name: string;
     SortKey: number;
-    Chests: Chest[];
+    Chests: Record<string, Chest[]>;
 }
 
 export interface Chest {

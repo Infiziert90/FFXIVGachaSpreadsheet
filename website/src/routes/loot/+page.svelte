@@ -11,6 +11,8 @@
     import PageSidebar from "../../component/PageSidebar.svelte";
     import {convertToMapCoords} from "$lib/coordHelper";
     import {Vector3} from "$lib/math/vector3";
+    import {combineLoot} from "$lib/patchCombining";
+    import MultiSelect, {type Option} from "svelte-multiselect";
 
     interface Props {
         data: { content: ChestDrop[] };
@@ -22,6 +24,10 @@
     let { data }: Props = $props();
 
     let chestDropData: ChestDrop[] = data.content;
+
+    let patches: string[] = $state(Object.keys(chestDropData[0].Expansions[0].Headers[0].Duties[0].Chests))
+    // svelte-ignore state_referenced_locally
+    let selectedPatches: Option[] = $state([...patches.values()])
 
     // Table data
     let tables: Record<number, Chest> = $state({});
@@ -102,11 +108,19 @@
         const selection = tryGetChestDrop(chestDropData, category, expansion, header, duty);
         if (selection === undefined) return;
 
+        // Check if the selected patch is invalid, if so reset to default
+        let availablePatches = Object.keys(selection.duty.Chests);
+        if (availablePatches.length !== patches.length || !selectedPatches.every(v => availablePatches.includes(v.toString()))) {
+            // Update the available patches list
+            patches.length = 0;
+            patches = availablePatches;
+
+            selectedPatches.length = 0;
+            selectedPatches = [...patches.values()];
+        }
+
         // Update table data
-        tables = {};
-        selection.duty.Chests.forEach((c) => {
-            tables[c.Id] = c;
-        })
+        tables = combineLoot(selection.duty.Chests, selectedPatches);
 
         // Update stats display
         titleStats = `${selection.chestDrop.Name} Stats`;
@@ -160,6 +174,14 @@
         let coords = convertToMapCoords(new Vector3(chest.Position.X, chest.Position.Y, chest.Position.Z), chest.MapId);
         return `(${coords.X.toFixed(2)}, ${coords.Y.toFixed(2)})`
     }
+
+    /**
+     * Called when user changes the patch selection dropdown
+     */
+    function patchSelectionChanged(event: Event) {
+        // Reload the current tab with the new patch selection
+        openTab(category, expansion, header, duty, false);
+    }
 </script>
 
 <svelte:head>
@@ -183,6 +205,17 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">{totalStats}</li>
                 <li class="list-group-item">{selectedStats}</li>
+                <li class="list-group-item">
+                    <label for="patch">Patches</label>
+                    <MultiSelect
+                            bind:selected={selectedPatches}
+                            options={patches}
+                            required={true}
+                            ulSelectedClass="multiSelect-selection"
+                            ulOptionsStyle="padding-left:0.5rem;"
+                            onchange={patchSelectionChanged}
+                    />
+                </li>
             </ul>
         </div>
     </div>
