@@ -93,6 +93,7 @@ export interface Chest {
     MapId: number;
     TerritoryId: number;
     PlaceNameSub: string;
+    Position: { X: number, Y: number, Z: number };
     Rewards: Reward[];
 }
 

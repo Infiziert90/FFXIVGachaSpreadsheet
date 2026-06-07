@@ -1,4 +1,6 @@
-﻿namespace SupabaseExporter.Structures.Temps;
+﻿using System.Numerics;
+
+namespace SupabaseExporter.Structures.Temps;
 
 public class ChestDropTemp(uint dutyId, string name, uint category, string expansion, uint expansionKey, string uiCategory, uint uiCategoryKey, uint sort)
 {
@@ -17,13 +19,14 @@ public class ChestDropTemp(uint dutyId, string name, uint category, string expan
     
     public uint SortKey = sort;
 
-    public class Chest(uint chestId, string chestName, uint territory, uint map, string placeNameSub)
+    public class Chest(uint chestId, string chestName, uint territory, uint map, string placeNameSub, Vector3 position)
     {
         public int Records;
         
         public uint MapId = map;
         public uint TerritoryId = territory;
         public string PlaceNameSub = placeNameSub;
+        public Vector3 Position = position;
         
         public uint ChestId = chestId;
         public string ChestName = chestName;

@@ -1,4 +1,5 @@
-﻿using SupabaseExporter.Structures.Exports;
+﻿using System.Numerics;
+using SupabaseExporter.Structures.Exports;
 using SupabaseExporter.Structures.Temps;
 
 namespace SupabaseExporter.Processing.ChestDrops;
@@ -73,9 +74,10 @@ public class ChestDrops : IDisposable
                 }
             }
             
-            if (!dutyLoot.Chests.TryGetValue(record.ChestId, out var chest))
-                chest = new ChestDropTemp.Chest(record.ChestId, Utils.UpperCaseStr(treasure.Unknown0), record.Territory, record.Map, Utils.UpperCaseStr(map.PlaceNameSub.Value.Name));
-            
+            if (!dutyLoot.Chests.ContainsKey(record.ChestId))
+                dutyLoot.Chests[record.ChestId] = new ChestDropTemp.Chest(record.ChestId, Utils.UpperCaseStr(treasure.Unknown0), record.Territory, record.Map, Utils.UpperCaseStr(map.PlaceNameSub.Value.Name), new Vector3(record.ChestX, record.ChestY, record.ChestZ));
+
+            var chest = dutyLoot.Chests[record.ChestId];
             foreach (var (itemId, amount) in record.GetRewards())
             {
                 if (!chest.Rewards.ContainsKey(itemId))

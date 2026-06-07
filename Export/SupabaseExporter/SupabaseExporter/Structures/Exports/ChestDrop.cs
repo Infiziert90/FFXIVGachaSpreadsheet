@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Numerics;
+using Newtonsoft.Json;
 using SupabaseExporter.Structures.Temps;
 
 namespace SupabaseExporter.Structures.Exports;
@@ -67,6 +68,7 @@ public class ChestDrop(string name, uint categoryId)
         public uint MapId;
         public uint TerritoryId;
         public string PlaceNameSub;
+        public Vector3 Position;
 
         public List<Reward> Rewards = [];
         
@@ -80,6 +82,7 @@ public class ChestDrop(string name, uint categoryId)
             MapId = chest.MapId;
             TerritoryId = chest.TerritoryId;
             PlaceNameSub = chest.PlaceNameSub;
+            Position = chest.Position;
         }
 
         public void AddReward(uint itemId, ChestDropTemp.ChestReward reward)

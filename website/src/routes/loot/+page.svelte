@@ -5,11 +5,12 @@
     import {onMount} from "svelte";
     import {FullColumnSetup} from "$lib/table";
     import AccordionItem from "../../component/AccordionItem.svelte";
-    import { Icon } from '@sveltestrap/sveltestrap';
     import {tryGetDutyLootSearchParams} from "$lib/searchParamHelper";
     import DropsTable from "../../component/DropsTable.svelte";
     import DutyAccordion from "../../component/DutyAccordion.svelte";
     import PageSidebar from "../../component/PageSidebar.svelte";
+    import {convertToMapCoords} from "$lib/coordHelper";
+    import {Vector3} from "$lib/math/vector3";
 
     interface Props {
         data: { content: ChestDrop[] };
@@ -154,6 +155,11 @@
 
         return { chestDrop, expansion, header, duty };
     }
+
+    function getPositionString(chest: Chest): string {
+        let coords = convertToMapCoords(new Vector3(chest.Position.X, chest.Position.Y, chest.Position.Z), chest.MapId);
+        return `(${coords.X.toFixed(2)}, ${coords.Y.toFixed(2)})`
+    }
 </script>
 
 <svelte:head>
@@ -187,7 +193,7 @@
             {#each Object.entries(tables) as [tableId, chest], idx}
                 <AccordionItem open={idx === openIdx} ontoggle={() => toggleOpen(idx)}>
                     {#snippet header()}
-                        {chest.Id} {chest.Name.length > 0 ? `| ${chest.Name}` : ''} {chest.PlaceNameSub.length > 0 ? `| ${chest.PlaceNameSub}` : ''}
+                        {getPositionString(chest)} {chest.Name.length > 0 ? ` ${chest.Name}` : ''} {chest.PlaceNameSub.length > 0 ? `| ${chest.PlaceNameSub}` : ''}
                     {/snippet}
                     {#if chest.Rewards.length > 0}
                         <DropsTable items={chest.Rewards} columns={FullColumnSetup} />
