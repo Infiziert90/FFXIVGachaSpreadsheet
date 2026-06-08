@@ -159,6 +159,14 @@
         <NavItem>
             <NavLink href="/about">About</NavLink>
         </NavItem>
+
+        <NavItem>
+            <NavLink href="https://ko-fi.com/infiii" target="_blank">
+                <Icon name="suit-heart-fill" class="text-white" />
+                <span class="visually-hidden">KoFi</span>
+            </NavLink>
+        </NavItem>
+
         <NavItem>
             <NavLink href="https://github.com/Infiziert90/FFXIVGachaSpreadsheet" target="_blank">
                 <Icon name="github" class="text-white"/>

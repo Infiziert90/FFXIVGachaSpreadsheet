@@ -14,30 +14,10 @@
 </svelte:head>
 
 <div class="col-12">
-    <h1 class="text-body-emphasis">Final Fantasy 14 %-Stats</h1>
+    <h1 class="text-body-emphasis text-center mb-5">Final Fantasy 14 %-Stats</h1>
 
-    <p>
-        <strong>Last Update</strong>:
-        {#await getLastUpdate(browser) then value}
-            {value}
-        {/await}
-    </p>
-
-    <p>Legend:</p>
-    <blockquote>
-        <p>
-            “Name” - Name of the item<br>
-            “Obtained” - Number of times the item was received<br>
-            “Total” - Total number of items received<br>
-            “Chance” - % in relation to all records
-        </p>
-    </blockquote>
-    <blockquote>
-        <p>Keep in mind that every draw is based on randomness, so values can vary slightly for each individual</p>
-    </blockquote>
-
-    <h3 id="content">Content</h3>
-    <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
+    <h3 id="content" class="text-center mt-4">Content</h3>
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
         <CardLink cardTitle={'Random Coffers'} cardIcon={61812} cardLink={'coffer/'} />
         <CardLink cardTitle={'Lockboxes'} cardIcon={61808} cardLink={'lockbox/'} />
         <CardLink cardTitle={'Card Packs'} cardIcon={61820} cardLink={'card/'} />
@@ -49,12 +29,12 @@
         <CardLink cardTitle={'Occult'} cardIcon={61851} cardLink={'occult/'} />
         <CardLink cardTitle={'Logograms and Fragments'} cardIcon={61837} cardLink={'logofrag/'} />
     </div>
-    <h3 id="content">Submarines</h3>
-    <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
+    <h3 id="content" class="text-center mt-4">Submarines</h3>
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
         <CardLink cardTitle={'Submarine Loot'} cardIcon={63191} cardLink={'submarine/'} />
     </div>
-    <h3 id="content">Maps</h3>
-    <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
+    <h3 id="content" class="text-center mt-4">Maps</h3>
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
         <CardLink cardTitle={'Monster Locations'} cardIcon={61837} cardLink={'bnpc/'} />
         <CardLink cardTitle={'Housing Info'} cardIcon={60756} cardLink={'housing/'} />
         <CardLink cardTitle={'Open Plots'} cardIcon={60758} cardLink={'housingOpen/'} />
