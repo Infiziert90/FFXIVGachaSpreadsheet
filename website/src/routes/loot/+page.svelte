@@ -11,7 +11,7 @@
     import PageSidebar from "../../component/PageSidebar.svelte";
     import {convertToMapCoords} from "$lib/coordHelper";
     import {Vector3} from "$lib/math/vector3";
-    import {combineLoot} from "$lib/patchCombining";
+    import {combineDutyTotal, combineLoot} from "$lib/patchCombining";
     import MultiSelect, {type Option} from "svelte-multiselect";
 
     interface Props {
@@ -45,7 +45,7 @@
 
     // Set default meta data
     let title = $state('Duty Loot');
-    let description = $state('Possibilities for all types of chest loot in Duties, Trials, Raids and more.');
+    let description = $state('Possibilities for all types of loot in Duties, Trials, Raids and more.');
 
     // Override defaults with URL parameters if they exist
     let dutyLootSearchParams = tryGetDutyLootSearchParams(page.url.searchParams);
@@ -58,8 +58,8 @@
         // svelte-ignore state_referenced_locally
         const selection = tryGetChestDrop(chestDropData, category, expansion, header, duty);
         if (selection !== undefined) {
-            title = `Duty Loot - ${selection.chestDrop.Name}`;
-            description = `All possible drops in ${selection.duty.Name}`;
+            title = `Duty Loot - ${selection.duty.Name}`;
+            description = `All possible drops for this ${selection.chestDrop.Name}.`;
         }
     }
 
@@ -125,7 +125,7 @@
         // Update stats display
         titleStats = `${selection.chestDrop.Name} Stats`;
         totalStats = `${selection.duty.Name}`;
-        selectedStats = `${selection.duty.Records.toLocaleString()}`;
+        selectedStats = `${combineDutyTotal(selection.duty.PatchRecords, selectedPatches).toLocaleString()}`;
 
         // Scroll to the top of the page
         window.scrollTo(0, 0);
@@ -170,6 +170,9 @@
         return { chestDrop, expansion, header, duty };
     }
 
+    /**
+    * Converts the world coords to a map position string
+    */
     function getPositionString(chest: Chest): string {
         let coords = convertToMapCoords(new Vector3(chest.Position.X, chest.Position.Y, chest.Position.Z), chest.MapId);
         return `(${coords.X.toFixed(2)}, ${coords.Y.toFixed(2)})`

@@ -135,6 +135,7 @@ public class ChestDropWithPatch(string name, uint categoryId)
         public uint SortKey;
 
         public Dictionary<string, List<Chest>> Chests = [];
+        public Dictionary<string, uint> PatchRecords = [];
 
         public Duty() { }
         
@@ -144,6 +145,7 @@ public class ChestDropWithPatch(string name, uint categoryId)
             Id = temp.DutyId;
             Name = temp.DutyName;
             SortKey = temp.SortKey;
+            PatchRecords = temp.PatchRecords;
         }
     }
 

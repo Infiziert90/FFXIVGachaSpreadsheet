@@ -41,7 +41,7 @@
 
     // Set default meta data
     let title = $state('Occult');
-    let description = $state('Possibilities for Treasures, Occult Pots and Bunnies.');
+    let description = $state('Possibilities for Treasures, Pots and Bunnies.');
 
     // Override defaults with URL parameters if they exist
     let cofferSearchParams = tryGetCofferSearchParams(page.url.searchParams);

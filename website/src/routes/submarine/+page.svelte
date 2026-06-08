@@ -32,7 +32,7 @@
 
     // Set default meta data
     let title = $state('Submarine Loot');
-    let description = $state('Sector loot overview with possibilities and quantities.');
+    let description = $state('Possibilities and quantities for submarine sectors.');
 
     // Override defaults with URL parameters if they exist
     let submarineSearchParams = tryGetSubmarineSearchParams(page.url.searchParams);
@@ -42,6 +42,7 @@
         // svelte-ignore state_referenced_locally
         if (map in SimpleSubMapSheet) {
             title = `Submarine Loot - ${SimpleSubMapSheet[map].Name}`;
+            description = `Possibilities and quantities for ${SimpleSubMapSheet[map].Name}.`
         }
     }
 

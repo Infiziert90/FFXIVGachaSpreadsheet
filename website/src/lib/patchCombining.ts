@@ -1,6 +1,11 @@
 ﻿import type {Chest, CofferContent, CofferVariant, Reward} from "$lib/interfaces";
 import type {Option} from "svelte-multiselect";
 
+/**
+ * Combines all coffer data into a single entry for the selected patch range
+ * @param data
+ * @param selectedPatches
+ */
 export function combineCoffer(data: Record<string, CofferContent>, selectedPatches: Option[]): CofferContent {
     const combinedData: CofferContent = {Total: 0, Items: []};
 
@@ -22,6 +27,11 @@ export function combineCoffer(data: Record<string, CofferContent>, selectedPatch
     return combinedData;
 }
 
+/**
+ * Gets the total records for all variants for the selected patch range
+ * @param variants
+ * @param selectedPatches
+ */
 export function combineVariantTotal(variants: CofferVariant[], selectedPatches: Option[]): number {
     let total = 0;
     for (const patch of selectedPatches) {
@@ -35,6 +45,11 @@ export function combineVariantTotal(variants: CofferVariant[], selectedPatches: 
     return total;
 }
 
+/**
+ * Combines all duty records into a single entry for the selected patch range
+ * @param data
+ * @param selectedPatches
+ */
 export function combineLoot(data: Record<string, Chest[]>, selectedPatches: Option[]): Record<number, Chest> {
     const combinedData: Record<number, Chest> = {};
 
@@ -48,8 +63,9 @@ export function combineLoot(data: Record<string, Chest[]>, selectedPatches: Opti
             let selectedChest = combinedData[chest.Id];
             selectedChest.Records += chest.Records;
             for (const item of chest.Rewards) {
-                if (!processedItems.has(item.Id)) {
-                    processedItems.add(item.Id);
+                let id = (chest.Id << 20) + item.Id;
+                if (!processedItems.has(id)) {
+                    processedItems.add(id);
 
                     selectedChest.Rewards.push(processLoot(chest.Id, item, data, selectedPatches));
                 }
@@ -58,6 +74,22 @@ export function combineLoot(data: Record<string, Chest[]>, selectedPatches: Opti
     }
 
     return combinedData;
+}
+
+/**
+ * Gets the total number of duty records for the selected patch range
+ * @param counts
+ * @param selectedPatches
+ */
+export function combineDutyTotal(counts: Record<string, number>, selectedPatches: Option[]): number {
+    let total = 0;
+    for (const patch of selectedPatches) {
+        if (patch.toString() in counts) {
+            total += counts[patch.toString()];
+        }
+    }
+
+    return total;
 }
 
 function processItem(item: Reward, data: Record<string, CofferContent>, selectedPatches: Option[]) {

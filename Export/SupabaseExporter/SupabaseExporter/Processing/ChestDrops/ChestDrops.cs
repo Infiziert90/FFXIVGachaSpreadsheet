@@ -78,6 +78,9 @@ public class ChestDrops : IDisposable
             }
             
             var patch = record.GetPatch;
+            dutyLoot.PatchRecords.TryAdd(patch, 0);
+            dutyLoot.PatchRecords[patch]++;
+            
             if (!dutyLoot.Chests.ContainsKey(patch))
                 dutyLoot.Chests[patch] = [];
 

@@ -3,7 +3,7 @@
     import { replaceState } from "$app/navigation";
     import type {DesynthBase, DesynthesisBase, DesynthHistory, Reward} from "$lib/interfaces";
     import { Mappings } from "$lib/mappings";
-    import {onMount, tick} from "svelte";
+    import {onMount} from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
     import {NameObtainedMinChanceSetup, RewardDesynthSpecial} from "$lib/table";
     import DesynthSearchbar from "../../component/DesynthSearchbar.svelte";
@@ -48,7 +48,7 @@
 
     // Set default meta data
     let title = $state('Desynthesis');
-    let description = $state('Possibilities for desynthesis material and their rewards.');
+    let description = $state('Possibilities for desynthesis materials.');
 
     // Override defaults with URL parameters if they exist
     let desynthSearchParams = tryGetDesynthSearchParams(page.url.searchParams);
@@ -61,12 +61,11 @@
 
         // svelte-ignore state_referenced_locally
         let id = isSourceSearch ? sourceParam : rewardParam;
-        let titleAddition = isSourceSearch ? 'Source Search' : 'Reward Search';
-        let descriptionAddition = isSourceSearch ? 'Rewards' : 'Sources';
+        let descriptionAddition = isSourceSearch ? 'rewards' : 'sources';
 
         if (id in Mappings) {
-            title = `Desynthesis - ${titleAddition}`;
-            description = `${descriptionAddition} for ${Mappings[id].Name}.`;
+            title = `Desynthesis - ${Mappings[id].Name}`;
+            description = `All known ${descriptionAddition} for ${Mappings[id].Name}.`;
         }
     }
 
@@ -173,36 +172,44 @@
     <meta property="og:description" content={description} />
 </svelte:head>
 
-<PageSidebar>
-    <DesynthSearchbar
-        {desynthesisBase}
-        {selectedId}
-        {onButtonClick}
-        {tabElements}
-    />
-</PageSidebar>
-<div class="col-12 col-lg-2 order-0 order-lg-3">
-    <div id="stats" class="stats">
-        <div class="card">
-            <div class="card-header">
-                <strong>{titleStats}</strong>
+{#if tableItems.length > 0}
+    <PageSidebar>
+        <DesynthSearchbar
+                {desynthesisBase}
+                {selectedId}
+                {onButtonClick}
+                {tabElements}
+        />
+    </PageSidebar>
+    <div class="col-12 col-lg-2 order-0 order-lg-3">
+        <div id="stats" class="stats">
+            <div class="card">
+                <div class="card-header">
+                    <strong>{titleStats}</strong>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{totalStats}</li>
+                    <li class="list-group-item">{selectedStats}</li>
+                </ul>
             </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">{totalStats}</li>
-                <li class="list-group-item">{selectedStats}</li>
-                <li class="list-group-item">
-                    <label for="patch">Patch</label>
-                </li>
-            </ul>
         </div>
     </div>
-</div>
-<div class="col-12 col-lg-7 order-0 order-lg-2">
-    <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
-        {#if tableItems.length > 0}
-            <DropsTable items={tableItems} columns={searchType === 1 ? NameObtainedMinChanceSetup : RewardDesynthSpecial} />
-        {:else}
-            <p>No data found</p>
-        {/if}
+    <div class="col-12 col-lg-7 order-0 order-lg-2">
+        <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
+            {#if tableItems.length > 0}
+                <DropsTable items={tableItems} columns={searchType === 1 ? NameObtainedMinChanceSetup : RewardDesynthSpecial} />
+            {:else}
+                <p>No data for selected item.</p>
+            {/if}
+        </div>
     </div>
-</div>
+{:else}
+    <div class="col-12">
+        <DesynthSearchbar
+                {desynthesisBase}
+                {selectedId}
+                {onButtonClick}
+                {tabElements}
+        />
+    </div>
+{/if}

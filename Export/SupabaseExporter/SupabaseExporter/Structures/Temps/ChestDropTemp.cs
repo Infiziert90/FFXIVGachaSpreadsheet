@@ -19,6 +19,8 @@ public class ChestDropTemp(uint dutyId, string name, uint category, string expan
     
     public uint SortKey = sort;
 
+    public Dictionary<string, uint> PatchRecords = [];
+
     public class Chest(uint chestId, string chestName, uint territory, uint map, string placeNameSub, Vector3 position)
     {
         public int Records;
