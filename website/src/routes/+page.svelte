@@ -17,7 +17,7 @@
     <h1 class="text-body-emphasis text-center mb-5">Final Fantasy 14 %-Stats</h1>
 
     <h3 id="content" class="text-center mt-4">Content</h3>
-    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5 justify-content-center">
         <CardLink cardTitle={'Random Coffers'} cardIcon={61812} cardLink={'coffer/'} />
         <CardLink cardTitle={'Lockboxes'} cardIcon={61808} cardLink={'lockbox/'} />
         <CardLink cardTitle={'Card Packs'} cardIcon={61820} cardLink={'card/'} />
@@ -30,11 +30,11 @@
         <CardLink cardTitle={'Logograms and Fragments'} cardIcon={61837} cardLink={'logofrag/'} />
     </div>
     <h3 id="content" class="text-center mt-4">Submarines</h3>
-    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5 justify-content-center">
         <CardLink cardTitle={'Submarine Loot'} cardIcon={63191} cardLink={'submarine/'} />
     </div>
     <h3 id="content" class="text-center mt-4">Maps</h3>
-    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5 justify-content-center">
         <CardLink cardTitle={'Monster Locations'} cardIcon={61837} cardLink={'bnpc/'} />
         <CardLink cardTitle={'Housing Info'} cardIcon={60756} cardLink={'housing/'} />
         <CardLink cardTitle={'Open Plots'} cardIcon={60758} cardLink={'housingOpen/'} />
