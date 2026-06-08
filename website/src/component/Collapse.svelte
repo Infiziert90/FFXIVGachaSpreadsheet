@@ -17,6 +17,8 @@
         transition:slide={{ duration: animate ? 200 : 0 }}
         style="overflow: hidden;{style ? ` ${style}` : ''}"
         class={className}
+        onintroend={(e) => { e.currentTarget.style.overflowX = 'auto'; }}
+        onoutrostart={(e) => { e.currentTarget.style.overflow = 'hidden'; }}
     >
         {#if children}
             {@render children()}
