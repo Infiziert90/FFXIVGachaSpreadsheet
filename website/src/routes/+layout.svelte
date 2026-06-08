@@ -4,7 +4,8 @@
     import 'leaflet/dist/leaflet.css';
 	import '../app.css';
     import {Container} from '@sveltestrap/sveltestrap';
-	import favicon from '$lib/assets/favicon.png';
+	import faviconPng from '$lib/assets/favicon.png';
+	import faviconSvg from '$lib/assets/favicon.svg';
     import Footer from "../component/Footer.svelte";
     import { layoutWidth } from '$lib/stores/layoutWidth';
     import { page } from '$app/state';
@@ -13,7 +14,8 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
+	<link rel="icon" href={faviconSvg} type="image/svg+xml" />
+	<link rel="icon" href={faviconPng} type="image/png" />
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
