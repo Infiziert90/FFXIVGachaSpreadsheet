@@ -130,7 +130,7 @@
             </div>
         </Button>
     {/if}
-    <NavbarBrand href="/">FFXIV Gacha</NavbarBrand>
+    <NavbarBrand href="/">XIVStats</NavbarBrand>
     <NavbarToggler onclick={toggle} />
 
 <Collapse {isOpen} navbar expand="lg">

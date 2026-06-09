@@ -1,5 +1,5 @@
 {
-    "name": "gacha-website",
+    "name": "stats-website",
     "compatibility_date": "2025-12-21",
     "compatibility_flags": [
       "global_fetch_strictly_public"
@@ -14,7 +14,7 @@
     },
     "routes": [
       {
-        "pattern": "gacha.infi.ovh",
+        "pattern": "xivstats.com",
         "custom_domain": true
       }
     ]

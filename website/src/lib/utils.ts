@@ -2,7 +2,7 @@
 
 const HEADERS = new Headers({
     'Content-Type': 'application/json;charset=UTF-8',
-    "User-Agent": "FFXIV Gacha"
+    "User-Agent": "XIVStats"
 });
 
 export const HousingMaps: Record<number, boolean> = {

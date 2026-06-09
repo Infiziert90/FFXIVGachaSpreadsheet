@@ -1,7 +1,5 @@
 <script lang="ts">
-    import {getLastUpdate} from "$lib/utils";
     import CardLink from "../component/CardLink.svelte";
-    import { browser } from '$app/environment';
 </script>
 
 <svelte:head>
@@ -9,12 +7,12 @@
 
     <meta property="og:site_name" content="Home">
     <meta property="og:title" content="Home">
-    <meta name="description" content="A collection of probabilities." />
-    <meta property="og:description" content="A collection of probabilities." />
+    <meta name="description" content="A collection of stats and tools." />
+    <meta property="og:description" content="A collection of stats and tools." />
 </svelte:head>
 
 <div class="col-12">
-    <h1 class="text-body-emphasis text-center mb-5">Final Fantasy 14 %-Stats</h1>
+    <h1 class="text-body-emphasis text-center mb-5">XIV Stats & Tools</h1>
 
     <h3 id="content" class="text-center mt-4">Content</h3>
     <div class="row row-cols-1 row-cols-md-3 g-4 mb-5 justify-content-center">

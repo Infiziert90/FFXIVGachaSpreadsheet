@@ -7,7 +7,7 @@ const HEADERS: RequestInit = {
     headers: new Headers({
         "Accept"       : "application/json",
         "Content-Type" : "application/json",
-        "User-Agent"   : "FFXIV Gacha (gacha.infi.ovh)"
+        "User-Agent"   : "XIVStats"
     }),
     mode: 'cors'
 };
