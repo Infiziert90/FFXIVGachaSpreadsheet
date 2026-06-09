@@ -12,7 +12,7 @@
 </svelte:head>
 
 <div class="col-12">
-    <h1 class="text-body-emphasis text-center mb-5">XIV Stats & Tools</h1>
+    <h1 class="text-body-emphasis text-center mb-5">Stats & Tools</h1>
 
     <h3 id="content" class="text-center mt-4">Content</h3>
     <div class="row row-cols-1 row-cols-md-3 g-4 mb-5 justify-content-center">
