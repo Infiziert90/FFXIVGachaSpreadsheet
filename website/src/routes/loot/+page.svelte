@@ -45,7 +45,7 @@
 
     // Set default meta data
     let title = $state('Duty Loot');
-    let description = $state('Possibilities for all types of loot in Duties, Trials, Raids and more.');
+    let description = $state('A loot overview for all types of loot in Duties, Trials, Raids and more.');
 
     // Override defaults with URL parameters if they exist
     let dutyLootSearchParams = tryGetDutyLootSearchParams(page.url.searchParams);
@@ -59,7 +59,7 @@
         const selection = tryGetChestDrop(chestDropData, category, expansion, header, duty);
         if (selection !== undefined) {
             title = `Duty Loot - ${selection.duty.Name}`;
-            description = `All possible drops for this ${selection.chestDrop.Name}.`;
+            description = `A list of all possible drops with %-chance for this ${selection.chestDrop.Name}.`;
         }
     }
 
@@ -190,7 +190,6 @@
 <svelte:head>
     <title>{title}</title>
 
-    <meta property="og:site_name" content={title}>
     <meta property="og:title" content={title}>
     <meta name="description" content={description} />
     <meta property="og:description" content={description} />

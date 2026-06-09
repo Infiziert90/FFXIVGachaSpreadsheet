@@ -5,7 +5,7 @@
 <svelte:head>
     <title>Home</title>
 
-    <meta property="og:site_name" content="Home">
+    <meta property="og:site_name" content="XIVStats">
     <meta property="og:title" content="Home">
     <meta name="description" content="A collection of stats and tools." />
     <meta property="og:description" content="A collection of stats and tools." />
