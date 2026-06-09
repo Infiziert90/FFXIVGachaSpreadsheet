@@ -16,6 +16,10 @@
       {
         "pattern": "xivstats.com",
         "custom_domain": true
+      },
+      {
+        "pattern": "www.xivstats.com",
+        "custom_domain": true
       }
     ]
 }
