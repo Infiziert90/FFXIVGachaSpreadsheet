@@ -36,20 +36,20 @@ const NameTemplate: ColumnTemplate = {
 };
 
 const ObtainedTemplate: ColumnTemplate = {
-    header: 'Obtained',
+    header: 'Seen',
     field: 'Amount',
     classExtension: ['number', 'text-center']
 };
 
 const RewardDesynthTemplate: ColumnTemplate = {
-    header: 'Obtained / Desynths',
+    header: 'Seen / Desynths',
     field: 'Amount',
     valueRenderer: (row: Reward) => `${row.Amount} / ${row.Total}`,
     classExtension: ['number', 'text-center']
 };
 
 const TotalTemplate: ColumnTemplate = {
-    header: 'Total',
+    header: 'Dropped',
     field: 'Total',
     classExtension: ['number', 'text-center']
 };
