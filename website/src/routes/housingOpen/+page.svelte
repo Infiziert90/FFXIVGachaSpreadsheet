@@ -546,13 +546,13 @@
         <Input class="mb-0" type="checkbox" bind:checked={showMarkers} label="Show Map Markers" on:change={showStateChanged}></Input>
     </div>
 </PageSidebar>
-<div class="col-12 col-lg-10 order-0 order-lg-2">
+<div class="col-12 col-lg-10 order-0 order-lg-2 justify-content-center">
     {#if selectedMapId.name === ''}
         <h2 class="text-center">Loading data ...</h2>
     {:else}
         <h2 class="text-center">{getPhaseName(lotteryPhase.phase)} phase ends {getNextPhaseStart(lotteryPhase.nextStart)} ({getNextPhaseLeftover(lotteryPhase.nextStart)})</h2>
         <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
-            <div class="map" style="height:1024px;width:1024px" use:mapAction />
+            <div class="map" style="height:1024px" use:mapAction />
         </div>
     {/if}
 </div>

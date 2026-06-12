@@ -9,6 +9,8 @@
     import ItemCard from "../../component/ItemCard.svelte";
     import {tryGetVentureSearchParams} from "$lib/searchParamHelper.ts";
     import PageSidebar from "../../component/PageSidebar.svelte";
+    import MultiSelect, {type Option} from "svelte-multiselect";
+    import {combineCoffer, combineTaskTotal, combineVenture} from "$lib/patchCombining";
 
     interface Props {
         content: Venture[];
@@ -18,10 +20,12 @@
     let tabContentElement: HTMLDivElement = $state() as HTMLDivElement;
 
     let { data }: Props = $props();
-    let patches: string[] = $state([])
-    let selectedPatch = $state(0);
 
     let ventureData: Venture[] = data.content;
+
+    let patches: string[] = $state(Object.keys(ventureData[1].Tasks[0].Patches))
+    // svelte-ignore state_referenced_locally
+    let selectedPatches: Option[] = $state([...patches.values()])
 
     // Table data
     let primaryRewards: Reward[] = $state([]);
@@ -31,10 +35,6 @@
     let titleStats = $state('');
     let totalStats = $state('');
     let selectedStats = $state('');
-
-    for (const patch of Object.keys(ventureData[1].Tasks[0].Patches)) {
-        patches.push(patch)
-    }
 
     // Initialize with default values (skipping first because it is a huge quick venture list)
     let category = $state(ventureData[1].Category);
@@ -89,19 +89,19 @@
 
         // Check if the selected patch is invalid, if so reset to default
         let availablePatches = Object.keys(selection.task.Patches);
-        if (availablePatches.length !== patches.length || patches.length <= selectedPatch || !availablePatches.includes(patches[selectedPatch])) {
+        if (availablePatches.length !== patches.length || !selectedPatches.every(v => availablePatches.includes(v.toString()))) {
             // Update the available patches list
             patches.length = 0;
-            for (const key of availablePatches) {
-                patches.push(key);
-            }
+            patches = availablePatches;
 
-            selectedPatch = 0;
+            selectedPatches.length = 0;
+            selectedPatches = [...patches.values()];
         }
 
         // Get the patch data for the selected patch
-        const requestedPatch = patches[selectedPatch];
-        const patchData = selection.task.Patches[requestedPatch];
+        const patchData = selectedPatches.length === 1
+            ? selection.task.Patches[selectedPatches[0]]
+            : combineVenture(selection.task.Patches, selectedPatches);
 
         // Update table data
         primaryRewards = patchData.Primaries;
@@ -110,7 +110,7 @@
         // Update stats display
         titleStats = `${selection.venture.Name} Stats`;
         totalStats = `${selection.task.Name}`;
-        selectedStats = `${patchData.Total.toLocaleString()}`;
+        selectedStats = `${combineTaskTotal(selection.task.Patches, selectedPatches).toLocaleString()}`;
 
         // Scroll to the top of the page
         window.scrollTo(0, 0);
@@ -123,8 +123,6 @@
      * Called when user changes the patch selection dropdown
      */
     function patchSelectionChanged(event: Event) {
-        if (!event.currentTarget) return;
-
         // Reload the current tab with the new patch selection
         openTab(category, taskType, false);
     }
@@ -180,14 +178,15 @@
                 <li class="list-group-item">{totalStats}</li>
                 <li class="list-group-item">{selectedStats}</li>
                 <li class="list-group-item">
-                    <label for="patch">Patch</label>
-                    <select id="patch" class="form-select" bind:value={selectedPatch} onchange={patchSelectionChanged}>
-                        {#each patches as patch, idx}
-                            <option value={idx}>
-                                {patch}
-                            </option>
-                        {/each}
-                    </select>
+                    <label for="patch">Patches</label>
+                    <MultiSelect
+                            bind:selected={selectedPatches}
+                            options={patches}
+                            required={true}
+                            ulSelectedClass="multiSelect-selection"
+                            ulOptionsStyle="padding-left:0.5rem;"
+                            onchange={patchSelectionChanged}
+                    />
                 </li>
             </ul>
         </div>

@@ -654,7 +654,7 @@
     {:else}
         <h2 class="text-center">{getPhaseName(lotteryPhase.phase)} phase ends {getNextPhaseStart(lotteryPhase.nextStart)} ({getNextPhaseLeftover(lotteryPhase.nextStart)})</h2>
         <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
-                <div class="map" style="height:1024px;width:1024px" use:mapAction />
+                <div class="map" style="height:1024px;" use:mapAction />
         </div>
     {/if}
 </div>

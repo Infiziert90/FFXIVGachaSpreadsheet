@@ -54,7 +54,7 @@ export interface VentureTask {
     Patches: Record<string, VentureContent>;
 }
 
-interface VentureContent {
+export interface VentureContent {
     Total: number;
     Primaries: Reward[];
     Secondaries: Reward[];

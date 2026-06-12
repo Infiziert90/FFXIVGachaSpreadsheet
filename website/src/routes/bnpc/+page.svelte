@@ -479,7 +479,7 @@
     <h1 class="text-center">Work in Progress, feedback and ideas welcome</h1>
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
         {#if selectedMapId.name !== ''}
-            <div class="map" style="height:1024px;width:1024px" use:mapAction />
+            <div class="map" style="height:1024px;" use:mapAction />
         {/if}
     </div>
 </div>
