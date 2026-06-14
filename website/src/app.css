@@ -70,7 +70,7 @@
     --bs-border-color:             var(--slate-700);
     --bs-border-color-translucent: color-mix(in srgb, white 8%, transparent);
 
-    /* Primary — sky-400 (lumineux sur fond sombre) */
+    /* Primary — sky-400 (bright on dark background) */
     --bs-primary:               var(--sky-400);
     --bs-primary-rgb:           var(--sky-400-rgb);
     --bs-primary-text-emphasis: var(--sky-300);
@@ -83,7 +83,7 @@
     --bs-link-color-rgb:       var(--sky-400-rgb);
     --bs-link-hover-color-rgb: var(--sky-300-rgb);
 
-    /* bg-dark utility → surface la plus sombre (navbar) */
+    /* bg-dark utility → darkest surface (navbar) */
     --bs-dark:     var(--slate-deep);
     --bs-dark-rgb: var(--slate-deep-rgb);
 
@@ -153,7 +153,7 @@
     --bs-border-color:             var(--zinc-700);
     --bs-border-color-translucent: color-mix(in srgb, white 8%, transparent);
 
-    /* Primary — même sky-400 pour cohérence inter-thèmes */
+    /* Primary — same sky-400 for cross-theme consistency */
     --bs-primary:               var(--sky-400);
     --bs-primary-rgb:           var(--sky-400-rgb);
     --bs-primary-text-emphasis: var(--sky-300);
@@ -166,7 +166,7 @@
     --bs-link-color-rgb:       var(--sky-400-rgb);
     --bs-link-hover-color-rgb: var(--sky-300-rgb);
 
-    /* bg-dark utility → surface la plus sombre (navbar) */
+    /* bg-dark utility → darkest surface (navbar) */
     --bs-dark:     var(--zinc-deep);
     --bs-dark-rgb: var(--zinc-deep-rgb);
 
@@ -211,7 +211,7 @@
     --bs-code-color: var(--sky-300);
 }
 
-/* ---------- TINTED LIGHT — Tailwind slate palette claire ---------- */
+/* ---------- TINTED LIGHT — Tailwind slate palette ---------- */
 [data-bs-theme="light"][data-color-scheme="tinted"] {
     /* Backgrounds */
     --bs-body-bg:          var(--slate-50);
@@ -236,7 +236,7 @@
     --bs-border-color:             var(--slate-400);
     --bs-border-color-translucent: color-mix(in srgb, black 10%, transparent);
 
-    /* Primary — sky-600 (assez sombre pour contraste sur fond clair) */
+    /* Primary — sky-600 (dark enough for contrast on light background) */
     --bs-primary:               var(--sky-600);
     --bs-primary-rgb:           var(--sky-600-rgb);
     --bs-primary-text-emphasis: var(--sky-700);
@@ -291,7 +291,7 @@
     --bs-list-group-active-border-color: var(--sky-600);
 }
 
-/* ---------- NEUTRAL LIGHT — Tailwind zinc palette claire ---------- */
+/* ---------- NEUTRAL LIGHT — Tailwind zinc palette ---------- */
 [data-bs-theme="light"][data-color-scheme="neutral"] {
     /* Backgrounds */
     --bs-body-bg:          var(--zinc-50);
