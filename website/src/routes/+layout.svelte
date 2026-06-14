@@ -23,6 +23,11 @@
     <!--    Static   -->
     <meta property="og:url" content="{page.url.href}">
     <meta property="og:type" content="website">
+
+    <!-- IBM Plex fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=IBM+Plex+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 </svelte:head>
 
 <div class="d-flex flex-column justify-content-between min-vh-100">

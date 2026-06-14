@@ -1,6 +1,6 @@
 <script lang="ts">
     import { page } from '$app/state';
-    import { 
+    import {
         Collapse,
         Navbar,
         NavbarToggler,
@@ -18,6 +18,8 @@
     } from '@sveltestrap/sveltestrap';
     import { pageSidebarStore } from '$lib/stores/pageSidebar';
     import { layoutWidth } from '$lib/stores/layoutWidth';
+    import { colorScheme } from '$lib/stores/colorScheme';
+    import logoSvg from '$lib/assets/logo.svg?raw';
 
     interface MenuItem {
         label: string;
@@ -88,8 +90,7 @@
     }
     const toggle = () => (isOpen = !isOpen);
 
-    // Initialize theme from localStorage using Sveltestrap's colorMode
-    // Sveltestrap's colorMode store handles DOM updates automatically
+    // Initialize colorMode from localStorage
     if (typeof window !== 'undefined') {
         try {
             const storedTheme = localStorage.getItem('theme');
@@ -100,16 +101,11 @@
             console.error('Error reading theme from local storage:', error);
         }
     }
-    
+
     // Sync colorMode changes to localStorage
-    // Sveltestrap's Styles component handles DOM theme updates via data-bs-theme attribute
     $effect(() => {
-        if (typeof window === 'undefined') {
-            return;
-        }
-        
+        if (typeof window === 'undefined') return;
         const theme = $colorMode;
-        
         try {
             localStorage.setItem('theme', theme);
         } catch (error) {
@@ -118,7 +114,7 @@
     });
 </script>
 
-<Navbar color="dark" dark theme="dark" expand="lg" class="border-bottom border-body-tertiary" sticky="top">
+<Navbar expand="lg" class="border-bottom border-body-tertiary" sticky="top">
     {#if $pageSidebarStore.showButton && $pageSidebarStore.toggle}
         <Button
             class="navbar-toggler d-lg-none"
@@ -130,7 +126,10 @@
             </div>
         </Button>
     {/if}
-    <NavbarBrand href="/">XIVStats</NavbarBrand>
+    <NavbarBrand href="/" class="p-0">
+        <span class="site-logo">{@html logoSvg}</span>
+        <span class="visually-hidden">XIVStats</span>
+    </NavbarBrand>
     <NavbarToggler onclick={toggle} />
 
 <Collapse {isOpen} navbar expand="lg">
@@ -154,7 +153,7 @@
         {/each}
     </Nav>
 
-    <!-- Social Menu -->
+    <!-- Social + Settings Menu -->
     <Nav class="ms-auto" navbar>
         <NavItem>
             <NavLink href="/about">About</NavLink>
@@ -162,14 +161,14 @@
 
         <NavItem>
             <NavLink href="https://ko-fi.com/infiii" target="_blank">
-                <Icon name="suit-heart-fill" class="text-white" />
+                <Icon name="suit-heart-fill" />
                 <span class="visually-hidden">KoFi</span>
             </NavLink>
         </NavItem>
 
         <NavItem>
             <NavLink href="https://github.com/Infiziert90/FFXIVGachaSpreadsheet" target="_blank">
-                <Icon name="github" class="text-white"/>
+                <Icon name="github" />
                 <span class="visually-hidden">GitHub</span>
             </NavLink>
         </NavItem>
@@ -190,7 +189,17 @@
 
                     <div class="dropdown-divider"></div>
 
-                    <div class="dropdown-header">Theme</div>
+                    <div class="dropdown-header">Palette</div>
+                    <DropdownItem onclick={() => colorScheme.set('tinted')} active={$colorScheme === 'tinted'}>
+                        <Icon name="water" class="me-2" /> Tinted
+                    </DropdownItem>
+                    <DropdownItem onclick={() => colorScheme.set('neutral')} active={$colorScheme === 'neutral'}>
+                        <Icon name="circle-half" class="me-2" /> Neutral
+                    </DropdownItem>
+
+                    <div class="dropdown-divider"></div>
+
+                    <div class="dropdown-header">Mode</div>
                     <DropdownItem onclick={() => colorMode.set('light')} active={$colorMode === 'light'}>
                         <Icon name="sun-fill" class="me-2" /> Light
                     </DropdownItem>
@@ -198,7 +207,7 @@
                         <Icon name="moon-stars-fill" class="me-2" /> Dark
                     </DropdownItem>
                     <DropdownItem onclick={() => colorMode.set('auto')} active={$colorMode === 'auto'}>
-                        <Icon name="circle-half" class="me-2" /> Auto
+                        <Icon name="display" class="me-2" /> Auto
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>
@@ -206,3 +215,15 @@
     </Nav>
 </Collapse>
 </Navbar>
+
+<style>
+    .site-logo {
+        display: flex;
+        align-items: center;
+    }
+    .site-logo :global(svg) {
+        height: 30px;
+        width: auto;
+        color: inherit;
+    }
+</style>
