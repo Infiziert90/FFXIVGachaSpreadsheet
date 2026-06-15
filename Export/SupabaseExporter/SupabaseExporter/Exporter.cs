@@ -7,6 +7,7 @@ using SupabaseExporter.Processing.BnpcPairs;
 using SupabaseExporter.Processing.ChestDrops;
 using SupabaseExporter.Processing.Coffers;
 using SupabaseExporter.Processing.Desynthesis;
+using SupabaseExporter.Processing.Reduction;
 using SupabaseExporter.Processing.Submarines;
 using SupabaseExporter.Processing.Ventures;
 using SupabaseExporter.Structures.Sheets;
@@ -24,6 +25,7 @@ public class DatabaseContext : DbContext
     public DbSet<OccultBunnyModel> OccultBunny { get; set; }
     public DbSet<OccultTreasureModel> OccultTreasures { get; set; }
     public DbSet<BnpcPairModel> BnpcPairs { get; set; }
+    public DbSet<ReductionModel> Reductions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -99,6 +101,13 @@ public static class EntryPoint
         var bnpcPairsProcessor = new BnpcPairs();
         await exporter.LoadBnpcPairData(context, bnpcPairsProcessor);
         bnpcPairsProcessor.ProcessAllData();
+
+        var reductionResult = await exporter.LoadReductionData(context);
+        if (reductionResult.Length > 0)
+        {
+            var reductionProcessor = new Reduction();
+            reductionProcessor.ProcessAllData(reductionResult);
+        }
         
         // Generate json with all icon paths
         MappingHelper.ExportMappingFile();
@@ -367,6 +376,37 @@ public class Exporter
             processor.Fetch(data);
 
         Logger.Information("Done exporting BnpcPair data...");
+    }
+    
+    public async Task<ReductionModel[]> LoadReductionData(DatabaseContext context)
+    {
+        Logger.Information("Exporting reduction data");
+        var result = await context.Reductions.OrderBy(l => l.Id).ToListAsync();
+        
+        Logger.Information($"Rows found {result.Count:N0}");
+        if (result.Count == 0)
+        {
+            Logger.Warning("No records found");
+            return [];
+        }
+
+        return result.ToArray();
+
+        // var lastId = result.Last().Id.ToString();
+        //
+        // var path = "LocalCache/OccultTreasure/";
+        // var mapping = new OccultTreasureExportMap();
+        // await WriteCsv(path, lastId, result, mapping);
+        //
+        // await context.OccultTreasures.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+        // await context.Database.ExecuteSqlAsync($"vacuum full;");
+        // result.Clear();
+        // context.ChangeTracker.Clear();
+        //
+        // var importMapping = new OccultTreasureImportMap();
+        // var data = ReadFolderStatic<OccultTreasureModel>(path, 0, importMapping).ToArray();
+        // Logger.Information("Done exporting occult treasure data...");
+        // return data;
     }
 
     private async Task WriteCsv<T>(string path, string fileName, IEnumerable<T> result, ClassMap<T>? classMap = null)

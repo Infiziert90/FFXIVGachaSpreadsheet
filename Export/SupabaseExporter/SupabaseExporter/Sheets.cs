@@ -18,6 +18,7 @@ public static class Sheets
     public static readonly ExcelSheet<TerritoryType> TerritoryTypeSheet;
     public static readonly ExcelSheet<SubmarineExploration> ExplorationSheet;
     public static readonly ExcelSheet<NotoriousMonster> NotoriousMonsterSheet;
+    public static readonly SubrowExcelSheet<GathererReductionReward> GathererReductionRewardSheet;
 
     public static readonly ExcelSheet<SubmarineExploration> SubmarineExplorationSheet;
     public static readonly ExcelSheet<SubmarineMap> SubmarineMapSheet;
@@ -94,6 +95,7 @@ public static class Sheets
         HousingMapMarkerSheet = Lumina.GetSubrowExcelSheet<HousingMapMarkerInfo>()!;
         WorldSheet = Lumina.GetExcelSheet<World>()!;
         WorldDCGroupSheet = Lumina.GetExcelSheet<WorldDCGroupType>()!;
+        GathererReductionRewardSheet = Lumina.GetSubrowExcelSheet<GathererReductionReward>()!;
 
         MaxItemId = ItemSheet.MaxBy(i => i.RowId).RowId;
         
