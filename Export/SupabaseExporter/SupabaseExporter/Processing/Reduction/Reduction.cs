@@ -88,11 +88,14 @@ public class Reduction : IDisposable
                 var patches = reductionTemp.Rewards[collectabilityTier];
                 if (!patches.ContainsKey(patch))
                     patches[patch] = [];
-
-                if (!patches[patch].ContainsKey(itemId))
-                    patches[patch][itemId] = new ReductionTemp.ReductionReward();
                 
-                patches[patch][itemId].AddRewardRecord(amount);
+                if (!patches[patch].ContainsKey(itemId))
+                    patches[patch][itemId] = [];
+                
+                if (!patches[patch][itemId].ContainsKey(record.HasBonus))
+                    patches[patch][itemId][record.HasBonus] = new ReductionTemp.ReductionReward();
+                
+                patches[patch][itemId][record.HasBonus].AddRewardRecord(amount);
             }
         }
     }
@@ -118,10 +121,23 @@ public class Reduction : IDisposable
                         tiers.Patches[patch] = new Reduce.ReductionPatch();
 
                     var patchData = tiers.Patches[patch];
-                    foreach (var (rewardId, rewardData) in rewards)
+                    foreach (var (rewardId, rewardSplits) in rewards)
                     {
                         MappingHelper.AddItem(rewardId);
-                        patchData.Rewards[rewardId] = rewardData;
+
+                        foreach (var (hasBonus, rewardData) in rewardSplits)
+                        {
+                            if (!hasBonus)
+                            {
+                                patchData.NormalCount += rewardData.Amount;
+                                patchData.Normal[rewardId] = rewardData;
+                            }
+                            else
+                            {
+                                patchData.BonusCount += rewardData.Amount;
+                                patchData.Bonus[rewardId] = rewardData;
+                            }
+                        }
                     }
                 }
             }

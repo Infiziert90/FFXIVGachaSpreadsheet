@@ -10,20 +10,26 @@ public class Reduce
     public long Total;
     public Dictionary<uint, ReductionSource> Sources = [];
     
-    // Source -> Tier -> Patch -> Rewards
-    
     public class ReductionSource
     {
+        public long Total;
+        
         public Dictionary<uint, ReductionTier> Tiers = [];
     }
     
     public class ReductionTier
     {
+        public long Total;
+        
         public Dictionary<string, ReductionPatch> Patches = [];
     }
 
     public class ReductionPatch
     {
-        public Dictionary<uint, ReductionTemp.ReductionReward> Rewards = [];
+        public long NormalCount;
+        public long BonusCount;
+        
+        public Dictionary<uint, ReductionTemp.ReductionReward> Normal = [];
+        public Dictionary<uint, ReductionTemp.ReductionReward> Bonus = [];
     }
 }

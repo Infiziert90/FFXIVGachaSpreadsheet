@@ -3,7 +3,7 @@
 public class ReductionTemp
 {
     public long Total;
-    public Dictionary<uint, Dictionary<string, Dictionary<uint, ReductionReward>>> Rewards = [];
+    public Dictionary<uint, Dictionary<string, Dictionary<uint, Dictionary<bool, ReductionReward>>>> Rewards = [];
     // Tiers -> Patches -> Rewards
         
     public class ReductionReward
