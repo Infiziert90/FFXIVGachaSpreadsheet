@@ -1,3 +1,442 @@
+/* ---------- GLOBAL — all themes ---------- */
+:root {
+    --bs-body-font-family: "IBM Plex Sans JP", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --bs-font-monospace: "IBM Plex Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+
+    /* Border-radius — fully sharp */
+    --bs-border-radius:      0;
+    --bs-border-radius-sm:   0;
+    --bs-border-radius-lg:   0;
+    --bs-border-radius-xl:   0;
+    --bs-border-radius-2xl:  0;
+    --bs-border-radius-pill: 50rem;
+
+    /* slate */
+    --slate-50:   #f8fafc;  --slate-50-rgb:   248, 250, 252;
+    --slate-100:  #f1f5f9;  --slate-100-rgb:  241, 245, 249;
+    --slate-200:  #e2e8f0;  --slate-200-rgb:  226, 232, 240;
+    --slate-300:  #cbd5e1;  --slate-300-rgb:  203, 213, 225;
+    --slate-400:  #94a3b8;
+    --slate-500:  #64748b;
+    --slate-700:  #334155;  --slate-700-rgb:  51, 65, 85;
+    --slate-800:  #1e293b;  --slate-800-rgb:  30, 41, 59;
+    --slate-900:  #0f172a;  --slate-900-rgb:  15, 23, 42;
+    --slate-deep: #0a0f1e;  --slate-deep-rgb: 10, 15, 30;
+
+    /* zinc */
+    --zinc-50:   #fafafa;   --zinc-50-rgb:   250, 250, 250;
+    --zinc-100:  #f4f4f5;   --zinc-100-rgb:  244, 244, 245;
+    --zinc-200:  #e4e4e7;   --zinc-200-rgb:  228, 228, 231;
+    --zinc-300:  #d4d4d8;   --zinc-300-rgb:  212, 212, 216;
+    --zinc-400:  #a1a1aa;
+    --zinc-500:  #71717a;
+    --zinc-700:  #3f3f46;   --zinc-700-rgb:  63, 63, 70;
+    --zinc-800:  #27272a;   --zinc-800-rgb:  39, 39, 42;
+    --zinc-900:  #18181b;   --zinc-900-rgb:  24, 24, 27;
+    --zinc-deep: #111113;   --zinc-deep-rgb: 17, 17, 19;
+
+    /* sky */
+    --sky-100: #e0f2fe;
+    --sky-300: #7dd3fc;  --sky-300-rgb: 125, 211, 252;
+    --sky-400: #38bdf8;  --sky-400-rgb: 56, 189, 248;
+    --sky-600: #0284c7;  --sky-600-rgb: 2, 132, 199;
+    --sky-700: #0369a1;  --sky-700-rgb: 3, 105, 161;
+    --sky-900: #082f49;
+    --sky-950: #0c4a6e;
+}
+
+/* ---------- TINTED DARK — Tailwind slate palette ---------- */
+[data-bs-theme="dark"][data-color-scheme="tinted"] {
+    /* Backgrounds */
+    --bs-body-bg:          var(--slate-900);
+    --bs-body-bg-rgb:      var(--slate-900-rgb);
+    --bs-secondary-bg:     var(--slate-800);
+    --bs-secondary-bg-rgb: var(--slate-800-rgb);
+    --bs-tertiary-bg:      var(--slate-900);
+    --bs-tertiary-bg-rgb:  var(--slate-900-rgb);
+
+    /* Text */
+    --bs-body-color:          var(--slate-300);
+    --bs-body-color-rgb:      var(--slate-300-rgb);
+    --bs-emphasis-color:      var(--slate-50);
+    --bs-emphasis-color-rgb:  var(--slate-50-rgb);
+    --bs-secondary-color:     color-mix(in srgb, var(--slate-300) 75%, transparent);
+    --bs-secondary-color-rgb: var(--slate-300-rgb);
+    --bs-tertiary-color:      color-mix(in srgb, var(--slate-300) 50%, transparent);
+    --bs-tertiary-color-rgb:  var(--slate-300-rgb);
+    --bs-heading-color:       var(--slate-100);
+
+    /* Borders */
+    --bs-border-color:             var(--slate-700);
+    --bs-border-color-translucent: color-mix(in srgb, white 8%, transparent);
+
+    /* Primary — sky-400 (bright on dark background) */
+    --bs-primary:               var(--sky-400);
+    --bs-primary-rgb:           var(--sky-400-rgb);
+    --bs-primary-text-emphasis: var(--sky-300);
+    --bs-primary-bg-subtle:     var(--sky-900);
+    --bs-primary-border-subtle: var(--sky-950);
+
+    /* Links */
+    --bs-link-color:           var(--sky-400);
+    --bs-link-hover-color:     var(--sky-300);
+    --bs-link-color-rgb:       var(--sky-400-rgb);
+    --bs-link-hover-color-rgb: var(--sky-300-rgb);
+
+    /* bg-dark utility → darkest surface (navbar) */
+    --bs-dark:     var(--slate-deep);
+    --bs-dark-rgb: var(--slate-deep-rgb);
+
+    /* Dropdown */
+    --bs-dropdown-bg:                var(--slate-800);
+    --bs-dropdown-border-color:      var(--slate-700);
+    --bs-dropdown-link-color:        var(--slate-300);
+    --bs-dropdown-link-hover-bg:     var(--slate-700);
+    --bs-dropdown-link-hover-color:  var(--slate-50);
+    --bs-dropdown-link-active-bg:    color-mix(in srgb, var(--sky-400) 12%, transparent);
+    --bs-dropdown-link-active-color: var(--sky-300);
+    --bs-dropdown-header-color:      var(--slate-400);
+
+    /* Card */
+    --bs-card-bg:           var(--slate-800);
+    --bs-card-border-color: var(--slate-700);
+    --bs-card-cap-bg:       color-mix(in srgb, white 3%, transparent);
+
+    /* Table */
+    --bs-table-striped-bg:   color-mix(in srgb, white 2.5%, transparent);
+    --bs-table-hover-bg:     color-mix(in srgb, var(--sky-400) 6%, transparent);
+    --bs-table-border-color: var(--slate-700);
+    --bs-table-color:        var(--slate-300);
+
+    /* Accordion */
+    --bs-accordion-bg:           var(--slate-800);
+    --bs-accordion-btn-bg:       var(--slate-800);
+    --bs-accordion-btn-color:    var(--slate-300);
+    --bs-accordion-active-bg:    var(--sky-900);
+    --bs-accordion-active-color: var(--sky-300);
+    --bs-accordion-border-color: var(--slate-700);
+
+    /* List group */
+    --bs-list-group-bg:                  var(--slate-800);
+    --bs-list-group-border-color:        var(--slate-700);
+    --bs-list-group-action-hover-bg:     var(--slate-700);
+    --bs-list-group-action-active-bg:    var(--slate-700);
+    --bs-list-group-active-bg:           var(--sky-400);
+    --bs-list-group-active-color:        #000;
+    --bs-list-group-active-border-color: var(--sky-400);
+
+    --bs-code-color: var(--sky-300);
+}
+
+/* ---------- NEUTRAL DARK — Tailwind zinc palette ---------- */
+[data-bs-theme="dark"][data-color-scheme="neutral"] {
+    /* Backgrounds */
+    --bs-body-bg:          var(--zinc-900);
+    --bs-body-bg-rgb:      var(--zinc-900-rgb);
+    --bs-secondary-bg:     var(--zinc-800);
+    --bs-secondary-bg-rgb: var(--zinc-800-rgb);
+    --bs-tertiary-bg:      var(--zinc-900);
+    --bs-tertiary-bg-rgb:  var(--zinc-900-rgb);
+
+    /* Text */
+    --bs-body-color:          var(--zinc-300);
+    --bs-body-color-rgb:      var(--zinc-300-rgb);
+    --bs-emphasis-color:      var(--zinc-50);
+    --bs-emphasis-color-rgb:  var(--zinc-50-rgb);
+    --bs-secondary-color:     color-mix(in srgb, var(--zinc-300) 75%, transparent);
+    --bs-secondary-color-rgb: var(--zinc-300-rgb);
+    --bs-tertiary-color:      color-mix(in srgb, var(--zinc-300) 50%, transparent);
+    --bs-tertiary-color-rgb:  var(--zinc-300-rgb);
+    --bs-heading-color:       var(--zinc-100);
+
+    /* Borders */
+    --bs-border-color:             var(--zinc-700);
+    --bs-border-color-translucent: color-mix(in srgb, white 8%, transparent);
+
+    /* Primary — same sky-400 for cross-theme consistency */
+    --bs-primary:               var(--sky-400);
+    --bs-primary-rgb:           var(--sky-400-rgb);
+    --bs-primary-text-emphasis: var(--sky-300);
+    --bs-primary-bg-subtle:     var(--sky-900);
+    --bs-primary-border-subtle: var(--sky-950);
+
+    /* Links */
+    --bs-link-color:           var(--sky-400);
+    --bs-link-hover-color:     var(--sky-300);
+    --bs-link-color-rgb:       var(--sky-400-rgb);
+    --bs-link-hover-color-rgb: var(--sky-300-rgb);
+
+    /* bg-dark utility → darkest surface (navbar) */
+    --bs-dark:     var(--zinc-deep);
+    --bs-dark-rgb: var(--zinc-deep-rgb);
+
+    /* Dropdown */
+    --bs-dropdown-bg:                var(--zinc-800);
+    --bs-dropdown-border-color:      var(--zinc-700);
+    --bs-dropdown-link-color:        var(--zinc-300);
+    --bs-dropdown-link-hover-bg:     var(--zinc-700);
+    --bs-dropdown-link-hover-color:  var(--zinc-50);
+    --bs-dropdown-link-active-bg:    color-mix(in srgb, var(--sky-400) 12%, transparent);
+    --bs-dropdown-link-active-color: var(--sky-300);
+    --bs-dropdown-header-color:      var(--zinc-400);
+
+    /* Card */
+    --bs-card-bg:           var(--zinc-800);
+    --bs-card-border-color: var(--zinc-700);
+    --bs-card-cap-bg:       color-mix(in srgb, white 3%, transparent);
+
+    /* Table */
+    --bs-table-striped-bg:   color-mix(in srgb, white 2.5%, transparent);
+    --bs-table-hover-bg:     color-mix(in srgb, var(--sky-400) 6%, transparent);
+    --bs-table-border-color: var(--zinc-700);
+    --bs-table-color:        var(--zinc-300);
+
+    /* Accordion */
+    --bs-accordion-bg:           var(--zinc-800);
+    --bs-accordion-btn-bg:       var(--zinc-800);
+    --bs-accordion-btn-color:    var(--zinc-300);
+    --bs-accordion-active-bg:    var(--sky-900);
+    --bs-accordion-active-color: var(--sky-300);
+    --bs-accordion-border-color: var(--zinc-700);
+
+    /* List group */
+    --bs-list-group-bg:                  var(--zinc-800);
+    --bs-list-group-border-color:        var(--zinc-700);
+    --bs-list-group-action-hover-bg:     var(--zinc-700);
+    --bs-list-group-action-active-bg:    var(--zinc-700);
+    --bs-list-group-active-bg:           var(--sky-400);
+    --bs-list-group-active-color:        #000;
+    --bs-list-group-active-border-color: var(--sky-400);
+
+    --bs-code-color: var(--sky-300);
+}
+
+/* ---------- TINTED LIGHT — Tailwind slate palette ---------- */
+[data-bs-theme="light"][data-color-scheme="tinted"] {
+    /* Backgrounds */
+    --bs-body-bg:          var(--slate-50);
+    --bs-body-bg-rgb:      var(--slate-50-rgb);
+    --bs-secondary-bg:     var(--slate-100);
+    --bs-secondary-bg-rgb: var(--slate-100-rgb);
+    --bs-tertiary-bg:      var(--slate-200);
+    --bs-tertiary-bg-rgb:  var(--slate-200-rgb);
+
+    /* Text */
+    --bs-body-color:          var(--slate-700);
+    --bs-body-color-rgb:      var(--slate-700-rgb);
+    --bs-emphasis-color:      var(--slate-900);
+    --bs-emphasis-color-rgb:  var(--slate-900-rgb);
+    --bs-secondary-color:     color-mix(in srgb, var(--slate-700) 75%, transparent);
+    --bs-secondary-color-rgb: var(--slate-700-rgb);
+    --bs-tertiary-color:      color-mix(in srgb, var(--slate-700) 50%, transparent);
+    --bs-tertiary-color-rgb:  var(--slate-700-rgb);
+    --bs-heading-color:       var(--slate-900);
+
+    /* Borders */
+    --bs-border-color:             var(--slate-400);
+    --bs-border-color-translucent: color-mix(in srgb, black 10%, transparent);
+
+    /* Primary — sky-600 (dark enough for contrast on light background) */
+    --bs-primary:               var(--sky-600);
+    --bs-primary-rgb:           var(--sky-600-rgb);
+    --bs-primary-text-emphasis: var(--sky-700);
+    --bs-primary-bg-subtle:     var(--sky-100);
+    --bs-primary-border-subtle: var(--sky-300);
+
+    /* Links */
+    --bs-link-color:           var(--sky-600);
+    --bs-link-hover-color:     var(--sky-700);
+    --bs-link-color-rgb:       var(--sky-600-rgb);
+    --bs-link-hover-color-rgb: var(--sky-700-rgb);
+
+    --bs-dark:      var(--slate-800);
+    --bs-dark-rgb:  var(--slate-800-rgb);
+    --bs-light:     var(--slate-50);
+    --bs-light-rgb: var(--slate-50-rgb);
+
+    /* Dropdown */
+    --bs-dropdown-bg:                var(--slate-50);
+    --bs-dropdown-border-color:      var(--slate-400);
+    --bs-dropdown-link-color:        var(--slate-700);
+    --bs-dropdown-link-hover-bg:     var(--slate-200);
+    --bs-dropdown-link-hover-color:  var(--slate-900);
+    --bs-dropdown-link-active-bg:    color-mix(in srgb, var(--sky-600) 9%, transparent);
+    --bs-dropdown-link-active-color: var(--sky-700);
+    --bs-dropdown-header-color:      var(--slate-500);
+
+    /* Card */
+    --bs-card-bg:           var(--slate-100);
+    --bs-card-border-color: var(--slate-400);
+
+    /* Table */
+    --bs-table-striped-bg:   color-mix(in srgb, black 2%, transparent);
+    --bs-table-hover-bg:     color-mix(in srgb, var(--sky-600) 5%, transparent);
+    --bs-table-border-color: var(--slate-400);
+
+    /* Accordion */
+    --bs-accordion-bg:           var(--slate-100);
+    --bs-accordion-btn-bg:       var(--slate-100);
+    --bs-accordion-btn-color:    var(--slate-700);
+    --bs-accordion-active-bg:    var(--sky-100);
+    --bs-accordion-active-color: var(--sky-700);
+    --bs-accordion-border-color: var(--slate-400);
+
+    /* List group */
+    --bs-list-group-bg:                  var(--slate-100);
+    --bs-list-group-border-color:        var(--slate-400);
+    --bs-list-group-action-hover-bg:     var(--slate-200);
+    --bs-list-group-action-active-bg:    var(--slate-200);
+    --bs-list-group-active-bg:           var(--sky-600);
+    --bs-list-group-active-color:        #fff;
+    --bs-list-group-active-border-color: var(--sky-600);
+}
+
+/* ---------- NEUTRAL LIGHT — Tailwind zinc palette ---------- */
+[data-bs-theme="light"][data-color-scheme="neutral"] {
+    /* Backgrounds */
+    --bs-body-bg:          var(--zinc-50);
+    --bs-body-bg-rgb:      var(--zinc-50-rgb);
+    --bs-secondary-bg:     var(--zinc-100);
+    --bs-secondary-bg-rgb: var(--zinc-100-rgb);
+    --bs-tertiary-bg:      var(--zinc-200);
+    --bs-tertiary-bg-rgb:  var(--zinc-200-rgb);
+
+    /* Text */
+    --bs-body-color:          var(--zinc-700);
+    --bs-body-color-rgb:      var(--zinc-700-rgb);
+    --bs-emphasis-color:      var(--zinc-900);
+    --bs-emphasis-color-rgb:  var(--zinc-900-rgb);
+    --bs-secondary-color:     color-mix(in srgb, var(--zinc-700) 75%, transparent);
+    --bs-secondary-color-rgb: var(--zinc-700-rgb);
+    --bs-tertiary-color:      color-mix(in srgb, var(--zinc-700) 50%, transparent);
+    --bs-tertiary-color-rgb:  var(--zinc-700-rgb);
+    --bs-heading-color:       var(--zinc-900);
+
+    /* Borders */
+    --bs-border-color:             var(--zinc-400);
+    --bs-border-color-translucent: color-mix(in srgb, black 10%, transparent);
+
+    /* Primary */
+    --bs-primary:               var(--sky-600);
+    --bs-primary-rgb:           var(--sky-600-rgb);
+    --bs-primary-text-emphasis: var(--sky-700);
+    --bs-primary-bg-subtle:     var(--sky-100);
+    --bs-primary-border-subtle: var(--sky-300);
+
+    /* Links */
+    --bs-link-color:           var(--sky-600);
+    --bs-link-hover-color:     var(--sky-700);
+    --bs-link-color-rgb:       var(--sky-600-rgb);
+    --bs-link-hover-color-rgb: var(--sky-700-rgb);
+
+    --bs-dark:      var(--zinc-800);
+    --bs-dark-rgb:  var(--zinc-800-rgb);
+    --bs-light:     var(--zinc-50);
+    --bs-light-rgb: var(--zinc-50-rgb);
+
+    /* Dropdown */
+    --bs-dropdown-bg:                var(--zinc-50);
+    --bs-dropdown-border-color:      var(--zinc-400);
+    --bs-dropdown-link-color:        var(--zinc-700);
+    --bs-dropdown-link-hover-bg:     var(--zinc-200);
+    --bs-dropdown-link-hover-color:  var(--zinc-900);
+    --bs-dropdown-link-active-bg:    color-mix(in srgb, var(--sky-600) 9%, transparent);
+    --bs-dropdown-link-active-color: var(--sky-700);
+    --bs-dropdown-header-color:      var(--zinc-500);
+
+    /* Card */
+    --bs-card-bg:           var(--zinc-100);
+    --bs-card-border-color: var(--zinc-400);
+
+    /* Table */
+    --bs-table-striped-bg:   color-mix(in srgb, black 2%, transparent);
+    --bs-table-hover-bg:     color-mix(in srgb, var(--sky-600) 5%, transparent);
+    --bs-table-border-color: var(--zinc-400);
+
+    /* Accordion */
+    --bs-accordion-bg:           var(--zinc-100);
+    --bs-accordion-btn-bg:       var(--zinc-100);
+    --bs-accordion-btn-color:    var(--zinc-700);
+    --bs-accordion-active-bg:    var(--sky-100);
+    --bs-accordion-active-color: var(--sky-700);
+    --bs-accordion-border-color: var(--zinc-400);
+
+    /* List group */
+    --bs-list-group-bg:                  var(--zinc-100);
+    --bs-list-group-border-color:        var(--zinc-400);
+    --bs-list-group-action-hover-bg:     var(--zinc-200);
+    --bs-list-group-action-active-bg:    var(--zinc-200);
+    --bs-list-group-active-bg:           var(--sky-600);
+    --bs-list-group-active-color:        #fff;
+    --bs-list-group-active-border-color: var(--sky-600);
+}
+
+/* ---------- Navbar ---------- */
+.navbar {
+    background-color: var(--bs-body-bg) !important;
+}
+
+/* ---------- Dropdown ---------- */
+.dropdown-menu {
+    border-radius: 0;
+    padding-block: 0.25rem;
+    min-width: 11rem;
+}
+
+.dropdown-header {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    padding-block: 0.5rem 0.125rem;
+}
+
+.dropdown-divider {
+    margin-block: 0.25rem;
+    opacity: 0.4;
+}
+
+.dropdown-item {
+    font-size: 0.875rem;
+    padding-block: 0.3125rem;
+}
+
+/* Active item: tracker-style inversion — bg-white text-black in dark, bg-black/10 in light
+   Bootstrap scopes its active-bg var on .dropdown-menu, so !important is required */
+[data-bs-theme="dark"] .dropdown-item.active {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: #fff !important;
+    font-weight: 500;
+}
+
+[data-bs-theme="light"] .dropdown-item.active {
+    background-color: rgba(0, 0, 0, 0.07) !important;
+    color: var(--bs-emphasis-color) !important;
+    font-weight: 500;
+}
+
+/* ---------- Buttons — sky-400 is light, needs dark text in dark mode ---------- */
+[data-bs-theme="dark"] .btn-primary,
+[data-bs-theme="dark"] .btn-outline-primary:hover,
+[data-bs-theme="dark"] .btn-outline-primary:active {
+    --bs-btn-color: #000;
+    --bs-btn-hover-color: #000;
+    --bs-btn-active-color: #000;
+}
+
+/* ---------- Tree node active ---------- */
+[data-bs-theme="dark"] .tree-node-element.active {
+    color: #000;
+}
+
+[data-bs-theme="light"] .tree-node-element.active {
+    color: #fff;
+}
+
+[data-bs-theme="light"] .tree-node-element:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* ============================================================= */
+
 /* Portalled MultiSelect dropdowns (e.g. in offcanvas) need to sit above Bootstrap offcanvas (z-index 1045) */
 body {
     --sms-options-z-index: 1050;
@@ -47,13 +486,11 @@ body {
 /* Style for both button and anchor */
 .contentbtn button,
 .contentbtn a {
-    border-radius: 5px;
+    border-radius: 0;
     display: inline-block;
-    /* Ensure consistent spacing */
     letter-spacing: .025em;
     margin-bottom: 20px;
     text-decoration: none;
-    /* Remove default underline on anchor elements */
     text-shadow: 0 0 1px #fff;
     transition: all .15s ease;
     width: 100%;
@@ -74,7 +511,6 @@ th.sortable {
     cursor: pointer;
 }
 
-
 td.icon {
     width: 5%;
 }
@@ -94,17 +530,16 @@ img.item-icon {
     object-fit: contain;
 }
 
-
 .accordion-body {
     --bs-accordion-body-padding-x: 0;
     --bs-accordion-body-padding-y: 0;
 }
 
-.accordion-item>.accordion-header>.accordion-button {
+.accordion-item > .accordion-header > .accordion-button {
     --bs-accordion-btn-focus-box-shadow: none;
 }
 
-.accordion-body>.list-group {
+.accordion-body > .list-group {
     --bs-list-group-border-radius: 0;
     --bs-list-group-border-width: 0;
 }
@@ -112,7 +547,6 @@ img.item-icon {
 .accordion-body-btn.active::after {
     font-family: 'bootstrap-icons';
     content: "\f633";
-    /* bi-check-lg */
     font-size: 1.25em;
     margin-inline-end: 0.5rem;
     position: absolute;
@@ -142,7 +576,7 @@ img.item-icon {
     vertical-align: middle;
 }
 
-/* Scroling sidebar */
+/* Scrolling sidebar */
 
 @property --top-fade {
     syntax: "<length>";
@@ -157,25 +591,11 @@ img.item-icon {
 }
 
 @keyframes scrollfade {
-    0% {
-        --top-fade: 0;
-    }
-
-    10%,
-    100% {
-        --top-fade: 3rem;
-    }
-
-    0%,
-    90% {
-        --bottom-fade: 3rem;
-    }
-
-    100% {
-        --bottom-fade: 0;
-    }
+    0%        { --top-fade: 0; }
+    10%, 100% { --top-fade: 3rem; }
+    0%, 90%   { --bottom-fade: 3rem; }
+    100%      { --bottom-fade: 0; }
 }
-
 
 /* Loot Tree Styles */
 .loot-tree {
@@ -193,7 +613,7 @@ img.item-icon {
     cursor: pointer;
     padding: 8px 12px;
     border-bottom: var(--bs-border-width) solid var(--bs-border-color);
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-radius 0.15s ease
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-radius 0.15s ease;
 }
 
 .tree-node-folder[data-open="true"] {
@@ -222,7 +642,6 @@ img.item-icon {
     color: white;
     font-weight: 500;
 }
-
 
 .tree-indent {
     margin-left: 0px;
@@ -265,16 +684,13 @@ img.item-icon {
 @media (min-width: 992px) {
     .sticky-left-col {
         max-height: calc(100vh - 6rem);
-        /* 9rem is around the height of the navbar */
         overflow-y: scroll;
         position: sticky;
         top: calc(40px + 2rem);
-        /* 1rem from the padding of .container, and 40px from the nav, finally we add 1rem to the top to account for a small padding*/
 
         scrollbar-width: thin;
         scrollbar-color: var(--bs-secondary-bg) var(--bs-body-bg);
 
-        /* progressive enhancement, add shadows on top and bottom of the scrollable area if there's content outside of it */
         mask: linear-gradient(to bottom,
                 #0000,
                 #ffff var(--top-fade) calc(100% - var(--bottom-fade)),
