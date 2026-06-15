@@ -23,6 +23,7 @@
         <CardLink cardTitle={'Eureka Bunnies'} cardIcon={61833} cardLink={'bunny/'} />
         <CardLink cardTitle={'Deep Dungeons'} cardIcon={61824} cardLink={'deep/'} />
         <CardLink cardTitle={'Desynthesis'} cardIcon={120} cardLink={'desynth/'} />
+        <CardLink cardTitle={'Reduction'} cardIcon={121} cardLink={'reduction/'} />
         <CardLink cardTitle={'Loot'} cardIcon={61801} cardLink={'loot/'} />
         <CardLink cardTitle={'Occult'} cardIcon={61851} cardLink={'occult/'} />
         <CardLink cardTitle={'Logograms and Fragments'} cardIcon={61837} cardLink={'logofrag/'} />
