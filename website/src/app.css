@@ -45,6 +45,46 @@
     --sky-950: #0c4a6e;
 }
 
+/* ---------- DARK — sky primary, shared across tinted & neutral ---------- */
+[data-bs-theme="dark"] {
+    --bs-border-color-translucent:   color-mix(in srgb, white 8%, transparent);
+
+    /* Primary — sky-400 (bright on dark background) */
+    --bs-primary:               var(--sky-400);
+    --bs-primary-rgb:           var(--sky-400-rgb);
+    --bs-primary-text-emphasis: var(--sky-300);
+    --bs-primary-bg-subtle:     var(--sky-900);
+    --bs-primary-border-subtle: var(--sky-950);
+
+    /* Links */
+    --bs-link-color:           var(--sky-400);
+    --bs-link-hover-color:     var(--sky-300);
+    --bs-link-color-rgb:       var(--sky-400-rgb);
+    --bs-link-hover-color-rgb: var(--sky-300-rgb);
+
+    /* Dropdown */
+    --bs-dropdown-link-active-bg:    color-mix(in srgb, var(--sky-400) 12%, transparent);
+    --bs-dropdown-link-active-color: var(--sky-300);
+
+    /* Card */
+    --bs-card-cap-bg: color-mix(in srgb, white 3%, transparent);
+
+    /* Table */
+    --bs-table-striped-bg: color-mix(in srgb, white 2.5%, transparent);
+    --bs-table-hover-bg:   color-mix(in srgb, var(--sky-400) 6%, transparent);
+
+    /* Accordion */
+    --bs-accordion-active-bg:    var(--sky-900);
+    --bs-accordion-active-color: var(--sky-300);
+
+    /* List group */
+    --bs-list-group-active-bg:           var(--sky-400);
+    --bs-list-group-active-color:        #000;
+    --bs-list-group-active-border-color: var(--sky-400);
+
+    --bs-code-color: var(--sky-300);
+}
+
 /* ---------- TINTED DARK — Tailwind slate palette ---------- */
 [data-bs-theme="dark"][data-color-scheme="tinted"] {
     /* Backgrounds */
@@ -67,44 +107,25 @@
     --bs-heading-color:       var(--slate-100);
 
     /* Borders */
-    --bs-border-color:             var(--slate-700);
-    --bs-border-color-translucent: color-mix(in srgb, white 8%, transparent);
-
-    /* Primary — sky-400 (bright on dark background) */
-    --bs-primary:               var(--sky-400);
-    --bs-primary-rgb:           var(--sky-400-rgb);
-    --bs-primary-text-emphasis: var(--sky-300);
-    --bs-primary-bg-subtle:     var(--sky-900);
-    --bs-primary-border-subtle: var(--sky-950);
-
-    /* Links */
-    --bs-link-color:           var(--sky-400);
-    --bs-link-hover-color:     var(--sky-300);
-    --bs-link-color-rgb:       var(--sky-400-rgb);
-    --bs-link-hover-color-rgb: var(--sky-300-rgb);
+    --bs-border-color: var(--slate-700);
 
     /* bg-dark utility → darkest surface (navbar) */
     --bs-dark:     var(--slate-deep);
     --bs-dark-rgb: var(--slate-deep-rgb);
 
     /* Dropdown */
-    --bs-dropdown-bg:                var(--slate-800);
-    --bs-dropdown-border-color:      var(--slate-700);
-    --bs-dropdown-link-color:        var(--slate-300);
-    --bs-dropdown-link-hover-bg:     var(--slate-700);
-    --bs-dropdown-link-hover-color:  var(--slate-50);
-    --bs-dropdown-link-active-bg:    color-mix(in srgb, var(--sky-400) 12%, transparent);
-    --bs-dropdown-link-active-color: var(--sky-300);
-    --bs-dropdown-header-color:      var(--slate-400);
+    --bs-dropdown-bg:               var(--slate-800);
+    --bs-dropdown-border-color:     var(--slate-700);
+    --bs-dropdown-link-color:       var(--slate-300);
+    --bs-dropdown-link-hover-bg:    var(--slate-700);
+    --bs-dropdown-link-hover-color: var(--slate-50);
+    --bs-dropdown-header-color:     var(--slate-400);
 
     /* Card */
     --bs-card-bg:           var(--slate-800);
     --bs-card-border-color: var(--slate-700);
-    --bs-card-cap-bg:       color-mix(in srgb, white 3%, transparent);
 
     /* Table */
-    --bs-table-striped-bg:   color-mix(in srgb, white 2.5%, transparent);
-    --bs-table-hover-bg:     color-mix(in srgb, var(--sky-400) 6%, transparent);
     --bs-table-border-color: var(--slate-700);
     --bs-table-color:        var(--slate-300);
 
@@ -112,20 +133,13 @@
     --bs-accordion-bg:           var(--slate-800);
     --bs-accordion-btn-bg:       var(--slate-800);
     --bs-accordion-btn-color:    var(--slate-300);
-    --bs-accordion-active-bg:    var(--sky-900);
-    --bs-accordion-active-color: var(--sky-300);
     --bs-accordion-border-color: var(--slate-700);
 
     /* List group */
-    --bs-list-group-bg:                  var(--slate-800);
-    --bs-list-group-border-color:        var(--slate-700);
-    --bs-list-group-action-hover-bg:     var(--slate-700);
-    --bs-list-group-action-active-bg:    var(--slate-700);
-    --bs-list-group-active-bg:           var(--sky-400);
-    --bs-list-group-active-color:        #000;
-    --bs-list-group-active-border-color: var(--sky-400);
-
-    --bs-code-color: var(--sky-300);
+    --bs-list-group-bg:               var(--slate-800);
+    --bs-list-group-border-color:     var(--slate-700);
+    --bs-list-group-action-hover-bg:  var(--slate-700);
+    --bs-list-group-action-active-bg: var(--slate-700);
 }
 
 /* ---------- NEUTRAL DARK — Tailwind zinc palette ---------- */
@@ -150,44 +164,25 @@
     --bs-heading-color:       var(--zinc-100);
 
     /* Borders */
-    --bs-border-color:             var(--zinc-700);
-    --bs-border-color-translucent: color-mix(in srgb, white 8%, transparent);
-
-    /* Primary — same sky-400 for cross-theme consistency */
-    --bs-primary:               var(--sky-400);
-    --bs-primary-rgb:           var(--sky-400-rgb);
-    --bs-primary-text-emphasis: var(--sky-300);
-    --bs-primary-bg-subtle:     var(--sky-900);
-    --bs-primary-border-subtle: var(--sky-950);
-
-    /* Links */
-    --bs-link-color:           var(--sky-400);
-    --bs-link-hover-color:     var(--sky-300);
-    --bs-link-color-rgb:       var(--sky-400-rgb);
-    --bs-link-hover-color-rgb: var(--sky-300-rgb);
+    --bs-border-color: var(--zinc-700);
 
     /* bg-dark utility → darkest surface (navbar) */
     --bs-dark:     var(--zinc-deep);
     --bs-dark-rgb: var(--zinc-deep-rgb);
 
     /* Dropdown */
-    --bs-dropdown-bg:                var(--zinc-800);
-    --bs-dropdown-border-color:      var(--zinc-700);
-    --bs-dropdown-link-color:        var(--zinc-300);
-    --bs-dropdown-link-hover-bg:     var(--zinc-700);
-    --bs-dropdown-link-hover-color:  var(--zinc-50);
-    --bs-dropdown-link-active-bg:    color-mix(in srgb, var(--sky-400) 12%, transparent);
-    --bs-dropdown-link-active-color: var(--sky-300);
-    --bs-dropdown-header-color:      var(--zinc-400);
+    --bs-dropdown-bg:               var(--zinc-800);
+    --bs-dropdown-border-color:     var(--zinc-700);
+    --bs-dropdown-link-color:       var(--zinc-300);
+    --bs-dropdown-link-hover-bg:    var(--zinc-700);
+    --bs-dropdown-link-hover-color: var(--zinc-50);
+    --bs-dropdown-header-color:     var(--zinc-400);
 
     /* Card */
     --bs-card-bg:           var(--zinc-800);
     --bs-card-border-color: var(--zinc-700);
-    --bs-card-cap-bg:       color-mix(in srgb, white 3%, transparent);
 
     /* Table */
-    --bs-table-striped-bg:   color-mix(in srgb, white 2.5%, transparent);
-    --bs-table-hover-bg:     color-mix(in srgb, var(--sky-400) 6%, transparent);
     --bs-table-border-color: var(--zinc-700);
     --bs-table-color:        var(--zinc-300);
 
@@ -195,20 +190,48 @@
     --bs-accordion-bg:           var(--zinc-800);
     --bs-accordion-btn-bg:       var(--zinc-800);
     --bs-accordion-btn-color:    var(--zinc-300);
-    --bs-accordion-active-bg:    var(--sky-900);
-    --bs-accordion-active-color: var(--sky-300);
     --bs-accordion-border-color: var(--zinc-700);
 
     /* List group */
-    --bs-list-group-bg:                  var(--zinc-800);
-    --bs-list-group-border-color:        var(--zinc-700);
-    --bs-list-group-action-hover-bg:     var(--zinc-700);
-    --bs-list-group-action-active-bg:    var(--zinc-700);
-    --bs-list-group-active-bg:           var(--sky-400);
-    --bs-list-group-active-color:        #000;
-    --bs-list-group-active-border-color: var(--sky-400);
+    --bs-list-group-bg:               var(--zinc-800);
+    --bs-list-group-border-color:     var(--zinc-700);
+    --bs-list-group-action-hover-bg:  var(--zinc-700);
+    --bs-list-group-action-active-bg: var(--zinc-700);
+}
 
-    --bs-code-color: var(--sky-300);
+/* ---------- LIGHT — sky primary, shared across tinted & neutral ---------- */
+[data-bs-theme="light"] {
+    --bs-border-color-translucent: color-mix(in srgb, black 10%, transparent);
+
+    /* Primary — sky-600 (dark enough for contrast on light background) */
+    --bs-primary:               var(--sky-600);
+    --bs-primary-rgb:           var(--sky-600-rgb);
+    --bs-primary-text-emphasis: var(--sky-700);
+    --bs-primary-bg-subtle:     var(--sky-100);
+    --bs-primary-border-subtle: var(--sky-300);
+
+    /* Links */
+    --bs-link-color:           var(--sky-600);
+    --bs-link-hover-color:     var(--sky-700);
+    --bs-link-color-rgb:       var(--sky-600-rgb);
+    --bs-link-hover-color-rgb: var(--sky-700-rgb);
+
+    /* Dropdown */
+    --bs-dropdown-link-active-bg:    color-mix(in srgb, var(--sky-600) 9%, transparent);
+    --bs-dropdown-link-active-color: var(--sky-700);
+
+    /* Table */
+    --bs-table-striped-bg: color-mix(in srgb, black 2%, transparent);
+    --bs-table-hover-bg:   color-mix(in srgb, var(--sky-600) 5%, transparent);
+
+    /* Accordion */
+    --bs-accordion-active-bg:    var(--sky-100);
+    --bs-accordion-active-color: var(--sky-700);
+
+    /* List group */
+    --bs-list-group-active-bg:           var(--sky-600);
+    --bs-list-group-active-color:        #fff;
+    --bs-list-group-active-border-color: var(--sky-600);
 }
 
 /* ---------- TINTED LIGHT — Tailwind slate palette ---------- */
@@ -233,21 +256,7 @@
     --bs-heading-color:       var(--slate-900);
 
     /* Borders */
-    --bs-border-color:             var(--slate-400);
-    --bs-border-color-translucent: color-mix(in srgb, black 10%, transparent);
-
-    /* Primary — sky-600 (dark enough for contrast on light background) */
-    --bs-primary:               var(--sky-600);
-    --bs-primary-rgb:           var(--sky-600-rgb);
-    --bs-primary-text-emphasis: var(--sky-700);
-    --bs-primary-bg-subtle:     var(--sky-100);
-    --bs-primary-border-subtle: var(--sky-300);
-
-    /* Links */
-    --bs-link-color:           var(--sky-600);
-    --bs-link-hover-color:     var(--sky-700);
-    --bs-link-color-rgb:       var(--sky-600-rgb);
-    --bs-link-hover-color-rgb: var(--sky-700-rgb);
+    --bs-border-color: var(--slate-400);
 
     --bs-dark:      var(--slate-800);
     --bs-dark-rgb:  var(--slate-800-rgb);
@@ -255,40 +264,31 @@
     --bs-light-rgb: var(--slate-50-rgb);
 
     /* Dropdown */
-    --bs-dropdown-bg:                var(--slate-50);
-    --bs-dropdown-border-color:      var(--slate-400);
-    --bs-dropdown-link-color:        var(--slate-700);
-    --bs-dropdown-link-hover-bg:     var(--slate-200);
-    --bs-dropdown-link-hover-color:  var(--slate-900);
-    --bs-dropdown-link-active-bg:    color-mix(in srgb, var(--sky-600) 9%, transparent);
-    --bs-dropdown-link-active-color: var(--sky-700);
-    --bs-dropdown-header-color:      var(--slate-500);
+    --bs-dropdown-bg:               var(--slate-50);
+    --bs-dropdown-border-color:     var(--slate-400);
+    --bs-dropdown-link-color:       var(--slate-700);
+    --bs-dropdown-link-hover-bg:    var(--slate-200);
+    --bs-dropdown-link-hover-color: var(--slate-900);
+    --bs-dropdown-header-color:     var(--slate-500);
 
     /* Card */
     --bs-card-bg:           var(--slate-100);
     --bs-card-border-color: var(--slate-400);
 
     /* Table */
-    --bs-table-striped-bg:   color-mix(in srgb, black 2%, transparent);
-    --bs-table-hover-bg:     color-mix(in srgb, var(--sky-600) 5%, transparent);
     --bs-table-border-color: var(--slate-400);
 
     /* Accordion */
     --bs-accordion-bg:           var(--slate-100);
     --bs-accordion-btn-bg:       var(--slate-100);
     --bs-accordion-btn-color:    var(--slate-700);
-    --bs-accordion-active-bg:    var(--sky-100);
-    --bs-accordion-active-color: var(--sky-700);
     --bs-accordion-border-color: var(--slate-400);
 
     /* List group */
-    --bs-list-group-bg:                  var(--slate-100);
-    --bs-list-group-border-color:        var(--slate-400);
-    --bs-list-group-action-hover-bg:     var(--slate-200);
-    --bs-list-group-action-active-bg:    var(--slate-200);
-    --bs-list-group-active-bg:           var(--sky-600);
-    --bs-list-group-active-color:        #fff;
-    --bs-list-group-active-border-color: var(--sky-600);
+    --bs-list-group-bg:               var(--slate-100);
+    --bs-list-group-border-color:     var(--slate-400);
+    --bs-list-group-action-hover-bg:  var(--slate-200);
+    --bs-list-group-action-active-bg: var(--slate-200);
 }
 
 /* ---------- NEUTRAL LIGHT — Tailwind zinc palette ---------- */
@@ -313,21 +313,7 @@
     --bs-heading-color:       var(--zinc-900);
 
     /* Borders */
-    --bs-border-color:             var(--zinc-400);
-    --bs-border-color-translucent: color-mix(in srgb, black 10%, transparent);
-
-    /* Primary */
-    --bs-primary:               var(--sky-600);
-    --bs-primary-rgb:           var(--sky-600-rgb);
-    --bs-primary-text-emphasis: var(--sky-700);
-    --bs-primary-bg-subtle:     var(--sky-100);
-    --bs-primary-border-subtle: var(--sky-300);
-
-    /* Links */
-    --bs-link-color:           var(--sky-600);
-    --bs-link-hover-color:     var(--sky-700);
-    --bs-link-color-rgb:       var(--sky-600-rgb);
-    --bs-link-hover-color-rgb: var(--sky-700-rgb);
+    --bs-border-color: var(--zinc-400);
 
     --bs-dark:      var(--zinc-800);
     --bs-dark-rgb:  var(--zinc-800-rgb);
@@ -335,40 +321,31 @@
     --bs-light-rgb: var(--zinc-50-rgb);
 
     /* Dropdown */
-    --bs-dropdown-bg:                var(--zinc-50);
-    --bs-dropdown-border-color:      var(--zinc-400);
-    --bs-dropdown-link-color:        var(--zinc-700);
-    --bs-dropdown-link-hover-bg:     var(--zinc-200);
-    --bs-dropdown-link-hover-color:  var(--zinc-900);
-    --bs-dropdown-link-active-bg:    color-mix(in srgb, var(--sky-600) 9%, transparent);
-    --bs-dropdown-link-active-color: var(--sky-700);
-    --bs-dropdown-header-color:      var(--zinc-500);
+    --bs-dropdown-bg:               var(--zinc-50);
+    --bs-dropdown-border-color:     var(--zinc-400);
+    --bs-dropdown-link-color:       var(--zinc-700);
+    --bs-dropdown-link-hover-bg:    var(--zinc-200);
+    --bs-dropdown-link-hover-color: var(--zinc-900);
+    --bs-dropdown-header-color:     var(--zinc-500);
 
     /* Card */
     --bs-card-bg:           var(--zinc-100);
     --bs-card-border-color: var(--zinc-400);
 
     /* Table */
-    --bs-table-striped-bg:   color-mix(in srgb, black 2%, transparent);
-    --bs-table-hover-bg:     color-mix(in srgb, var(--sky-600) 5%, transparent);
     --bs-table-border-color: var(--zinc-400);
 
     /* Accordion */
     --bs-accordion-bg:           var(--zinc-100);
     --bs-accordion-btn-bg:       var(--zinc-100);
     --bs-accordion-btn-color:    var(--zinc-700);
-    --bs-accordion-active-bg:    var(--sky-100);
-    --bs-accordion-active-color: var(--sky-700);
     --bs-accordion-border-color: var(--zinc-400);
 
     /* List group */
-    --bs-list-group-bg:                  var(--zinc-100);
-    --bs-list-group-border-color:        var(--zinc-400);
-    --bs-list-group-action-hover-bg:     var(--zinc-200);
-    --bs-list-group-action-active-bg:    var(--zinc-200);
-    --bs-list-group-active-bg:           var(--sky-600);
-    --bs-list-group-active-color:        #fff;
-    --bs-list-group-active-border-color: var(--sky-600);
+    --bs-list-group-bg:               var(--zinc-100);
+    --bs-list-group-border-color:     var(--zinc-400);
+    --bs-list-group-action-hover-bg:  var(--zinc-200);
+    --bs-list-group-action-active-bg: var(--zinc-200);
 }
 
 /* ---------- Navbar ---------- */
