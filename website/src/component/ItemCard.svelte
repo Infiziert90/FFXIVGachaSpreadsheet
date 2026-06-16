@@ -28,9 +28,3 @@
         </div>
     </div>
 </div>
-
-<style>
-    .item-card-icon {
-        min-height: 80px;
-    }
-</style>
