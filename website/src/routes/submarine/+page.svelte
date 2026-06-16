@@ -174,7 +174,7 @@
             {#each sectorData as sector}
                 {@const sectorData = getSectorData(sector)}
                 {@const sectorStats = getSectorStats(sector)}
-                <div class="container mb-5" style="background-color: var(--bs-tertiary-bg);">
+                <div class="container mb-5 rounded border" style="background-color: var(--bs-tertiary-bg);">
                     <div class="header">
                         <div class="pt-3 px-2 title"><h3>{ToSectorName(SimpleSubExplorationSheet[sector.Id])}</h3></div>
                         <div class="pt-3 px-2 toggleButton">
