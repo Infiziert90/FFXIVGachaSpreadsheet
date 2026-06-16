@@ -50,6 +50,22 @@ export function tryGetSubmarineSearchParams(searchParams: URLSearchParams): Subm
     return { mapId };
 }
 
+interface ReductionSearchParams {
+    sourceId: number,
+}
+
+/**
+ * Tries to read map from the URL parameters.
+ * @param searchParams - The URL search parameters to read from
+ * @returns Reduction search parameters if successful, undefined otherwise.
+ */
+export function tryGetReductionSearchParams(searchParams: URLSearchParams): ReductionSearchParams | undefined {
+    const sourceId = tryGetParam('source', searchParams);
+
+    if (sourceId === undefined) return undefined;
+    return { sourceId };
+}
+
 interface DesynthSearchParams {
     sourceId: number,
     rewardId: number,

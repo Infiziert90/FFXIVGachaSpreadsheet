@@ -18,7 +18,7 @@ export interface CofferVariant {
     Id: number;
     Name: string;
 
-    Patches: { [key: string]: CofferContent };
+    Patches: Record<string, CofferContent>;
 }
 
 export interface CofferContent {

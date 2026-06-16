@@ -1,12 +1,10 @@
 ﻿using SupabaseExporter.Structures.Exports;
-using SupabaseExporter.Structures.Temps;
 
 namespace SupabaseExporter.Processing.Reduction;
 
 public class Reduction : IDisposable
 {
-    private Reduce ProcessedData = new();
-    private readonly Dictionary<uint, ReductionTemp> CollectedData = [];
+    private readonly Reduce CollectedData = new();
     
     public void ProcessAllData(Models.ReductionModel[] data)
     {
@@ -19,8 +17,7 @@ public class Reduction : IDisposable
     
     public void Dispose()
     {
-        ProcessedData.Sources.Clear();
-        CollectedData.Clear();
+        CollectedData.Sources.Clear();
         GC.Collect();
     }
     
@@ -40,12 +37,52 @@ public class Reduction : IDisposable
                 Logger.Error($"Source doesn't allow reduction? ID: {record.Id}");
                 continue;
             }
+
+            CollectedData.Records += 1;
+            if (!CollectedData.Sources.ContainsKey(record.Source))
+                CollectedData.Sources[record.Source] = new Reduce.ReductionSource();
             
-            if (!CollectedData.ContainsKey(record.Source))
-                CollectedData[record.Source] = new ReductionTemp();
+            var reductionTemp = CollectedData.Sources[record.Source];
+            reductionTemp.Records += 1;
+
+            if (record.HasBonus)
+            {
+                if (reductionTemp.LowestBonus == -1 ||  reductionTemp.LowestBonus > record.Collectability)
+                    reductionTemp.LowestBonus = (int)record.Collectability;
+            }
             
-            var reductionTemp = CollectedData[record.Source];
-            reductionTemp.Total += 1;
+            var reductionRow = sourceItem.AetherialReduce;
+            var subrowRewards = Sheets.GathererReductionRewardSheet.GetRow(reductionRow);
+
+            var collectabilityTier = 0u;
+            var subRowList = subrowRewards.OrderBy(r => r.SubrowId).ToArray();
+            if (record.Collectability > subRowList[^1].Unknown0)
+            {
+                collectabilityTier = subRowList[^1].SubrowId;
+            }
+            else
+            {
+                foreach (var rewardRow in subRowList)
+                {
+                    if (record.Collectability <= rewardRow.Unknown0)
+                    {
+                        collectabilityTier = rewardRow.SubrowId;
+                        break;
+                    }
+                }
+            }
+
+            if (!reductionTemp.Tiers.ContainsKey(collectabilityTier))
+                reductionTemp.Tiers[collectabilityTier] = new Reduce.ReductionTier();
+            
+            var patches = reductionTemp.Tiers[collectabilityTier];
+            patches.Records += 1;
+            
+            var patch = record.GetPatch;
+            if (!patches.Patches.ContainsKey(patch))
+                patches.Patches[patch] = new Reduce.ReductionPatch();
+                
+            var patchData = patches.Patches[patch];
             
             foreach (var (itemId, amount) in record.GetRewards())
             {
@@ -69,86 +106,56 @@ public class Reduction : IDisposable
                     break;
                 }
                 
-                var reductionRow = sourceItem.AetherialReduce;
-                var subrowRewards = Sheets.GathererReductionRewardSheet.GetRow(reductionRow);
-
-                var collectabilityTier = 0u;
-                foreach (var rewardRow in subrowRewards)
+                // Reduction rewards crystals as base reward, so we check for anything none crystal
+                if (itemId > 100)
                 {
-                    if (record.Collectability > rewardRow.Unknown0)
-                        continue;
-
-                    collectabilityTier = rewardRow.SubrowId > 0u ? rewardRow.SubrowId - 1u : 0u;
+                    if (reductionTemp.LowestSand == -1 ||  reductionTemp.LowestSand > record.Collectability)
+                        reductionTemp.LowestSand = (int)record.Collectability;
                 }
-
-                if (!reductionTemp.Rewards.ContainsKey(collectabilityTier))
-                    reductionTemp.Rewards[collectabilityTier] = [];
                 
-                var patch = record.GetPatch;
-                var patches = reductionTemp.Rewards[collectabilityTier];
-                if (!patches.ContainsKey(patch))
-                    patches[patch] = [];
-                
-                if (!patches[patch].ContainsKey(itemId))
-                    patches[patch][itemId] = [];
-                
-                if (!patches[patch][itemId].ContainsKey(record.HasBonus))
-                    patches[patch][itemId][record.HasBonus] = new ReductionTemp.ReductionReward();
-                
-                patches[patch][itemId][record.HasBonus].AddRewardRecord(amount);
+                if (record.HasBonus)
+                {
+                    patchData.BonusCount += 1;
+                    if (!patchData.Bonus.ContainsKey(itemId))
+                        patchData.Bonus[itemId] = new Reduce.ReductionReward();
+                    
+                    patchData.Bonus[itemId].AddRewardRecord(amount);
+                }
+                else
+                {
+                    patchData.NormalCount += 1;
+                    if (!patchData.Normal.ContainsKey(itemId))
+                        patchData.Normal[itemId] = new Reduce.ReductionReward();
+                    
+                    patchData.Normal[itemId].AddRewardRecord(amount);
+                }
             }
         }
     }
 
     private void Combine() 
     {
-        foreach (var (sourceId, reductionTemp) in CollectedData)
+        foreach (var (sourceId, reductionTemp) in CollectedData.Sources)
         {
-            ProcessedData.Total += reductionTemp.Total;
-            if (!ProcessedData.Sources.ContainsKey(sourceId))
-                ProcessedData.Sources[sourceId] = new Reduce.ReductionSource();
+            MappingHelper.AddItem(sourceId);
             
-            var sources = ProcessedData.Sources[sourceId];
-            foreach (var (tier, patches) in reductionTemp.Rewards)
+            foreach (var patches in reductionTemp.Tiers.Values)
             {
-                if (!sources.Tiers.ContainsKey(tier))
-                    sources.Tiers[tier] = new Reduce.ReductionTier();
-
-                var tiers = sources.Tiers[tier];
-                foreach (var (patch, rewards) in patches)
+                foreach (var rewards in patches.Patches.Values)
                 {
-                    if (!tiers.Patches.ContainsKey(patch))
-                        tiers.Patches[patch] = new Reduce.ReductionPatch();
-
-                    var patchData = tiers.Patches[patch];
-                    foreach (var (rewardId, rewardSplits) in rewards)
-                    {
+                    foreach (var rewardId in rewards.Normal.Keys)
+                        MappingHelper.AddItem(rewardId);                    
+                    
+                    foreach (var rewardId in rewards.Bonus.Keys)
                         MappingHelper.AddItem(rewardId);
-
-                        foreach (var (hasBonus, rewardData) in rewardSplits)
-                        {
-                            if (!hasBonus)
-                            {
-                                patchData.NormalCount += rewardData.Amount;
-                                patchData.Normal[rewardId] = rewardData;
-                            }
-                            else
-                            {
-                                patchData.BonusCount += rewardData.Amount;
-                                patchData.Bonus[rewardId] = rewardData;
-                            }
-                        }
-                    }
                 }
             }
-            
-            MappingHelper.AddItem(sourceId);
         }
     }
     
     private void Export()
     {
-        ExportHandler.WriteDataJson("Reduction.json", ProcessedData);
+        ExportHandler.WriteDataJson("Reduction.json", CollectedData);
         Logger.Information("Done exporting data ...");
     }
 }

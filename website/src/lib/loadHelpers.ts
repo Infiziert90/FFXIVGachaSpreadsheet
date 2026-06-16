@@ -1,6 +1,7 @@
 ﻿import {logAndThrow, responseHandler} from "$lib/utils";
 import type {BnpcPairing, ChestDrop, Coffer, DesynthBase, DesynthesisBase, SubLoot, Venture} from "$lib/interfaces";
 import {type ItemInfo, Mappings} from "$lib/mappings";
+import type {Reduction} from "$lib/structs/reduction";
 
 type Fetch = typeof fetch;
 
@@ -62,6 +63,23 @@ export async function loadDesynth(path: string, fetch: Fetch): Promise<{content:
     }
 }
 
+export async function loadReduction(path: string, fetch: Fetch): Promise<{content: Reduction}> {
+    try {
+        const res: Reduction = await fetch(path)
+            .then(responseHandler)
+            .then((data: Reduction) => {
+                return data;
+            });
+
+        if (!res) {
+            throw new Error(`${path} resource is invalid.`);
+        }
+
+        return {content: res};
+    } catch (err) {
+        logAndThrow(`Failed to load ${path} data set.`, err)
+    }
+}
 
 export async function loadDesynthesisBase(path: string, fetch: Fetch): Promise<{content: DesynthesisBase}> {
     try {

@@ -1,12 +1,12 @@
 ﻿import type { PageLoad } from './$types';
-import {loadCoffer, loadMapping} from "$lib/loadHelpers";
+import {loadMapping, loadReduction} from "$lib/loadHelpers";
 
 // @ts-ignore
 export const load: PageLoad = async ({ fetch }) => {
     let mappingPromise = loadMapping(fetch);
 
-    // const res = await loadCoffer('/data/Re.json', fetch)
+    const res = await loadReduction('/data/Reduction.json', fetch)
     await mappingPromise;
 
-    // return res;
+    return res;
 };

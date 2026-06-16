@@ -7,19 +7,23 @@ namespace SupabaseExporter.Structures.Exports;
 /// </summary>
 public class Reduce
 {
-    public long Total;
+    public long Records;
+    
     public Dictionary<uint, ReductionSource> Sources = [];
     
     public class ReductionSource
     {
-        public long Total;
+        public long Records;
+        
+        public int LowestSand = -1;
+        public int LowestBonus = -1;
         
         public Dictionary<uint, ReductionTier> Tiers = [];
     }
     
     public class ReductionTier
     {
-        public long Total;
+        public long Records;
         
         public Dictionary<string, ReductionPatch> Patches = [];
     }
@@ -29,7 +33,23 @@ public class Reduce
         public long NormalCount;
         public long BonusCount;
         
-        public Dictionary<uint, ReductionTemp.ReductionReward> Normal = [];
-        public Dictionary<uint, ReductionTemp.ReductionReward> Bonus = [];
+        public Dictionary<uint, ReductionReward> Normal = [];
+        public Dictionary<uint, ReductionReward> Bonus = [];
+    }
+        
+    public class ReductionReward
+    {
+        public long Amount;
+        public long Total;
+        public long Min = long.MaxValue;
+        public long Max = long.MinValue;
+
+        public void AddRewardRecord(uint quantity)
+        {
+            Amount += 1;
+            Total += quantity;
+            Min = Math.Min(Min, quantity);
+            Max = Math.Max(Max, quantity);
+        }
     }
 }
