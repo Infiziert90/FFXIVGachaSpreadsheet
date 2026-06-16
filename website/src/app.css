@@ -437,47 +437,40 @@
 
 /* ============================================================= */
 
-/* ---------- svelte-multiselect theming ---------- */
-body {
-    /* portalled dropdowns sit above Bootstrap offcanvas (z-index 1045) */
-    --sms-options-z-index: 1050;
+/* ---------- svelte-multiselect ---------- */
+.multiselect {
+    /* sit above Bootstrap offcanvas (z-index 1045) */
+    --sms-options-z-index:         1050;
     /* always fill the parent column */
-    --sms-width: 100%;
+    --sms-width:                   100%;
+    /* shared across themes */
+    --sms-border:                  1px solid var(--bs-border-color);
+    --sms-text-color:              var(--bs-body-color);
+    --sms-options-border:          1px solid var(--bs-border-color);
+    --sms-selected-text-color:     var(--bs-body-color);
+    --sms-active-color:            var(--bs-primary);
+    --sms-remove-btn-hover-color:  var(--bs-primary);
+    --sms-li-selected-plain-bg:    color-mix(in srgb, var(--bs-primary) 12%, transparent);
 }
 
-/* Allow the selected-items ul to shrink below its content size so the
-   remove-all button doesn't overflow the container */
+/* allow the selected-items ul to shrink so the remove-all button doesn't overflow */
 .multiselect > ul.selected {
     min-width: 0;
 }
 
-[data-bs-theme="dark"] {
-    --sms-border:                  1px solid var(--bs-border-color);
-    --sms-text-color:              var(--bs-body-color);
-    --sms-bg:                      transparent;
-    --sms-options-bg:              var(--bs-secondary-bg);
-    --sms-options-border:          1px solid var(--bs-border-color);
-    --sms-options-shadow:          0 4px 16px rgba(0, 0, 0, 0.5);
-    --sms-selected-bg:             rgba(255, 255, 255, 0.08);
-    --sms-selected-text-color:     var(--bs-body-color);
-    --sms-active-color:            var(--bs-primary);
-    --sms-remove-btn-hover-color:  var(--bs-primary);
-    --sms-li-selected-plain-bg:    color-mix(in srgb, var(--bs-primary) 12%, transparent);
-    --sms-li-active-bg:            color-mix(in srgb, var(--bs-primary) 18%, transparent);
+[data-bs-theme="dark"] .multiselect {
+    --sms-bg:            transparent;
+    --sms-options-bg:    var(--bs-secondary-bg);
+    --sms-options-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    --sms-selected-bg:   rgba(255, 255, 255, 0.08);
+    --sms-li-active-bg:  color-mix(in srgb, var(--bs-primary) 18%, transparent);
 }
 
-[data-bs-theme="light"] {
-    --sms-border:                  1px solid var(--bs-border-color);
-    --sms-bg:                      var(--bs-body-bg);
-    --sms-text-color:              var(--bs-body-color);
-    --sms-options-bg:              var(--bs-body-bg);
-    --sms-options-border:          1px solid var(--bs-border-color);
-    --sms-selected-bg:             var(--bs-secondary-bg);
-    --sms-selected-text-color:     var(--bs-body-color);
-    --sms-active-color:            var(--bs-primary);
-    --sms-remove-btn-hover-color:  var(--bs-primary);
-    --sms-li-selected-plain-bg:    color-mix(in srgb, var(--bs-primary) 12%, transparent);
-    --sms-li-active-bg:            color-mix(in srgb, var(--bs-primary) 15%, transparent);
+[data-bs-theme="light"] .multiselect {
+    --sms-bg:            var(--bs-body-bg);
+    --sms-options-bg:    var(--bs-body-bg);
+    --sms-selected-bg:   var(--bs-secondary-bg);
+    --sms-li-active-bg:  color-mix(in srgb, var(--bs-primary) 15%, transparent);
 }
 
 .icon-small {
