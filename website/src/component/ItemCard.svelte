@@ -31,11 +31,6 @@
 
 <style>
     .item-card-icon {
-        background-color: hsl(var(--node-hue, 216), 60%, 92%);
         min-height: 80px;
-    }
-
-    :global([data-bs-theme="dark"]) .item-card-icon {
-        background-color: hsl(var(--node-hue, 216), 40%, 12%);
     }
 </style>
