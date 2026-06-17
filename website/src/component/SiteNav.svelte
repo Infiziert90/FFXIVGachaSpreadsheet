@@ -161,14 +161,14 @@
 
         <NavItem>
             <NavLink href="https://ko-fi.com/infiii" target="_blank">
-                <Icon name="suit-heart-fill" />
+                <Icon name="suit-heart-fill" style="font-size: 1.25rem;" />
                 <span class="visually-hidden">KoFi</span>
             </NavLink>
         </NavItem>
 
         <NavItem>
             <NavLink href="https://github.com/Infiziert90/FFXIVGachaSpreadsheet" target="_blank">
-                <Icon name="github" />
+                <Icon name="github" style="font-size: 1.25rem;" />
                 <span class="visually-hidden">GitHub</span>
             </NavLink>
         </NavItem>
@@ -176,7 +176,7 @@
         <NavItem>
             <Dropdown nav>
                 <DropdownToggle nav caret aria-label="Settings">
-                    <Icon name="gear" />
+                    <Icon name="gear" style="font-size: 1.25rem;" />
                 </DropdownToggle>
                 <DropdownMenu end>
                     <div class="dropdown-header">Layout width</div>
