@@ -14,6 +14,8 @@ export interface ReductionSource {
 
 interface ReductionTier {
     Records: number;
+    Minimum: number;
+
     Patches: Record<string, ReductionPatch>;
 }
 

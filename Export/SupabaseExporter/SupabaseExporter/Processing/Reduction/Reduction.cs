@@ -56,9 +56,11 @@ public class Reduction : IDisposable
 
             var collectabilityTier = 0u;
             var subRowList = subrowRewards.OrderBy(r => r.SubrowId).ToArray();
+            var subRow = subRowList[0];
             if (record.Collectability > subRowList[^1].Unknown0)
             {
-                collectabilityTier = subRowList[^1].SubrowId;
+                subRow = subRowList[^1];
+                collectabilityTier = subRow.SubrowId;
             }
             else
             {
@@ -66,6 +68,7 @@ public class Reduction : IDisposable
                 {
                     if (record.Collectability <= rewardRow.Unknown0)
                     {
+                        subRow = rewardRow;
                         collectabilityTier = rewardRow.SubrowId;
                         break;
                     }
@@ -73,7 +76,7 @@ public class Reduction : IDisposable
             }
 
             if (!reductionTemp.Tiers.ContainsKey(collectabilityTier))
-                reductionTemp.Tiers[collectabilityTier] = new Reduce.ReductionTier();
+                reductionTemp.Tiers[collectabilityTier] = new Reduce.ReductionTier { Minimum = subRow.Unknown0 };
             
             var patches = reductionTemp.Tiers[collectabilityTier];
             patches.Records += 1;

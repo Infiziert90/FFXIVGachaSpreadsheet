@@ -47,7 +47,7 @@
 
         // svelte-ignore state_referenced_locally
         if (source in reductionData.Sources) {
-            title = `Aetherial Reduction - ${Mappings[source]}`;
+            title = `Aetherial Reduction - ${Mappings[source].Name}`;
             description = `All tiers for this reduction source.`;
         }
     }
@@ -163,7 +163,7 @@
         </p>
 
         {#each Object.entries(tableItems.Tiers) as [tier, tierData]}
-            <h4>Tier {tier}</h4>
+            <h4>Tier {tier} (tierData.Minimum)</h4>
             {#each Object.values(tierData.Patches) as patchData}
                 {#if patchData.NormalCount > 0}
                     <h6>Normal</h6>

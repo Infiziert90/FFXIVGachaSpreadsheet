@@ -24,6 +24,7 @@ public class Reduce
     public class ReductionTier
     {
         public long Records;
+        public uint Minimum;
         
         public Dictionary<string, ReductionPatch> Patches = [];
     }
