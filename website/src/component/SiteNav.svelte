@@ -222,7 +222,7 @@
         align-items: center;
     }
     .site-logo :global(svg) {
-        height: 30px;
+        height: 38px;
         width: auto;
         color: inherit;
     }
