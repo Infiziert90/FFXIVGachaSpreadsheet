@@ -163,7 +163,7 @@
         </p>
 
         {#each Object.entries(tableItems.Tiers) as [tier, tierData]}
-            <h4>Tier {tier} (tierData.Minimum)</h4>
+            <h4>Tier {tier} ({tierData.Minimum})</h4>
             {#each Object.values(tierData.Patches) as patchData}
                 {#if patchData.NormalCount > 0}
                     <h6>Normal</h6>
