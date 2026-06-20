@@ -31,6 +31,7 @@ public class Reduction : IDisposable
     
     private void Fetch(Models.ReductionModel[] data)
     {
+        var i = 0;
         foreach (var record in data)
         {
             if (record.Source > Sheets.MaxItemId)
@@ -116,24 +117,30 @@ public class Reduction : IDisposable
             var collectabilityTier = 0u;
             var subRowList = subrowRewards.OrderBy(r => r.SubrowId).ToArray();
             var subRow = subRowList[0];
-            if (record.Collectability > subRowList[^1].Unknown0)
+            if (record.Collectability >= subRowList[^1].Unknown0)
             {
                 subRow = subRowList[^1];
                 collectabilityTier = subRow.SubrowId;
             }
             else
             {
-                foreach (var rewardRow in subRowList)
+                for (var idx = 0; idx < subRowList.Length; idx++)
                 {
-                    if (record.Collectability <= rewardRow.Unknown0)
+                    // This shouldn't be reachable but we still check
+                    if (idx + 1 == subRowList.Length)
+                        break;
+
+                    var currentRow = subRowList[idx];
+                    var nextRow = subRowList[idx + 1];
+                    if (record.Collectability < nextRow.Unknown0)
                     {
-                        subRow = rewardRow;
-                        collectabilityTier = rewardRow.SubrowId;
+                        subRow = currentRow;
+                        collectabilityTier = currentRow.SubrowId;
                         break;
                     }
                 }
             }
-
+            
             if (!reductionTemp.Tiers.ContainsKey(collectabilityTier))
                 reductionTemp.Tiers[collectabilityTier] = new ReduceTemp.ReductionTier { Tier = collectabilityTier, Minimum = subRow.Unknown0 };
             
@@ -151,7 +158,7 @@ public class Reduction : IDisposable
                 patchData.NormalCount += 1;
             
             
-            foreach (var (itemId, amount) in record.GetRewards())
+            foreach (var (itemId, quantity) in record.GetRewards())
             {
                 if (itemId > Sheets.MaxItemId)
                 {
@@ -185,14 +192,14 @@ public class Reduction : IDisposable
                     if (!patchData.Bonus.ContainsKey(itemId))
                         patchData.Bonus[itemId] = new ReduceTemp.ReductionReward();
                     
-                    patchData.Bonus[itemId].AddRewardRecord(amount);
+                    patchData.Bonus[itemId].AddRewardRecord(quantity);
                 }
                 else
                 {
                     if (!patchData.Normal.ContainsKey(itemId))
                         patchData.Normal[itemId] = new ReduceTemp.ReductionReward();
                     
-                    patchData.Normal[itemId].AddRewardRecord(amount);
+                    patchData.Normal[itemId].AddRewardRecord(quantity);
                 }
             }
         }
