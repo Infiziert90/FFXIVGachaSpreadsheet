@@ -12,12 +12,17 @@ public static class Sheets
     public static readonly ExcelSheet<Item> ItemSheet;
     public static readonly ExcelSheet<Mount> MountSheet;
     public static readonly ExcelSheet<Treasure> TreasureSheet;
+    public static readonly ExcelSheet<ClassJob> ClassJobSheet;
     public static readonly ExcelSheet<ContentType> ContentTypeSheet;
     public static readonly ExcelSheet<RetainerTask> RetainerTaskSheet;
     public static readonly ExcelSheet<GCSupplyDutyReward> GCSupplySheet;
     public static readonly ExcelSheet<TerritoryType> TerritoryTypeSheet;
-    public static readonly ExcelSheet<SubmarineExploration> ExplorationSheet;
     public static readonly ExcelSheet<NotoriousMonster> NotoriousMonsterSheet;
+    
+    public static readonly ExcelSheet<FishParameter> FishParameterSheet;
+    public static readonly ExcelSheet<GatheringItem> GathererItemSheet;
+    public static readonly ExcelSheet<SpearfishingItem> SpearfishingItemSheet;
+    public static readonly ExcelSheet<GatheringPointBase> GatheringPointBaseSheet;
     public static readonly SubrowExcelSheet<GathererReductionReward> GathererReductionRewardSheet;
 
     public static readonly ExcelSheet<SubmarineExploration> SubmarineExplorationSheet;
@@ -83,6 +88,7 @@ public static class Sheets
         ItemSheet = Lumina.GetExcelSheet<Item>()!;
         MountSheet = Lumina.GetExcelSheet<Mount>()!;
         TreasureSheet = Lumina.GetExcelSheet<Treasure>()!;
+        ClassJobSheet = Lumina.GetExcelSheet<ClassJob>()!;
         ContentTypeSheet = Lumina.GetExcelSheet<ContentType>()!;
         RetainerTaskSheet = Lumina.GetExcelSheet<RetainerTask>()!;
         GCSupplySheet = Lumina.GetExcelSheet<GCSupplyDutyReward>()!;
@@ -95,6 +101,11 @@ public static class Sheets
         HousingMapMarkerSheet = Lumina.GetSubrowExcelSheet<HousingMapMarkerInfo>()!;
         WorldSheet = Lumina.GetExcelSheet<World>()!;
         WorldDCGroupSheet = Lumina.GetExcelSheet<WorldDCGroupType>()!;
+        
+        FishParameterSheet = Lumina.GetExcelSheet<FishParameter>()!;
+        GathererItemSheet = Lumina.GetExcelSheet<GatheringItem>()!;
+        SpearfishingItemSheet = Lumina.GetExcelSheet<SpearfishingItem>()!;
+        GatheringPointBaseSheet = Lumina.GetExcelSheet<GatheringPointBase>()!;
         GathererReductionRewardSheet = Lumina.GetSubrowExcelSheet<GathererReductionReward>()!;
 
         MaxItemId = ItemSheet.MaxBy(i => i.RowId).RowId;

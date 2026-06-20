@@ -1,4 +1,6 @@
-﻿namespace SupabaseExporter;
+﻿using Lumina.Excel.Sheets;
+
+namespace SupabaseExporter;
 
 #region Submarine
 public enum SurvTier : uint
@@ -126,6 +128,16 @@ public enum LogoFrag : uint
     Fragment = 2,
 }
 
+public enum ReductionJobs : uint
+{
+    Mining = 0,
+    Quarrying = 1,
+    Logging = 2,
+    Harvesting = 3,
+    Spearfishing = 4,
+    AltSpearfishing = 5,
+}
+
 
 public static class EnumExtensions
 {
@@ -235,6 +247,17 @@ public static class EnumExtensions
             LogoFrag.Logogram => "Logograms",
             LogoFrag.Fragment => "Fragments",
             _ => throw new ArgumentOutOfRangeException(nameof(logoFrag), logoFrag, null)
+        };
+    }
+
+    public static ClassJob ToJob(this ReductionJobs job)
+    {
+        return job switch
+        {
+            ReductionJobs.Quarrying or ReductionJobs.Mining => Sheets.ClassJobSheet.GetRow(16),
+            ReductionJobs.Harvesting or ReductionJobs.Logging => Sheets.ClassJobSheet.GetRow(17),
+            ReductionJobs.Spearfishing or ReductionJobs.AltSpearfishing => Sheets.ClassJobSheet.GetRow(18),
+            _ => Sheets.ClassJobSheet.GetRow(0),
         };
     }
 }

@@ -7,6 +7,9 @@
     import {page} from "$app/state";
     import {onMount} from "svelte";
     import {replaceState} from "$app/navigation";
+    import {ReduceSpecial} from "$lib/table";
+    import DropsTable from "../../component/DropsTable.svelte";
+    import {logAndThrow} from "$lib/utils";
 
     interface Props {
         content: Reduction[];
@@ -19,22 +22,21 @@
     let { data }: Props = $props();
     let reductionData: Reduction = data.content;
 
-    let firstSource = Object.values(reductionData.Sources)[0];
-
     // let patches: string[] = $state(Object.keys(reductionData[0]))
     // // svelte-ignore state_referenced_locally
     // let selectedPatches: Option[] = $state([...patches.values()])
 
     // Table data
-    let tableItems: ReductionSource = $state(firstSource);
+    let tableItems: ReductionSource = $state(reductionData.Jobs[0].Sources[0]);
 
     // Stats
     let titleStats = $state('');
     let totalStats = $state('');
     let selectedStats = $state('');
 
-    // Initialize with default values
-    let source = $state(parseInt(Object.keys(reductionData.Sources)[0]));
+    // Initialize with default
+    let job = $state(reductionData.Jobs[0].Id);
+    let source = $state(reductionData.Jobs[0].Sources[0].Id);
 
     // Set default meta data
     let title = $state('Aetherial Reduction');
@@ -43,10 +45,11 @@
     // Override defaults with URL parameters if they exist
     let reductionSearchParams = tryGetReductionSearchParams(page.url.searchParams);
     if (reductionSearchParams !== undefined) {
+        job = reductionSearchParams.jobId;
         source = reductionSearchParams.sourceId;
 
         // svelte-ignore state_referenced_locally
-        if (source in reductionData.Sources) {
+        if (job in reductionData.Jobs && source in reductionData.Jobs[job].Sources) {
             title = `Aetherial Reduction - ${Mappings[source].Name}`;
             description = `All tiers for this reduction source.`;
         }
@@ -54,26 +57,38 @@
 
     // When page loads, open the tab for the current sourceId
     onMount(() => {
-        openTab(source, false)
+        openTab(job, source, false)
     })
 
     /**
      * Opens a tab and displays its data
+     * @param jobId - The job ID that this belongs to
      * @param sourceId - The item source ID to display
      * @param addQuery - If true, update the URL with these parameters
      */
-    function openTab(sourceId: number, addQuery: boolean = false) {
+    function openTab(jobId: number, sourceId: number, addQuery: boolean = false) {
         // Update state variables
+        job =  jobId;
         source = sourceId;
 
         // Update URL if requested (when user clicks a button)
         if (addQuery) {
+            page.url.searchParams.set('job', jobId.toString());
             page.url.searchParams.set('source', sourceId.toString());
             replaceState(page.url, page.state);
         }
 
-        if (!(sourceId in reductionData.Sources))
+        let jobSelection = reductionData.Jobs.find(j => j.Id === jobId);
+        if (jobSelection === undefined) {
+            console.log(`jobId: ${jobId} not found in Jobs.`);
             return;
+        }
+
+        let sourceSelection = jobSelection.Sources.find(s => s.Id === sourceId);
+        if (sourceSelection === undefined) {
+            console.log(`sourceId: ${sourceId} not found in Sources.`);
+            return;
+        }
 
         // // Check if the selected patch is invalid, if so reset to default
         // let availablePatches = Object.keys(selection.variant.Patches);
@@ -92,13 +107,13 @@
         //     : combineCoffer(selection.variant.Patches, selectedPatches);
 
         // Update table data
-        tableItems = reductionData.Sources[sourceId];
+        tableItems = sourceSelection;
 
         // Update stats display
         titleStats = `${Mappings[sourceId].Name} Stats`;
 
         // Calculate total across all variants in this territory
-        totalStats = `Total: ${reductionData.Sources[sourceId].Records.toLocaleString()}`;
+        totalStats = `Total: ${sourceSelection.Records.toLocaleString()}`;
 
         // Scroll to the top of the page
         window.scrollTo(0, 0);
@@ -126,6 +141,7 @@
 <PageSidebar>
     <ReductionAccordion
             {reductionData}
+            {job}
             {source}
             {openTab}
             {tabElements}
@@ -162,27 +178,20 @@
             Lowest Bonus: {tableItems.LowestBonus}
         </p>
 
-        {#each Object.entries(tableItems.Tiers) as [tier, tierData]}
-            <h4>Tier {tier} ({tierData.Minimum})</h4>
-            {#each Object.values(tierData.Patches) as patchData}
-                {#if patchData.NormalCount > 0}
-                    <h6>Normal</h6>
-                    <p>
-                        {#each Object.entries(patchData.Normal) as [rewardId, rewardData]}
-                            {Mappings[rewardId].Name} - Min: {rewardData.Min} Max: {rewardData.Max}<br>
-                        {/each}
-                    </p>
-                {/if}
+        {#each tableItems.Tiers as tierData}
+            <div class="container mb-5 p-2 rounded border" style="background-color: var(--bs-tertiary-bg);">
+                <h4>Tier ({tierData.Minimum})</h4>
+                {#each Object.values(tierData.Patches) as patchData}
+                    {#if patchData.NormalCount > 0}
+                        <DropsTable items={patchData.Normal} columns={ReduceSpecial} />
+                    {/if}
 
-                {#if patchData.BonusCount > 0}
-                    <h5>Bonus</h5>
-                    <p>
-                        {#each Object.entries(patchData.Bonus) as [rewardId, rewardData]}
-                            {Mappings[rewardId].Name} - Min: {rewardData.Min} Max: {rewardData.Max}<br>
-                        {/each}
-                    </p>
-                {/if}
-            {/each}
+                    {#if patchData.BonusCount > 0}
+                        <h4>Bonus</h4>
+                        <DropsTable items={patchData.Bonus} columns={ReduceSpecial} />
+                    {/if}
+                {/each}
+            </div>
         {/each}
     </div>
 </div>

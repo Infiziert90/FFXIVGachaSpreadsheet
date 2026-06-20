@@ -9,24 +9,72 @@ public class Reduce
 {
     public long Records;
     
-    public Dictionary<uint, ReductionSource> Sources = [];
+    public List<ReductionJob> Jobs = [];
+    
+    public Reduce() {}
+
+    public class ReductionJob
+    {
+        public long Records;
+
+        public uint Id;
+        public string Name = string.Empty;
+        
+        public List<ReductionSource> Sources = [];
+        
+        public ReductionJob() {}
+
+        public ReductionJob(ReduceTemp.ReductionJob job)
+        {
+            Records = job.Records;
+            
+            Id = job.Id;
+            Name = job.Name;
+        }
+    }
     
     public class ReductionSource
     {
         public long Records;
+
+        public uint Id;
         
-        public int LowestSand = -1;
-        public int LowestBonus = -1;
+        public int LowestSand;
+        public int LowestBonus;
         
-        public Dictionary<uint, ReductionTier> Tiers = [];
+        public List<ReductionTier> Tiers = [];
+        
+        public ReductionSource() {}
+        
+        public ReductionSource(ReduceTemp.ReductionSource source)
+        {
+            Records = source.Records;
+            
+            Id = source.Id;
+            
+            LowestSand = source.LowestSand;
+            LowestBonus = source.LowestBonus;
+        }
     }
     
     public class ReductionTier
     {
         public long Records;
+
+        public uint Tier;
         public uint Minimum;
         
         public Dictionary<string, ReductionPatch> Patches = [];
+        
+        public ReductionTier() {}
+        
+        public ReductionTier(ReduceTemp.ReductionTier tier)
+        {
+            Records = tier.Records;
+            
+            Tier = tier.Tier;
+            Minimum = tier.Minimum;
+        }
     }
 
     public class ReductionPatch
@@ -34,23 +82,15 @@ public class Reduce
         public long NormalCount;
         public long BonusCount;
         
-        public Dictionary<uint, ReductionReward> Normal = [];
-        public Dictionary<uint, ReductionReward> Bonus = [];
-    }
+        public List<Reward> Normal = [];
+        public List<Reward> Bonus = [];
         
-    public class ReductionReward
-    {
-        public long Amount;
-        public long Total;
-        public long Min = long.MaxValue;
-        public long Max = long.MinValue;
+        public ReductionPatch() {}
 
-        public void AddRewardRecord(uint quantity)
+        public ReductionPatch(ReduceTemp.ReductionPatch patch)
         {
-            Amount += 1;
-            Total += quantity;
-            Min = Math.Min(Min, quantity);
-            Max = Math.Max(Max, quantity);
+            NormalCount = patch.NormalCount;
+            BonusCount = patch.BonusCount;
         }
     }
 }

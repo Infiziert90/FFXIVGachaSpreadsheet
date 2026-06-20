@@ -100,3 +100,10 @@ export const RewardDesynthSpecial: ColumnTemplate[] = [
     MinMaxTemplate,
     ChanceTemplate,
 ];
+
+export const ReduceSpecial: ColumnTemplate[] = [
+    IconTemplate,
+    NameTemplate,
+    MinMaxTemplate,
+    ChanceTemplate,
+]

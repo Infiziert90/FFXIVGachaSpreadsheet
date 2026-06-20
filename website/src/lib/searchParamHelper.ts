@@ -51,6 +51,7 @@ export function tryGetSubmarineSearchParams(searchParams: URLSearchParams): Subm
 }
 
 interface ReductionSearchParams {
+    jobId: number,
     sourceId: number,
 }
 
@@ -60,10 +61,13 @@ interface ReductionSearchParams {
  * @returns Reduction search parameters if successful, undefined otherwise.
  */
 export function tryGetReductionSearchParams(searchParams: URLSearchParams): ReductionSearchParams | undefined {
+    const jobId = tryGetParam('job', searchParams);
     const sourceId = tryGetParam('source', searchParams);
 
+    if (jobId === undefined) return undefined;
     if (sourceId === undefined) return undefined;
-    return { sourceId };
+
+    return { jobId, sourceId };
 }
 
 interface DesynthSearchParams {
