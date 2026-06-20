@@ -198,8 +198,9 @@ public class Reduction : IDisposable
         }
     }
 
-    private void Combine() 
+    private void Combine()
     {
+        ProcessData.Records = CollectedData.Records;
         foreach (var jobTemp in CollectedData.Jobs.Values)
         {
             var job = new Reduce.ReductionJob(jobTemp);

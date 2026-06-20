@@ -49,9 +49,13 @@
         source = reductionSearchParams.sourceId;
 
         // svelte-ignore state_referenced_locally
-        if (job in reductionData.Jobs && source in reductionData.Jobs[job].Sources) {
-            title = `Aetherial Reduction - ${Mappings[source].Name}`;
-            description = `All tiers for this reduction source.`;
+        let jobSelection = reductionData.Jobs.find(j => j.Id === job);
+        if (jobSelection !== undefined) {
+            let sourceSelection = jobSelection.Sources.find(s => s.Id === source);
+            if (sourceSelection !== undefined) {
+                title = `Aetherial Reduction - ${Mappings[source].Name}`;
+                description = `All tiers for this reduction source.`;
+            }
         }
     }
 
