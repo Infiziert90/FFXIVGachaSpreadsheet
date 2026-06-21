@@ -42,7 +42,12 @@
         }));
     }
 
+    function siteFont(): string {
+        return getComputedStyle(document.documentElement).getPropertyValue('--bs-body-font-family').trim();
+    }
+
     function buildOption(): echarts.EChartsOption {
+        const fontFamily = siteFont();
         const data = source.Tiers.map((tier, i) => ({
             value: tier.Records,
             name: tierLabel(i),
@@ -78,7 +83,7 @@
             legend: {
                 orient: 'horizontal',
                 bottom: 0,
-                textStyle: { color: 'var(--bs-body-color)', fontSize: 12 },
+                textStyle: { color: 'var(--bs-body-color)', fontSize: 12, fontFamily },
                 formatter: (name: string) => `${name}  ${data.find(d => d.name === name)?.value ?? ''}`
             },
             series: [{
@@ -86,7 +91,7 @@
                 radius: ['0%', '68%'],
                 center: ['50%', '46%'],
                 data,
-                label: { color: 'var(--bs-body-color)', formatter: '{b}\n{d}%', fontSize: 11 },
+                label: { color: 'var(--bs-body-color)', formatter: '{b}\n{d}%', fontSize: 11, fontFamily },
                 labelLine: { length: 10, length2: 8 },
                 emphasis: { scale: true, scaleSize: 6, label: { fontSize: 13, fontWeight: 'bold' } }
             }]
