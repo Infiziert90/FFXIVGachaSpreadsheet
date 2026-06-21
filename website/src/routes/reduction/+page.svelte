@@ -1,7 +1,8 @@
-﻿<script lang="ts">
+<script lang="ts">
     import type {Reduction, ReductionSource, ReductionTier} from "$lib/structs/reduction";
     import PageSidebar from "../../component/PageSidebar.svelte";
     import ReductionAccordion from "../../component/ReductionAccordion.svelte";
+    import ReductionPieChart from "../../component/ReductionPieChart.svelte";
     import {Mappings} from "$lib/mappings";
     import {tryGetReductionSearchParams} from "$lib/searchParamHelper";
     import {page} from "$app/state";
@@ -150,6 +151,19 @@
         let bonusChance = patchData.BonusCount / tierData.Records * 100;
         return { hasBonus: true, bonusChance: bonusChance.toFixed(2) };
     }
+
+    function scrollToTier(subTier: number) {
+        const el = document.getElementById(`tier-${subTier}`);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    type VizMode = 'cards' | 'pie';
+    let vizMode = $state<VizMode>('cards');
+
+    function goToTierCard(subTier: number) {
+        vizMode = 'cards';
+        setTimeout(() => scrollToTier(subTier), 50);
+    }
 </script>
 
 <svelte:head>
@@ -193,36 +207,57 @@
     </div>
 </div>
 <div class="col-12 col-lg-7 order-0 order-lg-2">
+    <!-- Viz mode tabs -->
+    <ul class="nav nav-pills nav-fill mb-3">
+        <li class="nav-item">
+            <button class="nav-link" class:active={vizMode === 'cards'}
+                    onclick={() => vizMode = 'cards'}>
+                <i class="bi bi-card-list"></i> Cards
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" class:active={vizMode === 'pie'}
+                    onclick={() => vizMode = 'pie'}>
+                <i class="bi bi-pie-chart"></i> Pie
+            </button>
+        </li>
+    </ul>
+
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
-        <p>
-            Lowest Sand: {tableItems.LowestSand === 10000 ? 'No Data' : tableItems.LowestSand}
-            {#if tableItems.LowestBonus !== 10000}
-                <br>
-                Lowest Bonus: {tableItems.LowestBonus}
-            {/if}
-        </p>
+        {#if vizMode === 'cards'}
+            <p>
+                Lowest Sand: {tableItems.LowestSand === 10000 ? 'No Data' : tableItems.LowestSand}
+                {#if tableItems.LowestBonus !== 10000}
+                    <br>
+                    Lowest Bonus: {tableItems.LowestBonus}
+                {/if}
+            </p>
 
-        {#each tableItems.Tiers as tierData}
-            {@const bonusData = getBonusChance(tierData)}
-            <div class="container mb-5 p-2 rounded border" style="background-color: var(--bs-tertiary-bg);">
-                <h4>Tier ({SimpleReductionReward[tableItems.MainTier][tierData.SubTier].MinimumCollectability})</h4>
-                {#each Object.values(tierData.Patches) as patchData}
-                    {#if patchData.NormalCount > 0}
-                        <p>Records: {patchData.NormalCount}</p>
-                        <DropsTable items={patchData.Normal} columns={ReduceSpecial} />
-                    {/if}
+            {#each tableItems.Tiers as tierData}
+                {@const bonusData = getBonusChance(tierData)}
+                <div id="tier-{tierData.SubTier}" class="container mb-5 p-2 rounded border" style="background-color: var(--bs-tertiary-bg);">
+                    <h4>Tier ({SimpleReductionReward[tableItems.MainTier][tierData.SubTier].MinimumCollectability})</h4>
+                    {#each Object.values(tierData.Patches) as patchData}
+                        {#if patchData.NormalCount > 0}
+                            <p>Records: {patchData.NormalCount}</p>
+                            <DropsTable items={patchData.Normal} columns={ReduceSpecial} />
+                        {/if}
 
-                    {#if patchData.BonusCount > 0}
-                        <h4>Bonus</h4>
-                        <p>
-                            Records: {patchData.BonusCount}
-                            <br>
-                            Bonus chance: {bonusData.bonusChance}%
-                        </p>
-                        <DropsTable items={patchData.Bonus} columns={ReduceSpecial} />
-                    {/if}
-                {/each}
-            </div>
-        {/each}
+                        {#if patchData.BonusCount > 0}
+                            <h4>Bonus</h4>
+                            <p>
+                                Records: {patchData.BonusCount}
+                                <br>
+                                Bonus chance: {bonusData.bonusChance}%
+                            </p>
+                            <DropsTable items={patchData.Bonus} columns={ReduceSpecial} />
+                        {/if}
+                    {/each}
+                </div>
+            {/each}
+
+        {:else if vizMode === 'pie'}
+            <ReductionPieChart source={tableItems} mainTier={tableItems.MainTier} onTierClick={goToTierCard} />
+        {/if}
     </div>
 </div>
