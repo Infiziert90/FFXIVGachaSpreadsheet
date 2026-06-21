@@ -29,6 +29,8 @@
     let { data }: Props = $props();
     let pairingData: BnpcPairing = data.content;
 
+    let currentColorShift: number = $state(0);
+
     // Set default meta data
     let title = $state('Monster Locations');
     let description = $state('A searchable map with all monster locations.');
@@ -219,6 +221,7 @@
                 clearMarker(parseInt(id));
             }
         }
+        currentColorShift = 0;
     }
 
     function clearAllMarkers() {
@@ -230,6 +233,7 @@
 
         createdMarkersDict = {};
         textMarkersByMinZoom = [];
+        currentColorShift = 0;
     }
 
     /**
@@ -252,20 +256,21 @@
         if (map === undefined)
             return;
 
+        const iconUrl = getIconPath(getFormattedIconId(63989));
+        const iconMarker = leaflet.icon({
+            iconUrl: iconUrl,
+
+            iconSize:     [32, 32], // size of the icon
+            popupAnchor:  [0, -20], // point from which the popup should open relative to the iconAnchor
+            className: `colorShift${getColorShift()}`
+        });
+
         let indexes = names[selectedMonster];
         for (const idx of indexes) {
             for (const [_, location] of Object.entries(pairs[idx].Locations).filter(([_, l]) => l.Territory === selectedLocation.Territory && l.Map === selectedLocation.Map)) {
                 for (const worldPos of Object.values(location.Positions)) {
                     let ingameCoords = convertToMapCoords(new Vector3(worldPos.X, worldPos.Y, worldPos.Z), location.Map);
                     let coords = swapCoords(ingameCoords);
-
-                    const iconUrl = getIconPath(getFormattedIconId(93047));
-                    const iconMarker = leaflet.icon({
-                        iconUrl: iconUrl,
-
-                        iconSize:     [48, 48], // size of the icon
-                        popupAnchor:  [0, -20] // point from which the popup should open relative to the iconAnchor
-                    });
 
                     let marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: iconMarker}).addTo(map);
                     marker.bindPopup(`
@@ -434,6 +439,17 @@
     function getMapName(selectedMap: number) {
         const map = SimpleMapSheet[selectedMap];
         return `${map.PlaceName.Name}${map.PlaceNameSub.Name.length > 1 ? ` - ${map.PlaceNameSub.Name}` : ''}`
+    }
+
+    /**
+     * Get the current color shift number for class variable
+     */
+    function getColorShift(): string {
+        if (currentColorShift >= 13)
+            currentColorShift = 0;
+
+        currentColorShift++;
+        return currentColorShift.toString();
     }
 </script>
 <svelte:window on:resize={resizeMap} />

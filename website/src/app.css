@@ -711,6 +711,59 @@ img.item-icon {
     width: 85%;
 }
 
+
+.colorShift1 {
+    filter: none;
+}
+
+.colorShift2 {
+    filter: hue-rotate(30deg);
+}
+
+.colorShift3 {
+    filter: hue-rotate(30deg);
+}
+
+.colorShift4 {
+    filter: hue-rotate(60deg);
+}
+
+.colorShift5 {
+    filter: hue-rotate(90deg);
+}
+
+.colorShift6 {
+    filter: hue-rotate(120deg);
+}
+
+.colorShift7 {
+    filter: hue-rotate(150deg);
+}
+
+.colorShift8 {
+    filter: hue-rotate(180deg);
+}
+
+.colorShift9 {
+    filter: hue-rotate(210deg);
+}
+
+.colorShift10 {
+    filter: hue-rotate(240deg);
+}
+
+.colorShift11 {
+    filter: hue-rotate(270deg);
+}
+
+.colorShift12 {
+    filter: hue-rotate(300deg);
+}
+
+.colorShift13 {
+    filter: hue-rotate(330deg);
+}
+
 @media (min-width: 992px) {
     .sticky-left-col {
         max-height: calc(100vh - 6rem);

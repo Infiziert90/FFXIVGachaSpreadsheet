@@ -52,8 +52,6 @@
         openTab(map, false)
 
         await tick();
-        location.hash = '';
-        await tick();
 
         if (onLoadHash !== '') {
             location.hash = onLoadHash;
@@ -70,6 +68,7 @@
         // Update state variables
         map = mapId;
 
+        location.hash = '';
         page.url.hash = '';
         // Update URL if requested (when user clicks a button)
         if (addQuery) {
