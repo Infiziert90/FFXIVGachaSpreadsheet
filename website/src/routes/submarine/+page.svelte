@@ -174,9 +174,10 @@
             {#each sectorData as sector}
                 {@const sectorData = getSectorData(sector)}
                 {@const sectorStats = getSectorStats(sector)}
+                {@const sectorName = ToSectorName(SimpleSubExplorationSheet[sector.Id])}
                 <div class="container mb-5 rounded border" style="background-color: var(--bs-tertiary-bg);">
                     <div class="header">
-                        <div class="pt-3 px-2 title"><h3>{ToSectorName(SimpleSubExplorationSheet[sector.Id])}</h3></div>
+                        <div class="pt-3 px-2 title"><h3 id="{sector.Id}" class="anchor">{sectorName}<a href="#{sector.Id}" class="hashLink" aria-label="Direct link to {sectorName}" title="Direct link to {sectorName}"></a></h3></div>
                         <div class="pt-3 px-2 toggleButton">
                             <ButtonGroup>
                                 <Button outline color="secondary" active={!dropChanceView} on:click={() => {dropChanceView = false}}>Yield</Button>
@@ -356,6 +357,26 @@
 
     .toggleButton {
         margin: -.5rem -.5rem 1rem -.5rem;
+    }
+
+    .anchor {
+        scroll-margin-top: calc(80px + .5rem);
+    }
+
+    .hashLink {
+        opacity: 0;
+        transition: 0.3s;
+        user-select: none;
+
+        padding-left: .5rem;
+    }
+
+    .hashLink:hover, .hashLink:focus {
+        opacity: 1;
+    }
+
+    .hashLink:before {
+        content: "#";
     }
 
     @media (max-width: 800px) {

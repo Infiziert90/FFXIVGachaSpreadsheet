@@ -69,6 +69,13 @@ const ChanceTemplate: ColumnTemplate = {
     classExtension: ['percentage', 'text-end']
 };
 
+const ChanceNoDefaultSortTemplate: ColumnTemplate = {
+    header: 'Chance',
+    field: 'Pct',
+    valueRenderer: (row: Reward) => `${(row.Pct * 100).toFixed(2)}%`,
+    classExtension: ['percentage', 'text-end']
+};
+
 export const FullColumnSetup: ColumnTemplate[] = [
     IconTemplate,
     NameTemplate,
@@ -105,5 +112,5 @@ export const ReduceSpecial: ColumnTemplate[] = [
     IconTemplate,
     NameTemplate,
     MinMaxTemplate,
-    ChanceTemplate,
+    ChanceNoDefaultSortTemplate,
 ]

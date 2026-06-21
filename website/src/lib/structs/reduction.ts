@@ -29,7 +29,7 @@ export interface ReductionSource {
     Tiers: ReductionTier[];
 }
 
-interface ReductionTier {
+export interface ReductionTier {
     Records: number;
 
     SubTier: number;
