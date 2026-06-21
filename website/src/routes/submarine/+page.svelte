@@ -6,7 +6,7 @@
     import {page} from "$app/state";
     import {replaceState} from "$app/navigation";
     import {tryGetSubmarineSearchParams} from "$lib/searchParamHelper";
-    import {onMount} from "svelte";
+    import {onMount, tick} from "svelte";
     import {Mappings} from "$lib/mappings";
     import {type Breakpoint, EmptyBreakpoint, MapBreakpoints} from "$lib/submarineData";
     import {getIconPath, getWikiUrl} from "$lib/utils";
@@ -46,9 +46,19 @@
         }
     }
 
-    // When page loads, open the tab for the current category/taskType
-    onMount(() => {
+    // When page loads, open the tab for the current map
+    onMount(async () => {
+        let onLoadHash = page.url.hash;
         openTab(map, false)
+
+        await tick();
+        location.hash = '';
+        await tick();
+
+        if (onLoadHash !== '') {
+            location.hash = onLoadHash;
+            page.url.hash = onLoadHash;
+        }
     })
 
     function openTab(mapId: number, addQuery: boolean = false) {
@@ -60,6 +70,7 @@
         // Update state variables
         map = mapId;
 
+        page.url.hash = '';
         // Update URL if requested (when user clicks a button)
         if (addQuery) {
             page.url.searchParams.set('map', map.toString());
