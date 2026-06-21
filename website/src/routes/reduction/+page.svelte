@@ -1,5 +1,5 @@
 ﻿<script lang="ts">
-    import type {Reduction, ReductionSource} from "$lib/structs/reduction";
+    import type {Reduction, ReductionSource, ReductionTier} from "$lib/structs/reduction";
     import PageSidebar from "../../component/PageSidebar.svelte";
     import ReductionAccordion from "../../component/ReductionAccordion.svelte";
     import {Mappings} from "$lib/mappings";
@@ -132,6 +132,24 @@
     // function patchSelectionChanged(event: Event) {
     //     openTab(territory, coffer, false);
     // }
+
+    interface BonusChance {
+        hasBonus: boolean;
+        bonusChance: string;
+    }
+
+    /**
+     * Calculate the chance of getting bonus for this tier
+    */
+    function getBonusChance(tierData: ReductionTier): BonusChance {
+        let patchData = Object.values(tierData.Patches)[0];
+
+        if (patchData.BonusCount === 0)
+            return { hasBonus: false, bonusChance: '' };
+
+        let bonusChance = patchData.BonusCount / tierData.Records * 100;
+        return { hasBonus: true, bonusChance: bonusChance.toFixed(2) };
+    }
 </script>
 
 <svelte:head>
@@ -177,21 +195,30 @@
 <div class="col-12 col-lg-7 order-0 order-lg-2">
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
         <p>
-            Lowest Sand: {tableItems.LowestSand}
-            <br>
-            Lowest Bonus: {tableItems.LowestBonus}
+            Lowest Sand: {tableItems.LowestSand === 10000 ? 'No Data' : tableItems.LowestSand}
+            {#if tableItems.LowestBonus !== 10000}
+                <br>
+                Lowest Bonus: {tableItems.LowestBonus}
+            {/if}
         </p>
 
         {#each tableItems.Tiers as tierData}
+            {@const bonusData = getBonusChance(tierData)}
             <div class="container mb-5 p-2 rounded border" style="background-color: var(--bs-tertiary-bg);">
                 <h4>Tier ({SimpleReductionReward[tableItems.MainTier][tierData.SubTier].MinimumCollectability})</h4>
                 {#each Object.values(tierData.Patches) as patchData}
                     {#if patchData.NormalCount > 0}
+                        <p>Records: {patchData.NormalCount}</p>
                         <DropsTable items={patchData.Normal} columns={ReduceSpecial} />
                     {/if}
 
                     {#if patchData.BonusCount > 0}
                         <h4>Bonus</h4>
+                        <p>
+                            Records: {patchData.BonusCount}
+                            <br>
+                            Bonus chance: {bonusData.bonusChance}%
+                        </p>
                         <DropsTable items={patchData.Bonus} columns={ReduceSpecial} />
                     {/if}
                 {/each}
