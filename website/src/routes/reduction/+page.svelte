@@ -235,7 +235,7 @@
 
             {#each tableItems.Tiers as tierData}
                 {@const bonusData = getBonusChance(tierData)}
-                <div id="tier-{tierData.SubTier}" class="container mb-5 p-2 rounded border" style="background-color: var(--bs-tertiary-bg);">
+                <div id="tier-{tierData.SubTier}" class="container mb-5 p-2 rounded border tier-anchor" style="background-color: var(--bs-tertiary-bg);">
                     <h4>Tier ({SimpleReductionReward[tableItems.MainTier][tierData.SubTier].MinimumCollectability})</h4>
                     {#each Object.values(tierData.Patches) as patchData}
                         {#if patchData.NormalCount > 0}
@@ -261,3 +261,9 @@
         {/if}
     </div>
 </div>
+
+<style>
+    .tier-anchor {
+        scroll-margin-top: calc(80px + .5rem);
+    }
+</style>

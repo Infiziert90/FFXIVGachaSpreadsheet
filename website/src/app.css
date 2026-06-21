@@ -45,10 +45,6 @@
     --sky-950: #0c4a6e;
 }
 
-html {
-    scroll-padding-top: 5rem; /* account for sticky navbar (~63px) */
-}
-
 /* ---------- DARK — sky primary, shared across tinted & neutral ---------- */
 [data-bs-theme="dark"] {
     --bs-border-color-translucent:   color-mix(in srgb, white 8%, transparent);
