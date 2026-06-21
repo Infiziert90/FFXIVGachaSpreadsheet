@@ -9,7 +9,7 @@
     import {replaceState} from "$app/navigation";
     import {ReduceSpecial} from "$lib/table";
     import DropsTable from "../../component/DropsTable.svelte";
-    import {logAndThrow} from "$lib/utils";
+    import {SimpleReductionReward} from "$lib/sheets/simplifiedSheets";
 
     interface Props {
         content: Reduction[];
@@ -184,7 +184,7 @@
 
         {#each tableItems.Tiers as tierData}
             <div class="container mb-5 p-2 rounded border" style="background-color: var(--bs-tertiary-bg);">
-                <h4>Tier ({tierData.Minimum})</h4>
+                <h4>Tier ({SimpleReductionReward[tableItems.MainTier][tierData.SubTier].MinimumCollectability})</h4>
                 {#each Object.values(tierData.Patches) as patchData}
                     {#if patchData.NormalCount > 0}
                         <DropsTable items={patchData.Normal} columns={ReduceSpecial} />

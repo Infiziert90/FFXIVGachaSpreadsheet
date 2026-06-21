@@ -25,8 +25,11 @@ public class ReduceTemp
         
         public uint Id;
         
-        public int LowestSand = -1;
-        public int LowestBonus = -1;
+        public uint MainTier;
+        public uint Maximum;
+        
+        public int LowestSand = 10000;
+        public int LowestBonus = 10000;
         
         public Dictionary<uint, ReductionTier> Tiers = [];
     }
@@ -36,7 +39,6 @@ public class ReduceTemp
         public long Records;
 
         public uint Tier;
-        public uint Minimum;
         
         public Dictionary<string, ReductionPatch> Patches = [];
     }

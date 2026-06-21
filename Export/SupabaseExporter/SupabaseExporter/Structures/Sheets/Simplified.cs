@@ -17,6 +17,8 @@ public class SimplifiedSheets
     
     private readonly Dictionary<uint, WorldRow> SimpleWorld;
     private readonly Dictionary<uint, WorldDCGroupRow> SimpleWorldDcGroup;
+    
+    private readonly Dictionary<uint, Dictionary<uint, ReductionRewardRow>> SimpleReductionReward;
 
     public SimplifiedSheets()
     {
@@ -32,6 +34,8 @@ public class SimplifiedSheets
         
         SimpleWorld = WorldSheet.Select(WorldRow.From).ToDictionary(r => r.RowId, r => r);
         SimpleWorldDcGroup = WorldDCGroupSheet.Select(WorldDCGroupRow.From).ToDictionary(r => r.RowId, r => r);
+        
+        SimpleReductionReward = GathererReductionRewardSheet.ToDictionary(baseRow => baseRow.RowId, baseRow => baseRow.Select(ReductionRewardRow.From).ToDictionary(subRow => subRow.RowId, subRow => subRow));
     }
 
     public void Export()
@@ -48,6 +52,8 @@ public class SimplifiedSheets
         
         ExportHandler.WriteSheetJson("world.json", SimpleWorld);
         ExportHandler.WriteSheetJson("worldDCGroup.json", SimpleWorldDcGroup);
+        
+        ExportHandler.WriteSheetJson("reductionReward.json", SimpleReductionReward);
     }
 }
 
@@ -195,4 +201,14 @@ public struct MapMarkerRow(MapMarker mapMarker)
     public byte DataType = mapMarker.DataType;
     
     public static MapMarkerRow From(MapMarker mapMarker) => new(mapMarker);
+}
+
+[Serializable]
+public struct ReductionRewardRow(GathererReductionReward reductionReward)
+{
+    public uint RowId = reductionReward.SubrowId;
+
+    public ushort MinimumCollectability = reductionReward.Unknown0;
+    
+    public static ReductionRewardRow From(GathererReductionReward reductionReward) => new(reductionReward);
 }

@@ -12,6 +12,16 @@ public class Reduction : IDisposable
     
     private readonly Dictionary<uint, ClassJob> ItemToJob = new();
     
+    private static readonly HashSet<uint> SpecialItems = // These items get rewarded randomly upon harvesting others
+    [
+        37692, // Sublime Crystalbloom
+        39235, // Sublime Sphongos
+        39238, // Sublime Achondrite
+        39907, // Sublime Haritaki
+        39910, // Sublime Chloroschist
+        41417, // Sublime Fossilized Dragon's Scale
+    ];
+    
     public void ProcessAllData(Models.ReductionModel[] data)
     {
         Logger.Information("Processing reduction data");
@@ -31,7 +41,6 @@ public class Reduction : IDisposable
     
     private void Fetch(Models.ReductionModel[] data)
     {
-        var i = 0;
         foreach (var record in data)
         {
             if (record.Source > Sheets.MaxItemId)
@@ -79,7 +88,7 @@ public class Reduction : IDisposable
 
                 if (!Sheets.GatheringPointBaseSheet.TryGetFirst(g => FindMatchingItem(g, gatheringItem.RowId), out var gatheringBase))
                 {
-                    Logger.Warning($"Source not found in GatheringBase? ID: {record.Id} ItemId: {record.Source}");
+                    Logger.Error($"Source not found in GatheringBase? ID: {record.Id} ItemId: {record.Source}");
                     continue;
                 }
 
@@ -90,59 +99,44 @@ public class Reduction : IDisposable
             CollectedData.Records += 1;
             if (!CollectedData.Jobs.ContainsKey(job.RowId))
                 CollectedData.Jobs[job.RowId] = new ReduceTemp.ReductionJob { Id = job.RowId, Name = job.NameEnglish.ToString() };
-
-            if (job.RowId == 0)
-            {
-                Logger.Warning($"Job was Adv: {sourceItem.ItemUICategory.RowId}");
-            }
             
             var jobs = CollectedData.Jobs[job.RowId];
             jobs.Records += 1;
             
             if (!jobs.Sources.ContainsKey(record.Source))
-                jobs.Sources[record.Source] = new ReduceTemp.ReductionSource { Id = record.Source };
+                jobs.Sources[record.Source] = new ReduceTemp.ReductionSource { Id = record.Source, MainTier = sourceItem.AetherialReduce };
             
             var reductionTemp = jobs.Sources[record.Source];
             reductionTemp.Records += 1;
-
+            reductionTemp.Maximum = Math.Max(reductionTemp.Maximum, record.Collectability);
             if (record.HasBonus)
-            {
-                if (reductionTemp.LowestBonus == -1 ||  reductionTemp.LowestBonus > record.Collectability)
-                    reductionTemp.LowestBonus = (int)record.Collectability;
-            }
+                reductionTemp.LowestBonus = Math.Min(reductionTemp.LowestBonus, (int)record.Collectability);
             
             var reductionRow = sourceItem.AetherialReduce;
             var subrowRewards = Sheets.GathererReductionRewardSheet.GetRow(reductionRow);
 
             var collectabilityTier = 0u;
             var subRowList = subrowRewards.OrderBy(r => r.SubrowId).ToArray();
-            var subRow = subRowList[0];
-            if (record.Collectability >= subRowList[^1].Unknown0)
+            for (var idx = 0; idx < subRowList.Length; idx++)
             {
-                subRow = subRowList[^1];
-                collectabilityTier = subRow.SubrowId;
-            }
-            else
-            {
-                for (var idx = 0; idx < subRowList.Length; idx++)
+                // End reached, it must be the last tier
+                if (idx + 1 == subRowList.Length)
                 {
-                    // This shouldn't be reachable but we still check
-                    if (idx + 1 == subRowList.Length)
-                        break;
+                    collectabilityTier = subRowList[^1].SubrowId;
+                    break;
+                }
 
-                    var currentRow = subRowList[idx];
-                    var nextRow = subRowList[idx + 1];
-                    if (record.Collectability < nextRow.Unknown0)
-                    {
-                        subRow = currentRow;
-                        collectabilityTier = currentRow.SubrowId;
-                        break;
-                    }
+                var currentRow = subRowList[idx];
+                var nextRow = subRowList[idx + 1];
+                if (record.Collectability < nextRow.Unknown0)
+                {
+                    collectabilityTier = currentRow.SubrowId;
+                    break;
                 }
             }
             
             if (!reductionTemp.Tiers.ContainsKey(collectabilityTier))
-                reductionTemp.Tiers[collectabilityTier] = new ReduceTemp.ReductionTier { Tier = collectabilityTier, Minimum = subRow.Unknown0 };
+                reductionTemp.Tiers[collectabilityTier] = new ReduceTemp.ReductionTier { Tier = collectabilityTier };
             
             var patches = reductionTemp.Tiers[collectabilityTier];
             patches.Records += 1;
@@ -182,10 +176,7 @@ public class Reduction : IDisposable
                 
                 // Reduction rewards crystals as base reward, so we check for anything none crystal
                 if (itemId > 100)
-                {
-                    if (reductionTemp.LowestSand == -1 ||  reductionTemp.LowestSand > record.Collectability)
-                        reductionTemp.LowestSand = (int)record.Collectability;
-                }
+                    reductionTemp.LowestSand = Math.Min(reductionTemp.LowestSand, (int)record.Collectability);
                 
                 if (record.HasBonus)
                 {
@@ -245,7 +236,7 @@ public class Reduction : IDisposable
                     source.Tiers.Add(tier);
                 }
                 
-                source.Tiers = source.Tiers.OrderBy(t => t.Tier).ToList();
+                source.Tiers = source.Tiers.OrderBy(t => t.SubTier).ToList();
                 job.Sources.Add(source);
             }
             
@@ -263,18 +254,5 @@ public class Reduction : IDisposable
     }
 
     private bool FindMatchingItem(GatheringPointBase row, uint itemRowId)
-    {
-        return row.Item.Any(rowRef => rowRef.RowId == itemRowId);
-    }
-
-    private static readonly HashSet<uint> SpecialItems = // These items get rewarded randomly upon harvesting others
-    [
-        37692, // Sublime Crystalbloom
-        39235, // Sublime Sphongos
-        39238, // Sublime Achondrite
-        39907, // Sublime Haritaki
-        39910, // Sublime Chloroschist
-        41417, // Sublime Fossilized Dragon's Scale
-    ];
-        
+        => row.Item.Any(rowRef => rowRef.RowId == itemRowId);
 }

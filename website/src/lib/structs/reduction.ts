@@ -20,6 +20,9 @@ export interface ReductionSource {
 
     Id: number;
 
+    MainTier: number;
+    Maximum: number;
+
     LowestSand: number;
     LowestBonus: number;
 
@@ -29,8 +32,7 @@ export interface ReductionSource {
 interface ReductionTier {
     Records: number;
 
-    Tier: number;
-    Minimum: number;
+    SubTier: number;
 
     Patches: Record<string, ReductionPatch>;
 }

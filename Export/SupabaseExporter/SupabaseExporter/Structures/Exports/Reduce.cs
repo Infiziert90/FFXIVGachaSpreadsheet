@@ -39,6 +39,9 @@ public class Reduce
 
         public uint Id;
         
+        public uint MainTier;
+        public uint Maximum;
+        
         public int LowestSand;
         public int LowestBonus;
         
@@ -52,6 +55,9 @@ public class Reduce
             
             Id = source.Id;
             
+            MainTier = source.MainTier;
+            Maximum = source.Maximum;
+            
             LowestSand = source.LowestSand;
             LowestBonus = source.LowestBonus;
         }
@@ -61,8 +67,7 @@ public class Reduce
     {
         public long Records;
 
-        public uint Tier;
-        public uint Minimum;
+        public uint SubTier;
         
         public Dictionary<string, ReductionPatch> Patches = [];
         
@@ -72,8 +77,7 @@ public class Reduce
         {
             Records = tier.Records;
             
-            Tier = tier.Tier;
-            Minimum = tier.Minimum;
+            SubTier = tier.Tier;
         }
     }
 

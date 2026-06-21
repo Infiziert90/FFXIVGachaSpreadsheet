@@ -8,6 +8,7 @@ import type {HousingLandSetRow} from "$lib/sheets/structure/housingLandSet";
 import type {WorldRow} from "$lib/sheets/structure/world";
 import type {WorldDCGroupRow} from "$lib/sheets/structure/worldDCGroup";
 import type {MapMarkerRow} from "$lib/sheets/structure/mapMarker";
+import type {ReductionRewardRow} from "$lib/sheets/structure/reductionReward";
 
 type Fetch = typeof fetch;
 
@@ -25,6 +26,8 @@ export const SimpleHousingMapMarker: Record<number, Record<number, HousingMapMar
 
 export const SimpleWorld: Record<number, WorldRow> = {};
 export const SimpleWorldDCGroup: Record<number, WorldDCGroupRow> = {};
+
+export const SimpleReductionReward: Record<number, Record<number, ReductionRewardRow>> = {};
 
 export async function LoadMapSheet(fetch: Fetch) {
     if (Object.keys(SimpleMapSheet).length > 0)
@@ -176,3 +179,17 @@ export async function LoadWorldDCGroupSheet(fetch: Fetch) {
         });
 }
 
+export async function LoadReductionRewardSheet(fetch: Fetch) {
+    if (Object.keys(SimpleReductionReward).length > 0)
+        return;
+
+    return await fetch('/sheets/reductionReward.json', { method: 'GET' })
+        .then(responseHandler)
+        .then((data: Record<number, Record<number, ReductionRewardRow>>) => {
+            for (const [rowId, subRow] of Object.entries(data))
+                SimpleReductionReward[parseInt(rowId)] = subRow;
+        })
+        .catch((err) => {
+            logAndThrow('Error loading reduction reward data.', err);
+        });
+}
