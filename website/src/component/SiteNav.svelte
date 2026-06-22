@@ -20,55 +20,7 @@
     import { layoutWidth } from '$lib/stores/layoutWidth';
     import { colorScheme } from '$lib/stores/colorScheme';
     import logoSvg from '$lib/assets/logo.svg?raw';
-
-    interface MenuItem {
-        label: string;
-        href: string;
-    }
-
-    interface MenuCategory {
-        label: string;
-        id: string;
-        items: MenuItem[];
-    }
-
-    const menuCategories: MenuCategory[] = [
-        {
-            label: 'Containers',
-            id: 'containers',
-            items: [
-                { label: 'Coffers', href: '/coffer/' },
-                { label: 'Lockboxes', href: '/lockbox/' },
-                { label: 'Card Packs', href: '/card/' },
-                { label: 'Logograms and Fragments', href: '/logofrag/' }
-            ]
-        },
-        {
-            label: 'Instance Drops',
-            id: 'instances',
-            items: [
-                { label: 'Deep Dungeons', href: '/deep/' },
-                { label: 'Loot', href: '/loot/' }
-            ]
-        },
-        {
-            label: 'Others',
-            id: 'others',
-            items: [
-                { label: 'Eureka Bunnies', href: '/bunny/' },
-                { label: 'Occult', href: '/occult/' },
-                { label: 'Desynthesis', href: '/desynth/' },
-                { label: 'Ventures', href: '/venture/' }
-            ]
-        },
-        {
-            label: 'Submarines',
-            id: 'submarine',
-            items: [
-                { label: 'Submarines', href: '/submarine/' }
-            ]
-        },
-    ];
+    import { navCategories, getNavIconSrc } from '$lib/navConfig';
 
     // Normalize path for comparison (remove trailing slashes)
     function normalizePath(path: string): string {
@@ -135,7 +87,7 @@
 <Collapse {isOpen} navbar expand="lg">
     <!-- Main Menu -->
     <Nav class="me-auto" navbar>
-        {#each menuCategories as category}
+        {#each navCategories as category}
             <NavItem>
                 <Dropdown nav>
                     <DropdownToggle nav class="nav-link" caret>
@@ -144,6 +96,13 @@
                     <DropdownMenu>
                         {#each category.items as item}
                             <DropdownItem href={item.href} active={isActivePath(item.href)}>
+                                <img
+                                    src={getNavIconSrc(item.icon)}
+                                    alt=""
+                                    class="nav-item-icon me-2"
+                                    width="20"
+                                    height="20"
+                                />
                                 {item.label}
                             </DropdownItem>
                         {/each}
@@ -225,5 +184,9 @@
         height: 38px;
         width: auto;
         color: inherit;
+    }
+    .nav-item-icon {
+        object-fit: contain;
+        vertical-align: middle;
     }
 </style>
