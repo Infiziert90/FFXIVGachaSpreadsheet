@@ -14,6 +14,7 @@ public class Reduction : IDisposable
     
     private static readonly HashSet<uint> SpecialItems = // These items get rewarded randomly upon harvesting others
     [
+        37695, // Sublime Siderite
         37692, // Sublime Crystalbloom
         39235, // Sublime Sphongos
         39238, // Sublime Achondrite
