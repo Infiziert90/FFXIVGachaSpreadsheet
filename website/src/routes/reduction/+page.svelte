@@ -11,6 +11,7 @@
     import {ReduceSpecial} from "$lib/table";
     import DropsTable from "../../component/DropsTable.svelte";
     import {SimpleReductionReward} from "$lib/sheets/simplifiedSheets";
+    import ReductionCard from "../../component/ReductionCard.svelte";
 
     interface Props {
         content: Reduction[];
@@ -28,7 +29,7 @@
     // let selectedPatches: Option[] = $state([...patches.values()])
 
     // Table data
-    let tableItems: ReductionSource = $state(reductionData.Jobs[0].Sources[0]);
+    let reductionSource: ReductionSource = $state(reductionData.Jobs[0].Sources[0]);
 
     // Stats
     let titleStats = $state('');
@@ -112,7 +113,7 @@
         //     : combineCoffer(selection.variant.Patches, selectedPatches);
 
         // Update table data
-        tableItems = sourceSelection;
+        reductionSource = sourceSelection;
 
         // Update stats display
         titleStats = `${Mappings[sourceId].Name} Stats`;
@@ -158,7 +159,7 @@
     }
 
     type VizMode = 'cards' | 'pie';
-    let vizMode = $state<VizMode>('cards');
+    let vizMode = $state<VizMode>('pie');
 
     function goToTierCard(subTier: number) {
         vizMode = 'cards';
@@ -210,33 +211,30 @@
     <!-- Viz mode tabs -->
     <ul class="nav nav-pills nav-fill mb-3">
         <li class="nav-item">
-            <button class="nav-link" class:active={vizMode === 'cards'}
-                    onclick={() => vizMode = 'cards'}>
-                <i class="bi bi-card-list"></i> Cards
-            </button>
-        </li>
-        <li class="nav-item">
             <button class="nav-link" class:active={vizMode === 'pie'}
                     onclick={() => vizMode = 'pie'}>
                 <i class="bi bi-pie-chart"></i> Pie
             </button>
         </li>
+        <li class="nav-item">
+            <button class="nav-link" class:active={vizMode === 'cards'}
+                    onclick={() => vizMode = 'cards'}>
+                <i class="bi bi-card-list"></i> Cards
+            </button>
+        </li>
     </ul>
 
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
-        {#if vizMode === 'cards'}
-            <p>
-                Lowest Sand: {tableItems.LowestSand === 10000 ? 'No Data' : tableItems.LowestSand}
-                {#if tableItems.LowestBonus !== 10000}
-                    <br>
-                    Lowest Bonus: {tableItems.LowestBonus}
-                {/if}
-            </p>
+        {#if vizMode === 'pie'}
+            <ReductionCard reward={reductionSource} />
+            <ReductionPieChart source={reductionSource} mainTier={reductionSource.MainTier} onTierClick={goToTierCard} />
+        {:else if vizMode === 'cards'}
+            <ReductionCard reward={reductionSource} />
 
-            {#each tableItems.Tiers as tierData}
+            {#each reductionSource.Tiers as tierData}
                 {@const bonusData = getBonusChance(tierData)}
                 <div id="tier-{tierData.SubTier}" class="container mb-5 p-2 rounded border tier-anchor" style="background-color: var(--bs-tertiary-bg);">
-                    <h4>Tier ({SimpleReductionReward[tableItems.MainTier][tierData.SubTier].MinimumCollectability})</h4>
+                    <h4>Tier ({SimpleReductionReward[reductionSource.MainTier][tierData.SubTier].MinimumCollectability})</h4>
                     {#each Object.values(tierData.Patches) as patchData}
                         {#if patchData.NormalCount > 0}
                             <p>Records: {patchData.NormalCount}</p>
@@ -255,9 +253,6 @@
                     {/each}
                 </div>
             {/each}
-
-        {:else if vizMode === 'pie'}
-            <ReductionPieChart source={tableItems} mainTier={tableItems.MainTier} onTierClick={goToTierCard} />
         {/if}
     </div>
 </div>

@@ -20,6 +20,7 @@ public class Reduction : IDisposable
         39238, // Sublime Achondrite
         39907, // Sublime Haritaki
         39910, // Sublime Chloroschist
+        41414, // Sublime Kukuru Beans
         41417, // Sublime Fossilized Dragon's Scale
     ];
     
