@@ -346,7 +346,7 @@ public class Exporter
 
         var importMapping = new OccultBunnyImportMap();
         var data = ReadFolderStatic<OccultBunnyModel>(path, 0, importMapping).ToArray();
-        Logger.Information("Done exporting occult bunny data...");
+        Logger.Information("Done exporting occult bunny data....");
         return data;
     }
     
