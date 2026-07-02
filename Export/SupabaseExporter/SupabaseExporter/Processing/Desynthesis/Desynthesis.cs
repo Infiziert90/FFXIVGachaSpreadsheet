@@ -158,7 +158,7 @@ public class Desynthesis : IDisposable
         
         Logger.Information("Splitting data ...");
         var desynthBase = new DesynthesisBase();
-        for (var i = 1000; i <= Sheets.MaxItemId; i += 1000)
+        for (var i = 1000; i <= Sheets.MaxItemId + 1000; i += 1000)
         {
             var split = new Desynth();
             foreach (var (sourceId, history) in ProcessedData.Sources.Where(pair => pair.Key >= i - 999 && pair.Key <= i))
@@ -232,6 +232,8 @@ public class Desynthesis : IDisposable
         8150, // Fieldcraft Demimateria III
         
         28062, // Nightworld Bronze Piece
+        
+        52712, // All-purpose Pigment
     ];
     
     private readonly HashSet<uint> Validated = 
@@ -253,6 +255,7 @@ public class Desynthesis : IDisposable
         7051355, 7131502, 7133494, 7152248, 7155324, 7171525, 7178726, 7254932, 7287623, 7359069, 7360338, 7404684, 7447713, 
         7448423, 7501972, 7620467, 7685635, 7753584, 7811471, 7830781, 7916820, 8049807, 8095339, 8118319, 8128342, 8145383, 
         8215846, 8268072, 8288856, 8336476, 8420406, 8685783, 8812922, 8833214, 8853936, 8881669, 9115821, 9122698, 9230165, 
-        9245028, 9356109, 9412262, 9524338, 9555096, 9786376, 9886256, 9902796, 10008211, 10196306, 10411744, 10452131
+        9245028, 9356109, 9412262, 9524338, 9555096, 9786376, 9886256, 9902796, 10008211, 10196306, 10411744, 10452131, 10578175,
+        10596722,
     ];
 }
