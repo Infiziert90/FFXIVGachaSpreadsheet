@@ -11,27 +11,40 @@ public static class Utils
     public static readonly int Patch740 = VersionToNumber("1.6.4.0");
     public static readonly int Patch730 = VersionToNumber("1.6.1.0");
     public static readonly int Patch720 = VersionToNumber("1.5.8.1");
+    public static readonly int AvantPatch750 = VersionToNumber("1.1.0.0");
     
     /// <summary>
     /// Match a specific version number to patch name.
     /// </summary>
     /// <param name="version">Version as number</param>
+    /// <param name="source">Plugin that holds the version, as enum</param>
     /// <returns>The patch name, with default 7.10</returns>
-    public static string VersionToPatch(int version)
+    public static string VersionToPatch(int version, UploadSourcePlugin source)
     {
-        if (version >= Patch750)
-            return "7.5";    
-        
-        if (version >= Patch740)
-            return "7.4";        
-        
-        if (version >= Patch730)
-            return "7.3";
-        
-        if (version >= Patch720)
-            return "7.2";
-        
-        return "7.1";
+        if (source == UploadSourcePlugin.Tracky) {
+            if (version >= Patch750)
+                return "7.5";    
+            
+            if (version >= Patch740)
+                return "7.4";        
+            
+            if (version >= Patch730)
+                return "7.3";
+            
+            if (version >= Patch720)
+                return "7.2";
+            
+            return "7.1";
+        }
+        else if (source == UploadSourcePlugin.AvantGarde)
+        {
+            return version switch
+            {
+                var _ when version >= AvantPatch750 => "7.5",
+                _ => "7.1", // Doesn't make much sense
+            };
+        }
+        throw new ArgumentOutOfRangeException();
     }
     
     /// <summary>

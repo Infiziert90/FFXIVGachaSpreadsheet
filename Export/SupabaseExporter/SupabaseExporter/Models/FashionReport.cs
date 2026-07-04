@@ -4,12 +4,6 @@ using CsvHelper.Configuration.Attributes;
 
 namespace SupabaseExporter.Models;
 
-public enum UploadSourcePlugin : uint
-{
-    Tracky = 0,
-    AvantGarde = 1
-}
-
 [Table("FashionReport")]
 public class FashionReportModel : BaseModel
 {
@@ -19,7 +13,7 @@ public class FashionReportModel : BaseModel
 
     [Name("plugin")]
     [Column("plugin")]
-    public UploadSourcePlugin Plugin { get; set; } = UploadSourcePlugin.Tracky; // TODO: Version check unique to AvantGarde
+    public UploadSourcePlugin Plugin { get; set; } = UploadSourcePlugin.Tracky;
 
     [Name("week_num")]
     [Column("week_num")]
@@ -54,15 +48,15 @@ public class FashionReportModel : BaseModel
     public uint[] DyesArray { get; set; } = new uint[12]; // Enough for double dyes for weapon + left side
 
     public IEnumerable<uint> GetHints()
-        => Utils.PairIter(ProcessHints(), false).Select(x => x.Item1);
+        => GetCategories().Select(x => x.Item1);
 
     public IEnumerable<uint> GetStamps()
-        => Utils.PairIter(ProcessHints(), false).Select(x => x.Item2);
+        => GetCategories().Select(x => x.Item2);
 
     public IEnumerable<(uint, uint)> GetCategories()
-        => Utils.PairIter(ProcessHints(), false);
+        => Utils.PairIter(ProcessCategories(), false);
 
-    public uint[] ProcessHints() // TODO: Add guards for values?
+    public uint[] ProcessCategories()
     {
         if (Hints == string.Empty)
             return HintsArray;
@@ -76,6 +70,12 @@ public class FashionReportModel : BaseModel
             counter++;
         }
 
+        if (counter % 2 != 0)
+        {
+            Logger.Error($"Invalid category length found, ID: {Id}");
+            return [];
+        }
+
         Hints = string.Empty;
         return HintsArray;
     }
@@ -83,14 +83,28 @@ public class FashionReportModel : BaseModel
     public ReadOnlySpan<uint> GetItems()
     {
         if (Items == string.Empty)
+        {
+            if (ItemsArray.Any(i => i > 500_000))
+            {
+                Logger.Error($"Invalid item found, ID: {Id}");
+                return [];
+            }
             return ItemsArray;
+        }
  
         var span = Items.Trim(['{', '}']).AsSpan();
 
         var counter = 0;
         foreach (var range in span.Split(','))
         {
-            ItemsArray[counter] = uint.Parse(span[range]);
+            var result = uint.Parse(span[range]);
+            if (result > 500_000)
+            {
+                Logger.Error($"Invalid item found, ID: {Id}");
+                return [];
+            }
+
+            ItemsArray[counter] = result;
             counter++;
         }
 
@@ -104,15 +118,35 @@ public class FashionReportModel : BaseModel
     public uint[] ProcessDyes()
     {
         if (Dyes == string.Empty)
+        {
+            if (DyesArray.Any(dye => dye > 128))
+            {
+                Logger.Error($"Invalid dye stainid found, ID: {Id}");
+                return [];
+            }
             return DyesArray;
+        }
  
         var span = Dyes.Trim(['{', '}']).AsSpan();
 
         var counter = 0;
         foreach (var range in span.Split(','))
         {
-            DyesArray[counter] = uint.Parse(span[range]);
+            var result = uint.Parse(span[range]);
+            if (result > 128)
+            {
+                Logger.Error($"Invalid dye stainid found, ID: {Id}");
+                return [];
+            }
+
+            DyesArray[counter] = result;
             counter++;
+        }
+
+        if (counter % 2 != 0)
+        {
+            Logger.Error($"Invalid dye length found, ID: {Id}");
+            return [];
         }
 
         Dyes = string.Empty;

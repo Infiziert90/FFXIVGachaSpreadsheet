@@ -138,6 +138,12 @@ public enum ReductionJobs : uint
     AltSpearfishing = 5,
 }
 
+public enum UploadSourcePlugin : uint
+{
+    Tracky = 0,
+    AvantGarde = 1
+}
+
 
 public static class EnumExtensions
 {
