@@ -134,8 +134,9 @@ public static class Utils
     /// Groups up entries into pairs and returns them as iterator.
     /// </summary>
     /// <param name="content">The array containing pairs</param>
+    /// <param name="validate">Whether to disallow pairs with an item ID of 0</param>
     /// <returns>Enumerable tuple with the pairs.</returns>
-    public static IEnumerable<(uint, uint)> PairIter(uint[] content)
+    public static IEnumerable<(uint, uint)> PairIter(uint[] content, bool validate = true)
     {
         // Array is empty
         if (content.Length == 0)
@@ -151,7 +152,7 @@ public static class Utils
             var amount = content[(2 * i) + 1];
             
             // hitting an item with ID 0 means we reached the last valid item
-            if (itemId == 0)
+            if (validate && itemId == 0)
                 yield break;
             
             yield return (itemId, amount);

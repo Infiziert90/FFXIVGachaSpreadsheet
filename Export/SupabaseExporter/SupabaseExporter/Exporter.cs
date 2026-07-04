@@ -7,6 +7,7 @@ using SupabaseExporter.Processing.BnpcPairs;
 using SupabaseExporter.Processing.ChestDrops;
 using SupabaseExporter.Processing.Coffers;
 using SupabaseExporter.Processing.Desynthesis;
+using SupabaseExporter.Processing.FashionReport;
 using SupabaseExporter.Processing.Reduction;
 using SupabaseExporter.Processing.Submarines;
 using SupabaseExporter.Processing.Ventures;
@@ -26,6 +27,7 @@ public class DatabaseContext : DbContext
     public DbSet<OccultTreasureModel> OccultTreasures { get; set; }
     public DbSet<BnpcPairModel> BnpcPairs { get; set; }
     public DbSet<ReductionModel> Reductions { get; set; }
+    public DbSet<FashionReportModel> FashionReport { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -107,6 +109,13 @@ public static class EntryPoint
         {
             var reductionProcessor = new Reduction();
             reductionProcessor.ProcessAllData(reductionResult);
+        }
+
+        var fashionResult = await exporter.LoadFashionData(context);
+        if (fashionResult.Length > 0)
+        {
+            var fashionProcessor = new FashionReport();
+            fashionProcessor.ProcessAllData(fashionResult);
         }
         
         // Generate json with all icon paths
@@ -407,6 +416,35 @@ public class Exporter
         // var data = ReadFolderStatic<OccultTreasureModel>(path, 0, importMapping).ToArray();
         // Logger.Information("Done exporting occult treasure data...");
         // return data;
+    }
+
+    public async Task<FashionReportModel[]> LoadFashionData(DatabaseContext context)
+    {
+        Logger.Information("Exporting fashion report data");
+        var result = await context.FashionReport.OrderBy(l => l.Id).ToListAsync();
+
+        Logger.Information($"Rows found: {result.Count:N0}");
+        if (result.Count == 0)
+        {
+            Logger.Warning("No records found");
+            return [];
+        }
+
+        var lastId = result.Last().Id.ToString();
+        
+        var path = "LocalCache/FashionReport/";
+        var mapping = new FashionReportExportMap();
+        await WriteCsv(path, lastId, result, mapping);
+        
+        await context.FashionReport.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+        await context.Database.ExecuteSqlAsync($"vacuum full;");
+        result.Clear();
+        context.ChangeTracker.Clear();
+        
+        var importMapping = new FashionReportImportMap();
+        var data = ReadFolderStatic<FashionReportModel>(path, 0, importMapping).ToArray();
+        Logger.Information("Done exporting fashion report data...");
+        return data;
     }
 
     private async Task WriteCsv<T>(string path, string fileName, IEnumerable<T> result, ClassMap<T>? classMap = null)
