@@ -36,14 +36,14 @@ public class FashionReport : IDisposable
                 CollectedSolutions[record.WeekNum] = new();
             var collectedDyes = CollectedSolutions[record.WeekNum].Slots;
 
+            if (slots.Any(slot => (slot.Stamp == 5 && slot.Hint != 0) || (slot.Hint == 0 && slot.Stamp != 5))) 
+            {
+                Logger.Error($"Invalid record: Stamp ID 5 is reserved for inactive hints. ID: {record.Id}");
+                continue;
+            }
+
             foreach (var slot in slots)
             {
-                if ((slot.Stamp == 5 && slot.Hint != 0) || (slot.Hint == 0 && slot.Stamp != 5))
-                {
-                    Logger.Error($"Invalid record: Stamp ID 5 is reserved for inactive hints. ID: {record.Id}");
-                    break;
-                }
-
                 if (!collectedDyes.ContainsKey(slot.Id))
                     collectedDyes[slot.Id] = new();
                 var collectedDyesSlot = collectedDyes[slot.Id];
@@ -108,10 +108,10 @@ public class FashionReport : IDisposable
                 }
                 dyeData = dyeData.OrderByDescending(x => x.Value.Pct).ToDictionary();
                 
-                // TODO: Infer slot name from its ID
-                if (slot.Key <= 6)
+                if (slot.Key <= 38)
                 {
-                    slotData.Add(new(slot.Key, "placeholder", dyeData));
+                    var slotName = slot.Key == 1 ? "Weapon" : Sheets.ItemUICategorySheet.GetRow(slot.Key).Name.ToString();
+                    slotData.Add(new(slot.Key, slotName, dyeData));
                 }
             }
             ProcessedData.WeeklyDyes.Add(data.Key, slotData);
@@ -139,9 +139,16 @@ public class FashionReport : IDisposable
             if (!enCats.MoveNext())
                 break;
 
-            var dyes = i <= 5 ? enDyes.Current : (0, 0);
-            // TODO: Use actual Id of a slot via Lumina
-            slots.Add(new SlotInfo((uint)(i + 1), enCats.Current.Item1, enCats.Current.Item2, items[i], dyes));
+            var dyes = i < 9 || i > 12 ? enDyes.Current : (0, 0);
+            
+            if (!Sheets.ItemSheet.TryGetRow(items[i], out var item))
+            {
+                Logger.Error($"Can't get item from rowid. ID: {record.Id}");
+                return [];
+            }
+
+            uint slotId = item.EquipSlotCategory.RowId is 1 or 2 or 13 ? 1 : item.ItemUICategory.RowId;
+            slots.Add(new SlotInfo(slotId, enCats.Current.Item1, enCats.Current.Item2, items[i], dyes));
         }
         return slots;
     }

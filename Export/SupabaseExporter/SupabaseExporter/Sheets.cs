@@ -18,6 +18,7 @@ public static class Sheets
     public static readonly ExcelSheet<GCSupplyDutyReward> GCSupplySheet;
     public static readonly ExcelSheet<TerritoryType> TerritoryTypeSheet;
     public static readonly ExcelSheet<NotoriousMonster> NotoriousMonsterSheet;
+    public static readonly ExcelSheet<ItemUICategory> ItemUICategorySheet;
     
     public static readonly ExcelSheet<FishParameter> FishParameterSheet;
     public static readonly ExcelSheet<GatheringItem> GathererItemSheet;
@@ -94,6 +95,7 @@ public static class Sheets
         GCSupplySheet = Lumina.GetExcelSheet<GCSupplyDutyReward>()!;
         TerritoryTypeSheet = Lumina.GetExcelSheet<TerritoryType>()!;
         NotoriousMonsterSheet = Lumina.GetExcelSheet<NotoriousMonster>()!;
+        ItemUICategorySheet = Lumina.GetExcelSheet<ItemUICategory>()!;
         SubmarineExplorationSheet = Lumina.GetExcelSheet<SubmarineExploration>()!;
         SubmarineMapSheet = Lumina.GetExcelSheet<SubmarineMap>()!;
         MapMarkerSheet = Lumina.GetSubrowExcelSheet<MapMarker>()!;
