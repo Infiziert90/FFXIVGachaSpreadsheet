@@ -20,6 +20,9 @@ public record Reward(uint Id, long Amount, [property: JsonConverter(typeof(LessP
 
     public static Reward FromDesyntReward(uint itemId, long total, DesynthTemp.DesynthReward temp) =>
         new(itemId, temp.Amount, temp.Amount / (double)total, 0, temp.Min, temp.Max);
+
+    public static Reward FromDesyntReward2(uint itemId, long total, DesynthSourceTemp.DesynthReward temp) =>
+        new(itemId, temp.Amount, temp.Amount / (double)total, temp.Total, temp.Min, temp.Max);
     
     public static Reward FromReduceReward(uint itemId, long total, ReduceTemp.ReductionReward temp) =>
         new(itemId, temp.Amount, temp.Amount / (double)total, temp.Total, temp.Min, temp.Max);
