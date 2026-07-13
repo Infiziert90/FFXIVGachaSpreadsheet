@@ -274,7 +274,6 @@ public class Desynthesis2 : IDisposable
     
     private void Export()
     {
-        ExportHandler.WriteDataJson("DesynthesisV2Collected.json", CollectedData);
         ExportHandler.WriteDataJson("DesynthesisV2.json", ProcessedData);
         
         // Logger.Information("Splitting data ...");
