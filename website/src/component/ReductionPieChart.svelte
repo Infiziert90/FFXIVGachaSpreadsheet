@@ -46,7 +46,7 @@
         return getComputedStyle(document.documentElement).getPropertyValue('--bs-body-font-family').trim();
     }
 
-    function buildOption(): echarts.EChartsOption {
+    function buildOption(confine = false): echarts.EChartsOption {
         const fontFamily = siteFont();
         const data = source.Tiers.map((tier, i) => ({
             value: tier.Records,
@@ -59,6 +59,7 @@
         return {
             tooltip: {
                 trigger: 'item',
+                confine,
                 backgroundColor: 'var(--bs-body-bg)',
                 borderColor: 'var(--bs-border-color)',
                 borderWidth: 1,
@@ -99,11 +100,34 @@
     }
 
     onMount(() => {
+        const narrow = window.matchMedia('(max-width: 767px)');
+
         chart = echarts.init(el, null, { renderer: 'svg' });
-        chart.setOption(buildOption());
-        chart.on('click', (params: any) => {
-            if (params.data?.minimum !== undefined) onTierClick(params.data.minimum);
+        chart.setOption(buildOption(narrow.matches));
+
+        narrow.addEventListener('change', () => {
+            chart.setOption({ tooltip: { confine: narrow.matches } });
         });
+
+        // Track whether the last interaction was touch so we can detect ghost clicks below.
+        let lastPointerType = '';
+        el.addEventListener('pointerdown', (e) => { lastPointerType = e.pointerType; });
+
+        chart.on('click', (params: any) => {
+            if (params.data?.minimum !== undefined) {
+                onTierClick(params.data.minimum);
+
+                // On touch devices, after ECharts processes the tap and we switch to the
+                // cards view, the browser also fires a synthetic click at the same screen
+                // coordinates — which now land on a wiki link in the new DOM.
+                // We absorb it with a one-shot capture listener on window before it can
+                // reach any element.
+                if (lastPointerType === 'touch') {
+                    window.addEventListener('click', (e) => e.stopPropagation(), { capture: true, once: true });
+                }
+            }
+        });
+
         const ro = new ResizeObserver(() => chart.resize());
         ro.observe(el);
         return () => { ro.disconnect(); chart.dispose(); };
@@ -111,7 +135,7 @@
 
     $effect(() => {
         source;
-        if (chart) chart.setOption(buildOption(), { notMerge: true });
+        if (chart) chart.setOption(buildOption(window.matchMedia('(max-width: 767px)').matches), { notMerge: true });
     });
 </script>
 

@@ -23,6 +23,7 @@ public class DatabaseContext : DbContext
     public DbSet<VentureModel> Ventures { get; set; }
     public DbSet<ChestDropModel> ChestDrops { get; set; }
     public DbSet<DesynthesisModel> Desynthesis { get; set; }
+    public DbSet<DesynthesisModel2> Desynthesis2 { get; set; }
     public DbSet<OccultBunnyModel> OccultBunny { get; set; }
     public DbSet<OccultTreasureModel> OccultTreasures { get; set; }
     public DbSet<BnpcPairModel> BnpcPairs { get; set; }
@@ -85,6 +86,14 @@ public static class EntryPoint
             desynthesisProcessor.ProcessAllData(desynthResult);
         }
         
+        var desynthResult2 = await exporter.LoadDesynth2Data(context);
+        if (desynthResult2.Length > 0)
+        {
+            var desynthesisProcessor = new Desynthesis2();
+            desynthesisProcessor.ProcessOldData(desynthResult);
+            desynthesisProcessor.ProcessAllData(desynthResult2);
+        }
+        
         var dutyLootResult = await exporter.LoadDutyLootData(context);
         if (dutyLootResult.Length > 0)
         {
@@ -103,7 +112,7 @@ public static class EntryPoint
         var bnpcPairsProcessor = new BnpcPairs();
         await exporter.LoadBnpcPairData(context, bnpcPairsProcessor);
         bnpcPairsProcessor.ProcessAllData();
-
+        
         var reductionResult = await exporter.LoadReductionData(context);
         if (reductionResult.Length > 0)
         {
@@ -258,18 +267,39 @@ public class Exporter
         var lastId = result.Last().Id.ToString();
         
         var path = "LocalCache/Desynthesis/";
-        var mapping = new DesynthesisExportMap();
-        await WriteCsv(path, lastId, result, mapping);
+        await WriteCsv(path, lastId, result, new DesynthesisExportMap());
         
         await context.Desynthesis.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
         await context.Database.ExecuteSqlAsync($"vacuum full;");
         result.Clear();
         context.ChangeTracker.Clear();
 
-        var importMapping = new DesynthesisImportMap();
-        var data = ReadFolderStatic<DesynthesisModel>(path, 0, importMapping).ToArray();
+        var data = ReadFolderStatic<DesynthesisModel>(path, 0, new DesynthesisImportMap()).ToArray();
         Logger.Information("Done exporting desynth data...");
         return data;
+    }    
+    
+    public async Task<DesynthesisModel[]> LoadDesynthOldData(DatabaseContext context)
+    {
+        Logger.Information("Loading old desynth data");
+        var data = ReadFolderStatic<DesynthesisModel>("LocalCache/Desynthesis/", 0, new DesynthesisImportMap()).ToArray();
+        Logger.Information("Done exporting desynth data...");
+        return data;
+    }
+
+    public async Task<DesynthesisModel2[]> LoadDesynth2Data(DatabaseContext context)
+    {
+        Logger.Information("Exporting desynth2 data");
+        var result = await context.Desynthesis2.OrderBy(l => l.Id).ToListAsync();
+        
+        Logger.Information($"Rows found {result.Count:N0}");
+        if (result.Count == 0)
+        {
+            Logger.Warning("No records found");
+            return [];
+        }
+
+        return result.ToArray();
     }
     
     public async Task<ChestDropModel[]> LoadDutyLootData(DatabaseContext context)
@@ -355,7 +385,7 @@ public class Exporter
 
         var importMapping = new OccultBunnyImportMap();
         var data = ReadFolderStatic<OccultBunnyModel>(path, 0, importMapping).ToArray();
-        Logger.Information("Done exporting occult bunny data...");
+        Logger.Information("Done exporting occult bunny data....");
         return data;
     }
     

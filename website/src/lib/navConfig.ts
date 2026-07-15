@@ -20,14 +20,14 @@ export const navCategories: NavCategory[] = [
             { label: 'Random Coffers',          href: '/coffer/',    icon: 61812 },
             { label: 'Lockboxes',               href: '/lockbox/',   icon: 61808 },
             { label: 'Card Packs',              href: '/card/',      icon: 61820 },
-            { label: 'Logograms and Fragments', href: '/logofrag/',  icon: 61837 },
-            { label: 'Deep Dungeons',           href: '/deep/',      icon: 61824 },
-            { label: 'Loot',                    href: '/loot/',      icon: 61801 },
+            { label: 'Ventures',                href: '/venture/',   icon: 61818 },
             { label: 'Eureka Bunnies',          href: '/bunny/',     icon: 61833 },
-            { label: 'Occult',                  href: '/occult/',    icon: 61851 },
+            { label: 'Deep Dungeons',           href: '/deep/',      icon: 61824 },
             { label: 'Desynthesis',             href: '/desynth/',   icon: 120   },
             { label: 'Reduction',               href: '/reduction/', icon: 121   },
-            { label: 'Ventures',                href: '/venture/',   icon: 61818 }
+            { label: 'Occult',                  href: '/occult/',    icon: 61851 },
+            { label: 'Loot',                    href: '/loot/',      icon: 61801 },
+            { label: 'Logograms and Fragments', href: '/logofrag/',  icon: 61837 },
         ]
     },
     {
