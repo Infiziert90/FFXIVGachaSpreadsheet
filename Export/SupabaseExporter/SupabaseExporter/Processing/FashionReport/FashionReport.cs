@@ -5,8 +5,8 @@ namespace SupabaseExporter.Processing.FashionReport;
 
 public class FashionReport : IDisposable
 {
-    private Fashion ProcessedData = new();
-    private Dictionary<uint, FashionDyeTemp> CollectedSolutions = new();
+    private readonly Fashion ProcessedData = new();
+    private readonly Dictionary<uint, FashionDyeTemp> CollectedSolutions = [];
 
     public void ProcessAllData(Models.FashionReportModel[] data)
     {
@@ -34,7 +34,7 @@ public class FashionReport : IDisposable
 
             if (!CollectedSolutions.ContainsKey(record.WeekNum))
                 CollectedSolutions[record.WeekNum] = new();
-            var collectedDyes = CollectedSolutions[record.WeekNum].Slots;
+            var weightSlots = CollectedSolutions[record.WeekNum].Slots;
 
             if (slots.Any(slot => (slot.Stamp == 5 && slot.Hint != 0) || (slot.Hint == 0 && slot.Stamp != 5))) 
             {
@@ -44,50 +44,34 @@ public class FashionReport : IDisposable
 
             foreach (var slot in slots)
             {
-                if (!collectedDyes.ContainsKey(slot.Id))
-                    collectedDyes[slot.Id] = new();
-                var collectedDyesSlot = collectedDyes[slot.Id];
-                
-                collectedDyesSlot.IncrementDyes(slot.Dyes);
+                if (slot.Item == 0) continue;
 
                 switch (slot.Stamp)
                 {
                     case 0:
                         ProcessedData.AddGoldRecord(slot.Hint, slot.Item);
-                        score -= 10;
-                        break;
-                    case 1:
-                        score -= 8;
-                        break;
-                    case 2:
-                        score -= 6;
-                        break;
-                    case 3:
-                        // It's theoretically possible for an item to score 4 points purely on its own,
-                        // in which case incorrect dyes will be marked as the solutions. Hasn't been observed in many years though.
-                        if (slot.Dyes.Item1 != 0 && slot.Dyes.Item2 == 0)
-                        {
-                            collectedDyesSlot.LockSolutionSingle(slot.Dyes.Item1);
-                        }
-                        else if (slot.Dyes.Item1 == 0 && slot.Dyes.Item2 != 0)
-                        {
-                            collectedDyesSlot.LockSolutionSingle(slot.Dyes.Item2);
-                        }
-                        else if (slot.Dyes.Item1 != 0 && slot.Dyes.Item2 != 0)
-                        {
-                            collectedDyesSlot.LockSolutionSplit(slot.Dyes);
-                        }
-                        score -= 4;
-                        break;
-                    case 4:
-                        score -= 2;
-                        break;
+                        goto case 5; // why is fall-through considered a compiler error??
                     case 5:
-                        score -= 10;
+                        score -= IsLeftSide(slot.Id) ? 10u : 8u;
+                        break;
+                    default:
+                        // Purposely ignoring all other stamp types
+                        // _ => 9u - (slot.Stamp * 2),
+                        score -= 2u;
                         break;
                 }
+            }
 
-                // TODO: Check remaining score and compare against available dyes
+            foreach (var slot in slots)
+            {
+                if (slot.Item == 0) continue;
+
+                if (!weightSlots.ContainsKey(slot.Id))
+                    weightSlots[slot.Id] = new();
+                var weightSlot = weightSlots[slot.Id];
+                
+                float weight = slot.IsDualDyed ? score / 2f : score;
+                weightSlot.Update(slot.Dyes, weight);
             }
         }
     }
@@ -102,9 +86,12 @@ public class FashionReport : IDisposable
             {
                 var dyes = slot.Value.Dyes;
                 Dictionary<uint, DyeData> dyeData = [];
+
+                var total = dyes.Sum(dye => dye.Value.Confidence);
                 foreach (var dye in dyes)
                 {
-                    dyeData.Add(dye.Key, new DyeData(dye.Value.Count, dye.Value.Confidence));
+                    var percentage = Math.Round(dye.Value.Confidence / total, 3);
+                    dyeData.Add(dye.Key, new DyeData(dye.Value.Count, percentage));
                 }
                 dyeData = dyeData.OrderByDescending(x => x.Value.Pct).ToDictionary();
                 
@@ -152,6 +139,15 @@ public class FashionReport : IDisposable
         }
         return slots;
     }
+
+    private static bool IsWeapon(uint slotId)
+        => slotId is 1;
+
+    private static bool IsLeftSide(uint slotId)
+        => slotId >= 34 && slotId <= 38 || IsWeapon(slotId);
 }
 
-public record SlotInfo(uint Id, uint Hint, uint Stamp, uint Item, (uint, uint) Dyes);
+public record SlotInfo(uint Id, uint Hint, uint Stamp, uint Item, (uint, uint) Dyes)
+{
+    public bool IsDualDyed => Dyes.Item1 != 0 && Dyes.Item2 != 0;
+}

@@ -27,4 +27,4 @@ public class Fashion
     }
 }
 
-public record DyeData(long Count, float Pct);
+public record DyeData(long Count, double Pct);
