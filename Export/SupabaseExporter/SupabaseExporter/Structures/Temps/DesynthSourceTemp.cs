@@ -5,6 +5,9 @@ namespace SupabaseExporter.Structures.Temps;
 public class DesynthSourceTemp
 {
     public long Total;
+    public uint ItemLevel;
+    public uint Job;
+    
     public Dictionary<string, DesynthPatch> Patches = [];
 
     public class DesynthPatch

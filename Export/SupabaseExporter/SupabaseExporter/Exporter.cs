@@ -130,6 +130,197 @@ public class Exporter
     private readonly CsvConfiguration CsvConfig = new(CultureInfo.InvariantCulture) { HasHeaderRecord = false };
     private readonly CsvConfiguration CsvReaderConfig = new(CultureInfo.InvariantCulture) { HasHeaderRecord = true };
 
+    public async Task<RandomCofferModel[]> LoadGachaData(DatabaseContext context)
+    {
+        Logger.Information("Exporting gacha data");
+        var result = await context.RandomCoffers.Where(l => l.Version != "0").OrderBy(l => l.Id).ToListAsync();
+        
+        Logger.Information($"Rows found {result.Count:N0}");
+        var path = "LocalCache/Gacha/";
+        if (result.Count == 0)
+        {
+            var lastId = result.Last().Id.ToString();
+            await WriteCsv(path, lastId, result, new RandomCofferMap());
+        
+            await context.RandomCoffers.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+            await context.Database.ExecuteSqlAsync($"vacuum full;");
+            result.Clear();
+            context.ChangeTracker.Clear();
+        }
+
+        var data = ReadFolderStatic<RandomCofferModel>(path, 0, new RandomCofferMap()).ToArray();
+        Logger.Information("Done exporting gacha data...");
+        return data;
+    }
+
+    public async Task<VentureModel[]> LoadVentureData(DatabaseContext context)
+    {
+        Logger.Information("Exporting venture data");
+        var result = await context.Ventures.OrderBy(l => l.Id).ToListAsync();
+        
+        Logger.Information($"Rows found {result.Count:N0}");
+        var path = "LocalCache/Ventures/";
+        if (result.Count != 0)
+        {
+            var lastId = result.Last().Id.ToString();
+            await WriteCsv(path, lastId, result, new VentureMap());
+        
+            await context.Ventures.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+            await context.Database.ExecuteSqlAsync($"vacuum full;");
+            result.Clear();
+            context.ChangeTracker.Clear();
+        }
+
+        var data = ReadFolderStatic<VentureModel>(path, 0, new VentureMap()).ToArray();
+        Logger.Information("Done exporting venture data...");
+        return data;
+    }
+
+    public async Task<EurekaBunnyModel[]> LoadBunnyData(DatabaseContext context)
+    {
+        Logger.Information("Exporting bunny data");
+        var result = await context.EurekaBunnies.OrderBy(l => l.Id).ToListAsync();
+        
+        Logger.Information($"Rows found {result.Count:N0}");
+        var path = "LocalCache/Bnuuy/";
+        if (result.Count != 0)
+        {
+            var lastId = result.Last().Id.ToString();
+            await WriteCsv(path, lastId, result, new EurekaBunnyExportMap());
+        
+            await context.EurekaBunnies.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+            await context.Database.ExecuteSqlAsync($"vacuum full;");
+            result.Clear();
+            context.ChangeTracker.Clear();
+        }
+
+        var data = ReadFolderStatic<EurekaBunnyModel>(path, 0, new EurekaBunnyImportMap()).ToArray();
+        Logger.Information("Done exporting bunny data...");
+        return data;
+    }
+
+    public async Task<DesynthesisModel[]> LoadDesynthData(DatabaseContext context)
+    {
+        Logger.Information("Exporting desynth data");
+        var result = await context.Desynthesis.OrderBy(l => l.Id).ToListAsync();
+        
+        Logger.Information($"Rows found {result.Count:N0}");
+        var path = "LocalCache/Desynthesis/";
+        if (result.Count != 0)
+        {
+            var lastId = result.Last().Id.ToString();
+            await WriteCsv(path, lastId, result, new DesynthesisExportMap());
+        
+            await context.Desynthesis.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+            await context.Database.ExecuteSqlAsync($"vacuum full;");
+            result.Clear();
+            context.ChangeTracker.Clear();
+        }
+
+        var data = ReadFolderStatic<DesynthesisModel>(path, 0, new DesynthesisImportMap()).ToArray();
+        Logger.Information("Done exporting desynth data...");
+        return data;
+    }
+
+    public async Task<DesynthesisModel2[]> LoadDesynth2Data(DatabaseContext context)
+    {
+        Logger.Information("Exporting desynth2 data");
+        var result = await context.Desynthesis2.OrderBy(l => l.Id).ToListAsync();
+        
+        Logger.Information($"Rows found {result.Count:N0}");
+        if (result.Count == 0)
+        {
+            Logger.Warning("No records found");
+            return [];
+        }
+
+        return result.ToArray();
+    }
+    
+    public async Task<ChestDropModel[]> LoadDutyLootData(DatabaseContext context)
+    {
+        Logger.Information("Exporting duty loot data");
+        var result = await context.ChestDrops.OrderBy(l => l.Id).ToListAsync();
+        
+        Logger.Information($"Rows found {result.Count:N0}");
+        var path = "LocalCache/DutyLoot/";
+        if (result.Count != 0)
+        {
+            var lastId = result.Last().Id.ToString();
+            await WriteCsv(path, lastId, result, new ChestDropExportMap());
+        
+            await context.ChestDrops.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+            await context.Database.ExecuteSqlAsync($"vacuum full;");
+            result.Clear();
+            context.ChangeTracker.Clear();
+        }
+
+        var data = ReadFolderStatic<ChestDropModel>(path, 0, new ChestDropImportMap()).ToArray();
+        Logger.Information("Done exporting duty loot data...");
+        return data;
+    }
+    
+    public async Task<OccultTreasureModel[]> LoadOccultTreasureData(DatabaseContext context)
+    {
+        Logger.Information("Exporting occult treasure data");
+        var result = await context.OccultTreasures.OrderBy(l => l.Id).ToListAsync();
+        
+        Logger.Information($"Rows found {result.Count:N0}");
+        var path = "LocalCache/OccultTreasure/";
+        if (result.Count != 0)
+        {
+            var lastId = result.Last().Id.ToString();
+            await WriteCsv(path, lastId, result, new OccultTreasureExportMap());
+        
+            await context.OccultTreasures.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+            await context.Database.ExecuteSqlAsync($"vacuum full;");
+            result.Clear();
+            context.ChangeTracker.Clear();
+        }
+
+        var data = ReadFolderStatic<OccultTreasureModel>(path, 0, new OccultTreasureImportMap()).ToArray();
+        Logger.Information("Done exporting occult treasure data...");
+        return data;
+    }
+    
+    public async Task<OccultBunnyModel[]> LoadOccultBunnyData(DatabaseContext context)
+    {
+        Logger.Information("Exporting occult bunny data");
+        var result = await context.OccultBunny.OrderBy(l => l.Id).ToListAsync();
+        
+        Logger.Information($"Rows found {result.Count:N0}");
+        var path = "LocalCache/OccultBunny/";
+        if (result.Count != 0)
+        {
+            var lastId = result.Last().Id.ToString();
+            await WriteCsv(path, lastId, result, new OccultBunnyExportMap());
+        
+            await context.OccultBunny.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
+            await context.Database.ExecuteSqlAsync($"vacuum full;");
+            result.Clear();
+            context.ChangeTracker.Clear();
+        }
+
+        var data = ReadFolderStatic<OccultBunnyModel>(path, 0, new OccultBunnyImportMap()).ToArray();
+        Logger.Information("Done exporting occult bunny data....");
+        return data;
+    }
+    
+    public async Task<ReductionModel[]> LoadReductionData(DatabaseContext context)
+    {
+        Logger.Information("Exporting reduction data");
+        var result = await context.Reductions.OrderBy(l => l.Id).ToListAsync();
+        
+        Logger.Information($"Rows found {result.Count:N0}");
+        if (result.Count == 0)
+        {
+            Logger.Warning("No records found");
+            return [];
+        }
+
+        return result.ToArray();
+    }
+    
     public async Task ExportSubmarineData(DatabaseContext context, Submarines processor)
     {
         Logger.Information("Exporting submarine data");
@@ -156,228 +347,6 @@ public class Exporter
             processor.Fetch(data);
 
         Logger.Information("Done exporting submarine data...");
-    }
-
-    public async Task<RandomCofferModel[]> LoadGachaData(DatabaseContext context)
-    {
-        Logger.Information("Exporting gacha data");
-        var result = await context.RandomCoffers.Where(l => l.Version != "0").OrderBy(l => l.Id).ToListAsync();
-        
-        Logger.Information($"Rows found {result.Count:N0}");
-        if (result.Count == 0)
-        {
-            Logger.Warning("No records found");
-            return [];
-        }
-        
-        var lastId = result.Last().Id.ToString();
-        
-        var path = "LocalCache/Gacha/";
-        var mapping = new RandomCofferMap();
-        await WriteCsv(path, lastId, result, mapping);
-        
-        await context.RandomCoffers.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
-        await context.Database.ExecuteSqlAsync($"vacuum full;");
-        result.Clear();
-        context.ChangeTracker.Clear();
-
-        var data = ReadFolderStatic<RandomCofferModel>(path, 0, mapping).ToArray();
-        Logger.Information("Done exporting gacha data...");
-        return data;
-    }
-
-    public async Task<VentureModel[]> LoadVentureData(DatabaseContext context)
-    {
-        Logger.Information("Exporting venture data");
-        var result = await context.Ventures.OrderBy(l => l.Id).ToListAsync();
-        
-        Logger.Information($"Rows found {result.Count:N0}");
-        if (result.Count == 0)
-        {
-            Logger.Warning("No records found");
-            return [];
-        }
-        
-        var lastId = result.Last().Id.ToString();
-        
-        var path = "LocalCache/Ventures/";
-        var mapping = new VentureMap();
-        await WriteCsv(path, lastId, result, mapping);
-        
-        await context.Ventures.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
-        await context.Database.ExecuteSqlAsync($"vacuum full;");
-        result.Clear();
-        context.ChangeTracker.Clear();
-
-        var data = ReadFolderStatic<VentureModel>(path, 0, mapping).ToArray();
-        Logger.Information("Done exporting venture data...");
-        return data;
-    }
-
-    public async Task<EurekaBunnyModel[]> LoadBunnyData(DatabaseContext context)
-    {
-        Logger.Information("Exporting bunny data");
-        var result = await context.EurekaBunnies.OrderBy(l => l.Id).ToListAsync();
-        
-        Logger.Information($"Rows found {result.Count:N0}");
-        if (result.Count == 0)
-        {
-            Logger.Warning("No records found");
-            return [];
-        }
-        
-        var lastId = result.Last().Id.ToString();
-        
-        var path = "LocalCache/Bnuuy/";
-        var mapping = new EurekaBunnyExportMap();
-        await WriteCsv(path, lastId, result, mapping);
-        
-        await context.EurekaBunnies.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
-        await context.Database.ExecuteSqlAsync($"vacuum full;");
-        result.Clear();
-        context.ChangeTracker.Clear();
-
-        var importMapping = new EurekaBunnyImportMap();
-        var data = ReadFolderStatic<EurekaBunnyModel>(path, 0, importMapping).ToArray();
-        Logger.Information("Done exporting bunny data...");
-        return data;
-    }
-
-    public async Task<DesynthesisModel[]> LoadDesynthData(DatabaseContext context)
-    {
-        Logger.Information("Exporting desynth data");
-        var result = await context.Desynthesis.OrderBy(l => l.Id).ToListAsync();
-        
-        Logger.Information($"Rows found {result.Count:N0}");
-        if (result.Count == 0)
-        {
-            Logger.Warning("No records found");
-            return [];
-        }
-        
-        var lastId = result.Last().Id.ToString();
-        
-        var path = "LocalCache/Desynthesis/";
-        await WriteCsv(path, lastId, result, new DesynthesisExportMap());
-        
-        await context.Desynthesis.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
-        await context.Database.ExecuteSqlAsync($"vacuum full;");
-        result.Clear();
-        context.ChangeTracker.Clear();
-
-        var data = ReadFolderStatic<DesynthesisModel>(path, 0, new DesynthesisImportMap()).ToArray();
-        Logger.Information("Done exporting desynth data...");
-        return data;
-    }    
-    
-    public async Task<DesynthesisModel[]> LoadDesynthOldData(DatabaseContext context)
-    {
-        Logger.Information("Loading old desynth data");
-        var data = ReadFolderStatic<DesynthesisModel>("LocalCache/Desynthesis/", 0, new DesynthesisImportMap()).ToArray();
-        Logger.Information("Done exporting desynth data...");
-        return data;
-    }
-
-    public async Task<DesynthesisModel2[]> LoadDesynth2Data(DatabaseContext context)
-    {
-        Logger.Information("Exporting desynth2 data");
-        var result = await context.Desynthesis2.OrderBy(l => l.Id).ToListAsync();
-        
-        Logger.Information($"Rows found {result.Count:N0}");
-        if (result.Count == 0)
-        {
-            Logger.Warning("No records found");
-            return [];
-        }
-
-        return result.ToArray();
-    }
-    
-    public async Task<ChestDropModel[]> LoadDutyLootData(DatabaseContext context)
-    {
-        Logger.Information("Exporting duty loot data");
-        var result = await context.ChestDrops.OrderBy(l => l.Id).ToListAsync();
-        
-        Logger.Information($"Rows found {result.Count:N0}");
-        if (result.Count == 0)
-        {
-            Logger.Warning("No records found");
-            return [];
-        }
-        
-        var lastId = result.Last().Id.ToString();
-        
-        var path = "LocalCache/DutyLoot/";
-        var mapping = new ChestDropExportMap();
-        await WriteCsv(path, lastId, result, mapping);
-        
-        await context.ChestDrops.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
-        await context.Database.ExecuteSqlAsync($"vacuum full;");
-        result.Clear();
-        context.ChangeTracker.Clear();
-
-        var importMapping = new ChestDropImportMap();
-        var data = ReadFolderStatic<ChestDropModel>(path, 0, importMapping).ToArray();
-        Logger.Information("Done exporting duty loot data...");
-        return data;
-    }
-    
-    public async Task<OccultTreasureModel[]> LoadOccultTreasureData(DatabaseContext context)
-    {
-        Logger.Information("Exporting occult treasure data");
-        var result = await context.OccultTreasures.OrderBy(l => l.Id).ToListAsync();
-        
-        Logger.Information($"Rows found {result.Count:N0}");
-        if (result.Count == 0)
-        {
-            Logger.Warning("No records found");
-            return [];
-        }
-        
-        var lastId = result.Last().Id.ToString();
-        
-        var path = "LocalCache/OccultTreasure/";
-        var mapping = new OccultTreasureExportMap();
-        await WriteCsv(path, lastId, result, mapping);
-        
-        await context.OccultTreasures.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
-        await context.Database.ExecuteSqlAsync($"vacuum full;");
-        result.Clear();
-        context.ChangeTracker.Clear();
-
-        var importMapping = new OccultTreasureImportMap();
-        var data = ReadFolderStatic<OccultTreasureModel>(path, 0, importMapping).ToArray();
-        Logger.Information("Done exporting occult treasure data...");
-        return data;
-    }
-    
-    public async Task<OccultBunnyModel[]> LoadOccultBunnyData(DatabaseContext context)
-    {
-        Logger.Information("Exporting occult bunny data");
-        var result = await context.OccultBunny.OrderBy(l => l.Id).ToListAsync();
-        
-        Logger.Information($"Rows found {result.Count:N0}");
-        if (result.Count == 0)
-        {
-            Logger.Warning("No records found");
-            return [];
-        }
-        
-        var lastId = result.Last().Id.ToString();
-        
-        var path = "LocalCache/OccultBunny/";
-        var mapping = new OccultBunnyExportMap();
-        await WriteCsv(path, lastId, result, mapping);
-        
-        await context.OccultBunny.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
-        await context.Database.ExecuteSqlAsync($"vacuum full;");
-        result.Clear();
-        context.ChangeTracker.Clear();
-
-        var importMapping = new OccultBunnyImportMap();
-        var data = ReadFolderStatic<OccultBunnyModel>(path, 0, importMapping).ToArray();
-        Logger.Information("Done exporting occult bunny data....");
-        return data;
     }
     
     public async Task LoadBnpcPairData(DatabaseContext context, BnpcPairs processor)
@@ -406,37 +375,6 @@ public class Exporter
             processor.Fetch(data);
 
         Logger.Information("Done exporting BnpcPair data...");
-    }
-    
-    public async Task<ReductionModel[]> LoadReductionData(DatabaseContext context)
-    {
-        Logger.Information("Exporting reduction data");
-        var result = await context.Reductions.OrderBy(l => l.Id).ToListAsync();
-        
-        Logger.Information($"Rows found {result.Count:N0}");
-        if (result.Count == 0)
-        {
-            Logger.Warning("No records found");
-            return [];
-        }
-
-        return result.ToArray();
-
-        // var lastId = result.Last().Id.ToString();
-        //
-        // var path = "LocalCache/OccultTreasure/";
-        // var mapping = new OccultTreasureExportMap();
-        // await WriteCsv(path, lastId, result, mapping);
-        //
-        // await context.OccultTreasures.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
-        // await context.Database.ExecuteSqlAsync($"vacuum full;");
-        // result.Clear();
-        // context.ChangeTracker.Clear();
-        //
-        // var importMapping = new OccultTreasureImportMap();
-        // var data = ReadFolderStatic<OccultTreasureModel>(path, 0, importMapping).ToArray();
-        // Logger.Information("Done exporting occult treasure data...");
-        // return data;
     }
 
     private async Task WriteCsv<T>(string path, string fileName, IEnumerable<T> result, ClassMap<T>? classMap = null)

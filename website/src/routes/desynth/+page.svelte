@@ -38,13 +38,12 @@
 
     // Selected item tracking
     let selectedId = $state(0);
-    let selectedStatsType = $state('');
 
     // add defaults if things aren't set correctly
     let sourceParam = $state(0);
     let rewardParam = $state(0);
 
-    let searchType = $state(1);
+    let searchType = $state(0);
 
     // Set default meta data
     let title = $state('Desynthesis');
@@ -71,16 +70,16 @@
 
     onMount(async () => {
         if (sourceParam > 0) {
-            await onButtonClick(sourceParam, 'Desynths', false);
+            await onButtonClick(sourceParam, 0, false);
         } else if (rewardParam > 0) {
-            await onButtonClick(rewardParam,'Received', false);
+            await onButtonClick(rewardParam, 1, false);
         }
     });
 
-    async function onButtonClick(id: number, statsType: string, addQuery: boolean) {
+    async function onButtonClick(id: number, statsType: number, addQuery: boolean) {
         if (addQuery) {
             // Clear the other param and set the current one
-            if (statsType === 'Desynths') {
+            if (statsType === 0) {
                 page.url.searchParams.delete('reward');
                 page.url.searchParams.set('source', id.toString());
             } else {
@@ -92,22 +91,24 @@
         }
 
         // Update search type
-        searchType = statsType === 'Desynths' ? 1 : 2;
-        let usedData = searchType === 1 ? desynthBase.Sources : desynthBase.Rewards;
+        searchType = statsType;
+        let usedData = searchType === 0 ? desynthBase.Sources : desynthBase.Rewards;
 
         const selection = await tryGetDesynth(usedData, id);
         if (selection === undefined) return;
 
         // Update selected tracking
         selectedId = id;
-        selectedStatsType = statsType;
 
         // Update table data
         tableItems = selection.history.Rewards;
 
         // Update stats
         titleStats = `${Mappings[id].Name} Stats`;
-        totalStats = `${statsType}: ${selection.history.Records.toLocaleString()}`;
+        if (statsType === 0)
+            totalStats = `Desynths: ${selection.history.Records.toLocaleString()}`;
+        else
+            totalStats = `Received: ${selection.history.Records.toLocaleString()}`;
         selectedStats = ` `;
 
         // Update button highlighting in accordion
@@ -196,7 +197,7 @@
     <div class="col-12 col-lg-7 order-0 order-lg-2">
         <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
             {#if tableItems.length > 0}
-                <DropsTable items={tableItems} columns={searchType === 1 ? NameObtainedMinChanceSetup : RewardDesynthSpecial} />
+                <DropsTable items={tableItems} columns={searchType === 0 ? NameObtainedMinChanceSetup : RewardDesynthSpecial} />
             {:else}
                 <p>No data for selected item.</p>
             {/if}

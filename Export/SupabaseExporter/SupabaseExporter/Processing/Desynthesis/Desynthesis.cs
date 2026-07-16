@@ -219,6 +219,7 @@ public class Desynthesis : IDisposable
     private readonly HashSet<uint> SkipPctCheck =
     [
         5267, // Fine Sand
+        
         8142, // Clear Demimateria I
         8143, // Clear Demimateria II
         8144, // Clear Demimateria III

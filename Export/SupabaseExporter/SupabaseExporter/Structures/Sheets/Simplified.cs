@@ -5,6 +5,8 @@ namespace SupabaseExporter.Structures.Sheets;
 
 public class SimplifiedSheets
 {
+    private readonly Dictionary<uint, JobRow> SimpleJob;
+    
     private readonly Dictionary<uint, MapRow> SimpleMap;
     private readonly Dictionary<uint, TerritoryRow> SimpleTerritory;
     
@@ -22,6 +24,8 @@ public class SimplifiedSheets
 
     public SimplifiedSheets()
     {
+        SimpleJob = ClassJobSheet.Select(JobRow.From).ToDictionary(r => r.RowId, r => r);
+        
         SimpleMap = MapSheet.Select(MapRow.From).ToDictionary(r => r.RowId, r => r);
         SimpleTerritory = TerritoryTypeSheet.Select(TerritoryRow.From).ToDictionary(r => r.RowId, r => r);
         
@@ -40,6 +44,8 @@ public class SimplifiedSheets
 
     public void Export()
     {
+        ExportHandler.WriteSheetJson("job.json", SimpleJob);
+        
         ExportHandler.WriteSheetJson("map.json", SimpleMap);
         ExportHandler.WriteSheetJson("territory.json", SimpleTerritory);
         
@@ -211,4 +217,15 @@ public struct ReductionRewardRow(GathererReductionReward reductionReward)
     public ushort MinimumCollectability = reductionReward.Unknown0;
     
     public static ReductionRewardRow From(GathererReductionReward reductionReward) => new(reductionReward);
+}
+
+[Serializable]
+public struct JobRow(ClassJob job)
+{
+    public uint RowId = job.RowId;
+
+    public string NameEnglish = job.NameEnglish.ToString();
+    public string Abbreviation = job.Abbreviation.ToString();
+    
+    public static JobRow From(ClassJob job) => new(job);
 }

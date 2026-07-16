@@ -18,11 +18,14 @@ public class Desynth2
     
     public class SourceHistory
     {
-        public uint BRecords;
-        public uint ARecords;
+        public uint ILvl;
+        public uint Job;
         
-        public List<Reward> Below = [];
+        public uint A;
         public List<Reward> Above = [];
+        
+        public uint B;
+        public List<Reward> Below = [];
 
         public void AddBelowRecord(uint itemId, uint desynthTotal, DesynthSourceTemp.DesynthReward reward)
         {

@@ -50,7 +50,7 @@ public class Desynthesis2 : IDisposable
             }
             
             if (!CollectedData.ContainsKey(record.Source))
-                CollectedData[record.Source] = new DesynthSourceTemp();
+                CollectedData[record.Source] = new DesynthSourceTemp {ItemLevel = sourceItem.LevelItem.RowId, Job = sourceItem.ClassJobRepair.RowId};
             
             var desynthTemp = CollectedData[record.Source];
             desynthTemp.Total += 1;
@@ -102,7 +102,7 @@ public class Desynthesis2 : IDisposable
             }
             
             if (!CollectedData.ContainsKey(record.Source))
-                CollectedData[record.Source] = new DesynthSourceTemp();
+                CollectedData[record.Source] = new DesynthSourceTemp {ItemLevel = sourceItem.LevelItem.RowId, Job = sourceItem.ClassJobRepair.RowId};
             
             var desynthTemp = CollectedData[record.Source];
             desynthTemp.Total += 1;
@@ -188,10 +188,10 @@ public class Desynthesis2 : IDisposable
                 var selectedPatch = ProcessedData.Patches[patch];
                 
                 if (!selectedPatch.Sources.ContainsKey(sourceId))
-                    selectedPatch.Sources[sourceId] = new Desynth2.SourceHistory();
+                    selectedPatch.Sources[sourceId] = new Desynth2.SourceHistory {ILvl = desynthTemp.ItemLevel, Job = desynthTemp.Job};
                 
-                selectedPatch.Sources[sourceId].ARecords += patchData.ATotal;
-                selectedPatch.Sources[sourceId].BRecords += patchData.BTotal;
+                selectedPatch.Sources[sourceId].A += patchData.ATotal;
+                selectedPatch.Sources[sourceId].B += patchData.BTotal;
                 
                 foreach (var (rewardId, rewards) in patchData.Above)
                 {
@@ -263,7 +263,7 @@ public class Desynthesis2 : IDisposable
                         tempReward.Id,
                         tempReward.Amount,
                         aboveReward?.Pct ?? belowReward!.Pct,
-                        aboveReward != null ? source.ARecords : source.BRecords,
+                        aboveReward != null ? source.A : source.B,
                         tempReward.Min,
                         tempReward.Max
                     ));
@@ -274,51 +274,31 @@ public class Desynthesis2 : IDisposable
     
     private void Export()
     {
-        ExportHandler.WriteDataJson("DesynthesisV2.json", ProcessedData);
-        
-        // Logger.Information("Splitting data ...");
-        // var desynthBase = new DesynthesisBase();
-        // for (var i = 1000; i <= Sheets.MaxItemId + 1000; i += 1000)
-        // {
-        //     var split = new Desynth();
-        //     foreach (var (sourceId, history) in ProcessedData.Sources.Where(pair => pair.Key >= i - 999 && pair.Key <= i))
-        //     {
-        //         desynthBase.Sources.Add(sourceId);
-        //         split.Sources[sourceId] = history;
-        //
-        //         if (history is { Records: < 50, Rewards.Count: < 3 })
-        //             continue;
-        //
-        //         var lastAmount = 0L;
-        //         foreach (var reward in history.Rewards.Where(r => r.Id > 100).OrderByDescending(r => r.Amount))
-        //         {
-        //             // Fine Sand
-        //             if (SkipPctCheck.Contains(reward.Id))
-        //                 continue;
-        //
-        //             if (lastAmount == 0)
-        //             {
-        //                 lastAmount = reward.Amount;
-        //                 continue;
-        //             }
-        //             
-        //             var tenPerc = (long)(lastAmount * 0.05);
-        //             if (tenPerc > reward.Amount)
-        //                 Logger.Error($"Amount is under the 5% ({tenPerc}) threshold, check for item id, ID: {sourceId} | {reward.Id} | {reward.Amount}");
-        //             else
-        //                 lastAmount = reward.Amount;
-        //         }
-        //     }
-        //     
-        //     foreach (var (rewardId, history) in ProcessedData.Rewards.Where(pair => pair.Key >= i - 999 && pair.Key <= i))
-        //     {
-        //         desynthBase.Rewards.Add(rewardId);
-        //         split.Rewards[rewardId] = history;
-        //     }
-        //     
-        //     ExportHandler.WriteDataJson($"desynthesis/{i:D6}.json", split);
-        // }
-        // ExportHandler.WriteDataJson("desynthesis/base.json", desynthBase);
+        Logger.Information("Splitting data ...");
+        var desynthBase = new DesynthesisBase2();
+        for (var i = 1000; i <= Sheets.MaxItemId + 1000; i += 1000)
+        {
+            var split = new Desynth2();
+            foreach (var (patch, patchData) in ProcessedData.Patches)
+            {
+                split.Patches[patch] = new Desynth2.Patch2();
+                
+                foreach (var (sourceId, history) in patchData.Sources.Where(pair => pair.Key >= i - 999 && pair.Key <= i))
+                {
+                    desynthBase.Sources.Add(sourceId);
+                    split.Patches[patch].Sources[sourceId] = history;
+                }
+            
+                foreach (var (rewardId, history) in patchData.Rewards.Where(pair => pair.Key >= i - 999 && pair.Key <= i))
+                {
+                    desynthBase.Rewards.Add(rewardId);
+                    split.Patches[patch].Rewards[rewardId] = history;
+                }
+            }
+            
+            ExportHandler.WriteDataJson($"desynthesis2/{i:D6}.json", split);
+        }
+        ExportHandler.WriteDataJson("desynthesis2/base.json", desynthBase);
         
         Logger.Information("Done exporting data ...");
     }
@@ -339,6 +319,7 @@ public class Desynthesis2 : IDisposable
     private readonly HashSet<uint> SkipPctCheck =
     [
         5267, // Fine Sand
+        
         8142, // Clear Demimateria I
         8143, // Clear Demimateria II
         8144, // Clear Demimateria III

@@ -10,7 +10,7 @@
     interface Props {
         desynthesisBase: DesynthesisBase;
         selectedId: number;
-        onButtonClick: (id: number, statsType: string, addQuery: boolean) => Promise<void>;
+        onButtonClick: (id: number, statsType: number, addQuery: boolean) => Promise<void>;
         tabElements: { [key: string]: HTMLButtonElement };
     }
 
@@ -31,7 +31,7 @@
 
     // Get the current array based on search type
     const currentArray = $derived(searchType === 'sources' ? allSourcesArray : allRewardsArray);
-    const currentStatsType = $derived(searchType === 'sources' ? 'Desynths' : 'Received');
+    const currentStatsType = $derived(searchType === 'sources' ? 0 : 1);
 
     // Intelligent filtering function
     function getMatchScore(itemName: string, query: string): number {

@@ -9,8 +9,11 @@ import type {WorldRow} from "$lib/sheets/structure/world";
 import type {WorldDCGroupRow} from "$lib/sheets/structure/worldDCGroup";
 import type {MapMarkerRow} from "$lib/sheets/structure/mapMarker";
 import type {ReductionRewardRow} from "$lib/sheets/structure/reductionReward";
+import type {JobRow} from "$lib/sheets/structure/job";
 
 type Fetch = typeof fetch;
+
+export const SimpleJobSheet: Record<number, JobRow> = {};
 
 export const SimpleMapSheet: Record<number, MapRow> = {};
 export const SimpleTerritorySheet: Record<number, TerritoryRow> = {};
@@ -28,6 +31,21 @@ export const SimpleWorld: Record<number, WorldRow> = {};
 export const SimpleWorldDCGroup: Record<number, WorldDCGroupRow> = {};
 
 export const SimpleReductionReward: Record<number, Record<number, ReductionRewardRow>> = {};
+
+export async function LoadJobSheet(fetch: Fetch) {
+    if (Object.keys(SimpleJobSheet).length > 0)
+        return;
+
+    return await fetch('/sheets/job.json', { method: 'GET' })
+        .then(responseHandler)
+        .then((data: Record<number, JobRow>) => {
+            for (const row of Object.values(data))
+                SimpleJobSheet[row.RowId] = row;
+        })
+        .catch((err) => {
+            logAndThrow('Error loading job data.', err);
+        });
+}
 
 export async function LoadMapSheet(fetch: Fetch) {
     if (Object.keys(SimpleMapSheet).length > 0)
