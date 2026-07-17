@@ -31,7 +31,7 @@
     const desynthesisBase: DesynthesisBase = data.content;
 
     // Table data
-    let tableItems: SourceHistory | RewardHistory = $state({ILvl: 0, Job: 0, A: 0, B: 0, Above: [], Below: []});
+    let tableItems: SourceHistory | RewardHistory | undefined = $state(undefined);
 
     // Stats
     let titleStats = $state('');
@@ -188,64 +188,74 @@
     <meta name="description" content={description} />
     <meta property="og:description" content={description} />
 </svelte:head>
+{#if tableItems !== undefined}
+    <PageSidebar>
+        <DesynthSearchbar
+                {desynthesisBase}
+                {selectedId}
+                {onButtonClick}
+                {tabElements}
+        />
+    </PageSidebar>
+    <div class="col-12 col-lg-2 order-0 order-lg-3">
+        <div id="stats" class="stats">
+            <div class="card">
+                <div class="card-header">
+                    <strong>{titleStats}</strong>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{totalStats}<br>{totalStats2}</li>
+                    <li class="list-group-item">{selectedStats}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-7 order-0 order-lg-2">
+        {#if errorKey.length > 0}
+            <Alert content={errorKey} color="danger" dismissible/>
+        {/if}
+        <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
+            {#if isSource(tableItems)}
+                {#if tableItems.Above.length > 0 || tableItems.Below.length > 0}
+                    <div class="container mb-5 p-2 rounded border tier-anchor" style="background-color: var(--bs-tertiary-bg);">
+                        <h4>{`${SimpleJobSheet[tableItems.Job].NameEnglish} ≥ ${tableItems.ILvl}`}</h4>
+                        {#if tableItems.Above.length > 0}
+                            <DropsTable items={tableItems.Above} columns={NameObtainedMinChanceSetup} />
+                        {:else}
+                            <p>No above data for the selected item.</p>
+                        {/if}
+                    </div>
 
-<PageSidebar>
+                    <div class="container mb-5 p-2 rounded border tier-anchor" style="background-color: var(--bs-tertiary-bg);">
+                        <h4>Below</h4>
+                        {#if tableItems.Below.length > 0}
+                            <DropsTable items={tableItems.Below} columns={NameObtainedMinChanceSetup} />
+                        {:else}
+                            <p>No below data for the selected item.</p>
+                        {/if}
+                    </div>
+                {:else}
+                    <Alert content="No source data for the selected item." color="danger" dismissible/>
+                {/if}
+            {:else}
+                {#if tableItems.Rewards.length > 0}
+                    <div class="container mb-5 p-2 rounded border tier-anchor" style="background-color: var(--bs-tertiary-bg);">
+                        <h4>Received From</h4>
+                        <DropsTable items={tableItems.Rewards} columns={RewardDesynthSpecial} />
+                    </div>
+                {:else}
+                    <Alert content="No reward data for the selected item." color="danger" dismissible/>
+                {/if}
+            {/if}
+        </div>
+    </div>
+{:else}
+<div class="col-12">
     <DesynthSearchbar
             {desynthesisBase}
             {selectedId}
             {onButtonClick}
             {tabElements}
     />
-</PageSidebar>
-<div class="col-12 col-lg-2 order-0 order-lg-3">
-    <div id="stats" class="stats">
-        <div class="card">
-            <div class="card-header">
-                <strong>{titleStats}</strong>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">{totalStats}<br>{totalStats2}</li>
-                <li class="list-group-item">{selectedStats}</li>
-            </ul>
-        </div>
-    </div>
 </div>
-<div class="col-12 col-lg-7 order-0 order-lg-2">
-    {#if errorKey.length > 0}
-        <Alert content={errorKey} color="danger" dismissible/>
-    {/if}
-    <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
-        {#if isSource(tableItems)}
-            {#if tableItems.Above.length > 0 || tableItems.Below.length > 0}
-                <div class="container mb-5 p-2 rounded border tier-anchor" style="background-color: var(--bs-tertiary-bg);">
-                    <h4>{`${SimpleJobSheet[tableItems.Job].NameEnglish} ≥ ${tableItems.ILvl}`}</h4>
-                    {#if tableItems.Above.length > 0}
-                        <DropsTable items={tableItems.Above} columns={NameObtainedMinChanceSetup} />
-                    {:else}
-                        <p>No above data for the selected item.</p>
-                    {/if}
-                </div>
-
-                <div class="container mb-5 p-2 rounded border tier-anchor" style="background-color: var(--bs-tertiary-bg);">
-                    <h4>Below</h4>
-                    {#if tableItems.Below.length > 0}
-                        <DropsTable items={tableItems.Below} columns={NameObtainedMinChanceSetup} />
-                    {:else}
-                        <p>No below data for the selected item.</p>
-                    {/if}
-                </div>
-            {:else}
-                <Alert content="No source data for the selected item." color="danger" dismissible/>
-            {/if}
-        {:else}
-            {#if tableItems.Rewards.length > 0}
-                <div class="container mb-5 p-2 rounded border tier-anchor" style="background-color: var(--bs-tertiary-bg);">
-                    <h4>Received From</h4>
-                    <DropsTable items={tableItems.Rewards} columns={RewardDesynthSpecial} />
-                </div>
-            {:else}
-                <Alert content="No reward data for the selected item." color="danger" dismissible/>
-            {/if}
-        {/if}
-    </div>
-</div>
+{/if}
