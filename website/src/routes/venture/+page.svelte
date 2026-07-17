@@ -1,7 +1,7 @@
 ﻿<script lang="ts">
     import { page } from '$app/state';
     import { replaceState } from "$app/navigation";
-    import type {Reward, Venture, VentureTask} from "$lib/interfaces";
+    import type {Venture, VentureTask} from "$lib/interfaces";
     import {onMount} from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
     import {FullColumnSetup} from "$lib/table";
@@ -10,7 +10,8 @@
     import {tryGetVentureSearchParams} from "$lib/searchParamHelper.ts";
     import PageSidebar from "../../component/PageSidebar.svelte";
     import MultiSelect, {type Option} from "svelte-multiselect";
-    import {combineCoffer, combineTaskTotal, combineVenture} from "$lib/patchCombining";
+    import {combineTaskTotal, combineVenture} from "$lib/patchCombining";
+    import type {Reward} from "$lib/structs/reward";
 
     interface Props {
         content: Venture[];

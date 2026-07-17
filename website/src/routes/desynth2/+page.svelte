@@ -50,8 +50,8 @@
     let errorKey: string = $state('');
 
     // Set default meta data
-    let title = $state('Desynthesis');
-    let description = $state('Possibilities for desynthesis materials.');
+    let title = $state('Desynthesis V2');
+    let description = $state('An improved work in progress version for desynthesis stats.');
 
     // Override defaults with URL parameters if they exist
     let desynthSearchParams = tryGetDesynthSearchParams(page.url.searchParams);
@@ -67,7 +67,7 @@
         let descriptionAddition = isSourceSearch ? 'rewards' : 'sources';
 
         if (id in Mappings) {
-            title = `Desynthesis - ${Mappings[id].Name}`;
+            title = `Desynthesis V2 - ${Mappings[id].Name}`;
             description = `All known ${descriptionAddition} for ${Mappings[id].Name}.`;
         }
     }

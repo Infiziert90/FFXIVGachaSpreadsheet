@@ -1,30 +1,4 @@
-﻿export interface Reward {
-    Id: number;
-    Amount: number;
-    Pct: number;
-    Total: number;
-    Min: number;
-    Max: number;
-}
-
-export interface Coffer {
-    Name: string;
-    TerritoryId: number;
-
-    Variants: CofferVariant[];
-}
-
-export interface CofferVariant {
-    Id: number;
-    Name: string;
-
-    Patches: Record<string, CofferContent>;
-}
-
-export interface CofferContent {
-    Total: number;
-    Items: Reward[];
-}
+﻿import type {Reward} from "$lib/structs/reward";
 
 export interface DesynthBase {
     Sources: Record<number, DesynthHistory>;
@@ -58,44 +32,6 @@ export interface VentureContent {
     Total: number;
     Primaries: Reward[];
     Secondaries: Reward[];
-}
-
-export interface ChestDrop {
-    Id: number;
-    Name: string;
-    Expansions: Expansion[];
-}
-
-export interface Expansion {
-    Id: number;
-    Name: string;
-    Headers: Header[];
-}
-
-export interface Header {
-    Id: number;
-    Name: string;
-    Duties: Duty[];
-}
-
-export interface Duty {
-    Records: number;
-    Id: number;
-    Name: string;
-    SortKey: number;
-    Chests: Record<string, Chest[]>;
-    PatchRecords: Record<string, number>;
-}
-
-export interface Chest {
-    Records: number;
-    Id: number;
-    Name: string;
-    MapId: number;
-    TerritoryId: number;
-    PlaceNameSub: string;
-    Position: { X: number, Y: number, Z: number };
-    Rewards: Reward[];
 }
 
 export interface SubLoot {
@@ -142,25 +78,6 @@ export interface Stats {
 
     Favor: number;
     DoubleDips: number;
-}
-
-export interface BnpcPairing {
-    BnpcPairings: Record<number, Pairing>;
-}
-
-export interface Pairing {
-    Records: number;
-    Base: number;
-    Name: number;
-    Locations: Record<number, Location>;
-}
-
-interface Location {
-    Territory: number;
-    Map: number;
-    Level: number;
-
-    Positions: { X: number, Y: number, Z: number }[];
 }
 
 // Used internally

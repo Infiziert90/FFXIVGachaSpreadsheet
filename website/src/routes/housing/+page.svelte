@@ -27,7 +27,6 @@
     // html elements
     let tabContentElement: HTMLDivElement = $state() as HTMLDivElement;
     let tabElements: {[key: string]: HTMLButtonElement} = $state({});
-    let tabMonsterElements: {[key: string]: HTMLButtonElement} = $state({});
 
     let { data } = $props();
 
@@ -37,7 +36,6 @@
 
     let leaflet;
 
-    let selectedId = $state(0);
     let selectedMap = $state(0);
     let selectedMapId = $state({name: ''});
     let resolvedMapUrl = $state('');

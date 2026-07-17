@@ -24,6 +24,7 @@ export const navCategories: NavCategory[] = [
             { label: 'Eureka Bunnies',          href: '/bunny/',     icon: 61833 },
             { label: 'Deep Dungeons',           href: '/deep/',      icon: 61824 },
             { label: 'Desynthesis',             href: '/desynth/',   icon: 120   },
+            { label: 'Desynthesis V2',          href: '/desynth2/',  icon: 120   },
             { label: 'Reduction',               href: '/reduction/', icon: 121   },
             { label: 'Occult',                  href: '/occult/',    icon: 61851 },
             { label: 'Loot',                    href: '/loot/',      icon: 61801 },

@@ -1,5 +1,5 @@
 ﻿<script lang="ts">
-    import type {BnpcPairing, Location, Pairing, UniqueLocation} from "$lib/interfaces";
+    import type {UniqueLocation} from "$lib/interfaces";
     import {onMount, tick} from "svelte";
     import MapSearchbar from "../../component/MapSearchbar.svelte";
     import {
@@ -16,6 +16,7 @@
     import {SimpleTerritorySheet} from "$lib/sheets/simplifiedSheets.ts";
     import PageSidebar from "../../component/PageSidebar.svelte";
     import { browser } from '$app/environment';
+    import type {BnpcPairing, Pairing} from "$lib/structs/bnpc";
 
     interface Props {
         content: BnpcPairing;

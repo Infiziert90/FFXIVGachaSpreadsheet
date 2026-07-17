@@ -18,9 +18,9 @@ public class ChestDrop(string name, uint categoryId)
     [JsonIgnore]
     public Dictionary<uint, Expansion> InternalExpansions = [];
 
-    public class Expansion(string name, uint categoryId)
+    public class Expansion(string name, uint expansionId)
     {
-        public uint Id = categoryId;
+        public uint Id = expansionId;
         public string Name = name;
         
         public List<Header> Headers = [];
@@ -29,9 +29,9 @@ public class ChestDrop(string name, uint categoryId)
         public Dictionary<uint, Header> InternalHeaders = [];
     }
     
-    public class Header(string name, uint categoryId)
+    public class Header(string name, uint headerId)
     {
-        public uint Id = categoryId;
+        public uint Id = headerId;
         public string Name = name;
         
         public List<Duty> Duties = [];

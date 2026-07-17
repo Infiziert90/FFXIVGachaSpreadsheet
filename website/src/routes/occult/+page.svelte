@@ -1,7 +1,6 @@
 ﻿<script lang="ts">
     import { page } from '$app/state';
     import {replaceState} from "$app/navigation";
-    import type {Coffer, Reward} from "$lib/interfaces";
     import {onMount} from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
     import {FullColumnSetup} from "$lib/table";
@@ -11,6 +10,8 @@
     import {tryGetCofferSearchParams} from "$lib/searchParamHelper";
     import {combineCoffer, combineVariantTotal} from "$lib/patchCombining";
     import MultiSelect, {type Option} from "svelte-multiselect";
+    import type {Coffer} from "$lib/structs/coffer";
+    import type {Reward} from "$lib/structs/reward";
 
     interface Props {
         content: Coffer[];

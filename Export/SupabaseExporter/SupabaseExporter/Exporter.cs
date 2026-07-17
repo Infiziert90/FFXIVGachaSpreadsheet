@@ -330,6 +330,21 @@ public class Exporter
         return result.ToArray();
     }
     
+    public async Task<FashionReportModel[]> LoadFashionData(DatabaseContext context)
+    {
+        Logger.Information("Exporting fashion report data");
+        var result = await context.FashionReport.OrderBy(l => l.Id).ToListAsync();
+
+        Logger.Information($"Rows found: {result.Count:N0}");
+        if (result.Count == 0)
+        {
+            Logger.Warning("No records found");
+            return [];
+        }
+
+        return result.ToArray();
+    }
+    
     public async Task ExportSubmarineData(DatabaseContext context, Submarines processor)
     {
         Logger.Information("Exporting submarine data");
@@ -384,35 +399,6 @@ public class Exporter
             processor.Fetch(data);
 
         Logger.Information("Done exporting BnpcPair data...");
-    }
-
-    public async Task<FashionReportModel[]> LoadFashionData(DatabaseContext context)
-    {
-        Logger.Information("Exporting fashion report data");
-        var result = await context.FashionReport.OrderBy(l => l.Id).ToListAsync();
-
-        Logger.Information($"Rows found: {result.Count:N0}");
-        if (result.Count == 0)
-        {
-            Logger.Warning("No records found");
-            return [];
-        }
-
-        var lastId = result.Last().Id.ToString();
-        
-        var path = "LocalCache/FashionReport/";
-        var mapping = new FashionReportExportMap();
-        await WriteCsv(path, lastId, result, mapping);
-        
-        await context.FashionReport.Where(l => l.Id <= result.Last().Id).ExecuteDeleteAsync();
-        await context.Database.ExecuteSqlAsync($"vacuum full;");
-        result.Clear();
-        context.ChangeTracker.Clear();
-        
-        var importMapping = new FashionReportImportMap();
-        var data = ReadFolderStatic<FashionReportModel>(path, 0, importMapping).ToArray();
-        Logger.Information("Done exporting fashion report data...");
-        return data;
     }
 
     private async Task WriteCsv<T>(string path, string fileName, IEnumerable<T> result, ClassMap<T>? classMap = null)

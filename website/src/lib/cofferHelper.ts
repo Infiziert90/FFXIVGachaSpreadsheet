@@ -1,4 +1,4 @@
-﻿import type {Coffer, CofferVariant} from "$lib/interfaces";
+﻿import type {Coffer, CofferVariant} from "$lib/structs/coffer";
 
 interface CofferSelection {
     coffer: Coffer;

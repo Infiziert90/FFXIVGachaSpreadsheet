@@ -1,4 +1,4 @@
-﻿import type {Reward} from "$lib/interfaces";
+﻿import type {Reward} from "$lib/structs/reward";
 
 export interface Reduction {
     Records: number;

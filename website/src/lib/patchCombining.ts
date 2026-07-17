@@ -1,5 +1,8 @@
-﻿import type {Chest, CofferContent, CofferVariant, Reward, VentureContent} from "$lib/interfaces";
+﻿import type {VentureContent} from "$lib/interfaces";
 import type {Option} from "svelte-multiselect";
+import type {CofferContent, CofferVariant} from "$lib/structs/coffer";
+import type {Chest} from "$lib/structs/chestDrop";
+import type {Reward} from "$lib/structs/reward";
 
 /**
  * Combines all coffer data into a single entry for the selected patch range

@@ -1,7 +1,7 @@
 ﻿<script lang="ts">
     import { page } from '$app/state';
     import { replaceState } from "$app/navigation";
-    import type {DesynthBase, DesynthesisBase, DesynthHistory, Reward} from "$lib/interfaces";
+    import type {DesynthBase, DesynthesisBase, DesynthHistory} from "$lib/interfaces";
     import { Mappings } from "$lib/mappings";
     import {onMount} from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
@@ -11,6 +11,7 @@
     import PageSidebar from "../../component/PageSidebar.svelte";
     import {pad} from "$lib/utils";
     import {loadDesynth} from "$lib/loadHelpers";
+    import type {Reward} from "$lib/structs/reward";
 
     interface Props {
         content: DesynthesisBase;

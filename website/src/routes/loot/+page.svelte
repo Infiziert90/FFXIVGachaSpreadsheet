@@ -1,7 +1,6 @@
 ﻿<script lang="ts">
     import { page } from '$app/state';
     import {replaceState} from "$app/navigation";
-    import type {Chest, ChestDrop, Duty, Expansion, Header} from "$lib/interfaces";
     import {onMount} from "svelte";
     import {FullColumnSetup} from "$lib/table";
     import AccordionItem from "../../component/AccordionItem.svelte";
@@ -13,6 +12,7 @@
     import {Vector3} from "$lib/math/vector3";
     import {combineDutyTotal, combineLoot} from "$lib/patchCombining";
     import MultiSelect, {type Option} from "svelte-multiselect";
+    import type {Chest, ChestDrop, Duty, Expansion, Header} from "$lib/structs/chestDrop";
 
     interface Props {
         data: { content: ChestDrop[] };
