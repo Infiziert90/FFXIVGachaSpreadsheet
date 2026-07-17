@@ -216,18 +216,24 @@
     {/if}
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
         {#if isSource(tableItems)}
-            {#if tableItems.Above.length > 0}
+            {#if tableItems.Above.length > 0 || tableItems.Below.length > 0}
                 <div class="container mb-5 p-2 rounded border tier-anchor" style="background-color: var(--bs-tertiary-bg);">
                     <h4>{`${SimpleJobSheet[tableItems.Job].NameEnglish} ≥ ${tableItems.ILvl}`}</h4>
-                    <DropsTable items={tableItems.Above} columns={NameObtainedMinChanceSetup} />
+                    {#if tableItems.Above.length > 0}
+                        <DropsTable items={tableItems.Above} columns={NameObtainedMinChanceSetup} />
+                    {:else}
+                        <p>No above data for the selected item.</p>
+                    {/if}
                 </div>
 
-                {#if tableItems.Below.length > 0}
-                    <div class="container mb-5 p-2 rounded border tier-anchor" style="background-color: var(--bs-tertiary-bg);">
-                        <h4>Below</h4>
+                <div class="container mb-5 p-2 rounded border tier-anchor" style="background-color: var(--bs-tertiary-bg);">
+                    <h4>Below</h4>
+                    {#if tableItems.Below.length > 0}
                         <DropsTable items={tableItems.Below} columns={NameObtainedMinChanceSetup} />
-                    </div>
-                {/if}
+                    {:else}
+                        <p>No below data for the selected item.</p>
+                    {/if}
+                </div>
             {:else}
                 <Alert content="No source data for the selected item." color="danger" dismissible/>
             {/if}
