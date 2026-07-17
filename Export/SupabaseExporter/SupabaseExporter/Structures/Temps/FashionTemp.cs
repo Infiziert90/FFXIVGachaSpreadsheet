@@ -13,10 +13,11 @@ public class FashionDyeTemp
             var stains = new[] { stainIds.Item1, stainIds.Item2 };
             foreach (var stainId in stains)
             {
-                if (stainId == 0) continue;
+                if (stainId == 0) 
+                    continue;
 
                 if (!Dyes.ContainsKey(stainId))
-                    Dyes[stainId] = new();
+                    Dyes[stainId] = new DyeDataTemp();
 
                 Dyes[stainId].Count += 1;
                 Dyes[stainId].Confidence += weight;
@@ -26,7 +27,7 @@ public class FashionDyeTemp
 
     public class DyeDataTemp
     {
-        public long Count = 0;
-        public float Confidence = 0;
+        public long Count;
+        public float Confidence;
     }
 }

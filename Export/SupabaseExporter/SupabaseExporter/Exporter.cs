@@ -120,12 +120,12 @@ public static class EntryPoint
             reductionProcessor.ProcessAllData(reductionResult);
         }
 
-        var fashionResult = await exporter.LoadFashionData(context);
-        if (fashionResult.Length > 0)
-        {
-            var fashionProcessor = new FashionReport();
-            fashionProcessor.ProcessAllData(fashionResult);
-        }
+        // var fashionResult = await exporter.LoadFashionData(context);
+        // if (fashionResult.Length > 0)
+        // {
+        //     var fashionProcessor = new FashionReport();
+        //     fashionProcessor.ProcessAllData(fashionResult);
+        // }
         
         // Generate json with all icon paths
         MappingHelper.ExportMappingFile();

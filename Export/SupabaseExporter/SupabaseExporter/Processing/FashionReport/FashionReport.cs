@@ -33,9 +33,10 @@ public class FashionReport : IDisposable
             var slots = SetSlots(record);
 
             if (!CollectedSolutions.ContainsKey(record.WeekNum))
-                CollectedSolutions[record.WeekNum] = new();
+                CollectedSolutions[record.WeekNum] = new FashionDyeTemp();
+            
             var weightSlots = CollectedSolutions[record.WeekNum].Slots;
-
+            
             if (slots.Any(slot => (slot.Stamp == 5 && slot.Hint != 0) || (slot.Hint == 0 && slot.Stamp != 5))) 
             {
                 Logger.Error($"Invalid record: Stamp ID 5 is reserved for inactive hints. ID: {record.Id}");
@@ -44,7 +45,8 @@ public class FashionReport : IDisposable
 
             foreach (var slot in slots)
             {
-                if (slot.Item == 0) continue;
+                if (slot.Item == 0) 
+                    continue;
 
                 switch (slot.Stamp)
                 {
@@ -64,13 +66,15 @@ public class FashionReport : IDisposable
 
             foreach (var slot in slots)
             {
-                if (slot.Item == 0) continue;
+                if (slot.Item == 0) 
+                    continue;
 
                 if (!weightSlots.ContainsKey(slot.Id))
-                    weightSlots[slot.Id] = new();
+                    weightSlots[slot.Id] = new FashionDyeTemp.Slot();
+                
                 var weightSlot = weightSlots[slot.Id];
                 
-                float weight = slot.IsDualDyed ? score / 2f : score;
+                var weight = slot.IsDualDyed ? score / 2f : score;
                 weightSlot.Update(slot.Dyes, weight);
             }
         }
@@ -80,12 +84,11 @@ public class FashionReport : IDisposable
     {
         foreach (var data in CollectedSolutions)
         {
-            var slots = data.Value.Slots;
-            List<Fashion.Slot> slotData = [];
-            foreach (var slot in slots)
+            var slotData = new List<Fashion.Slot>();
+            foreach (var slot in data.Value.Slots)
             {
                 var dyes = slot.Value.Dyes;
-                Dictionary<uint, DyeData> dyeData = [];
+                var dyeData = new Dictionary<uint, DyeData>();
 
                 var total = dyes.Sum(dye => dye.Value.Confidence);
                 foreach (var dye in dyes)
@@ -93,14 +96,16 @@ public class FashionReport : IDisposable
                     var percentage = Math.Round(dye.Value.Confidence / total, 3);
                     dyeData.Add(dye.Key, new DyeData(dye.Value.Count, percentage));
                 }
+                
                 dyeData = dyeData.OrderByDescending(x => x.Value.Pct).ToDictionary();
                 
                 if (slot.Key <= 38)
                 {
                     var slotName = slot.Key == 1 ? "Weapon" : Sheets.ItemUICategorySheet.GetRow(slot.Key).Name.ToString();
-                    slotData.Add(new(slot.Key, slotName, dyeData));
+                    slotData.Add(new Fashion.Slot(slot.Key, slotName, dyeData));
                 }
             }
+            
             ProcessedData.WeeklyDyes.Add(data.Key, slotData);
         }
     }
@@ -113,9 +118,10 @@ public class FashionReport : IDisposable
 
     private List<SlotInfo> SetSlots(Models.FashionReportModel record)
     {
-        List<SlotInfo> slots = [];
-        var enCats = record.GetCategories().GetEnumerator();
-        var enDyes = record.GetDyes().GetEnumerator();
+        var slots = new List<SlotInfo>();
+        using var enCats = record.GetCategories().GetEnumerator();
+        using var enDyes = record.GetDyes().GetEnumerator();
+        
         var items = record.GetItems();
         var advanceDyes = true;
         for (var i = 0; i < items.Length; i++)
@@ -125,18 +131,18 @@ public class FashionReport : IDisposable
 
             if (!enCats.MoveNext())
                 break;
-
-            var dyes = i < 9 || i > 12 ? enDyes.Current : (0, 0);
             
             if (!Sheets.ItemSheet.TryGetRow(items[i], out var item))
             {
-                Logger.Error($"Can't get item from rowid. ID: {record.Id}");
+                Logger.Error($"Can't get item from rowId. ID: {record.Id}");
                 return [];
             }
 
-            uint slotId = item.EquipSlotCategory.RowId is 1 or 2 or 13 ? 1 : item.ItemUICategory.RowId;
+            var dyes = i is < 9 or > 12 ? enDyes.Current : (0, 0);
+            var slotId = item.EquipSlotCategory.RowId is 1 or 2 or 13 ? 1 : item.ItemUICategory.RowId;
             slots.Add(new SlotInfo(slotId, enCats.Current.Item1, enCats.Current.Item2, items[i], dyes));
         }
+        
         return slots;
     }
 
@@ -144,7 +150,7 @@ public class FashionReport : IDisposable
         => slotId is 1;
 
     private static bool IsLeftSide(uint slotId)
-        => slotId >= 34 && slotId <= 38 || IsWeapon(slotId);
+        => slotId is >= 34 and <= 38 || IsWeapon(slotId);
 }
 
 public record SlotInfo(uint Id, uint Hint, uint Stamp, uint Item, (uint, uint) Dyes)

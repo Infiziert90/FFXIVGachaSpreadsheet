@@ -35,7 +35,7 @@ public abstract class BaseModel
         {
             if (!IsCalculated)
             {
-                var type = this.GetType();
+                var type = GetType();
                 if (type.GetProperty("Plugin")?.GetValue(this) is UploadSourcePlugin sourcePlugin)
                 {
                     Calculate(sourcePlugin);

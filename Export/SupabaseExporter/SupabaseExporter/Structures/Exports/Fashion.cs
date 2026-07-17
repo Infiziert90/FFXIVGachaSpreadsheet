@@ -4,19 +4,15 @@ public class Fashion
 {
     public Dictionary<uint, Dictionary<uint, long>> Categories = [];
     public Dictionary<uint, List<Slot>> WeeklyDyes = [];
+    
+    public Fashion() {}
 
     public void AddGoldRecord(uint category, uint item)
     {
         if (Categories.TryGetValue(category, out var data))
-        {
             data[item] = data.TryGetValue(item, out var count) ? count + 1 : 1;
-        }
         else
-        {
-            Dictionary<uint, long> itemEntry = [];
-            itemEntry.Add(item, 1);
-            Categories.Add(category, itemEntry);
-        }
+            Categories.Add(category, new Dictionary<uint, long> {{item, 1}});
     }
 
     public class Slot(uint id, string name, Dictionary<uint, DyeData> data)
