@@ -34,17 +34,27 @@ public abstract class BaseModel
         get
         {
             if (!IsCalculated)
-                Calculate();
+            {
+                var type = this.GetType();
+                if (type.GetProperty("Plugin")?.GetValue(this) is UploadSourcePlugin sourcePlugin)
+                {
+                    Calculate(sourcePlugin);
+                }
+                else
+                {
+                    Calculate();
+                }
+            }
                 
             return Patch;
         }
     }
 
-    private void Calculate()
+    private void Calculate(UploadSourcePlugin src = UploadSourcePlugin.Tracky)
     {
         IsCalculated = true;
             
         NumberVersion = Utils.VersionToNumber(Version);
-        Patch = Utils.VersionToPatch(NumberVersion);
+        Patch = Utils.VersionToPatch(NumberVersion, src);
     }
 }
