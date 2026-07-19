@@ -120,12 +120,12 @@ public static class EntryPoint
             reductionProcessor.ProcessAllData(reductionResult);
         }
 
-        // var fashionResult = await exporter.LoadFashionData(context);
-        // if (fashionResult.Length > 0)
-        // {
-        //     var fashionProcessor = new FashionReport();
-        //     fashionProcessor.ProcessAllData(fashionResult);
-        // }
+        var fashionResult = await exporter.LoadFashionData(context);
+        if (fashionResult.Length > 0)
+        {
+            var fashionProcessor = new FashionReport();
+            fashionProcessor.ProcessAllData(fashionResult);
+        }
         
         // Generate json with all icon paths
         MappingHelper.ExportMappingFile();
@@ -146,7 +146,7 @@ public class Exporter
         
         Logger.Information($"Rows found {result.Count:N0}");
         var path = "LocalCache/Gacha/";
-        if (result.Count == 0)
+        if (result.Count != 0)
         {
             var lastId = result.Last().Id.ToString();
             await WriteCsv(path, lastId, result, new RandomCofferMap());
