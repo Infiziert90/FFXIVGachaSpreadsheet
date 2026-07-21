@@ -123,9 +123,17 @@ public class SubLoot
         public int Favor;
         public int DoubleDips;
         
+        // Minimum
+        public int MinT2 = int.MaxValue;
+        public int MinT3 = int.MaxValue;
+        public int MinNormal = int.MaxValue;
+        public int MinOptimal = int.MaxValue;
+        public int MinFavor = int.MaxValue;
+        
+        
         public Stats() { }
 
-        public void IncreaseSurveillance(uint survProc)
+        public void IncreaseSurveillance(uint survProc, int stat)
         {
             switch ((SurveillanceProc)survProc)
             {
@@ -134,11 +142,13 @@ public class SubLoot
                     break;
                 case SurveillanceProc.T1Mid:
                 case SurveillanceProc.T2Mid:
+                    MinT2 = Math.Min(MinT2, stat);
                     Mid += 1;
                     break;
                 case SurveillanceProc.T1High:
                 case SurveillanceProc.T2High:
                 case SurveillanceProc.T3High:
+                    MinT3 = Math.Min(MinT3, stat);
                     High += 1;
                     break;
                 default:
@@ -146,7 +156,7 @@ public class SubLoot
             }
         }
         
-        public void IncreaseRetrieval(uint retProc)
+        public void IncreaseRetrieval(uint retProc, int stat)
         {
             switch ((RetrievalProc)retProc)
             {
@@ -154,9 +164,11 @@ public class SubLoot
                     Low += 1;
                     break;
                 case RetrievalProc.Normal:
+                    MinNormal = Math.Min(MinNormal, stat);
                     Normal += 1;
                     break;
                 case RetrievalProc.Optimal:
+                    MinOptimal = Math.Min(MinOptimal, stat);
                     Optimal += 1;
                     break;
                 default:
@@ -164,16 +176,18 @@ public class SubLoot
             }
         }
 
-        public void IncreaseFavor(uint favorProc)
+        public void IncreaseFavor(uint favorProc, int stat)
         {
             switch ((FavorProc)favorProc)
             {
                 case FavorProc.Low:
                     break;
                 case FavorProc.StatsEnoughButFailed:
+                    MinFavor = Math.Min(MinFavor, stat);
                     Favor += 1;
                     break;
                 case FavorProc.Yes:
+                    MinFavor = Math.Min(MinFavor, stat);
                     Favor += 1;
                     DoubleDips += 1;
                     break;

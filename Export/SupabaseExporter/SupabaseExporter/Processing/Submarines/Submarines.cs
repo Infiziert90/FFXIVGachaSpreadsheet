@@ -76,9 +76,9 @@ public class Submarines : IDisposable
             var lootPool = sectorData.Pools[survTier];
             lootPool.AddRecord(record.Primary, record.PrimaryCount, GetRetTier(record.PrimaryRetProc), capable);
             
-            lootPool.Stats.IncreaseSurveillance(record.PrimarySurvProc);
-            lootPool.Stats.IncreaseRetrieval(record.PrimaryRetProc);
-            lootPool.Stats.IncreaseFavor(record.FavProc);
+            lootPool.Stats.IncreaseSurveillance(record.PrimarySurvProc, record.Surv);
+            lootPool.Stats.IncreaseRetrieval(record.PrimaryRetProc, record.Ret);
+            lootPool.Stats.IncreaseFavor(record.FavProc, record.Fav);
 
             // TODO - Think about including additional proc data
             // tier = GetTier((SurveillanceProc)record.AdditionalSurvProc);
