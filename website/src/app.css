@@ -556,6 +556,61 @@ img.item-icon {
     object-fit: contain;
 }
 
+/* Compact tables below the sm breakpoint so all columns fit on mobile */
+@media (max-width: 575.98px) {
+    /* Fixed layout: numeric columns get just enough room, the Name column
+       flexes to fill whatever space is left */
+    #tabcontent table {
+        font-size: 0.72rem;
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    #tabcontent .table {
+        --bs-table-cell-padding-x: 0.25rem;
+    }
+
+    /* Let headers wrap so the columns can stay narrow */
+    #tabcontent th {
+        white-space: normal;
+        vertical-align: bottom;
+    }
+
+    #tabcontent td.icon img,
+    #tabcontent img.item-icon {
+        width: 26px;
+        height: 26px;
+    }
+
+    #tabcontent th.icon,
+    #tabcontent td.icon {
+        width: 2.25rem;
+    }
+
+    #tabcontent th.number,
+    #tabcontent td.number {
+        width: 3.4rem;
+    }
+
+    #tabcontent th.percentage,
+    #tabcontent td.percentage {
+        width: 3.6rem;
+    }
+
+    /* Keep numbers and ranges on one line */
+    #tabcontent td.number,
+    #tabcontent td.percentage {
+        white-space: nowrap;
+    }
+
+    /* Name column takes the remaining width and truncates */
+    #tabcontent td.name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
 .accordion-body {
     --bs-accordion-body-padding-x: 0;
     --bs-accordion-body-padding-y: 0;
