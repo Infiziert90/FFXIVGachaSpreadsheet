@@ -32,7 +32,8 @@ const NameTemplate: ColumnTemplate = {
     templateRenderer: (row: Reward) => {
         const name = Mappings[row.Id].Name;
         return `<a href={getWikiUrl(name)} class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">${name}</a>`
-    }
+    },
+    classExtension: ['name']
 };
 
 const ObtainedTemplate: ColumnTemplate = {
