@@ -41,7 +41,7 @@ public class FashionReport : IDisposable
             var isValid = true;
 
             if (!CollectedSolutions.ContainsKey(record.WeekNum))
-            CollectedSolutions[record.WeekNum] = new FashionDyeTemp();
+                CollectedSolutions[record.WeekNum] = new FashionDyeTemp();
 
             var weightSlots = CollectedSolutions[record.WeekNum].Slots;
 
