@@ -1,3 +1,6 @@
+using System.Globalization;
+using CsvHelper;
+using CsvHelper.Configuration;
 using SupabaseExporter.Structures.Exports;
 using SupabaseExporter.Structures.Temps;
 
@@ -8,10 +11,14 @@ public class FashionReport : IDisposable
     private readonly Fashion ProcessedData = new();
     private readonly Dictionary<uint, FashionDyeTemp> CollectedSolutions = [];
 
+    private const string OldDatabasePath = "../../../Processing/FashionReport";
+    private const string OldDatabaseFilename = "AvantGardeDataOld.csv";
+
     public void ProcessAllData(Models.FashionReportModel[] data)
     {
         Logger.Information("Processing fashion report data");
         Fetch(data);
+        MergeOld();
         Combine();
         Export();
         Dispose();
@@ -73,6 +80,23 @@ public class FashionReport : IDisposable
                 
                 var weight = slot.IsDualDyed ? score / 2f : score;
                 weightSlot.Update(slot.Dyes, weight);
+            }
+        }
+    }
+    
+    private void MergeOld()
+    {
+        using var reader = new StreamReader(Path.Combine(OldDatabasePath, OldDatabaseFilename));
+        using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture));
+
+        csv.Context.RegisterClassMap<AvantGardeOldModelMap>();
+        var records = csv.GetRecords<AvantGardeOldModel>();
+
+        foreach (var record in records)
+        {
+            foreach (var item in record.ItemIds)
+            {
+                ProcessedData.AddGoldRecord(record.RowId, item);
             }
         }
     }
