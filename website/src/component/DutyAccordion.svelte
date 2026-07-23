@@ -1,8 +1,8 @@
 ﻿<script lang="ts">
     import Collapse from "./Collapse.svelte";
     import { Icon } from "@sveltestrap/sveltestrap";
-    import type { ChestDrop, Expansion, Header } from "$lib/interfaces";
     import { getIconPath } from "$lib/utils";
+    import type {ChestDrop, Expansion, Header} from "$lib/structs/chestDrop";
 
     interface Props {
         chestDropData: ChestDrop[];

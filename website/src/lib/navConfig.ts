@@ -35,7 +35,8 @@ export const navCategories: NavCategory[] = [
         label: 'Submarines',
         id: 'submarine',
         items: [
-            { label: 'Submarine Loot', href: '/submarine/', icon: 63191 }
+            { label: 'Sector Overview', href: '/submarine/', icon: 63191 },
+            { label: 'Item Search', href: '/submarineSearch/', icon: 63192 }
         ]
     },
     {

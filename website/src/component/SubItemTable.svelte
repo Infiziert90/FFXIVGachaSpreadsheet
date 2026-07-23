@@ -1,9 +1,9 @@
 <script lang="ts">
     import { Table, Icon } from '@sveltestrap/sveltestrap';
-    import type { ColumnTemplate } from "$lib/table";
+    import type {ItemDetail} from "$lib/interfaces";
+    import type {SubColumnTemplate} from "$lib/table";
     import {Mappings} from "$lib/mappings";
     import { getIconPath, getWikiUrl } from "$lib/utils";
-    import type {Reward} from "$lib/structs/reward";
 
     /**
      * Component props interface
@@ -11,8 +11,8 @@
      * @param columns - Array of column definitions specifying how to render each column
      */
     interface Props {
-        items: Reward[];
-        columns: ColumnTemplate[];
+        items: ItemDetail[];
+        columns: SubColumnTemplate[];
     }
 
     // Destructure props using Svelte 5 runes syntax
@@ -43,7 +43,7 @@
      * Toggles sort direction if clicking the same column, otherwise sets new sort field
      * @param column - The column template that was clicked
      */
-    function handleSort(column: ColumnTemplate) {
+    function handleSort(column: SubColumnTemplate) {
         if (!column.field || column.sortable === false) return;
 
         sortWithMapping = !!column.mappingSort;
@@ -62,13 +62,13 @@
      * Returns a new sorted array without mutating the original items array
      * @returns Sorted array of Reward items
      */
-    function getSortedItems(): Reward[] {
+    function getSortedItems(): ItemDetail[] {
         if (!sortField) return items;
 
         return [...items].sort((a, b) => {
             // Type assertion: sortField is validated to be a key of Reward
-            let aVal = a[sortField as keyof Reward];
-            let bVal = b[sortField as keyof Reward];
+            let aVal = a[sortField as keyof ItemDetail];
+            let bVal = b[sortField as keyof ItemDetail];
 
             if (sortWithMapping) {
                 aVal = Mappings[a.Id].Name;
@@ -90,7 +90,7 @@
      * @param column - The column template
      * @returns Space-separated string of CSS classes
      */
-    function getColumnClasses(column: ColumnTemplate): string {
+    function getColumnClasses(column: SubColumnTemplate): string {
         const classes: string[] = [];
         if (column.classExtension) {
             classes.push(...column.classExtension);
@@ -104,7 +104,7 @@
      * @param column - The column template
      * @returns Space-separated string of CSS classes
      */
-    function getHeaderClasses(column: ColumnTemplate): string {
+    function getHeaderClasses(column: SubColumnTemplate): string {
         const classes: string[] = [];
         if (column.field && column.sortable !== false) {
             classes.push('sortable');
@@ -125,11 +125,13 @@
      * @param column - The column template to check
      * @returns True if the column can be sorted
      */
-    function isSortable(column: ColumnTemplate): boolean {
+    function isSortable(column: SubColumnTemplate): boolean {
         return !!column.field && column.sortable !== false;
     }
 
     interface CellContent {
+        customHtml?: string;
+
         name?: string;
         wikiName?: string;
 
@@ -147,15 +149,12 @@
      * @param column - The column template defining how to render
      * @returns HTML string or plain text string to display in the cell
      */
-    function renderCellContent(row: Reward, column: ColumnTemplate): CellContent {
+    function renderCellContent(row: ItemDetail, column: SubColumnTemplate): CellContent {
         if (column.templateRenderer) {
             // Custom HTML template renderer (returns HTML string)
 
             if (column.isIcon === undefined || !column.isIcon) {
-                const name = Mappings[row.Id].Name;
-                const wikiName = name.replace(/\s+/g, '_');
-
-                return { name, wikiName, type: 0 };
+                return { customHtml: column.templateRenderer(row), type: 0 };
             }
 
             return { itemId: row.Id, type: 1 };
@@ -165,7 +164,7 @@
         } else if (column.field) {
             // Direct field access, convert to string
             // Type assertion: column.field is validated to be a key of Reward
-            return { content: String(row[column.field as keyof Reward] ?? ''), type: 2 }
+            return { content: String(row[column.field as keyof ItemDetail] ?? ''), type: 2 }
         }
 
         return { content: '', type: 2 };
@@ -190,8 +189,9 @@
                     }}
                 >
                     {column.header}
-
-                    <Icon name={sortField === column.field ? (sortDirection === 'asc' ? 'arrow-up' : 'arrow-down') : ''}/>
+                    {#if isSortable(column)}
+                        <Icon name={sortField === column.field ? (sortDirection === 'asc' ? 'arrow-up' : 'arrow-down') : ''}/>
+                    {/if}
                 </th>
             {/each}
         </tr>
@@ -203,7 +203,7 @@
         -->
         {#snippet templateRender(cellContent: CellContent)}
             {#if cellContent.type === 0}
-                <a href={getWikiUrl(cellContent.name)} class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">{cellContent.name}</a>
+                {@html cellContent.customHtml}
             {:else if cellContent.type === 1}
                 <img width="40" height="40" loading="lazy" src={getIconPath(Mappings[cellContent.itemId].Icon, true)} alt="{Mappings[cellContent.itemId].Name} Icon">
             {:else if cellContent.type === 2}

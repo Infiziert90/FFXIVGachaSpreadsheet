@@ -85,3 +85,13 @@ export interface UniqueLocation {
     Territory: number;
     Map: number;
 }
+
+export interface ItemDetail {
+    Id: number;
+    Sector: number;
+    Tier: number;
+    Poor: string;
+    Normal: string;
+    Optimal: string;
+    T3Rate: string;
+}

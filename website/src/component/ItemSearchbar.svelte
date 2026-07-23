@@ -1,37 +1,22 @@
 <script lang="ts">
     import {onMount, tick} from 'svelte';
-    import { page } from '$app/state';
-    import { Button, ButtonGroup, ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
-    import type {DesynthesisBase} from "$lib/interfaces";
+    import { ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
     import { Mappings } from "$lib/mappings";
     import { getIconPath } from '$lib/utils';
-    import {tryGetDesynthSearchParams} from "$lib/searchParamHelper";
+    import {tryGetSubmarineSearchSearchParams} from "$lib/searchParamHelper.ts";
+    import {page} from "$app/state";
 
     interface Props {
-        desynthesisBase: DesynthesisBase;
+        items: number[];
         selectedId: number;
-        onButtonClick: (id: number, statsType: number, addQuery: boolean) => Promise<void>;
+        onButtonClick: (id: number, addQuery: boolean) => Promise<void>;
         tabElements: { [key: string]: HTMLButtonElement };
     }
 
-    let { desynthesisBase, selectedId, onButtonClick, tabElements }: Props = $props();
+    let { items, selectedId, onButtonClick, tabElements }: Props = $props();
 
     // Search state
-    let searchType = $state<'sources' | 'rewards'>('sources');
     let searchQuery = $state('');
-
-    // Convert Sources and Rewards records to arrays for iteration
-    const allSourcesArray = $derived(Object.values(desynthesisBase.Sources).map((id) => ({
-        id: id
-    })).sort((a, b) => Mappings[a.id].Name.localeCompare(Mappings[b.id].Name)));
-
-    const allRewardsArray = $derived(Object.values(desynthesisBase.Rewards).map((id) => ({
-        id: id,
-    })).sort((a, b) => Mappings[a.id].Name.localeCompare(Mappings[b.id].Name)));
-
-    // Get the current array based on search type
-    const currentArray = $derived(searchType === 'sources' ? allSourcesArray : allRewardsArray);
-    const currentStatsType = $derived(searchType === 'sources' ? 0 : 1);
 
     // Intelligent filtering function
     function getMatchScore(itemName: string, query: string): number {
@@ -63,10 +48,10 @@
     const filteredArray = $derived(
         searchQuery.trim() === '' 
             ? [] 
-            : currentArray
+            : items
                 .map(item => ({
-                    ...item,
-                    score: getMatchScore(Mappings[item.id].Name, searchQuery)
+                    id: item,
+                    score: getMatchScore(Mappings[item].Name, searchQuery)
                 }))
                 .filter(item => item.score > 0)
                 .sort((a, b) => {
@@ -94,7 +79,7 @@
                 }
 
 
-                onButtonClick(singleItem.id, currentStatsType, true).then();
+                onButtonClick(singleItem.id, true).then();
             }
         } else if (filteredArray.length !== 1) {
             // Reset tracking when there's not exactly one result
@@ -105,19 +90,10 @@
     // Load from URL on mount
     onMount(() => {
         // Override defaults with URL parameters if they exist
-        let desynthSearchParams = tryGetDesynthSearchParams(page.url.searchParams);
-        if (desynthSearchParams !== undefined) {
-            if (desynthSearchParams.sourceId > 0) {
-                if (desynthSearchParams.sourceId in Mappings) {
-                    searchType = 'sources';
-                    searchQuery = Mappings[desynthSearchParams.sourceId].Name;
-                }
-            }
-            else if (desynthSearchParams.rewardId > 0) {
-                if (desynthSearchParams.rewardId in Mappings) {
-                    searchType = 'rewards';
-                    searchQuery = Mappings[desynthSearchParams.rewardId].Name;
-                }
+        let params = tryGetSubmarineSearchSearchParams(page.url.searchParams);
+        if (params !== undefined) {
+            if (params.itemId in Mappings) {
+                searchQuery = Mappings[params.itemId].Name;
             }
         }
 
@@ -137,24 +113,10 @@
             bind:value={searchQuery}
         >
     </div>
-    <ButtonGroup>
-        <Button 
-            color={searchType === 'sources' ? 'primary' : 'outline-primary'}
-            onclick={() => searchType = 'sources'}
-        >
-            Sources
-        </Button>
-        <Button 
-            color={searchType === 'rewards' ? 'primary' : 'outline-primary'}
-            onclick={() => searchType = 'rewards'}
-        >
-            Rewards
-        </Button>
-    </ButtonGroup>
     {#if searchQuery.trim() === ''}
-        <p class="text-muted">Enter a search query to find {searchType}</p>
+        <p class="text-muted">Enter a search query to find an item</p>
     {:else if filteredArray.length === 0}
-        <p class="text-muted">No {searchType} found</p>
+        <p class="text-muted">No item found</p>
     {:else}
         <ListGroup>
             {#each filteredArray as item}
@@ -162,7 +124,7 @@
                     class="list-group-item-xiv-item"
                     active={selectedId === item.id}
                     onclick={async () => {
-                        await onButtonClick(item.id, currentStatsType, true)
+                        await onButtonClick(item.id, true)
                     }}
                     style="cursor: pointer;"
                 >

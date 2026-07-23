@@ -1,10 +1,13 @@
-import type {Reward} from "$lib/interfaces";
 import {Mappings} from "$lib/mappings";
 import { getIconPath, getWikiUrl } from "$lib/utils";
+import type {Reward} from "$lib/structs/reward";
+import type {ItemDetail} from "$lib/interfaces";
+import {findMapFromSector, getFullSectorName} from "$lib/submarines/utils";
 
 export interface ColumnTemplate {
     header: string;
 
+    isIcon?: boolean;
     sortable?: boolean;
     defaultSort?: string;
     mappingSort?: boolean;
@@ -19,6 +22,7 @@ export interface ColumnTemplate {
 const IconTemplate: ColumnTemplate = {
     header: '',
     sortable: false,
+    isIcon: true,
     templateRenderer: (row: Reward) => {
         return `<img width="40" height="40" loading="lazy" src={getIconPath(Mappings[row.Id].Icon, true)} alt="${Mappings[row.Id].Name} Icon">`
     },
@@ -115,3 +119,78 @@ export const ReduceSpecial: ColumnTemplate[] = [
     MinMaxTemplate,
     ChanceNoDefaultSortTemplate,
 ]
+
+// Submarine specific
+export interface SubColumnTemplate {
+    header: string;
+
+    isIcon?: boolean;
+    sortable?: boolean;
+    defaultSort?: string;
+    mappingSort?: boolean;
+
+    templateRenderer?: Function;
+    valueRenderer?: Function;
+    field?: keyof ItemDetail;
+
+    classExtension?: string[];
+}
+
+const SubSectorTemplate: SubColumnTemplate = {
+    header: 'Sector',
+    field: 'Sector',
+    templateRenderer: (row: ItemDetail) => {
+        return `<a href="/submarine?map=${findMapFromSector(row.Sector)}#${row.Sector}" class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0">${getFullSectorName(row.Sector)}</a>`
+    },
+    classExtension: ['name'],
+    sortable: false
+};
+
+const SubTierTemplate: SubColumnTemplate = {
+    header: 'Tier',
+    field: 'Tier',
+    valueRenderer: (row: ItemDetail) => `T${row.Tier}`,
+    classExtension: ['small-number', 'text-center'],
+    sortable: false
+};
+
+const SubPoorTemplate: SubColumnTemplate = {
+    header: 'Poor',
+    field: 'Poor',
+    valueRenderer: (row: ItemDetail) => row.Poor,
+    classExtension: ['small-number', 'text-center'],
+    sortable: false
+};
+
+const SubNormalTemplate: SubColumnTemplate = {
+    header: 'Normal',
+    field: 'Normal',
+    valueRenderer: (row: ItemDetail) => row.Normal,
+    classExtension: ['small-number', 'text-center'],
+    sortable: false
+};
+
+const SubOptimalTemplate: SubColumnTemplate = {
+    header: 'Optimal',
+    field: 'Optimal',
+    valueRenderer: (row: ItemDetail) => row.Optimal,
+    classExtension: ['small-number', 'text-center'],
+    sortable: false
+};
+
+const SubDropRateTemplate: SubColumnTemplate = {
+    header: 'Drop Chance',
+    field: 'T3Rate',
+    valueRenderer: (row: ItemDetail) => `${row.T3Rate}%`,
+    classExtension: ['percentage', 'text-end'],
+    sortable: false
+};
+
+export const SubColumns: SubColumnTemplate[] = [
+    SubSectorTemplate,
+    SubTierTemplate,
+    SubPoorTemplate,
+    SubNormalTemplate,
+    SubOptimalTemplate,
+    SubDropRateTemplate,
+];

@@ -541,6 +541,10 @@ td.icon {
     width: 5%;
 }
 
+td.small-number {
+    width: 10%;
+}
+
 td.number {
     width: 14%;
 }

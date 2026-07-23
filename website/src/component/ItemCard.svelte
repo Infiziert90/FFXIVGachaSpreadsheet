@@ -1,7 +1,7 @@
 ﻿<script lang="ts">
     import { Mappings } from "$lib/mappings";
-    import type { Reward } from "$lib/interfaces";
     import { getIconPath, getWikiUrl } from "$lib/utils";
+    import type {Reward} from "$lib/structs/reward";
 
     interface Props {
         reward: Reward;

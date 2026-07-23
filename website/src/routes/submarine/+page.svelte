@@ -31,8 +31,8 @@
     let dropChanceView = $state(false);
 
     // Set default meta data
-    let title = $state('Submarine Loot');
-    let description = $state('Possibilities and quantities for submarine sectors.');
+    let title = $state('Submarine Sector Overview');
+    let description = $state('An overview of all maps and it sectors, loot data, and general information like breakpoints.');
 
     // Override defaults with URL parameters if they exist
     let submarineSearchParams = tryGetSubmarineSearchParams(page.url.searchParams);
@@ -41,8 +41,8 @@
 
         // svelte-ignore state_referenced_locally
         if (map in SimpleSubMapSheet) {
-            title = `Submarine Loot - ${SimpleSubMapSheet[map].Name}`;
-            description = `Possibilities and quantities for ${SimpleSubMapSheet[map].Name}.`
+            title = `Submarine Sector Overview - ${SimpleSubMapSheet[map].Name}`;
+            description = `Overview of ${SimpleSubMapSheet[map].Name}.`
         }
     }
 
@@ -76,19 +76,20 @@
             replaceState(page.url, page.state);
         }
 
-        let start: number;
-        start = MapToStartSector[map].RowId + 1;
+        let start = MapToStartSector[map].RowId + 1;
 
         sectorData.length = 0;
         for (let i = start; SimpleSubExplorationSheet[i].SurveyDistance !== 0; i++) {
-            if (i in subData.Sectors) sectorData.push(subData.Sectors[i]);
+            if (i in subData.Sectors) {
+                sectorData.push(subData.Sectors[i]);
+            }
         }
 
         // Scroll to the top of the page
         window.scrollTo(0, 0);
 
         // Set the new title
-        document.title = `Submarine Loot - ${SimpleSubMapSheet[map].Name}`;
+        document.title = `Submarine Sector Overview - ${SimpleSubMapSheet[map].Name}`;
     }
 
     function getBorderColor(idx: number) {

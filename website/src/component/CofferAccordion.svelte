@@ -1,7 +1,7 @@
 <script lang="ts">
     import AccordionItem from "./AccordionItem.svelte";
     import { ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
-    import type { Coffer } from "$lib/interfaces";
+    import type {Coffer} from "$lib/structs/coffer";
 
     interface Props {
         cofferData: Coffer[];
