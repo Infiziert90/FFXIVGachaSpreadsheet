@@ -31,43 +31,40 @@ public class FashionReport : IDisposable
         {
             var score = record.Score;
             var slots = SetSlots(record);
+            var isValid = true;
 
             if (!CollectedSolutions.ContainsKey(record.WeekNum))
-                CollectedSolutions[record.WeekNum] = new FashionDyeTemp();
-            
+            CollectedSolutions[record.WeekNum] = new FashionDyeTemp();
+
             var weightSlots = CollectedSolutions[record.WeekNum].Slots;
-            
-            if (slots.Any(slot => (slot.Stamp == 5 && slot.Hint != 0) || (slot.Hint == 0 && slot.Stamp != 5))) 
-            {
-                Logger.Error($"Invalid record: Stamp ID 5 is reserved for inactive hints. ID: {record.Id}");
-                continue;
-            }
 
             foreach (var slot in slots)
             {
                 if (slot.Item == 0) 
                     continue;
 
-                switch (slot.Stamp)
+                if ((slot.Stamp == 5 && slot.Hint != 0) || (slot.Hint == 0 && slot.Stamp != 5))
                 {
-                    case 0:
-                        ProcessedData.AddGoldRecord(slot.Hint, slot.Item);
-                        goto case 5; // why is fall-through considered a compiler error??
-                    case 5:
-                        score -= IsLeftSide(slot.Id) ? 10u : 8u;
-                        break;
-                    default:
-                        // Purposely ignoring all other stamp types
-                        // _ => 9u - (slot.Stamp * 2),
-                        score -= 2u;
-                        break;
+                    Logger.Error($"Invalid record: Stamp ID 5 is reserved for inactive hints. ID: {record.Id}");
+                    isValid = false;                    
+                    break;
                 }
+
+                // Purposely ignoring all other stamp types
+                // 9u - (slot.Stamp * 2),
+                score -= slot.Stamp is 0 or 5 ? (IsLeftSide(slot.Id) ? 10u : 8u) : 2u;
             }
+
+            if (!isValid)
+                continue;
 
             foreach (var slot in slots)
             {
                 if (slot.Item == 0) 
                     continue;
+
+                if (slot.Stamp == 0)
+                    ProcessedData.AddGoldRecord(slot.Hint, slot.Item);
 
                 if (!weightSlots.ContainsKey(slot.Id))
                     weightSlots[slot.Id] = new FashionDyeTemp.Slot();
@@ -90,10 +87,11 @@ public class FashionReport : IDisposable
                 var dyes = slot.Value.Dyes;
                 var dyeData = new Dictionary<uint, DyeData>();
 
-                var total = dyes.Sum(dye => dye.Value.Confidence);
+                var totalWeightVal = Math.Max(dyes.Sum(dye => dye.Value.Confidence), 0.01f);
+
                 foreach (var dye in dyes)
                 {
-                    var percentage = Math.Round(dye.Value.Confidence / total, 3);
+                    var percentage = Math.Round(dye.Value.Confidence / totalWeightVal, 3);
                     dyeData.Add(dye.Key, new DyeData(dye.Value.Count, percentage));
                 }
                 
