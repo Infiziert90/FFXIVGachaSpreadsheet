@@ -123,7 +123,7 @@ public class BnpcPairs : IDisposable
         ExportHandler.WriteDataJson("BnpcPairsWeb.json", web);
         
         ExportHandler.WriteDataJson("BnpcPairs.json", CollectedData);
-        ExportHandler.WriteDataJson("BnpcPairsSimple.json", SimplePairs.Select(pair => pair.Value));
+        ExportHandler.WriteDataJson("BnpcPairsSimple.json", SimplePairs.Select(pair => pair.Value), true);
         Logger.Information("Done exporting data ...");
     }
 }

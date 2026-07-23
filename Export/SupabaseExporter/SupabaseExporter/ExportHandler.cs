@@ -19,13 +19,13 @@ public static class ExportHandler
         WriteDataJson("LastUpdate.json", DateTime.UtcNow.ToString("R"));
     }
     
-    public static void WriteDataJson<T>(string filename, T data)
+    public static void WriteDataJson<T>(string filename, T data, bool withIndent = false)
     {
         var file = new FileInfo(Path.Combine(WebsitePath, AssetsPath, filename));
         if (file.DirectoryName != null && !Directory.Exists(file.DirectoryName))
             Directory.CreateDirectory(file.DirectoryName);
         
-        File.WriteAllText(file.FullName, JsonConvert.SerializeObject(data));
+        File.WriteAllText(file.FullName, JsonConvert.SerializeObject(data, withIndent ? Formatting.Indented : Formatting.None));
     }
     
     public static void WriteSheetJson<T>(string filename, T data)

@@ -180,7 +180,6 @@
 </PageSidebar>
 <div class="col-12 col-lg-10 order-0 order-lg-2">
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
-        <h1 class="text-center">Work in Progress, feedback and ideas welcome</h1>
         {#if sectorData.length > 0}
             {#each sectorData as sector}
                 {@const sectorData = getSectorData(sector)}
