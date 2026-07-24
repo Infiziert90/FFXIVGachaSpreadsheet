@@ -1,7 +1,7 @@
 <script lang="ts">
     import AccordionItem from "./AccordionItem.svelte";
     import { ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
-    import {type SubMapRow, ToMapName} from "$lib/sheets/structure/subMap";
+    import {type SubMapRow, ToMapName} from "$lib/sheets/structure/submarines/subMap";
 
     interface Props {
         mapData: SubMapRow[];

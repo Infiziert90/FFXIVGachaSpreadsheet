@@ -8,11 +8,11 @@
     import {tryGetSubmarineSearchParams} from "$lib/searchParamHelper";
     import {onMount, tick} from "svelte";
     import {Mappings} from "$lib/mappings";
-    import {type Breakpoint, EmptyBreakpoint, MapBreakpoints} from "$lib/submarineData";
     import {getIconPath, getWikiUrl} from "$lib/utils";
     import {SimpleSubExplorationSheet, SimpleSubMapSheet} from "$lib/sheets/simplifiedSheets";
     import {MapToStartSector} from "$lib/sheets/sheetHelper";
-    import {type SubExplorationRow, ToSectorName} from "$lib/sheets/structure/subExploration";
+    import {type Breakpoint, EmptyBreakpoint, MapBreakpoints} from "$lib/submarines/sector";
+    import {type SubExplorationRow, ToSectorName} from "$lib/sheets/structure/submarines/subExploration";
 
     interface Props {
         data: { content: SubLoot };

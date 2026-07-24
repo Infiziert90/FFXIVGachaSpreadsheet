@@ -149,9 +149,28 @@ export function getFormattedIconId(iconId: number): string {
  * @returns The padded number as a string
  */
 export function pad(num: number, size: number): string {
-    let numStr: string = num.toString();
-    while (numStr.length < size)
-        numStr = "0" + numStr;
+    let numStr: string = num.toString().padStart(size, '0');
+    // while (numStr.length < size)
+    //     numStr = "0" + numStr;
 
     return numStr;
+}
+
+export function getUniqueHash(obj: number[]): number
+{
+    let hash = 19;
+    for (const element of obj.toSorted((a, b) => a - b)) {
+        hash = (hash * 31) + element;
+    }
+
+    return hash;
+}
+
+export function getDuration(totalSeconds: number): string {
+    let hours = Math.floor(totalSeconds / 3600);
+    totalSeconds %= 3600;
+    let minutes = Math.floor(totalSeconds / 60);
+    let seconds = totalSeconds % 60;
+
+    return `${pad(hours, 2)}:${pad(minutes, 2)}:${pad(seconds, 2)}`;
 }

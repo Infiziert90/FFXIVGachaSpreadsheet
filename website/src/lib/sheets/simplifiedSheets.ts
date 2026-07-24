@@ -1,7 +1,6 @@
 ﻿import type {MapRow} from "$lib/sheets/structure/map";
 import type {TerritoryRow} from "$lib/sheets/structure/territory";
-import type {SubMapRow} from "$lib/sheets/structure/subMap";
-import type {SubExplorationRow} from "$lib/sheets/structure/subExploration";
+import type {SubExplorationRow} from "$lib/sheets/structure/submarines/subExploration";
 import {logAndThrow, responseHandler} from "$lib/utils";
 import type {HousingMapMarkerRow} from "$lib/sheets/structure/housingMapMarkerRow";
 import type {HousingLandSetRow} from "$lib/sheets/structure/housingLandSet";
@@ -10,6 +9,9 @@ import type {WorldDCGroupRow} from "$lib/sheets/structure/worldDCGroup";
 import type {MapMarkerRow} from "$lib/sheets/structure/mapMarker";
 import type {ReductionRewardRow} from "$lib/sheets/structure/reductionReward";
 import type {JobRow} from "$lib/sheets/structure/job";
+import type {SubRankRow} from "$lib/sheets/structure/submarines/subRank";
+import type {SubPartRow} from "$lib/sheets/structure/submarines/subPart";
+import type {SubMapRow} from "$lib/sheets/structure/submarines/subMap";
 
 type Fetch = typeof fetch;
 
@@ -19,6 +21,8 @@ export const SimpleMapSheet: Record<number, MapRow> = {};
 export const SimpleTerritorySheet: Record<number, TerritoryRow> = {};
 
 export const SimpleSubMapSheet: Record<number, SubMapRow> = {};
+export const SimpleSubRankSheet: Record<number, SubRankRow> = {};
+export const SimpleSubPartSheet: Record<number, SubPartRow> = {};
 export const SimpleSubExplorationSheet: Record<number, SubExplorationRow> = {};
 
 export const SimpleBNpcNameSheet: Record<number, Record<string, string>> = {};
@@ -89,6 +93,36 @@ export async function LoadSubMapSheet(fetch: Fetch) {
         })
         .catch((err) => {
             logAndThrow('Error loading sub map data.', err);
+        });
+}
+
+export async function LoadSubRankSheet(fetch: Fetch) {
+    if (Object.keys(SimpleSubRankSheet).length > 0)
+        return;
+
+    return await fetch('/sheets/subRank.json', { method: 'GET' })
+        .then(responseHandler)
+        .then((data: Record<number, SubRankRow>) => {
+            for (const row of Object.values(data))
+                SimpleSubRankSheet[row.RowId] = row;
+        })
+        .catch((err) => {
+            logAndThrow('Error loading sub rank data.', err);
+        });
+}
+
+export async function LoadSubPartSheet(fetch: Fetch) {
+    if (Object.keys(SimpleSubPartSheet).length > 0)
+        return;
+
+    return await fetch('/sheets/subPart.json', { method: 'GET' })
+        .then(responseHandler)
+        .then((data: Record<number, SubPartRow>) => {
+            for (const row of Object.values(data))
+                SimpleSubPartSheet[row.RowId] = row;
+        })
+        .catch((err) => {
+            logAndThrow('Error loading sub part data.', err);
         });
 }
 

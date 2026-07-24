@@ -27,6 +27,8 @@ public static class Sheets
     public static readonly SubrowExcelSheet<GathererReductionReward> GathererReductionRewardSheet;
 
     public static readonly ExcelSheet<SubmarineExploration> SubmarineExplorationSheet;
+    public static readonly ExcelSheet<SubmarineRank> SubmarineRankSheet;
+    public static readonly ExcelSheet<SubmarinePart> SubmarinePartSheet;
     public static readonly ExcelSheet<SubmarineMap> SubmarineMapSheet;
     
     public static readonly SubrowExcelSheet<MapMarker> MapMarkerSheet;
@@ -97,6 +99,8 @@ public static class Sheets
         NotoriousMonsterSheet = Lumina.GetExcelSheet<NotoriousMonster>()!;
         ItemUICategorySheet = Lumina.GetExcelSheet<ItemUICategory>()!;
         SubmarineExplorationSheet = Lumina.GetExcelSheet<SubmarineExploration>()!;
+        SubmarineRankSheet = Lumina.GetExcelSheet<SubmarineRank>()!;
+        SubmarinePartSheet = Lumina.GetExcelSheet<SubmarinePart>()!;
         SubmarineMapSheet = Lumina.GetExcelSheet<SubmarineMap>()!;
         MapMarkerSheet = Lumina.GetSubrowExcelSheet<MapMarker>()!;
         HousingLandSetSheet = Lumina.GetExcelSheet<HousingLandSet>()!;

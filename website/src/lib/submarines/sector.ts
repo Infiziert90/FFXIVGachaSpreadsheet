@@ -1,4 +1,7 @@
-﻿export enum SectorType {
+﻿import type {SubmarineBuild} from "$lib/submarines/build";
+import type {SubExplorationRow} from "$lib/sheets/structure/submarines/subExploration";
+
+export enum SectorType {
     UnknownUnlock = 9876,
     Begin = 9000,
     Map = 9999
@@ -15,8 +18,7 @@ export function CreateUnlockedFrom(sector: number, main: boolean = false, map: b
     return { Sector: sector, Sub: sub, Map: map, Main: main}
 }
 
-export const SectorToUnlock: Record<number, UnlockedFrom> =
-{
+export const SectorToUnlock: Record<number, UnlockedFrom> = {
     1: CreateUnlockedFrom(SectorType.Begin as number),                    // A    Default
     2: CreateUnlockedFrom(SectorType.Begin as number),                    // B    Default
     3: CreateUnlockedFrom(1),                             // C    Deep-sea Site 2		        <-      The Ivory Shoals
@@ -184,8 +186,7 @@ export function EmptyBreakpoint(): Breakpoint {
     return { T2: 0, T3: 0, Normal: 0, Optimal: 0, Favor: 0 };
 }
 
-export const MapBreakpoints: Record<number, Breakpoint> =
-{
+export const MapBreakpoints: Record<number, Breakpoint> = {
     1: CreateBreakpoint(20, 80, 50, 80, 70),
     2: CreateBreakpoint(20, 80, 50, 80, 70),
     3: CreateBreakpoint(20, 85, 55, 85, 70),
@@ -335,4 +336,92 @@ export const MapBreakpoints: Record<number, Breakpoint> =
     147: CreateBreakpoint(258, 273, 313, 358, 263),
     148: CreateBreakpoint(259, 274, 314, 359, 264),
     149: CreateBreakpoint(260, 275, 315, 360, 265),
+}
+
+export function CalculateBreakpoint(sectors: number[]): Breakpoint {
+    // more than 5 points isn't allowed ingame
+    if (sectors.length === 0 || sectors.length > 5)
+        return EmptyBreakpoint();
+
+    let breakpoints: Breakpoint[] = [];
+    for (const sector of sectors) {
+        if (!MapBreakpoints.hasOwnProperty(sector))
+            return EmptyBreakpoint();
+
+        breakpoints.push(MapBreakpoints[sector]);
+    }
+
+    // every map can have different max, so we have to check every single one
+    let t2 = Math.max(...breakpoints.map(b => b.T2));
+    let t3 = Math.max(...breakpoints.map(b => b.T3));
+    let normal = Math.max(...breakpoints.map(b => b.Normal));
+    let optimal = Math.max(...breakpoints.map(b => b.Optimal));
+    let favor = Math.max(...breakpoints.map(b => b.Favor));
+
+    return {T2: t2, T3: t3, Normal: normal, Optimal: optimal, Favor: favor};
+}
+
+export function CalculateExpForSectors(sectors: SubExplorationRow[], build: SubmarineBuild, avgExpBonus: boolean = false): number {
+    let bonusEachSector = PredictRouteBonusExp(sectors.map(s => s.RowId), build);
+    if (bonusEachSector.length === 0)
+        return 0;
+
+    let expGain = 0;
+
+    for (const zipped of bonusEachSector.map(function(e, i) {return {bonus: e, sector: sectors[i]};})) {
+        expGain += CalculateBonusExp(!avgExpBonus ? zipped.bonus.Guaranteed : zipped.bonus.Average, zipped.sector.ExpReward);
+    }
+
+    return expGain;
+}
+
+function CalculateBonusExp(bonus: number, exp: number): number {
+    switch (bonus) {
+        case 0: return exp;
+        case 1: return exp * 1.25;
+        case 2: return exp * 1.50;
+        case 3: return exp * 1.75;
+        case 4: return exp * 2.00;
+        default: return exp
+    }
+}
+
+interface BonusExp {
+    Guaranteed: number;
+    Average: number;
+    Max: number;
+}
+
+function PredictRouteBonusExp(sectors: number[], build: SubmarineBuild): BonusExp[] {
+    return sectors.map(s => PredictBonusExp(s, build));
+}
+
+function PredictBonusExp(sector: number, build: SubmarineBuild): BonusExp {
+    if (!(sector in MapBreakpoints)) {
+        return {Guaranteed: 0, Average: 0, Max: 0};
+    }
+
+    let br = MapBreakpoints[sector];
+
+    let guaranteed = 0;
+    guaranteed += br.Optimal <= build.Retrieval ? 1 : 0;
+
+    let maximum = guaranteed;
+    maximum += br.T2 <= build.Surveillance ? 1 : 0;
+    maximum += br.T3 <= build.Surveillance ? 1 : 0;
+
+    if (br.Favor <= build.Favor)
+    {
+        maximum += 1;
+        maximum += br.T2 <= build.Surveillance ? 1 : 0;
+        maximum += br.T3 <= build.Surveillance ? 1 : 0;
+    }
+
+    let max = Math.min(Math.max(maximum, 0), 4);
+    let avg = max == 0 ? 0 : (guaranteed + max) / 2;
+    return {
+        Guaranteed: guaranteed,
+        Average: avg,
+        Max: max,
+    };
 }

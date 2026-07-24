@@ -29,6 +29,7 @@
 		"echarts": "^6.1.0",
 		"leaflet": "^1.9.4",
 		"moment": "^2.30.1",
+		"msgpackr": "^2.0.4",
 		"svelte-multiselect": "^11.6.2"
 	}
 }

@@ -1,6 +1,6 @@
 ﻿import {SimpleSubExplorationSheet} from "$lib/sheets/simplifiedSheets";
-import {ToSectorName} from "$lib/sheets/structure/subExploration";
-import {ReversedMaps} from "$lib/sheets/sheetHelper";
+import {MapToStartSector, ReversedMaps} from "$lib/sheets/sheetHelper";
+import {type SubExplorationRow, ToSectorName} from "$lib/sheets/structure/submarines/subExploration";
 
 /**
  * Gets the full sector name from a sector number.
@@ -73,13 +73,40 @@ export function findMapFromSector(sector: number): number {
 }
 
 /**
- * Find the voyage start sector from any sector number in between
+ * Find the start sector from any map.
+ * @param map - A valid map number
+ * @return Undefined if invalid
+ */
+export function findStartFromMap(map: number): SubExplorationRow | undefined
+{
+    // RowId 0 is not a valid map
+    if (map == 0)
+        return undefined;
+
+    return MapToStartSector[map];
+}
+
+/**
+ * Find the voyage start sector from any sector number in between.
  * @param sector - A valid sector number
  * @return Undefined if invalid.
  */
 export function findVoyageStart(sector: number): number | undefined {
     // This works because we reversed the list of start points
     return ReversedMaps.find(m => sector >= m);
+}
+
+/**
+ * Find the voyage start sector from any sector number in between.
+ * @param sector - A valid sector number
+ * @return Undefined if invalid.
+ */
+export function findVoyageStartPretty(sector: number): SubExplorationRow | undefined {
+    let start = findVoyageStart(sector);
+    if (start === undefined)
+        return undefined;
+
+    return SimpleSubExplorationSheet[start];
 }
 
 /**

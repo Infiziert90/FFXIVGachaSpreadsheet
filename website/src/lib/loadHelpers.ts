@@ -1,8 +1,11 @@
 ﻿import {logAndThrow, responseHandler} from "$lib/utils";
-import type {BnpcPairing, ChestDrop, Coffer, DesynthBase, DesynthesisBase, SubLoot, Venture} from "$lib/interfaces";
+import type {DesynthBase, DesynthesisBase, SubLoot, Venture} from "$lib/interfaces";
 import {type ItemInfo, Mappings} from "$lib/mappings";
 import type {Reduction} from "$lib/structs/reduction";
 import type {DesynthBase2} from "$lib/structs/desynthesis";
+import type {Coffer} from "$lib/structs/coffer";
+import type {ChestDrop} from "$lib/structs/chestDrop";
+import type {BnpcPairing} from "$lib/structs/bnpc";
 
 type Fetch = typeof fetch;
 

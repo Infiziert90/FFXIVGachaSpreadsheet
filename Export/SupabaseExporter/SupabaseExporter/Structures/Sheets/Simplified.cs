@@ -11,6 +11,8 @@ public class SimplifiedSheets
     private readonly Dictionary<uint, TerritoryRow> SimpleTerritory;
     
     private readonly Dictionary<uint, SubMapRow> SimpleSubMap;
+    private readonly Dictionary<uint, SubRankRow> SimpleSubRank;
+    private readonly Dictionary<uint, SubPartRow> SimpleSubPart;
     private readonly Dictionary<uint, SubExplorationRow> SimpleSubExploration;
     
     private readonly Dictionary<uint, Dictionary<uint, MapMarkerRow>> SimpleMapMarker;
@@ -30,6 +32,8 @@ public class SimplifiedSheets
         SimpleTerritory = TerritoryTypeSheet.Select(TerritoryRow.From).ToDictionary(r => r.RowId, r => r);
         
         SimpleSubMap = SubmarineMapSheet.Select(SubMapRow.From).ToDictionary(r => r.RowId, r => r);
+        SimpleSubRank = SubmarineRankSheet.Select(SubRankRow.From).ToDictionary(r => r.RowId, r => r);
+        SimpleSubPart = SubmarinePartSheet.Select(SubPartRow.From).ToDictionary(r => r.RowId, r => r);
         SimpleSubExploration = SubmarineExplorationSheet.Select(SubExplorationRow.From).ToDictionary(r => r.RowId, r => r);
         
         SimpleMapMarker = MapMarkerSheet.ToDictionary(baseRow => baseRow.RowId, baseRow => baseRow.Select(MapMarkerRow.From).ToDictionary(subRow => subRow.RowId, subRow => subRow));
@@ -50,6 +54,8 @@ public class SimplifiedSheets
         ExportHandler.WriteSheetJson("territory.json", SimpleTerritory);
         
         ExportHandler.WriteSheetJson("subMap.json", SimpleSubMap);
+        ExportHandler.WriteSheetJson("subRank.json", SimpleSubRank);
+        ExportHandler.WriteSheetJson("subPart.json", SimpleSubPart);
         ExportHandler.WriteSheetJson("subExploration.json", SimpleSubExploration);
         
         ExportHandler.WriteSheetJson("mapMarker.json", SimpleMapMarker);
@@ -124,6 +130,41 @@ public struct SubExplorationRow(SubmarineExploration exploration)
     public bool StartingPoint = exploration.StartingPoint;
     
     public static SubExplorationRow From(SubmarineExploration exploration) => new(exploration);
+}
+
+[Serializable]
+public struct SubRankRow(SubmarineRank rank)
+{
+    public uint RowId = rank.RowId;
+    
+    public uint ExpToNext => rank.ExpToNext;
+    public ushort Capacity => rank.Capacity;
+    public byte SurveillanceBonus => rank.SurveillanceBonus;
+    public byte RetrievalBonus => rank.RetrievalBonus;
+    public byte SpeedBonus => rank.SpeedBonus;
+    public byte RangeBonus => rank.RangeBonus;
+    public byte FavorBonus => rank.FavorBonus;
+    
+    public static SubRankRow From(SubmarineRank rank) => new(rank);
+}
+
+[Serializable]
+public struct SubPartRow(SubmarinePart part)
+{
+    public uint RowId = part.RowId;
+    
+    public ushort Class => part.Class;
+    public short Surveillance => part.Surveillance;
+    public short Retrieval => part.Retrieval;
+    public short Speed => part.Speed;
+    public short Range => part.Range;
+    public short Favor => part.Favor;
+    public byte Slot => part.Slot;
+    public byte Rank => part.Rank;
+    public byte Components => part.Components;
+    public byte RepairMaterials => part.RepairMaterials;
+    
+    public static SubPartRow From(SubmarinePart part) => new(part);
 }
 
 [Serializable]
