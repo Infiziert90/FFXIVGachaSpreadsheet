@@ -161,7 +161,6 @@
     }
 
     function filterBuilds(): FilteredBuild[] {
-        console.log("Rebuild triggered")
         sectorBreakpoints = CalculateBreakpoint([]);
 
         let distance: number = 0;
@@ -202,6 +201,7 @@
     }
 
     async function refreshFiltering() {
+        await refreshList();
         filteredPath = sortBuilds(filterBuilds());
     }
 
@@ -210,6 +210,9 @@
 
         availableSectors = Object.values(SimpleSubExplorationSheet).filter(s => s.Map === mapId && !s.StartingPoint).map(s => s.RowId);
         selectedSectors = [];
+
+        bestSectorPath = EmptyBestRoute();
+        filteredPath = [];
     }
 
     async function optionChanged(payload: {type: 'add' | 'remove' | 'removeAll' | 'selectAll' | 'reorder', option: Option}) {
@@ -267,6 +270,10 @@
         await refreshFiltering();
     }
 
+    async function rankChanged() {
+        await refreshFiltering();
+    }
+
     async function checkboxOptionsChanged() {
         await refreshFiltering();
     }
@@ -288,6 +295,8 @@
 
 <PageSidebar>
     <div class="d-flex flex-column gap-2 max-w-100 overflow-x-hidden">
+        <Input on:change={rankChanged} type="range" min={1} max={LastRank.RowId} step={1} bind:value={selectedRank} class="form-range" id="rankRange"/>
+        <output for="rankRange" id="rangeValue" aria-hidden="true">Rank: {selectedRank}</output>
         <MultiSelect
                 bind:value={selectedOption}
                 options={mapOptions}
@@ -362,30 +371,36 @@
                         </div>
                     </div>
                 </div>
-                <button type="button" onclick={jumpToTop}> jump to top </button>
-                <VList bind:this={ref} data={filteredPath} style="height: 75vh;">
-                    {#snippet children(item)}
-                        <div class="card mb-3">
-                            <div class="row g-0 align-items-center">
-                                <div class="col-2">
-                                    <div class="item-card-icon px-3 d-flex align-items-center justify-content-center rounded-start h-100">
-                                        <h4 class="m-0">{item.Build.FullIdentifier()}</h4>
+                {#if filteredPath.length >  0}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-2">
+                        <button type="button" onclick={jumpToTop} class="btn btn-outline-secondary bi-arrow-up"></button>
+                    </div>
+                    <VList bind:this={ref} data={filteredPath} style="height: 75vh;">
+                        {#snippet children(item)}
+                            <div class="card mb-3">
+                                <div class="row g-0 align-items-center">
+                                    <div class="col-2">
+                                        <div class="item-card-icon px-3 d-flex align-items-center justify-content-center rounded-start h-100">
+                                            <h4 class="m-0">{item.Build.FullIdentifier()}</h4>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{getDuration(item.Time)}</h5>
-                                        <p class="card-text m-0">
-                                            Surv: {item.Build.Surveillance} - Ret: {item.Build.Retrieval} - Favor: {item.Build.Favor}
-                                            <br>
-                                            Speed: {item.Build.Speed} - Range: {item.Build.Range}
-                                        </p>
+                                    <div class="col">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{getDuration(item.Time)}</h5>
+                                            <p class="card-text m-0">
+                                                Surv: {item.Build.Surveillance} - Ret: {item.Build.Retrieval} - Favor: {item.Build.Favor}
+                                                <br>
+                                                Speed: {item.Build.Speed} - Range: {item.Build.Range}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    {/snippet}
-                </VList>
+                        {/snippet}
+                    </VList>
+                {:else}
+                    <h4>No build found.</h4>
+                {/if}
             {:else}
                 <p>No sectors selected.</p>
             {/if}
