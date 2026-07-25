@@ -22,6 +22,7 @@
     import {ToLetterName} from "$lib/sheets/structure/submarines/subExploration";
     import {Input} from "@sveltestrap/sveltestrap";
     import {type Breakpoint, CalculateBreakpoint, EmptyBreakpoint} from "$lib/submarines/sector";
+    import {VList, type VListHandle} from "virtua/svelte";
 
     // const
     const PartsCount: number = 10;
@@ -50,6 +51,12 @@
     let optionsToId: Record<number, number> = $state({});
     let selectedOption: Option = $state('' as Option);
     let selectOptionId = $state(0);
+
+    let ref: VListHandle;
+
+    const jumpToTop = () => {
+        ref?.scrollTo(0);
+    };
 
     initialize();
 
@@ -194,233 +201,6 @@
         return filteredBuilds.sort((a, b) => a.Time - b.Time);
     }
 
-    /**
-     * public partial class BuilderWindow
-     * {
-     *     public bool FuturePrediction;
-     *
-     *     public bool ShipTab()
-     *     {
-     *         using var tabItem = ImRaii.TabItem($"{Language.BuilderTabShip}##Ship");
-     *         if (!tabItem.Success)
-     *             return false;
-     *
-     *         if (!FuturePrediction && SelectedRank > Sheets.LastRank)
-     *             SelectedRank = (int)Sheets.LastRank;
-     *
-     *         if (ImGui.SliderInt("##shipSliderRank", ref SelectedRank, 1, (int)Sheets.LastRank + (!FuturePrediction ? 0 : 50), $"{Language.TermsRank} %d"))
-     *         {
-     *             Rank = Build.SubRank.From((uint)SelectedRank);
-     *             RefreshList();
-     *         }
-     *
-     *         ImGui.SameLine();
-     *         ImGui.Checkbox(Language.BuilderShipCheckboxIgnoreBreakpoints, ref IgnoreBreakpoints);
-     *
-     *         ImGui.SameLine();
-     *         ImGui.Checkbox("Predict Future", ref FuturePrediction);
-     *
-     *         Helper.TextColored(ImGuiColors.DalamudViolet, Language.BuilderShipHeaderRoute);
-     *         SelectedRoute();
-     *
-     *         ImGuiHelpers.ScaledDummy(5.0f);
-     *
-     *         var hasRoute = CurrentBuild.Sectors.Count > 0;
-     *         if (!hasRoute || IgnoreBreakpoints)
-     *         {
-     *             if (ImGui.CollapsingHeader(Language.TermsStats))
-     *             {
-     *                 var textWidth = ImGui.CalcTextSize("Surveillance:").X + (15.0f * ImGuiHelpers.GlobalScale);
-     *                 var sliderWidth = ImGui.GetWindowWidth() / 3;
-     *
-     *                 ImGui.TextUnformatted($"{Language.TermsSurveillance}:");
-     *                 ImGui.SameLine(textWidth);
-     *                 using (ImRaii.ItemWidth(sliderWidth))
-     *                 {
-     *                     if (ImGui.SliderInt("##shipSliderMinSurveillance", ref Target.MinSurveillance, LockedTarget.MinSurveillance, LockedTarget.MaxSurveillance, "Min %d"))
-     *                         Target.MaxSurveillance = Math.Max(Target.MinSurveillance, Target.MaxSurveillance);
-     *
-     *                     ImGui.SameLine();
-     *
-     *                     if (ImGui.SliderInt("##shipSliderMaxSurveillance", ref Target.MaxSurveillance, LockedTarget.MinSurveillance, LockedTarget.MaxSurveillance, "Max %d"))
-     *                         Target.MinSurveillance = Math.Min(Target.MinSurveillance, Target.MaxSurveillance);
-     *                 }
-     *
-     *                 ImGui.TextUnformatted($"{Language.TermsRetrieval}:");
-     *                 ImGui.SameLine(textWidth);
-     *                 using (ImRaii.ItemWidth(sliderWidth))
-     *                 {
-     *                     if (ImGui.SliderInt("##shipSliderMinRetrieval", ref Target.MinRetrieval, LockedTarget.MinRetrieval, LockedTarget.MaxRetrieval, "Min %d"))
-     *                         Target.MaxRetrieval = Math.Max(Target.MinRetrieval, Target.MaxRetrieval);
-     *
-     *                     ImGui.SameLine();
-     *
-     *                     if (ImGui.SliderInt("##shipSliderMaxRetrieval", ref Target.MaxRetrieval, LockedTarget.MinRetrieval, LockedTarget.MaxRetrieval, "Max %d"))
-     *                         Target.MinRetrieval = Math.Min(Target.MinRetrieval, Target.MaxRetrieval);
-     *                 }
-     *
-     *                 ImGui.TextUnformatted($"{Language.TermsFavor}:");
-     *                 ImGui.SameLine(textWidth);
-     *                 using (ImRaii.ItemWidth(sliderWidth))
-     *                 {
-     *                     if (ImGui.SliderInt("##shipSliderMinFavor", ref Target.MinFavor, LockedTarget.MinFavor, LockedTarget.MaxFavor, "Min %d"))
-     *                         Target.MaxFavor = Math.Max(Target.MinFavor, Target.MaxFavor);
-     *
-     *                     ImGui.SameLine();
-     *
-     *                     if (ImGui.SliderInt("##shipSliderMaxFavor", ref Target.MaxFavor, LockedTarget.MinFavor, LockedTarget.MaxFavor, "Max %d"))
-     *                         Target.MinFavor = Math.Min(Target.MinFavor, Target.MaxFavor);
-     *                 }
-     *
-     *                 ImGui.TextUnformatted($"{Language.TermsSpeed}:");
-     *                 ImGui.SameLine(textWidth);
-     *                 using (ImRaii.ItemWidth(sliderWidth))
-     *                 {
-     *                     if (ImGui.SliderInt("##shipSliderMinSpeed", ref Target.MinSpeed, LockedTarget.MinSpeed, LockedTarget.MaxSpeed, "Min %d"))
-     *                         Target.MaxSpeed = Math.Max(Target.MinSpeed, Target.MaxSpeed);
-     *
-     *                     ImGui.SameLine();
-     *
-     *                     if (ImGui.SliderInt("##shipSliderMaxSpeed", ref Target.MaxSpeed, LockedTarget.MinSpeed, LockedTarget.MaxSpeed, "Max %d"))
-     *                         Target.MinSpeed = Math.Min(Target.MinSpeed, Target.MaxSpeed);
-     *                 }
-     *             }
-     *
-     *             ImGuiHelpers.ScaledDummy(10.0f);
-     *         }
-     *         else
-     *         {
-     *             var secondRow = ImGui.GetWindowWidth() / 5.1f;
-     *
-     *             var breakpoints = Sectors.CalculateBreakpoint(CurrentBuild.Sectors);
-     *
-     *             Helper.TextColored(ImGuiColors.DalamudViolet, $"{Language.TermsBreakpoints}:");
-     *             Helper.TextColored(ImGuiColors.HealerGreen, Language.TermsSurveillance);
-     *             ImGui.SameLine(secondRow);
-     *             ImGui.TextUnformatted($"T2: {breakpoints.T2} | T3: {breakpoints.T3}");
-     *
-     *             Helper.TextColored(ImGuiColors.HealerGreen, Language.TermsRetrieval);
-     *             ImGui.SameLine(secondRow);
-     *             ImGui.TextUnformatted($"{Language.TermsNormal}: {breakpoints.Normal} | {Language.TermsOptimal}: {breakpoints.Optimal}");
-     *
-     *             Helper.TextColored(ImGuiColors.HealerGreen, Language.TermsFavor);
-     *             ImGui.SameLine(secondRow);
-     *             ImGui.TextUnformatted($"{Language.TermsFavor}: {breakpoints.Favor}");
-     *
-     *             Helper.TextColored(ImGuiColors.DalamudViolet, $"{Language.TermsOptions}:");
-     *
-     *             if (ImGui.Checkbox(Language.BuilderShipCheckboxT1, ref Target.UseT1))
-     *                 Target.UseT2 = false;
-     *             ImGui.SameLine();
-     *             if (ImGui.Checkbox(Language.BuilderShipCheckboxT2, ref Target.UseT2))
-     *                 Target.UseT1 = false;
-     *
-     *             if (ImGui.Checkbox(Language.BuilderShipCheckboxPoor, ref Target.UsePoor))
-     *                 Target.UseNormal = false;
-     *             ImGui.SameLine();
-     *             if (ImGui.Checkbox(Language.BuilderShipCheckboxNormal, ref Target.UseNormal))
-     *                 Target.UsePoor = false;
-     *
-     *             ImGui.Checkbox(Language.BuilderShipCheckboxFavor, ref Target.IgnoreFavor);
-     *             ImGui.SameLine();
-     *             ImGui.Checkbox(Language.BuilderShipCheckboxModded, ref Target.NoModded);
-     *
-     *             ImGuiHelpers.ScaledDummy(10.0f);
-     *         }
-     *
-     *         if (!FilterBuilds().Any())
-     *         {
-     *             ImGuiHelpers.ScaledDummy(20.0f);
-     *
-     *             var text = Language.BuilderShipCalculationNothingFound;
-     *
-     *             ImGui.SetCursorPosX((ImGui.GetWindowSize().X - ImGui.CalcTextSize(text).X) * 0.5f);
-     *             Helper.TextColored(ImGuiColors.DalamudOrange, text);
-     *             return true;
-     *         }
-     *
-     *         using var table = ImRaii.Table("##shipTable", hasRoute ? 13 : 12, ImGuiTableFlags.Borders | ImGuiTableFlags.Resizable | ImGuiTableFlags.ScrollY | ImGuiTableFlags.Sortable);
-     *         if (!table.Success)
-     *             return true;
-     *
-     *         ImGui.TableSetupColumn(Language.TermsCost);
-     *         ImGui.TableSetupColumn(Language.TermsRepair);
-     *         ImGui.TableSetupColumn(Language.TermsHull, ImGuiTableColumnFlags.NoSort);
-     *         ImGui.TableSetupColumn(Language.TermsStern, ImGuiTableColumnFlags.NoSort);
-     *         ImGui.TableSetupColumn(Language.TermsBow, ImGuiTableColumnFlags.NoSort);
-     *         ImGui.TableSetupColumn(Language.TermsBridge, ImGuiTableColumnFlags.NoSort);
-     *         ImGui.TableSetupColumn(Language.TermsSurveillance, ImGuiTableColumnFlags.PreferSortDescending);
-     *         ImGui.TableSetupColumn(Language.TermsRetrieval, ImGuiTableColumnFlags.PreferSortDescending);
-     *         ImGui.TableSetupColumn(Language.TermsFavor, ImGuiTableColumnFlags.PreferSortDescending);
-     *         ImGui.TableSetupColumn(Language.TermsSpeed, ImGuiTableColumnFlags.DefaultSort | ImGuiTableColumnFlags.PreferSortDescending);
-     *         ImGui.TableSetupColumn(Language.TermsRange, ImGuiTableColumnFlags.PreferSortDescending);
-     *         if (hasRoute)
-     *             ImGui.TableSetupColumn(Language.TermsDuration, ImGuiTableColumnFlags.NoSort);
-     *         ImGui.TableSetupColumn("##Import", ImGuiTableColumnFlags.NoSort);
-     *
-     *         ImGui.TableHeadersRow();
-     *         var tableContent = SortBuilds(ImGui.TableGetSortSpecs().Specs).ToArray();
-     *
-     *         using var clipper = new ListClipper(tableContent.Length, itemHeight: ImGui.GetTextLineHeight() * 1.1f);
-     *         foreach (var i in clipper.Rows)
-     *         {
-     *             var (build, time) = tableContent[i];
-     *             ImGui.TableNextColumn();
-     *             ImGui.TextUnformatted($"{build.BuildCost}");
-     *
-     *             ImGui.TableNextColumn();
-     *             ImGui.TextUnformatted($"{build.RepairCosts}");
-     *
-     *             ImGui.TableNextColumn();
-     *             ImGui.TextUnformatted($"{build.HullIdentifier}");
-     *
-     *             ImGui.TableNextColumn();
-     *             ImGui.TextUnformatted($"{build.SternIdentifier}");
-     *
-     *             ImGui.TableNextColumn();
-     *             ImGui.TextUnformatted($"{build.BowIdentifier}");
-     *
-     *             ImGui.TableNextColumn();
-     *             ImGui.TextUnformatted($"{build.BridgeIdentifier}");
-     *
-     *             ImGui.TableNextColumn();
-     *             ImGui.TextUnformatted($"{build.Surveillance}");
-     *
-     *             ImGui.TableNextColumn();
-     *             ImGui.TextUnformatted($"{build.Retrieval}");
-     *
-     *             ImGui.TableNextColumn();
-     *             ImGui.TextUnformatted($"{build.Favor}");
-     *
-     *             ImGui.TableNextColumn();
-     *             ImGui.TextUnformatted($"{build.Speed}");
-     *
-     *             ImGui.TableNextColumn();
-     *             ImGui.TextUnformatted($"{build.Range}");
-     *
-     *             if (hasRoute)
-     *             {
-     *                 ImGui.TableNextColumn();
-     *                 ImGui.TextUnformatted(ToTime(time));
-     *             }
-     *
-     *             ImGui.TableNextColumn();
-     *             if (ImGuiComponents.IconButton(i, FontAwesomeIcon.ArrowRightFromBracket))
-     *             {
-     *                 CurrentBuild.UpdateBuild(build, SelectedRank);
-     *                 CurrentBuild.OriginalSub = 0;
-     *             }
-     *
-     *             if (ImGui.IsItemHovered())
-     *                 Helper.Tooltip(Language.BuilderShipTableSelect);
-     *
-     *             ImGui.TableNextRow();
-     *         }
-     *
-     *         return true;
-     *     }
-     */
-
     async function refreshFiltering() {
         filteredPath = sortBuilds(filterBuilds());
     }
@@ -561,7 +341,7 @@
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
         <div class="container mb-5 p-2 rounded border tier-anchor" style="background-color: var(--bs-tertiary-bg);">
             {#if bestSectorPath.Path.length > 0}
-                <div class="card mb-5 bg-secondary">
+                <div class="card mb-5 bg-dark">
                     <div class="row g-0 align-items-center">
                         <div class="col-2">
                             <div class="item-card-icon px-3 d-flex align-items-center justify-content-center rounded-start h-100">
@@ -582,27 +362,30 @@
                         </div>
                     </div>
                 </div>
-                {#each filteredPath as build}
-                    <div class="card mb-3">
-                        <div class="row g-0 align-items-center">
-                            <div class="col-2">
-                                <div class="item-card-icon px-3 d-flex align-items-center justify-content-center rounded-start h-100">
-                                    <h4 class="m-0">{build.Build.FullIdentifier()}</h4>
+                <button type="button" onclick={jumpToTop}> jump to top </button>
+                <VList bind:this={ref} data={filteredPath} style="height: 75vh;">
+                    {#snippet children(item)}
+                        <div class="card mb-3">
+                            <div class="row g-0 align-items-center">
+                                <div class="col-2">
+                                    <div class="item-card-icon px-3 d-flex align-items-center justify-content-center rounded-start h-100">
+                                        <h4 class="m-0">{item.Build.FullIdentifier()}</h4>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col">
-                                <div class="card-body">
-                                    <h5 class="card-title">{getDuration(build.Time)}</h5>
-                                    <p class="card-text m-0">
-                                        Surv: {build.Build.Surveillance} - Ret: {build.Build.Retrieval} - Favor: {build.Build.Favor}
-                                        <br>
-                                        Speed: {build.Build.Speed} - Range: {build.Build.Range}
-                                    </p>
+                                <div class="col">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{getDuration(item.Time)}</h5>
+                                        <p class="card-text m-0">
+                                            Surv: {item.Build.Surveillance} - Ret: {item.Build.Retrieval} - Favor: {item.Build.Favor}
+                                            <br>
+                                            Speed: {item.Build.Speed} - Range: {item.Build.Range}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                {/each}
+                    {/snippet}
+                </VList>
             {:else}
                 <p>No sectors selected.</p>
             {/if}
