@@ -25,7 +25,7 @@ export function ToSectorName(self: SubExplorationRow): string {
 }
 
 export function ToLetterName(sector: SubExplorationRow): string {
-    return `${numToLetter(sector.RowId, true)}. ${ToSectorName(sector)}`
+    return `${numToLetter(sector.RowId, true)}. ${ToSectorName(sector).split('(')[0]}`
 }
 
 export function GetDistance(self: SubExplorationRow, other: SubExplorationRow): number {

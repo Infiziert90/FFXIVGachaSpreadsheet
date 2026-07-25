@@ -34,16 +34,16 @@ export function ToExplorationArray(sectors: number[]): SubExplorationRow[] {
     return sectors.map(s => SimpleSubExplorationSheet[s]);
 }
 
-export function SectorsToPath(separator: string, points: number[]): string {
-    if (points.length === 0) {
+export function SectorsToPath(separator: string, sectors: number[]): string {
+    if (sectors.length === 0) {
         return "No Voyage";
     }
 
-    const start = findVoyageStart(points[0]);
+    const start = findVoyageStart(sectors[0]);
     if (start === undefined)
         return "No Voyage";
 
-    return points.map(p => numToLetter(p - start, false)).join(separator);
+    return sectors.map(p => numToLetter(p - start, false)).join(separator);
 }
 
 export function CalculateDuration(sectors: SubExplorationRow[], speed: number): number

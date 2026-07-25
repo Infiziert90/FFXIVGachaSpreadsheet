@@ -1,5 +1,5 @@
 ﻿import type {SubmarineBuild} from "$lib/submarines/build";
-import {CalculateBreakpoint} from "$lib/submarines/sector";
+import {type Breakpoint, CalculateBreakpoint} from "$lib/submarines/sector";
 
 export class TargetValues {
     public MinSurveillance: number = 0;
@@ -70,9 +70,7 @@ export class TargetValues {
             build.Favor <= this.MaxFavor;
     }
 
-    SectorFilter(build: SubmarineBuild, sectors: number[]): boolean {
-        let breakpoints = CalculateBreakpoint(sectors);
-
+    SectorFilter(build: SubmarineBuild, breakpoints: Breakpoint): boolean {
         return build.Surveillance >= (this.UseT1 ? 0 : this.UseT2 ? breakpoints.T2 : breakpoints.T3) &&
             build.Retrieval >= (this.UsePoor ? 0 : this.UseNormal ? breakpoints.Normal : breakpoints.Optimal) &&
             (this.IgnoreFavor || build.Favor >= breakpoints.Favor) &&

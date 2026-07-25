@@ -1,15 +1,27 @@
 ﻿<script lang="ts">
     import PageSidebar from "../../component/PageSidebar.svelte";
-    import {onMount} from "svelte";
+    import {onMount, tick} from "svelte";
     import {Mappings} from "$lib/mappings";
     import {page} from "$app/state";
     import {replaceState} from "$app/navigation";
     import {LastRank} from "$lib/sheets/sheetHelper";
     import type {SubRankRow} from "$lib/sheets/structure/submarines/subRank";
     import {TargetValues} from "$lib/submarines/target";
-    import {CalculateDuration, FindCalculatedRoute, SectorsToPath, ToExplorationArray} from "$lib/submarines/voyage";
+    import {
+        type BestRoute,
+        CalculateDuration, EmptyBestRoute,
+        FindCalculatedRoute,
+        SectorsToPath,
+        ToExplorationArray
+    } from "$lib/submarines/voyage";
     import {SubmarineBuild} from "$lib/submarines/build";
-    import {getDuration} from "$lib/utils";
+    import {getDuration, getIconPath, getWikiUrl} from "$lib/utils";
+    import MultiSelect, {type Option} from "svelte-multiselect";
+    import {SimpleSubExplorationSheet, SimpleSubMapSheet} from "$lib/sheets/simplifiedSheets";
+    import {type SubMapRow, ToMapName} from "$lib/sheets/structure/submarines/subMap";
+    import {ToLetterName} from "$lib/sheets/structure/submarines/subExploration";
+    import {Input} from "@sveltestrap/sveltestrap";
+    import {type Breakpoint, CalculateBreakpoint, EmptyBreakpoint} from "$lib/submarines/sector";
 
     // const
     const PartsCount: number = 10;
@@ -21,13 +33,39 @@
     let allBuilds: SubmarineBuild[] = [];
     let rank: SubRankRow;
     let selectedRank = $state(145);
-    let target: TargetValues;
-    let lockedTarget: TargetValues;
+    let target: TargetValues = $state(new TargetValues());
+    let lockedTarget: TargetValues = $state(new TargetValues());
 
     let ignoreBreakpoints: boolean = $state(false);
     let sectors: number[] = [13, 15, 10, 18, 26];
+    let map: SubMapRow = $state(SimpleSubMapSheet[0])
+
+    let selectedSectors: number[] = $state([]);
+    let availableSectors: number[] = $state([]);
+    let bestSectorPath: BestRoute = $state(EmptyBestRoute());
+    let sectorBreakpoints: Breakpoint = $state(EmptyBreakpoint());
+    let filteredPath: FilteredBuild[] = $state([]);
+
+    let mapOptions: string[] = $state([]);
+    let optionsToId: Record<number, number> = $state({});
+    let selectedOption: Option = $state('' as Option);
+    let selectOptionId = $state(0);
 
     initialize();
+
+    for (const mapKey of Object.keys(SimpleSubMapSheet)) {
+        let id = parseInt(mapKey);
+        if (id === 0)
+            continue;
+
+        let idx = mapOptions.length;
+        mapOptions.push(ToMapName(SimpleSubMapSheet[id]));
+
+        optionsToId[idx] = id;
+    }
+    selectedOption = mapOptions[0];
+    selectOptionId = optionsToId[0];
+    changeMapSelection(1);
 
     // Set default meta data
     let title = $state('Submarine Ship Finder');
@@ -90,7 +128,7 @@
         target = TargetValues.FromTarget(lockedTarget);
     }
 
-    function refreshList() {
+    async function refreshList() {
         let newList: SubmarineBuild[] = [];
         for (let hull = 0; hull < PartsCount; hull++)
         {
@@ -116,18 +154,22 @@
     }
 
     function filterBuilds(): FilteredBuild[] {
+        console.log("Rebuild triggered")
+        sectorBreakpoints = CalculateBreakpoint([]);
+
         let distance: number = 0;
         let hasRoute: boolean = sectors.length > 0;
         if (hasRoute) {
-            let optimizedRoute = FindCalculatedRoute(sectors);
-            sectors = optimizedRoute.Path;
-            distance = optimizedRoute.Distance;
+            sectors = bestSectorPath.Path;
+            distance = bestSectorPath.Distance;
+
+            sectorBreakpoints = CalculateBreakpoint(bestSectorPath.Path);
         }
 
         let builds = allBuilds
             .filter(b => selectedRank >= b.HighestRankPart && b.Range >= distance && b.BuildCost <= rank.Capacity)
             .filter(b => hasRoute && !ignoreBreakpoints
-                ? target.SectorFilter(b, sectors)
+                ? target.SectorFilter(b, sectorBreakpoints)
                 : target.Filter(b))
             .map(t => {
                 return {
@@ -378,6 +420,82 @@
      *         return true;
      *     }
      */
+
+    async function refreshFiltering() {
+        filteredPath = sortBuilds(filterBuilds());
+    }
+
+    function changeMapSelection(mapId: number) {
+        map = SimpleSubMapSheet[mapId];
+
+        availableSectors = Object.values(SimpleSubExplorationSheet).filter(s => s.Map === mapId && !s.StartingPoint).map(s => s.RowId);
+        selectedSectors = [];
+    }
+
+    async function optionChanged(payload: {type: 'add' | 'remove' | 'removeAll' | 'selectAll' | 'reorder', option: Option}) {
+        if (payload.type === 'selectAll' || payload.type === 'selectAll' || payload.type === 'reorder' || payload.type === 'removeAll' || payload.type === 'remove')
+            return;
+
+        let optionIndex = mapOptions.indexOf(payload.option.toString());
+        if (optionIndex === -1) {
+            console.error(`Option ${payload.option} not found in options array`);
+            return;
+        }
+
+        changeMapSelection(optionsToId[optionIndex]);
+    }
+
+    async function selectItem(sector: number) {
+        if (selectedSectors.length >= 5)
+            return;
+
+        if (!selectedSectors.includes(sector)) {
+            selectedSectors.push(sector);
+
+            bestSectorPath = FindCalculatedRoute(selectedSectors);
+            selectedSectors = [...bestSectorPath.Path];
+        }
+
+        if (availableSectors.includes(sector)) {
+            let idx = availableSectors.indexOf(sector);
+            if (idx !== -1) {
+                availableSectors.splice(idx, 1);
+            }
+
+            availableSectors.sort((a, b) => a - b);
+        }
+
+        await refreshFiltering();
+    }
+
+    async function deselectItem(sector: number) {
+        if (selectedSectors.includes(sector)) {
+            let idx = selectedSectors.indexOf(sector);
+            if (idx !== -1) {
+                selectedSectors.splice(idx, 1);
+            }
+
+            bestSectorPath = FindCalculatedRoute(selectedSectors);
+            selectedSectors = [...bestSectorPath.Path];
+        }
+
+        if (!availableSectors.includes(sector)) {
+            availableSectors.push(sector);
+            availableSectors.sort((a, b) => a - b);
+        }
+
+        await refreshFiltering();
+    }
+
+    async function checkboxOptionsChanged() {
+        await refreshFiltering();
+    }
+
+    async function targetOptionsChanged(target: TargetValues, targetOption: boolean) {
+        targetOption = !targetOption;
+
+        await refreshFiltering();
+    }
 </script>
 
 <svelte:head>
@@ -389,17 +507,105 @@
 </svelte:head>
 
 <PageSidebar>
+    <div class="d-flex flex-column gap-2 max-w-100 overflow-x-hidden">
+        <MultiSelect
+                bind:value={selectedOption}
+                options={mapOptions}
+                ulSelectedClass="multiSelect-selection"
+                ulOptionsStyle="padding-left:0.5rem;"
+                placeholder="Select a map"
+                onchange={optionChanged}
+                maxSelect={1}
+                minSelect={1}
+                required={true}
+                portal={{ active: true }}
+        />
+
+        <select class="w-100 form-select" size="5">
+            {#each selectedSectors as item}
+                <option
+                        class="border-bottom"
+                        value={item}
+                        onclick={async () => await deselectItem(item)}
+                >
+                    {ToLetterName(SimpleSubExplorationSheet[item])}
+                </option>
+            {/each}
+        </select>
+
+        <select class="w-100 form-select" size="15" disabled={selectedSectors.length >= 5}>
+            {#each availableSectors as item}
+                <option
+                        class="border-bottom"
+                        value={item}
+                        onclick={async () => await selectItem(item)}
+                >
+                    {ToLetterName(SimpleSubExplorationSheet[item])}
+                </option>
+            {/each}
+        </select>
+
+        <h5 class="mt-3">Options:</h5>
+        <Input class="mb-0" type="checkbox" bind:checked={ignoreBreakpoints} label="Ignore Breakpoints" on:change={async () => await checkboxOptionsChanged()}></Input>
+        {#if !ignoreBreakpoints}
+            <Input class="mb-0" type="checkbox" bind:checked={target.UseT1} label="Only Tier 1" on:change={async () => await targetOptionsChanged(target, target.UseT1)}></Input>
+            <Input class="mb-0" type="checkbox" bind:checked={target.UseT2} label="Only Tier 2" on:change={async () => await targetOptionsChanged(target, target.UseT2)}></Input>
+            <Input class="mb-0" type="checkbox" bind:checked={target.UsePoor} label="Only Poor" on:change={async () => await targetOptionsChanged(target, target.UsePoor)}></Input>
+            <Input class="mb-0" type="checkbox" bind:checked={target.UseNormal} label="Only Normal" on:change={async () => await targetOptionsChanged(target, target.UseNormal)}></Input>
+            <Input class="mb-0" type="checkbox" bind:checked={target.IgnoreFavor} label="Ignore Favor" on:change={async () => await targetOptionsChanged(target, target.IgnoreFavor)}></Input>
+            <Input class="mb-0" type="checkbox" bind:checked={target.NoModded} label="No Modified Parts" on:change={async () => await targetOptionsChanged(target, target.NoModded)}></Input>
+        {/if}
+    </div>
 </PageSidebar>
-<div class="col-12 col-lg-2 order-0 order-lg-3">
-</div>
-<div class="col-12 col-lg-7 order-0 order-lg-2">
+<div class="col-12 col-lg-9 order-0 order-lg-2">
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
         <div class="container mb-5 p-2 rounded border tier-anchor" style="background-color: var(--bs-tertiary-bg);">
-            <h4>Route</h4>
-            <p>{SectorsToPath(" -> ", sectors)}</p>
-            {#each sortBuilds(filterBuilds()) as build}
-                <p>{build.Build.FullIdentifier()} {build.Build.Speed} - {getDuration(build.Time)}</p>
-            {/each}
+            {#if bestSectorPath.Path.length > 0}
+                <div class="card mb-5 bg-secondary">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-2">
+                            <div class="item-card-icon px-3 d-flex align-items-center justify-content-center rounded-start h-100">
+                                <h4 class="m-0">Route</h4>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card-body">
+                                <h5 class="card-title">{SectorsToPath(" -> ", bestSectorPath.Path)}</h5>
+                                <p class="card-text m-0">
+                                    Tier 2: {sectorBreakpoints.T2} - Tier 3: {sectorBreakpoints.T3}
+                                    <br>
+                                    Normal: {sectorBreakpoints.Normal} - Optimal: {sectorBreakpoints.Optimal}
+                                    <br>
+                                    Favor: {sectorBreakpoints.Favor}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {#each filteredPath as build}
+                    <div class="card mb-3">
+                        <div class="row g-0 align-items-center">
+                            <div class="col-2">
+                                <div class="item-card-icon px-3 d-flex align-items-center justify-content-center rounded-start h-100">
+                                    <h4 class="m-0">{build.Build.FullIdentifier()}</h4>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card-body">
+                                    <h5 class="card-title">{getDuration(build.Time)}</h5>
+                                    <p class="card-text m-0">
+                                        Surv: {build.Build.Surveillance} - Ret: {build.Build.Retrieval} - Favor: {build.Build.Favor}
+                                        <br>
+                                        Speed: {build.Build.Speed} - Range: {build.Build.Range}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {/each}
+            {:else}
+                <p>No sectors selected.</p>
+            {/if}
         </div>
     </div>
 </div>
