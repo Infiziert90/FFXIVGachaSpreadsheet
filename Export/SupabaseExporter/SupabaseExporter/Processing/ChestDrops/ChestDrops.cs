@@ -233,7 +233,8 @@ public class ChestDrops : IDisposable
     {
         Logger.Information("Start export of processed chest drop data ...");
         ExportHandler.WriteDataJson("ChestDrops.json", ProcessedData.Values.OrderBy(cd => cd.Id));
-        ExportHandler.WriteDataJson("ChestDropsWeb.json", ProcessedPatchData.Values.OrderBy(cd => cd.Id));
+        ExportHandler.WriteDataJson("ChestDropsV2.json", ProcessedPatchData.Values.OrderBy(cd => cd.Id));
+        ExportHandler.WriteWebJson("ChestDropsWeb.json", ProcessedPatchData.Values.OrderBy(cd => cd.Id));
         Logger.Information("Done ...");
     }
 }

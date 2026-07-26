@@ -36,22 +36,22 @@ public class BnpcPairing
 
 public class BnpcPairingWeb
 {
-    public Dictionary<ulong, PairingWeb> BnpcPairings = [];
+    public Dictionary<ulong, PairingWeb> BPairs = [];
 
     public class PairingWeb(uint baseId, uint nameId)
     {
-        public uint Records;
+        public uint R;
 
-        public uint Base = baseId;
-        public uint Name = nameId;
+        public uint B = baseId;
+        public uint N = nameId;
         
-        public Dictionary<uint, LocationWeb> Locations = [];
+        public Dictionary<uint, LocationWeb> L = [];
 
         public static PairingWeb From(BnpcPairing.Pairing org)
         {
             var pairing = new PairingWeb(org.Base, org.Name);
             foreach (var (key, value) in org.Locations)
-                pairing.Locations[key] = LocationWeb.From(value);
+                pairing.L[key] = LocationWeb.From(value);
             
             return pairing;
         }
@@ -59,15 +59,15 @@ public class BnpcPairingWeb
 
     public class LocationWeb(uint territory, uint map, uint level)
     {
-        public uint Territory = territory;
-        public uint Map = map;
-        public uint Level = level;
+        public uint T = territory;
+        public uint M = map;
+        public uint L = level;
 
-        public List<Vector3> Positions = [];
+        public List<Vector3> P = [];
 
         public static LocationWeb From(BnpcPairing.Location org)
         {
-            return new LocationWeb(org.Territory, org.Map, org.Level) { Positions = org.Positions };
+            return new LocationWeb(org.Territory, org.Map, org.Level) { P = org.Positions };
         }
     }
 }

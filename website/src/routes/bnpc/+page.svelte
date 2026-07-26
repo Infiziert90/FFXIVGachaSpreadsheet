@@ -57,16 +57,16 @@
 
     const uniqueLocations: UniqueLocation[] = [];
     if (browser) {
-        for (const pairing of Object.values(pairingData.BnpcPairings)) {
-            if (pairing.Base === 0 || pairing.Name === 0)
+        for (const pairing of Object.values(pairingData.BPairs)) {
+            if (pairing.B === 0 || pairing.N === 0)
                 continue;
 
-            for (const location of Object.values(pairing.Locations)) {
+            for (const location of Object.values(pairing.L)) {
                 // TODO Add checkbox to allow quest areas be searched
-                if (SimpleTerritorySheet[location.Territory].QuestBattle > 0)
+                if (SimpleTerritorySheet[location.T].QuestBattle > 0)
                     continue;
 
-                const uniqueLocation: UniqueLocation = {Territory: location.Territory, Map: location.Map};
+                const uniqueLocation: UniqueLocation = {Territory: location.T, Map: location.M};
                 if (!uniqueLocations.some((e) => e.Territory === uniqueLocation.Territory && e.Map === uniqueLocation.Map))
                     uniqueLocations.push(uniqueLocation);
             }
@@ -94,12 +94,12 @@
         deduplicateNames = {};
         pairs = [];
 
-        for (const pairing of Object.values(pairingData.BnpcPairings).filter((pair) => Object.values(pair.Locations).some((l) => l.Territory === location.Territory && l.Map === location.Map)).sort((a, b) => a.Base - b.Base)) {
+        for (const pairing of Object.values(pairingData.BPairs).filter((pair) => Object.values(pair.L).some((l) => l.T === location.Territory && l.M === location.Map)).sort((a, b) => a.B - b.B)) {
             let idx = pairs.length;
             pairs.push(pairing);
 
             // Some names are duplicates and need to be sorted into the same Id
-            let name = pairing.Name;
+            let name = pairing.N;
             let evaluatedName = SimpleBNpcNameSheet[name]['En'];
             if (evaluatedName in deduplicateNames) {
                 name = deduplicateNames[evaluatedName];
@@ -268,23 +268,23 @@
 
         let indexes = names[selectedMonster];
         for (const idx of indexes) {
-            for (const [_, location] of Object.entries(pairs[idx].Locations).filter(([_, l]) => l.Territory === selectedLocation.Territory && l.Map === selectedLocation.Map)) {
-                for (const worldPos of Object.values(location.Positions)) {
-                    let ingameCoords = convertToMapCoords(new Vector3(worldPos.X, worldPos.Y, worldPos.Z), location.Map);
+            for (const location of Object.values(pairs[idx].L).filter((l) => l.T === selectedLocation.Territory && l.M === selectedLocation.Map)) {
+                for (const worldPos of Object.values(location.P)) {
+                    let ingameCoords = convertToMapCoords(new Vector3(worldPos.X, worldPos.Y, worldPos.Z), location.M);
                     let coords = swapCoords(ingameCoords);
 
                     let marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: iconMarker}).addTo(map);
                     marker.bindPopup(`
-                                    ${SimpleBNpcNameSheet[pairs[idx].Name]['En']}
+                                    ${SimpleBNpcNameSheet[pairs[idx].N]['En']}
                                     <br>
-                                    Level: ${location.Level}
+                                    Level: ${location.L}
                                     <br>
                                     X ${ingameCoords.X.toFixed(2)} Y ${ingameCoords.Y.toFixed(2)}
                                     <br>
                                     <br>
-                                    Base: ${pairs[idx].Base}
+                                    Base: ${pairs[idx].B}
                                     <br>
-                                    Name: ${pairs[idx].Name}`);
+                                    Name: ${pairs[idx].N}`);
 
                     if (!(selectedMonster in createdMarkersDict))
                         createdMarkersDict[selectedMonster] = [marker]

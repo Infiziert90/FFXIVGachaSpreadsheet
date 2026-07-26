@@ -1,18 +1,18 @@
 ﻿export interface BnpcPairing {
-    BnpcPairings: Record<number, Pairing>;
+    BPairs: Record<number, Pairing>;
 }
 
 export interface Pairing {
-    Records: number;
-    Base: number;
-    Name: number;
-    Locations: Record<number, Location>;
+    R: number;
+    B: number;
+    N: number;
+    L: Record<number, Location>;
 }
 
 interface Location {
-    Territory: number;
-    Map: number;
-    Level: number;
+    T: number;
+    M: number;
+    L: number;
 
-    Positions: { X: number, Y: number, Z: number }[];
+    P: { X: number, Y: number, Z: number }[];
 }

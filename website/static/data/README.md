@@ -61,7 +61,17 @@ List<BnpcSimple>
 │       │   Names: HashSet<uint>          # List of BNpcName sheet keys
 ```
 
+
+# BnpcPairsWeb.json
+> OUTDATED  
+> This version has been replaced by an even more shrunk down version for the website.  
+> It will be deleted with the release of 7.56
+
+
 # ChestDrops.json
+> OUTDATED: Use ChestDropsV2.json  
+> Going to be removed with 8.0 !  
+>   
 > A collection of drops from chests, this includes Dungeons, Trials, Open World, Treasure Hunt.  
 > Records are only produced if the user was in a group and the "Loot Roll" window appeared.
 

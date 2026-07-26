@@ -118,9 +118,9 @@ public class BnpcPairs : IDisposable
     {
         var web = new BnpcPairingWeb();
         foreach (var (key, value) in CollectedData.BnpcPairings)
-            web.BnpcPairings[key] = BnpcPairingWeb.PairingWeb.From(value);
+            web.BPairs[key] = BnpcPairingWeb.PairingWeb.From(value);
                 
-        ExportHandler.WriteDataJson("BnpcPairsWeb.json", web);
+        ExportHandler.WriteWebJson("BnpcPairsWeb.json", web);
         
         ExportHandler.WriteDataJson("BnpcPairs.json", CollectedData);
         ExportHandler.WriteDataJson("BnpcPairsSimple.json", SimplePairs.Select(pair => pair.Value), true);

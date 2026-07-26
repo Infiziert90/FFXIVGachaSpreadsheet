@@ -141,7 +141,12 @@ export async function loadVentures(path: string, fetch: Fetch): Promise<{content
 
 export async function loadChestDrops(path: string, fetch: Fetch): Promise<{content: ChestDrop[]}> {
     try {
-        const res: ChestDrop[] = await fetch(path)
+        const res: ChestDrop[] = await fetch(path, {
+            headers: {
+                Accept: "application/json",
+                "Accept-Encoding": "gzip",
+            }
+        })
             .then(responseHandler)
             .then((data: ChestDrop[]) => {
                 return data;
@@ -177,7 +182,12 @@ export async function loadSubmarines(path: string, fetch: Fetch): Promise<{conte
 
 export async function loadBnpc(path: string, fetch: Fetch): Promise<{content: BnpcPairing}> {
     try {
-        const res: BnpcPairing = await fetch(path)
+        const res: BnpcPairing = await fetch(path, {
+            headers: {
+                Accept: "application/json",
+                "Accept-Encoding": "gzip",
+            }
+        })
             .then(responseHandler)
             .then((data: BnpcPairing) => {
                 return data;
