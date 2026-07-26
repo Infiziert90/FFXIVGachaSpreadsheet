@@ -54,10 +54,17 @@ export async function getLastUpdate(browser: boolean): Promise<string> {
 
 export function responseHandler(response: Response) {
     if (response.ok) {
+        response.clone().bytes().then(t => console.log(toHexString(t.slice(0, 500))));
         return response.json();
     }
 
     throw new Error(`Response status didn't indicate success. Status: ${response.status} | Message: ${response.statusText}`);
+}
+
+function toHexString(byteArray) {
+    return Array.from(byteArray, function(byte) {
+        return ('0' + (byte & 0xFF).toString(16)).slice(-2);
+    }).join('')
 }
 
 export function errorHandling(response: any): never {
