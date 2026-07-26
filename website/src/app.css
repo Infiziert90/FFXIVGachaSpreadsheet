@@ -838,6 +838,16 @@ img.item-icon {
 
 .no-background {
     background-color: transparent;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.no-background:hover {
+    z-index: 1;
+    color: var(--bs-list-group-action-hover-color);
+    text-decoration: none;
+    background-color: var(--bs-list-group-action-hover-bg);
 }
 
 @media (min-width: 992px) {
