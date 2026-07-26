@@ -1,4 +1,4 @@
-﻿import {logAndThrow, responseHandler} from "$lib/utils";
+﻿import {logAndThrow, responseCompressedHandler, responseHandler} from "$lib/utils";
 import type {DesynthBase, DesynthesisBase, SubLoot, Venture} from "$lib/interfaces";
 import {type ItemInfo, Mappings} from "$lib/mappings";
 import type {Reduction} from "$lib/structs/reduction";
@@ -148,9 +148,8 @@ export async function loadVentures(path: string, fetch: Fetch): Promise<{content
 
 export async function loadChestDrops(path: string, fetch: Fetch): Promise<{content: ChestDrop[]}> {
     try {
-        console.log(`Fetching: ${path}`);
         const res: ChestDrop[] = await fetch(path, initHeaders)
-            .then(responseHandler)
+            .then(responseCompressedHandler)
             .then((data: ChestDrop[]) => {
                 return data;
             });
@@ -186,7 +185,7 @@ export async function loadSubmarines(path: string, fetch: Fetch): Promise<{conte
 export async function loadBnpc(path: string, fetch: Fetch): Promise<{content: BnpcPairing}> {
     try {
         const res: BnpcPairing = await fetch(path, initHeaders)
-            .then(responseHandler)
+            .then(responseCompressedHandler)
             .then((data: BnpcPairing) => {
                 return data;
             });
