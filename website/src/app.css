@@ -823,29 +823,21 @@ img.item-icon {
     filter: hue-rotate(330deg);
 }
 
-.noselect {
-    -webkit-user-select: none;
-    user-select: none;
+.listBorder {
+    border: 1px solid var(--bs-border-color)
 }
 
-.form-select option:hover {
-    border-color: var(--bs-primary);
-    box-shadow: 0 0 0 0.15rem rgb(var(--bs-primary-rgb));
+.disabledList {
+    opacity: 0.6;
+    pointer-events: none;
 }
 
-.form-select option:focus {
-    border-color: var(--bs-primary);
-    box-shadow: 0 0 0 0.15rem rgb(var(--bs-primary-rgb));
+.disabledItem {
+    cursor: not-allowed;
 }
 
-.form-select option:checked {
-    color: var(--bs-body-color);
-    background-color: rgba(0, 0, 0, 0);
-}
-
-.form-select option:unchecked {
-    color: var(--bs-body-color);
-    background-color: rgba(0, 0, 0, 0);
+.no-background {
+    background-color: transparent;
 }
 
 @media (min-width: 992px) {

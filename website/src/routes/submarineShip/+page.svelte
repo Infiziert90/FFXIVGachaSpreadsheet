@@ -20,7 +20,7 @@
     import {SimpleSubExplorationSheet, SimpleSubMapSheet} from "$lib/sheets/simplifiedSheets";
     import {type SubMapRow, ToMapName} from "$lib/sheets/structure/submarines/subMap";
     import {ToLetterName} from "$lib/sheets/structure/submarines/subExploration";
-    import {Input} from "@sveltestrap/sveltestrap";
+    import {Input, Tooltip} from "@sveltestrap/sveltestrap";
     import {type Breakpoint, CalculateBreakpoint, EmptyBreakpoint} from "$lib/submarines/sector";
     import {VList, type VListHandle} from "virtua/svelte";
 
@@ -310,29 +310,35 @@
                 portal={{ active: true }}
         />
 
-        <select class="w-100 form-select" size="5">
-            {#each selectedSectors as item}
-                <option
-                        class="border-bottom"
-                        value={item}
-                        onclick={async () => await deselectItem(item)}
+        <h6 class="mb-0 mt-2">Sectors: {selectedSectors.length} / 5</h6>
+        <ul class="w-100 list-group listBorder"
+            style="height: 210px; overflow-y: auto;"
+        >
+            {#each selectedSectors as item, index}
+                <li class="list-group-item no-background"
+                    class:border-bottom={index < 4}
+                    class:border-bottom-0={index === 4}
+                    onclick={async () => await deselectItem(item)}
                 >
                     {ToLetterName(SimpleSubExplorationSheet[item])}
-                </option>
+                </li>
             {/each}
-        </select>
+        </ul>
 
-        <select class="w-100 form-select" size="15" disabled={selectedSectors.length >= 5}>
+        <h6 class="mb-0 mt-2">Select a sector by clicking</h6>
+        <ul class="w-100 list-group listBorder"
+            class:disabledList={selectedSectors.length >= 5}
+            style="max-height: 410px; overflow-y: auto;"
+        >
             {#each availableSectors as item}
-                <option
-                        class="border-bottom"
-                        value={item}
-                        onclick={async () => await selectItem(item)}
+                <li class="list-group-item border-bottom no-background"
+                    class:disabledItem={selectedSectors.length >= 5}
+                    onclick={async () => await selectItem(item)}
                 >
                     {ToLetterName(SimpleSubExplorationSheet[item])}
-                </option>
+                </li>
             {/each}
-        </select>
+        </ul>
 
         <h5 class="mt-3">Options:</h5>
         <Input class="mb-0" type="checkbox" bind:checked={ignoreBreakpoints} label="Ignore Breakpoints" on:change={async () => await checkboxOptionsChanged()}></Input>
@@ -373,7 +379,9 @@
                 </div>
                 {#if filteredPath.length >  0}
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-2">
-                        <button type="button" onclick={jumpToTop} class="btn btn-outline-secondary bi-arrow-up"></button>
+                        <button type="button" onclick={jumpToTop} class="btn btn-outline-secondary bi-arrow-up" id="jumpToTopButton">
+                            <Tooltip target="jumpToTopButton" placement="top">Jump to top</Tooltip>
+                        </button>
                     </div>
                     <VList bind:this={ref} data={filteredPath} style="height: 75vh;">
                         {#snippet children(item)}

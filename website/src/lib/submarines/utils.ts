@@ -35,7 +35,7 @@ export function numToLetter(num: number, findStart: boolean): string {
 
     let value = '';
     if (index >= Letters.length)
-        value += Letters[(index / Letters.length) - 1];
+        value += Letters[Math.floor((index / Letters.length) - 1)];
 
     value += Letters[index % Letters.length];
 

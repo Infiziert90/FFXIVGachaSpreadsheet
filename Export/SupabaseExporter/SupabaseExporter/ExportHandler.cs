@@ -1,5 +1,4 @@
 ﻿using System.IO.Compression;
-using System.Text;
 using Newtonsoft.Json;
 
 namespace SupabaseExporter;
@@ -37,22 +36,12 @@ public static class ExportHandler
         if (file.DirectoryName != null && !Directory.Exists(file.DirectoryName))
             Directory.CreateDirectory(file.DirectoryName);
         
-        var bDate = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(data));
-        byte[] compressedData;
-
-        using (var outStream = new MemoryStream())
-        {
-            using (var compressor = new GZipStream(outStream, CompressionLevel.Optimal, leaveOpen: true))
-            {
-                compressor.Write(bDate);
-            }
-
-            outStream.Seek(0, SeekOrigin.Begin);
-
-            compressedData = outStream.ToArray();
-        }
-        
-        File.WriteAllBytes($"{file.FullName}.gz", compressedData);
+        var serializer = new JsonSerializer();
+        using var fileStream = File.Open($"{file.FullName}.gz", FileMode.Create);
+        using var gzipStream = new GZipStream(fileStream, CompressionLevel.Optimal);
+        using var streamWriter = new StreamWriter(gzipStream);
+        using var jsonWriter = new JsonTextWriter(streamWriter);
+        serializer.Serialize(jsonWriter, data);
     }
     
     public static void WriteSheetJson<T>(string filename, T data)
