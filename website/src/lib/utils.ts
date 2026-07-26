@@ -62,9 +62,14 @@ export function responseHandler(response: Response) {
 
 export function responseCompressedHandler(response: Response) {
     if (response.ok && response.body !== null) {
-        let ds = new DecompressionStream("gzip");
-        let decompressedStream = response.body.pipeThrough(ds);
-        return new Response(decompressedStream).json();
+        if (!response.headers.has('content-encoding')) {
+            let ds = new DecompressionStream("gzip");
+            let decompressedStream = response.body.pipeThrough(ds);
+            return new Response(decompressedStream).json();
+        }
+        else {
+            return response.json();
+        }
     }
 
     throw new Error(`Response status didn't indicate success. Status: ${response.status} | Message: ${response.statusText}`);
