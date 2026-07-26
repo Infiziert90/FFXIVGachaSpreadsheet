@@ -1,6 +1,6 @@
 ﻿<script lang="ts">
     import PageSidebar from "../../component/PageSidebar.svelte";
-    import {onMount, tick} from "svelte";
+    import {onMount} from "svelte";
     import {Mappings} from "$lib/mappings";
     import {page} from "$app/state";
     import {replaceState} from "$app/navigation";
@@ -15,7 +15,7 @@
         ToExplorationArray
     } from "$lib/submarines/voyage";
     import {SubmarineBuild} from "$lib/submarines/build";
-    import {getDuration, getIconPath, getWikiUrl} from "$lib/utils";
+    import {getDuration} from "$lib/utils";
     import MultiSelect, {type Option} from "svelte-multiselect";
     import {SimpleSubExplorationSheet, SimpleSubMapSheet} from "$lib/sheets/simplifiedSheets";
     import {type SubMapRow, ToMapName} from "$lib/sheets/structure/submarines/subMap";
