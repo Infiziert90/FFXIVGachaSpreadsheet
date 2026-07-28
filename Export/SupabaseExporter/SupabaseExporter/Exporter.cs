@@ -119,7 +119,7 @@ public static class EntryPoint
             var reductionProcessor = new Reduction();
             reductionProcessor.ProcessAllData(reductionResult);
         }
-
+        
         var fashionResult = await exporter.LoadFashionData(context);
         if (fashionResult.Length > 0)
         {
@@ -289,6 +289,7 @@ public class Exporter
 
         var data = ReadFolderStatic<OccultTreasureModel>(path, 0, new OccultTreasureImportMap()).ToArray();
         Logger.Information("Done exporting occult treasure data...");
+        // return data.Concat(result).ToArray();
         return data;
     }
     
@@ -312,6 +313,7 @@ public class Exporter
 
         var data = ReadFolderStatic<OccultBunnyModel>(path, 0, new OccultBunnyImportMap()).ToArray();
         Logger.Information("Done exporting occult bunny data....");
+        // return data.Concat(result).ToArray();
         return data;
     }
     

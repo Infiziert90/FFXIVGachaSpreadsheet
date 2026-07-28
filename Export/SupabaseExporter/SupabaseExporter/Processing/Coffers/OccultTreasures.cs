@@ -10,34 +10,39 @@ public class OccultTreasures : CofferBase
     {
         Logger.Information("Processing occult data");
         FetchTreasure(treasureData);
-        Combine();
-        
-        CollectedData.Clear();
-        
         FetchBunny(bunnyData);
         Combine();
         
-        Export("OccultTreasures.json");
+        Export("OccultTreasuresV2.json");
         Dispose();
     }
 
     private Dictionary<Vector3, (uint, uint, uint)> Positions = [];
-    private Dictionary<Vector3, (uint Counter, Dictionary<CofferRarity, uint> Type, Dictionary<uint, uint> FateIds)> PotPositions = [];
-    private Dictionary<Vector3, uint> BunnyPositions = [];
+    private Dictionary<uint, Dictionary<Vector3, (uint Counter, Dictionary<CofferRarity, uint> Type, Dictionary<uint, uint> FateIds)>> PotPositions = [];
+    private Dictionary<uint, Dictionary<Vector3, uint>> BunnyPositions = [];
     private void FetchTreasure(Models.OccultTreasureModel[] data)
     {
         foreach (var treasure in data)
         {
             // This range should include all treasure coffers
-            if (treasure.BaseId is > 1856 or < 1789)
-                continue;
+            if (treasure.Territory is 0 or 1252)
+            {
+                if (treasure.BaseId is > 1856 or < 1789)
+                    continue;
+            }
+            else
+            {
+                if (treasure.BaseId is > 2073 or < 2006)
+                    return;
+            }
             
-            if (!CollectedData.ContainsKey((uint)OccultCategory.Treasure))
-                CollectedData[(uint)OccultCategory.Treasure] = [];
+            var territory = treasure.Territory == 0 ? 1252 : treasure.Territory;
+            if (!CollectedData.ContainsKey(territory))
+                CollectedData[territory] = [];
+            
+            var coffers = CollectedData[territory];
 
             var adjustedCofferId = Sheets.TreasureSheet.GetRow(treasure.BaseId).SGB;
-            
-            var coffers = CollectedData[(uint)OccultCategory.Treasure];
             if (!coffers.ContainsKey(adjustedCofferId.RowId))
                 coffers[adjustedCofferId.RowId] = [];
             
@@ -96,96 +101,118 @@ public class OccultTreasures : CofferBase
     
     private void FetchBunny(Models.OccultBunnyModel[] data)
     {
-        foreach (var treasure in data)
+        foreach (var bunny in data)
         {
-            var category = treasure.Coffer.ToCategory();
-            if (!CollectedData.ContainsKey((uint)category))
-                CollectedData[(uint)category] = [];
+            var category = bunny.Coffer.ToCategory();
+            if (!CollectedData.ContainsKey(bunny.Territory))
+                CollectedData[bunny.Territory] = [];
             
-            var coffers = CollectedData[(uint)category];
-            if (!coffers.ContainsKey(treasure.Coffer))
-                coffers[treasure.Coffer] = [];
+            var coffers = CollectedData[bunny.Territory];
+            if (!coffers.ContainsKey(bunny.Coffer))
+                coffers[bunny.Coffer] = [];
             
-            var patch = treasure.GetPatch;
-            var patches = coffers[treasure.Coffer];
+            var patch = bunny.GetPatch;
+            var patches = coffers[bunny.Coffer];
             if (!patches.ContainsKey(patch))
                 patches[patch] = new CofferTemp();
 
-            patches[patch].AddMultiRecordWithAmount(treasure.GetRewards());
+            patches[patch].AddMultiRecordWithAmount(bunny.GetRewards());
 
-            var pos = new Vector3(treasure.ChestX, treasure.ChestY, treasure.ChestZ);
+            var pos = new Vector3(bunny.ChestX, bunny.ChestY, bunny.ChestZ);
             if (pos == Vector3.Zero)
             {
-                Logger.Error($"Bunny Invalid position, {treasure.Id}");
+                Logger.Error($"Bunny Invalid position, {bunny.Id}");
                 continue;
             }
             
             if (category == OccultCategory.Pot)
             {
-                if (!PotPositions.TryGetValue(pos, out var potPosition))
+                if (!PotPositions.ContainsKey(bunny.Territory))
+                    PotPositions[bunny.Territory] = [];
+                
+                if (!PotPositions[bunny.Territory].TryGetValue(pos, out var potPosition))
                     potPosition = (0, [], []);
 
                 potPosition.Counter += 1;
 
-                if (!potPosition.Type.ContainsKey((CofferRarity)treasure.Coffer))
-                    potPosition.Type[(CofferRarity)treasure.Coffer] = 0;
+                if (!potPosition.Type.ContainsKey((CofferRarity)bunny.Coffer))
+                    potPosition.Type[(CofferRarity)bunny.Coffer] = 0;
                 
-                potPosition.Type[(CofferRarity)treasure.Coffer]++;
+                potPosition.Type[(CofferRarity)bunny.Coffer]++;
                 
-                if (!potPosition.FateIds.ContainsKey(treasure.FateId))
-                    potPosition.FateIds[treasure.FateId] = 0;
-                potPosition.FateIds[treasure.FateId]++;
+                if (!potPosition.FateIds.ContainsKey(bunny.FateId))
+                    potPosition.FateIds[bunny.FateId] = 0;
+                potPosition.FateIds[bunny.FateId]++;
                 
-                PotPositions[pos] = potPosition;
+                PotPositions[bunny.Territory][pos] = potPosition;
             }
             else
             {
-                if (!BunnyPositions.TryAdd(pos, 1))
-                    BunnyPositions[pos] += 1;
+                if (!BunnyPositions.ContainsKey(bunny.Territory))
+                    BunnyPositions[bunny.Territory] = [];
+                
+                if (!BunnyPositions[bunny.Territory].TryAdd(pos, 1))
+                    BunnyPositions[bunny.Territory][pos] += 1;
             }
         }
         
         var bronze = 0L;
         var silver = 0L;
         var gold = 0L;
-        
-        Logger.Debug($"Pot Treasure: Unique {PotPositions.Count} | Total Records {PotPositions.Sum(pair => pair.Value.Item1)}");
-        foreach (var (pos, counter) in PotPositions.OrderByDescending(kvp => kvp.Value.Item1))
+
+        foreach (var (key, value) in PotPositions)
         {
-            if (counter.Type.Count == 3)
+            if (key != 1346)
+                continue;
+            
+            Logger.Debug($"Area: {key}");
+            Logger.Debug($"Pot Treasure: Unique {value.Count} | Total Records {value.Sum(pair => pair.Value.Item1)}");
+            foreach (var (pos, counter) in value.OrderByDescending(kvp => kvp.Value.Item1).ThenBy(kvp => kvp.Value.FateIds.Keys.First()))
             {
-                foreach (var type in counter.Type)
+                if (counter.Type.Count == 3)
                 {
-                    switch (type.Key)
+                    foreach (var type in counter.Type)
                     {
-                        case CofferRarity.OccultPotBronze:
-                            bronze += type.Value;
-                            break;
-                        case CofferRarity.OccultPotSilver:
-                            silver += type.Value;
-                            break;
-                        case CofferRarity.OccultPotGold:
-                            gold += type.Value;
-                            break;
+                        switch (type.Key)
+                        {
+                            case CofferRarity.OccultPotBronze:
+                                bronze += type.Value;
+                                break;
+                            case CofferRarity.OccultPotSilver:
+                                silver += type.Value;
+                                break;
+                            case CofferRarity.OccultPotGold:
+                                gold += type.Value;
+                                break;
+                        }
                     }
                 }
-            }
             
-            Logger.Debug($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter.Counter} // Treasures: {string.Join(',', counter.Type.OrderByDescending(s => s.Key).Select(s => s.Key.ToName() + $": {s.Value}"))} // FateId: {string.Join(", ", counter.FateIds.Select(pair => $"{pair.Key}:{pair.Value}"))}");
+                Logger.Debug($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter.Counter} // Treasures: {string.Join(',', counter.Type.OrderByDescending(s => s.Key).Select(s => s.Key.ToName() + $": {s.Value}"))} // FateId: {string.Join(", ", counter.FateIds.Select(pair => $"{pair.Key}:{pair.Value}"))}");
+            }
+            Logger.Debug($"Total Without Reroll: {bronze+silver+gold} | Gold: {gold} | Silver: {silver} | Bronze: {bronze}");
         }
-        Logger.Debug($"Total Without Reroll: {bronze+silver+gold} | Gold: {gold} | Silver: {silver} | Bronze: {bronze}");
-        
-        Logger.Debug($"Bunny Treasure: Unique {BunnyPositions.Count} | Total Records {BunnyPositions.Sum(pair => pair.Value)}");
-        foreach (var (pos, counter) in BunnyPositions.OrderByDescending(kvp => kvp.Value))
-            Logger.Debug($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
+
+        foreach (var (key, value) in BunnyPositions)
+        {
+            if (key != 1346)
+                continue;
+            
+            Logger.Debug($"Area: {key}");
+            Logger.Debug($"Bunny Treasure: Unique {value.Count} | Total Records {value.Sum(pair => pair.Value)}");
+            foreach (var (pos, counter) in value.OrderByDescending(kvp => kvp.Value))
+                Logger.Debug($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter}");
+            foreach (var (pos, counter) in value.OrderByDescending(kvp => kvp.Value))
+                Logger.Debug($"[{{ x: {pos.X}, y: {pos.Y}, z: {pos.Z} }}, 0, 0], ");
+        }
     }
 
     private void Combine() 
     {
-        foreach (var (category, rarities) in CollectedData)
+        foreach (var (territory, rarities) in CollectedData)
         {
             var cofferList = new List<Coffer.Variant>();
-            foreach (var (rarity, patches) in rarities.OrderByDescending(pair => RaritySort(pair.Key)))
+            foreach (var (rarity, patches) in rarities.OrderBy(pair => RaritySort(pair.Key)))
             {
                 var coffer = new Coffer.Variant(rarity, ((CofferRarity)rarity).ToName(), []);
                 // Go over existing patches and calculate all averages
@@ -195,7 +222,7 @@ public class OccultTreasures : CofferBase
                 cofferList.Add(coffer);
             }
 
-            ProcessedData.Add(new Coffer(((OccultCategory)category).ToName(), category, cofferList));
+            ProcessedData.Add(new Coffer(((Territory)territory).ToName(), territory, cofferList));
         }
     }
     
@@ -213,9 +240,12 @@ public class OccultTreasures : CofferBase
 
     private uint RaritySort(uint key)
     {
-        if (key == 1597)
-            return key - 100; // Treasure is special as Silver is above Bronze in the order
-
-        return key;
+        return key switch
+        {
+            2012936 => key + 1000000,
+            2014742 => key + 10,
+            2014741 => key + 20,
+            _ => key
+        };
     } 
 }

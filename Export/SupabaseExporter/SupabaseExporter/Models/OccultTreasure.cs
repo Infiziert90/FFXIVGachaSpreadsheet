@@ -9,7 +9,11 @@ public class OccultTreasureModel : BaseModel
 {
     [Name("id")]
     [Column("id")]
-    public uint Id { get; set; }
+    public uint Id { get; set; }    
+    
+    [Name("territory")]
+    [Column("territory")]
+    public uint Territory { get; set; }
 
     [Name("base_id")]
     [Column("base_id")]
@@ -78,9 +82,11 @@ public sealed class OccultTreasureExportMap : ClassMap<OccultTreasureModel>
 {
     public OccultTreasureExportMap()
     {
+        
         Map(m => m.Version).Name("version");
         
         Map(m => m.Id).Name("id");
+        Map(m => m.Territory).Name("territory");
         Map(m => m.BaseId).Name("base_id");
         Map(m => m.RewardsArray).Name("rewards").Convert(l =>
         {
@@ -103,6 +109,7 @@ public sealed class OccultTreasureImportMap : ClassMap<OccultTreasureModel>
         Map(m => m.Version).Name("version");
         
         Map(m => m.Id).Name("id");
+        Map(m => m.Territory).Name("territory").Optional();
         Map(m => m.BaseId).Name("base_id");
         Map(m => m.Rewards).Name("rewards");
         Map(m => m.ChestX).Name("pos_x");

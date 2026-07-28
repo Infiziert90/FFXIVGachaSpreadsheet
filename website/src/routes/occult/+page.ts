@@ -5,7 +5,7 @@ import {loadCoffer, loadMapping} from "$lib/loadHelpers";
 export const load: PageLoad = async ({ fetch }) => {
     let mappingPromise = loadMapping(fetch);
 
-    const res = await loadCoffer('/data/OccultTreasures.json', fetch)
+    const res = await loadCoffer('/data/OccultTreasuresV2.json', fetch)
     await mappingPromise;
 
     return res;

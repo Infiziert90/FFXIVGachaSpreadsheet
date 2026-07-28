@@ -56,6 +56,7 @@ public enum Territory : uint
     Bozja = 920,
     
     SouthHorn = 1252,
+    NorthHorn = 1346,
     
     Oizys = 1310,
     Auxesia = 1319,
@@ -159,6 +160,7 @@ public static class EnumExtensions
             Territory.Hydatos => "Hydatos",
             Territory.Bozja => "Bozja",
             Territory.SouthHorn => "South Horn",
+            Territory.NorthHorn => "North Horn",
             Territory.Oizys => "Oizys",
             Territory.Auxesia => "Auxesia",
             _ => "Unknown"
@@ -169,9 +171,15 @@ public static class EnumExtensions
     {
         return rarity switch
         {
-            CofferRarity.Bronze or CofferRarity.OccultTreasureBronze or CofferRarity.OccultPotBronze => "Bronze",
-            CofferRarity.Silver or CofferRarity.OccultTreasureSilver or CofferRarity.OccultPotSilver => "Silver",
-            CofferRarity.Gold or CofferRarity.OccultPotGold or CofferRarity.BunnyGold => "Gold",
+            CofferRarity.Bronze => "Bronze",
+            CofferRarity.OccultTreasureBronze => "Treasure Bronze",
+            CofferRarity.OccultTreasureSilver => "Treasure Silver",
+            CofferRarity.OccultPotBronze => "Pot Bronze",
+            CofferRarity.OccultPotSilver => "Pot Silver",
+            CofferRarity.OccultPotGold => "Pot Gold",
+            CofferRarity.BunnyGold => "Bunny Gold",
+            CofferRarity.Silver => "Silver",
+            CofferRarity.Gold => "Gold",
             _ => "Unknown"
         };
     }
