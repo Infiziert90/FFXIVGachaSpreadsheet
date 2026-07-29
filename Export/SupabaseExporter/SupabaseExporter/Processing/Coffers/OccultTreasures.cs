@@ -167,7 +167,7 @@ public class OccultTreasures : CofferBase
             
             Logger.Debug($"Area: {key}");
             Logger.Debug($"Pot Treasure: Unique {value.Count} | Total Records {value.Sum(pair => pair.Value.Item1)}");
-            foreach (var (pos, counter) in value.OrderByDescending(kvp => kvp.Value.Item1).ThenBy(kvp => kvp.Value.FateIds.Keys.First()))
+            foreach (var (pos, counter) in value.OrderByDescending(kvp => kvp.Value.FateIds.Keys.Max()).ThenBy(kvp => kvp.Value.Item1))
             {
                 if (counter.Type.Count == 3)
                 {
@@ -190,7 +190,7 @@ public class OccultTreasures : CofferBase
             
                 Logger.Debug($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter.Counter} // Treasures: {string.Join(',', counter.Type.OrderByDescending(s => s.Key).Select(s => s.Key.ToName() + $": {s.Value}"))} // FateId: {string.Join(", ", counter.FateIds.Select(pair => $"{pair.Key}:{pair.Value}"))}");
             }
-            foreach (var (pos, counter) in value.OrderByDescending(kvp => kvp.Value.Item1).ThenBy(kvp => kvp.Value.FateIds.Keys.Max()))
+            foreach (var (pos, counter) in value.OrderByDescending(kvp => kvp.Value.FateIds.Keys.Max()).ThenBy(kvp => kvp.Value.Item1))
             {
                 if (counter.Type.Count == 3)
                 {
