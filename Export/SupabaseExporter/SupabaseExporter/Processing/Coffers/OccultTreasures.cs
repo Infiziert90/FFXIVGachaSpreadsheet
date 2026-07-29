@@ -190,7 +190,7 @@ public class OccultTreasures : CofferBase
             
                 Logger.Debug($"new Vector3({pos.X}f, {pos.Y}f, {pos.Z}f), // Counter: {counter.Counter} // Treasures: {string.Join(',', counter.Type.OrderByDescending(s => s.Key).Select(s => s.Key.ToName() + $": {s.Value}"))} // FateId: {string.Join(", ", counter.FateIds.Select(pair => $"{pair.Key}:{pair.Value}"))}");
             }
-            foreach (var (pos, counter) in value.OrderByDescending(kvp => kvp.Value.Item1).ThenBy(kvp => kvp.Value.FateIds.Keys.First()))
+            foreach (var (pos, counter) in value.OrderByDescending(kvp => kvp.Value.Item1).ThenBy(kvp => kvp.Value.FateIds.Keys.Max()))
             {
                 if (counter.Type.Count == 3)
                 {
@@ -211,7 +211,7 @@ public class OccultTreasures : CofferBase
                     }
                 }
             
-                Logger.Debug($"[{{ x: {pos.X}, y: {pos.Y}, z: {pos.Z} }}, 0, 0], ");
+                Logger.Debug($"[{{ x: {pos.X}, y: {pos.Y}, z: {pos.Z} }}, {counter.FateIds.Keys.Max()}, 0], ");
             }
             Logger.Debug($"Total Without Reroll: {bronze+silver+gold} | Gold: {gold} | Silver: {silver} | Bronze: {bronze}");
         }
