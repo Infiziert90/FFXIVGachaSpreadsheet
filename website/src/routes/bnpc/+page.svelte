@@ -210,6 +210,7 @@
 
     function clearMarker(selectedMonster: number) {
         for (const marker of createdMarkersDict[selectedMonster]) {
+            currentColorShift -= 1;
             map.removeLayer(marker);
         }
 
