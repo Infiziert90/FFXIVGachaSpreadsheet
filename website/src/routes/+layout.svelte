@@ -21,8 +21,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!--    Static   -->
+    <meta property="og:site_name" content="XIVStats">
     <meta property="og:url" content="{page.url.href}">
     <meta property="og:type" content="website">
+    <meta property="og:image" content={faviconPng} />
 
     <!-- IBM Plex fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

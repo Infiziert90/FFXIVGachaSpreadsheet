@@ -2,10 +2,10 @@
 </script>
 
 <svelte:head>
-    <title>About</title>
+    <title>XIVStats - About</title>
 
-    <meta property="og:site_name" content="About">
-    <meta property="og:title" content="About">
+    <meta property="og:site_name" content="XIVStats - About">
+    <meta property="og:title" content="XIVStats - About">
     <meta name="description" content="A simple about page." />
     <meta property="og:description" content="A simple about page." />
 </svelte:head>

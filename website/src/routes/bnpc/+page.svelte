@@ -457,9 +457,9 @@
 <svelte:window on:resize={resizeMap} />
 
 <svelte:head>
-    <title>{title}</title>
+    <title>XIVStats - {title}</title>
 
-    <meta property="og:title" content={title}>
+    <meta property="og:title" content={`XIVStats - ${title}`}>
     <meta name="description" content={description} />
     <meta property="og:description" content={description} />
 </svelte:head>
