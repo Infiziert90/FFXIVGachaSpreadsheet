@@ -232,13 +232,6 @@
         if (map === undefined)
             return;
 
-        const carrot = leaflet.icon({
-            iconUrl: "carrot.png",
-
-            iconSize:     [32, 32], // size of the icon
-            popupAnchor:  [0, -20] // point from which the popup should open relative to the iconAnchor
-        });
-
         const reroll = leaflet.icon({
             iconUrl: getIconPath(getFormattedIconId(61473)),
 

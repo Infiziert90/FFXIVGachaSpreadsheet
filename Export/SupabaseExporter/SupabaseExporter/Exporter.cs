@@ -8,6 +8,7 @@ using SupabaseExporter.Processing.ChestDrops;
 using SupabaseExporter.Processing.Coffers;
 using SupabaseExporter.Processing.Desynthesis;
 using SupabaseExporter.Processing.FashionReport;
+using SupabaseExporter.Processing.Fates;
 using SupabaseExporter.Processing.Reduction;
 using SupabaseExporter.Processing.Submarines;
 using SupabaseExporter.Processing.Ventures;
@@ -29,6 +30,7 @@ public class DatabaseContext : DbContext
     public DbSet<BnpcPairModel> BnpcPairs { get; set; }
     public DbSet<ReductionModel> Reductions { get; set; }
     public DbSet<FashionReportModel> FashionReport { get; set; }
+    public DbSet<FateRewardModel> FateReward { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -125,6 +127,13 @@ public static class EntryPoint
         {
             var fashionProcessor = new FashionReport();
             fashionProcessor.ProcessAllData(fashionResult);
+        }
+        
+        var fateResult = await exporter.LoadFateData(context);
+        if (fateResult.Length > 0)
+        {
+            var fateProcessor = new Fates();
+            fateProcessor.ProcessAllData(fateResult);
         }
         
         // Generate json with all icon paths
@@ -334,6 +343,21 @@ public class Exporter
     {
         Logger.Information("Exporting fashion report data");
         var result = await context.FashionReport.OrderBy(l => l.Id).ToListAsync();
+
+        Logger.Information($"Rows found: {result.Count:N0}");
+        if (result.Count == 0)
+        {
+            Logger.Warning("No records found");
+            return [];
+        }
+
+        return result.ToArray();
+    }
+    
+    public async Task<FateRewardModel[]> LoadFateData(DatabaseContext context)
+    {
+        Logger.Information("Exporting fate data");
+        var result = await context.FateReward.OrderBy(l => l.Id).ToListAsync();
 
         Logger.Information($"Rows found: {result.Count:N0}");
         if (result.Count == 0)

@@ -62,6 +62,12 @@ public class OccultTreasureModel : BaseModel
         var counter = 0;
         foreach (var range in span.Split(','))
         {
+            if (counter >= 6)
+            {
+                Logger.Error($"Invalid length found, ID: {Id}");
+                return [];
+            }
+            
             var result = uint.Parse(span[range]);
             if (result > 1_000_000)
             {

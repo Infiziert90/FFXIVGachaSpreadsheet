@@ -125,6 +125,20 @@ public class OccultTreasures : CofferBase
                 continue;
             }
             
+            // Check all entries for erroneous data
+            foreach (var (i, (itemId, amount)) in bunny.GetRewards().Select((val, idx) => (idx, val)))
+            {
+                if (i > 5)
+                    Logger.Warning($"Weird length: {i} | {bunny.Id}");
+                
+                if (amount > 10)
+                    Logger.Error($"Invalid amount: {amount} {bunny.Id}");
+
+                var item = Sheets.ItemSheet.GetRow(itemId);
+                if (item.Rarity >= 4)
+                    Logger.Error($"Invalid rarity?: {item.Name.ExtractText()} {item.Rarity} {bunny.Id}");
+            }
+            
             if (category == OccultCategory.Pot)
             {
                 if (!PotPositions.ContainsKey(bunny.Territory))
