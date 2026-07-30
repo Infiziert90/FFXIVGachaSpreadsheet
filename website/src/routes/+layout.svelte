@@ -25,6 +25,8 @@
     <meta property="og:url" content="{page.url.href}">
     <meta property="og:type" content="website">
     <meta property="og:image" content="/favicon.png" />
+    <meta property="og:image:alt" content="XIVStats logo" />
+    <meta name="theme-color" content="#4285f4" />
 
     <!-- IBM Plex fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

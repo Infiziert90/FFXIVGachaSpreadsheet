@@ -11,7 +11,7 @@ public static class Logger
         using var factory = LoggerFactory.Create(builder => 
             builder
                 .AddSimpleConsole(options => { options.SingleLine = true; })
-                .SetMinimumLevel(LogLevel.Debug));
+                .SetMinimumLevel(LogLevel.Information));
         Log = factory.CreateLogger("Exporter");
     }
 
