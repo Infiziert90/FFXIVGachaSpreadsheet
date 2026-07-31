@@ -1,8 +1,9 @@
-import {Mappings} from "$lib/mappings";
-import { getIconPath, getWikiUrl } from "$lib/utils";
+import {ItemMappings} from "$lib/mappings";
 import type {Reward} from "$lib/structs/reward";
 import type {ItemDetail} from "$lib/interfaces";
 import {findMapFromSector, getFullSectorName} from "$lib/submarines/utils";
+import {localizedItem} from "$lib/localization";
+import { currentLanguage } from "$lib/stores/language";
 
 export interface ColumnTemplate {
     header: string;
@@ -24,7 +25,7 @@ const IconTemplate: ColumnTemplate = {
     sortable: false,
     isIcon: true,
     templateRenderer: (row: Reward) => {
-        return `<img width="40" height="40" loading="lazy" src={getIconPath(Mappings[row.Id].Icon, true)} alt="${Mappings[row.Id].Name} Icon">`
+        return `<img width="40" height="40" loading="lazy" src={getIconPath(ItemMappings[row.Id].Icon, true)} alt="${localizedItem(row.Id, $currentLanguage)} Icon">`
     },
     classExtension: ['icon']
 };
@@ -34,8 +35,7 @@ const NameTemplate: ColumnTemplate = {
     field: 'Id',
     mappingSort: true,
     templateRenderer: (row: Reward) => {
-        const name = Mappings[row.Id].Name;
-        return `<a href={getWikiUrl(name)} class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">${name}</a>`
+        return `<a href={getWikiUrl(ItemMappings[row.Id].En)} class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">${localizedItem(row.Id, $currentLanguage)}</a>`
     },
     classExtension: ['name']
 };

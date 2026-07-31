@@ -21,6 +21,7 @@
     import { colorScheme } from '$lib/stores/colorScheme';
     import logoSvg from '$lib/assets/logo.svg?raw';
     import { navCategories, getNavIconSrc } from '$lib/navConfig';
+    import LanguageSwitcher from "./LanguageSwitcher.svelte";
 
     // Normalize path for comparison (remove trailing slashes)
     function normalizePath(path: string): string {
@@ -114,6 +115,10 @@
 
     <!-- Social + Settings Menu -->
     <Nav class="ms-auto" navbar>
+        <NavItem class="mt-1">
+            <LanguageSwitcher />
+        </NavItem>
+
         <NavItem>
             <NavLink href="/about">About</NavLink>
         </NavItem>

@@ -9,6 +9,7 @@ public static class ExportHandler
     private const string AssetsPath = "static/data";
     private const string SheetsPath = "static/sheets";
     private const string WebDataPath = "static/website";
+    private const string MappingDataPath = "static/website/mappings";
 
     public static string ReadDataJson(string filename)
     {
@@ -33,6 +34,20 @@ public static class ExportHandler
     public static void WriteWebJson<T>(string filename, T data)
     {
         var file = new FileInfo(Path.Combine(WebsitePath, WebDataPath, filename));
+        if (file.DirectoryName != null && !Directory.Exists(file.DirectoryName))
+            Directory.CreateDirectory(file.DirectoryName);
+        
+        var serializer = new JsonSerializer();
+        using var fileStream = File.Open($"{file.FullName}.gz", FileMode.Create);
+        using var gzipStream = new GZipStream(fileStream, CompressionLevel.Optimal);
+        using var streamWriter = new StreamWriter(gzipStream);
+        using var jsonWriter = new JsonTextWriter(streamWriter);
+        serializer.Serialize(jsonWriter, data);
+    }
+    
+    public static void WriteMappingJson<T>(string filename, T data)
+    {
+        var file = new FileInfo(Path.Combine(WebsitePath, MappingDataPath, filename));
         if (file.DirectoryName != null && !Directory.Exists(file.DirectoryName))
             Directory.CreateDirectory(file.DirectoryName);
         

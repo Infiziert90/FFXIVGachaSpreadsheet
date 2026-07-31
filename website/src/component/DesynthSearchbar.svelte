@@ -3,9 +3,11 @@
     import { page } from '$app/state';
     import { Button, ButtonGroup, ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
     import type {DesynthesisBase} from "$lib/interfaces";
-    import { Mappings } from "$lib/mappings";
     import { getIconPath } from '$lib/utils';
     import {tryGetDesynthSearchParams} from "$lib/searchParamHelper";
+    import {localizedItem} from "$lib/localization";
+    import {currentLanguage} from "$lib/stores/language";
+    import {ItemMappings} from "$lib/mappings";
 
     interface Props {
         desynthesisBase: DesynthesisBase;
@@ -23,11 +25,11 @@
     // Convert Sources and Rewards records to arrays for iteration
     const allSourcesArray = $derived(Object.values(desynthesisBase.Sources).map((id) => ({
         id: id
-    })).sort((a, b) => Mappings[a.id].Name.localeCompare(Mappings[b.id].Name)));
+    })).sort((a, b) => localizedItem(a.id, $currentLanguage).localeCompare(localizedItem(b.id, $currentLanguage))));
 
     const allRewardsArray = $derived(Object.values(desynthesisBase.Rewards).map((id) => ({
         id: id,
-    })).sort((a, b) => Mappings[a.id].Name.localeCompare(Mappings[b.id].Name)));
+    })).sort((a, b) => localizedItem(a.id, $currentLanguage).localeCompare(localizedItem(b.id, $currentLanguage))));
 
     // Get the current array based on search type
     const currentArray = $derived(searchType === 'sources' ? allSourcesArray : allRewardsArray);
@@ -66,7 +68,7 @@
             : currentArray
                 .map(item => ({
                     ...item,
-                    score: getMatchScore(Mappings[item.id].Name, searchQuery)
+                    score: getMatchScore(localizedItem(item.id, $currentLanguage), searchQuery)
                 }))
                 .filter(item => item.score > 0)
                 .sort((a, b) => {
@@ -74,7 +76,7 @@
                     if (b.score !== a.score) {
                         return b.score - a.score;
                     }
-                    return Mappings[a.id].Name.localeCompare(Mappings[b.id].Name);
+                    return localizedItem(a.id, $currentLanguage).localeCompare(localizedItem(b.id, $currentLanguage));
                 })
                 .slice(0, 25)
     );
@@ -108,16 +110,12 @@
         let desynthSearchParams = tryGetDesynthSearchParams(page.url.searchParams);
         if (desynthSearchParams !== undefined) {
             if (desynthSearchParams.sourceId > 0) {
-                if (desynthSearchParams.sourceId in Mappings) {
-                    searchType = 'sources';
-                    searchQuery = Mappings[desynthSearchParams.sourceId].Name;
-                }
+                searchType = 'sources';
+                searchQuery = localizedItem(desynthSearchParams.sourceId, $currentLanguage);
             }
             else if (desynthSearchParams.rewardId > 0) {
-                if (desynthSearchParams.rewardId in Mappings) {
-                    searchType = 'rewards';
-                    searchQuery = Mappings[desynthSearchParams.rewardId].Name;
-                }
+                searchType = 'rewards';
+                searchQuery = localizedItem(desynthSearchParams.sourceId, $currentLanguage);
             }
         }
 
@@ -170,12 +168,12 @@
                         width="40" 
                         height="40" 
                         loading="lazy" 
-                        src={getIconPath(Mappings[item.id].Icon, true)}
+                        src={getIconPath(ItemMappings[item.id].Icon, true)}
                         style="margin-right: 0.5rem; vertical-align: middle;"
                         alt=""
                     />
                     <span class="list-group-item-xiv-item-name">
-                        {Mappings[item.id].Name}
+                        {localizedItem(item.id, $currentLanguage)}
                     </span>
                 </ListGroupItem>
             {/each}

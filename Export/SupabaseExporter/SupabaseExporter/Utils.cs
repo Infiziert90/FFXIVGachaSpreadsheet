@@ -83,7 +83,7 @@ public static class Utils
     /// <summary>
     /// Check Item for resolving ItemAction.
     /// </summary>
-    /// <param name="item">The item</param>
+    /// <param name="itemEntry">The item</param>
     /// <returns>Item icon, or resolved icon</returns>
     public static uint CheckItemAction(Item item)
     {

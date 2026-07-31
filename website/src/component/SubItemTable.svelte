@@ -2,8 +2,10 @@
     import { Table, Icon } from '@sveltestrap/sveltestrap';
     import type {ItemDetail} from "$lib/interfaces";
     import type {SubColumnTemplate} from "$lib/table";
-    import {Mappings} from "$lib/mappings";
-    import { getIconPath, getWikiUrl } from "$lib/utils";
+    import { getIconPath } from "$lib/utils";
+    import {localizedItem} from "$lib/localization";
+    import {currentLanguage} from "$lib/stores/language";
+    import {ItemMappings} from "$lib/mappings";
 
     /**
      * Component props interface
@@ -71,8 +73,8 @@
             let bVal = b[sortField as keyof ItemDetail];
 
             if (sortWithMapping) {
-                aVal = Mappings[a.Id].Name;
-                bVal = Mappings[b.Id].Name;
+                aVal = localizedItem(a.Id, $currentLanguage);
+                bVal = localizedItem(b.Id, $currentLanguage);
             }
 
             // Use == (loose equality) to handle null/undefined comparisons
@@ -205,7 +207,7 @@
             {#if cellContent.type === 0}
                 {@html cellContent.customHtml}
             {:else if cellContent.type === 1}
-                <img width="40" height="40" loading="lazy" src={getIconPath(Mappings[cellContent.itemId].Icon, true)} alt="{Mappings[cellContent.itemId].Name} Icon">
+                <img width="40" height="40" loading="lazy" src={getIconPath(ItemMappings[cellContent.itemId].Icon, true)} alt="{localizedItem(cellContent.itemId, $currentLanguage)} Icon">
             {:else if cellContent.type === 2}
                 {cellContent.content}
             {/if}

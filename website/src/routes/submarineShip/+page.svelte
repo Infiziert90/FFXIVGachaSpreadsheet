@@ -1,7 +1,6 @@
 ﻿<script lang="ts">
     import PageSidebar from "../../component/PageSidebar.svelte";
     import {onMount} from "svelte";
-    import {Mappings} from "$lib/mappings";
     import {page} from "$app/state";
     import {replaceState} from "$app/navigation";
     import {LastRank} from "$lib/sheets/sheetHelper";
@@ -108,7 +107,7 @@
         window.scrollTo(0, 0);
 
         // Set the new title
-        document.title = `Submarine Item Search - ${Mappings[itemId].Name}`;
+        document.title = `Submarine Ship Search`;
     }
 
     function initialize() {
@@ -286,9 +285,9 @@
 </script>
 
 <svelte:head>
-    <title>XIVStats - {title}</title>
+    <title>{title}</title>
 
-    <meta property="og:title" content={`XIVStats - ${title}`}>
+    <meta property="og:title" content={title}>
     <meta name="description" content={description} />
     <meta property="og:description" content={description} />
 </svelte:head>

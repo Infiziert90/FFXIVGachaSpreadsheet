@@ -2,7 +2,8 @@
     import AccordionItem from "./AccordionItem.svelte";
     import { ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
     import type {Reduction} from "$lib/structs/reduction";
-    import { Mappings } from "$lib/mappings";
+    import {localizedItem} from "$lib/localization";
+    import {currentLanguage} from "$lib/stores/language";
 
     interface Props {
         reductionData: Reduction;
@@ -62,7 +63,7 @@
                             action
                             onclick={(e) => handleItemClick(jobRow.Id, sourceRow.Id, e)}
                     >
-                        {Mappings[sourceRow.Id].Name}
+                        {localizedItem(sourceRow.Id, $currentLanguage)}
                     </ListGroupItem>
                 {/each}
             </ListGroup>

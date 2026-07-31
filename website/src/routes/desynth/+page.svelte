@@ -2,7 +2,6 @@
     import { page } from '$app/state';
     import { replaceState } from "$app/navigation";
     import type {DesynthBase, DesynthesisBase, DesynthHistory} from "$lib/interfaces";
-    import { Mappings } from "$lib/mappings";
     import {onMount} from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
     import {NameObtainedMinChanceSetup, RewardDesynthSpecial} from "$lib/table";
@@ -12,6 +11,8 @@
     import {pad} from "$lib/utils";
     import {loadDesynth} from "$lib/loadHelpers";
     import type {Reward} from "$lib/structs/reward";
+    import {localizedItem} from "$lib/localization";
+    import {currentLanguage} from "$lib/stores/language";
 
     interface Props {
         content: DesynthesisBase;
@@ -63,10 +64,8 @@
         let id = isSourceSearch ? sourceParam : rewardParam;
         let descriptionAddition = isSourceSearch ? 'rewards' : 'sources';
 
-        if (id in Mappings) {
-            title = `Desynthesis - ${Mappings[id].Name}`;
-            description = `All known ${descriptionAddition} for ${Mappings[id].Name}.`;
-        }
+        title = `Desynthesis - ${localizedItem(id, $currentLanguage)}`;
+        description = `All known ${descriptionAddition} for ${localizedItem(id, $currentLanguage)}.`;
     }
 
     onMount(async () => {
@@ -105,7 +104,7 @@
         tableItems = selection.history.Rewards;
 
         // Update stats
-        titleStats = `${Mappings[id].Name} Stats`;
+        titleStats = `${localizedItem(id, $currentLanguage)} Stats`;
         if (statsType === 0)
             totalStats = `Desynths: ${selection.history.Records.toLocaleString()}`;
         else
@@ -166,9 +165,9 @@
 </script>
 
 <svelte:head>
-    <title>XIVStats - {title}</title>
+    <title>{title}</title>
 
-    <meta property="og:title" content={`XIVStats - ${title}`}>
+    <meta property="og:title" content={title}>
     <meta name="description" content={description} />
     <meta property="og:description" content={description} />
 </svelte:head>

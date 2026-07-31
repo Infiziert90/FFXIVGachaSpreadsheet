@@ -7,12 +7,14 @@
     import {replaceState} from "$app/navigation";
     import {tryGetSubmarineSearchParams} from "$lib/searchParamHelper";
     import {onMount, tick} from "svelte";
-    import {Mappings} from "$lib/mappings";
     import {getIconPath, getWikiUrl} from "$lib/utils";
     import {SimpleSubExplorationSheet, SimpleSubMapSheet} from "$lib/sheets/simplifiedSheets";
     import {MapToStartSector} from "$lib/sheets/sheetHelper";
     import {type Breakpoint, EmptyBreakpoint, MapBreakpoints} from "$lib/submarines/sector";
     import {type SubExplorationRow, ToSectorName} from "$lib/sheets/structure/submarines/subExploration";
+    import {localizedItem} from "$lib/localization";
+    import {currentLanguage} from "$lib/stores/language";
+    import {ItemMappings} from "$lib/mappings";
 
     interface Props {
         data: { content: SubLoot };
@@ -164,9 +166,9 @@
 </script>
 
 <svelte:head>
-    <title>XIVStats - {title}</title>
+    <title>{title}</title>
 
-    <meta property="og:title" content={`XIVStats - ${title}`}>
+    <meta property="og:title" content={title}>
     <meta name="description" content={description} />
     <meta property="og:description" content={description} />
 </svelte:head>
@@ -249,8 +251,8 @@
                                         </thead>
                                         <tbody>
                                             {#each Object.values(pool.Rewards) as row}
-                                                {@const itemName = Mappings[row.Id].Name}
-                                                {@const itemIcon = Mappings[row.Id].Icon}
+                                                {@const itemName = localizedItem(row.Id, $currentLanguage)}
+                                                {@const itemIcon = ItemMappings[row.Id].Icon}
                                                 {@const wikiUrl = getWikiUrl(itemName)}
                                                 {@const tooltipId = `tooltip-${sector.Id}-${tier}-${row.Id}`}
                                                 <tr>
@@ -259,7 +261,7 @@
                                                             <a id={tooltipId} href={wikiUrl} class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">{itemName}</a>
                                                             <Tooltip target={tooltipId} placement="top">
                                                                 <div class="d-flex flex-row align-items-center">
-                                                                    <img class="item-icon" src={getIconPath(itemIcon, false)} alt="{itemName} Icon" width="24" height="24" style="margin-right: 8px;" />
+                                                                    <img class="item-icon" src={getIconPath(itemIcon, false)} alt="{itemName} Icon" width="48" height="48" style="margin-right: 8px;" />
                                                                     <strong class="text-start">{itemName}</strong>
                                                                 </div>
                                                             </Tooltip>

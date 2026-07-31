@@ -1,6 +1,5 @@
 ﻿import {logAndThrow, responseCompressedHandler, responseHandler} from "$lib/utils";
 import type {DesynthBase, DesynthesisBase, SubLoot, Venture} from "$lib/interfaces";
-import {type ItemInfo, Mappings} from "$lib/mappings";
 import type {Reduction} from "$lib/structs/reduction";
 import type {DesynthBase2} from "$lib/structs/desynthesis";
 import type {Coffer} from "$lib/structs/coffer";
@@ -15,28 +14,6 @@ const initHeaders = {
         "Accept-Encoding": "gzip",
     }
 };
-
-export async function loadMapping(fetch: Fetch) {
-    try {
-        if (Object.keys(Mappings).length > 0) return;
-
-        const res: Record<number, ItemInfo> = await fetch('/data/Mappings.json')
-            .then(responseHandler)
-            .then((data: Record<number, ItemInfo>) =>{
-                return data;
-            });
-
-        if (!res) {
-            throw new Error(`Mapping resource is invalid.`);
-        }
-
-        for (const [key, value] of Object.entries(res)) {
-            Mappings[parseInt(key)] = value;
-        }
-    } catch (err) {
-        logAndThrow('Error loading mapping data.', err)
-    }
-}
 
 export async function loadCoffer(path: string, fetch: Fetch): Promise<{content: Coffer[]}> {
     try {

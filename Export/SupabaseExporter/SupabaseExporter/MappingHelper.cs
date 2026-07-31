@@ -4,7 +4,7 @@
 /// Mapping for item id to name and XIVAPI icon path.
 /// </summary>
 [Serializable]
-public record Mappings(string Name, string Icon);
+public record ItemEntry(string En, string Fr, string De, string Ja, string Icon);
 
 public static class MappingHelper
 {
@@ -18,14 +18,18 @@ public static class MappingHelper
     /// </summary>
     public static void ExportMappingFile()
     {
-        var mappings = new Dictionary<uint, Mappings>();
+        var mappings = new Dictionary<uint, ItemEntry>();
         foreach (var itemId in ItemSet.Order())
         {
             var item = Sheets.ItemSheet.GetRow(itemId);
-            mappings[itemId] = new Mappings(item.Name.ToString(), Utils.GetIconPath(Utils.CheckItemAction(item)));
+            var en = item.Name.ToString();
+            var fr = Sheets.ItemSheetFrench.GetRow(itemId).Name.ToString();
+            var de = Sheets.ItemSheetGerman.GetRow(itemId).Name.ToString();
+            var ja = Sheets.ItemSheetJapanese.GetRow(itemId).Name.ToString();
+            mappings[itemId] = new ItemEntry(en, fr, de, ja, Utils.GetIconPath(Utils.CheckItemAction(item)));
         }
         
-        ExportHandler.WriteDataJson("Mappings.json", mappings);
+        ExportHandler.WriteMappingJson("Items.json", mappings);
     } 
 
     /// <summary>

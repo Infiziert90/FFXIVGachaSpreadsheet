@@ -5,12 +5,13 @@
     import ItemSearchbar from "../../component/ItemSearchbar.svelte";
     import SubItemTable from "../../component/SubItemTable.svelte";
     import {SubColumns} from "$lib/table";
-    import {Mappings} from "$lib/mappings";
     import SimpleItemCard from "../../component/SimpleItemCard.svelte";
     import {getTierAsNumber} from "$lib/submarines/utils";
     import {tryGetSubmarineSearchSearchParams} from "$lib/searchParamHelper";
     import {page} from "$app/state";
     import {replaceState} from "$app/navigation";
+    import {localizedItem} from "$lib/localization";
+    import {currentLanguage} from "$lib/stores/language";
 
     interface Props {
         data: { content: SubLoot };
@@ -70,10 +71,8 @@
         tableItemId = submarineSearchParams.itemId;
 
         // svelte-ignore state_referenced_locally
-        if (tableItemId in Mappings) {
-            title = `Submarine Item Search - ${Mappings[tableItemId].Name}`;
-            description = `All known sectors with drops for ${Mappings[tableItemId].Name}.`
-        }
+        title = `Submarine Item Search - ${localizedItem(tableItemId, $currentLanguage)}`;
+        description = `All known sectors with drops for ${localizedItem(tableItemId, $currentLanguage)}.`
     }
 
     // When page loads, open the tab for the current map
@@ -103,7 +102,7 @@
         window.scrollTo(0, 0);
 
         // Set the new title
-        document.title = `Submarine Item Search - ${Mappings[itemId].Name}`;
+        document.title = `Submarine Item Search - ${localizedItem(itemId, $currentLanguage)}`;
     }
 
     function getT3HitRate(reward: PoolReward, poolRecords: number, sector: Sector): string {
@@ -116,9 +115,9 @@
 </script>
 
 <svelte:head>
-    <title>XIVStats - {title}</title>
+    <title>{title}</title>
 
-    <meta property="og:title" content={`XIVStats - ${title}`}>
+    <meta property="og:title" content={title}>
     <meta name="description" content={description} />
     <meta property="og:description" content={description} />
 </svelte:head>

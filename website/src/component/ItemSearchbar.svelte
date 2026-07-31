@@ -1,10 +1,12 @@
 <script lang="ts">
     import {onMount, tick} from 'svelte';
     import { ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
-    import { Mappings } from "$lib/mappings";
     import { getIconPath } from '$lib/utils';
     import {tryGetSubmarineSearchSearchParams} from "$lib/searchParamHelper.ts";
     import {page} from "$app/state";
+    import {localizedItem} from "$lib/localization";
+    import {currentLanguage} from "$lib/stores/language";
+    import {ItemMappings} from "$lib/mappings";
 
     interface Props {
         items: number[];
@@ -51,7 +53,7 @@
             : items
                 .map(item => ({
                     id: item,
-                    score: getMatchScore(Mappings[item].Name, searchQuery)
+                    score: getMatchScore(localizedItem(item, $currentLanguage), searchQuery)
                 }))
                 .filter(item => item.score > 0)
                 .sort((a, b) => {
@@ -59,7 +61,7 @@
                     if (b.score !== a.score) {
                         return b.score - a.score;
                     }
-                    return Mappings[a.id].Name.localeCompare(Mappings[b.id].Name);
+                    return localizedItem(a.id, $currentLanguage).localeCompare(localizedItem(b.id, $currentLanguage));
                 })
                 .slice(0, 25)
     );
@@ -92,9 +94,7 @@
         // Override defaults with URL parameters if they exist
         let params = tryGetSubmarineSearchSearchParams(page.url.searchParams);
         if (params !== undefined) {
-            if (params.itemId in Mappings) {
-                searchQuery = Mappings[params.itemId].Name;
-            }
+            searchQuery = localizedItem(params.itemId, $currentLanguage);
         }
 
         tick().then(() => {
@@ -132,12 +132,12 @@
                         width="40" 
                         height="40" 
                         loading="lazy" 
-                        src={getIconPath(Mappings[item.id].Icon, true)}
+                        src={getIconPath(ItemMappings[item.id].Icon, true)}
                         style="margin-right: 0.5rem; vertical-align: middle;"
                         alt=""
                     />
                     <span class="list-group-item-xiv-item-name">
-                        {Mappings[item.id].Name}
+                        {localizedItem(item.id, $currentLanguage)}
                     </span>
                 </ListGroupItem>
             {/each}

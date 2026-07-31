@@ -4,9 +4,9 @@
 </script>
 
 <svelte:head>
-    <title>XIVStats - Home</title>
+    <title>Stats & Tools</title>
 
-    <meta property="og:title" content="XIVStats - Home">
+    <meta property="og:title" content="Stats & Tools">
     <meta name="description" content="A collection of stats and tools." />
     <meta property="og:description" content="A collection of stats and tools." />
 </svelte:head>

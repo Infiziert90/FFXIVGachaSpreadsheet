@@ -3,7 +3,6 @@
     import PageSidebar from "../../component/PageSidebar.svelte";
     import ReductionAccordion from "../../component/ReductionAccordion.svelte";
     import ReductionPieChart from "../../component/ReductionPieChart.svelte";
-    import {Mappings} from "$lib/mappings";
     import {tryGetReductionSearchParams} from "$lib/searchParamHelper";
     import {page} from "$app/state";
     import {onMount} from "svelte";
@@ -12,6 +11,8 @@
     import DropsTable from "../../component/DropsTable.svelte";
     import {SimpleReductionReward} from "$lib/sheets/simplifiedSheets";
     import ReductionCard from "../../component/ReductionCard.svelte";
+    import {localizedItem} from "$lib/localization";
+    import {currentLanguage} from "$lib/stores/language";
 
     interface Props {
         content: Reduction[];
@@ -55,7 +56,7 @@
         if (jobSelection !== undefined) {
             let sourceSelection = jobSelection.Sources.find(s => s.Id === source);
             if (sourceSelection !== undefined) {
-                title = `Aetherial Reduction - ${Mappings[source].Name}`;
+                title = `Aetherial Reduction - ${localizedItem(source, $currentLanguage)}`;
                 description = `All tiers for this reduction source.`;
             }
         }
@@ -116,7 +117,7 @@
         reductionSource = sourceSelection;
 
         // Update stats display
-        titleStats = `${Mappings[sourceId].Name} Stats`;
+        titleStats = `${localizedItem(sourceId, $currentLanguage)} Stats`;
 
         // Calculate total across all variants in this territory
         totalStats = `Total: ${sourceSelection.Records.toLocaleString()}`;
@@ -125,7 +126,7 @@
         window.scrollTo(0, 0);
 
         // Set the new title
-        document.title = `Aetherial Reduction - ${Mappings[sourceId].Name}`;
+        document.title = `Aetherial Reduction - ${localizedItem(sourceId, $currentLanguage)}`;
     }
 
     // /**
@@ -168,9 +169,9 @@
 </script>
 
 <svelte:head>
-    <title>XIVStats - {title}</title>
+    <title>{title}</title>
 
-    <meta property="og:title" content={`XIVStats - ${title}`}>
+    <meta property="og:title" content={title}>
     <meta name="description" content={description} />
     <meta property="og:description" content={description} />
 </svelte:head>

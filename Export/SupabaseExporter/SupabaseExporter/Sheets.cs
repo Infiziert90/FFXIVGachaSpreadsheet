@@ -1,4 +1,5 @@
 ﻿using Lumina;
+using Lumina.Data;
 using Lumina.Excel;
 using Lumina.Excel.Sheets;
 
@@ -38,6 +39,11 @@ public static class Sheets
     
     public static readonly ExcelSheet<World> WorldSheet;
     public static readonly ExcelSheet<WorldDCGroupType> WorldDCGroupSheet;
+    
+    // Other Languages
+    public static readonly ExcelSheet<Item> ItemSheetFrench;
+    public static readonly ExcelSheet<Item> ItemSheetGerman;
+    public static readonly ExcelSheet<Item> ItemSheetJapanese;
 
     // Item
     public static readonly uint MaxItemId;
@@ -116,6 +122,10 @@ public static class Sheets
         SpearfishingItemSheet = Lumina.GetExcelSheet<SpearfishingItem>()!;
         GatheringPointBaseSheet = Lumina.GetExcelSheet<GatheringPointBase>()!;
         GathererReductionRewardSheet = Lumina.GetSubrowExcelSheet<GathererReductionReward>()!;
+        
+        ItemSheetFrench = Lumina.GetExcelSheet<Item>(Language.French)!;
+        ItemSheetGerman = Lumina.GetExcelSheet<Item>(Language.German)!;
+        ItemSheetJapanese = Lumina.GetExcelSheet<Item>(Language.Japanese)!;
 
         MaxItemId = ItemSheet.MaxBy(i => i.RowId).RowId;
         EventItemCount = EventItemSheet.Count;

@@ -1,10 +1,12 @@
 <script lang="ts">
     import type {ReductionSource} from "$lib/structs/reduction";
-    import {Mappings} from "$lib/mappings";
     import {getIconPath} from "$lib/utils";
     import {SimpleReductionReward} from "$lib/sheets/simplifiedSheets";
     import * as echarts from "echarts";
     import {onMount} from "svelte";
+    import {ItemMappings} from "$lib/mappings";
+    import {localizedItem} from "$lib/localization";
+    import {currentLanguage} from "$lib/stores/language";
 
     interface Props {
         source: ReductionSource;
@@ -36,8 +38,8 @@
                 else map.set(item.Id, { pct: item.Pct, count: 1 });
             }
         return Array.from(map.entries()).map(([id, v]) => ({
-            name: Mappings[id]?.Name ?? String(id),
-            icon: getIconPath(Mappings[id]?.Icon ?? '', true),
+            name: localizedItem(id, $currentLanguage),
+            icon: getIconPath(ItemMappings[id]?.Icon ?? '', true),
             pct: Math.round((v.pct / v.count) * 100)
         }));
     }
