@@ -13,6 +13,7 @@ public static class Sheets
     public static readonly ExcelSheet<Mount> MountSheet;
     public static readonly ExcelSheet<Treasure> TreasureSheet;
     public static readonly ExcelSheet<ClassJob> ClassJobSheet;
+    public static readonly ExcelSheet<EventItem> EventItemSheet;
     public static readonly ExcelSheet<ContentType> ContentTypeSheet;
     public static readonly ExcelSheet<RetainerTask> RetainerTaskSheet;
     public static readonly ExcelSheet<GCSupplyDutyReward> GCSupplySheet;
@@ -40,6 +41,7 @@ public static class Sheets
 
     // Item
     public static readonly uint MaxItemId;
+    public static readonly int EventItemCount;
     
     // Bnpc tracking
     public static readonly HashSet<uint> HousingTerritory;
@@ -92,6 +94,7 @@ public static class Sheets
         MountSheet = Lumina.GetExcelSheet<Mount>()!;
         TreasureSheet = Lumina.GetExcelSheet<Treasure>()!;
         ClassJobSheet = Lumina.GetExcelSheet<ClassJob>()!;
+        EventItemSheet = Lumina.GetExcelSheet<EventItem>()!;
         ContentTypeSheet = Lumina.GetExcelSheet<ContentType>()!;
         RetainerTaskSheet = Lumina.GetExcelSheet<RetainerTask>()!;
         GCSupplySheet = Lumina.GetExcelSheet<GCSupplyDutyReward>()!;
@@ -115,6 +118,7 @@ public static class Sheets
         GathererReductionRewardSheet = Lumina.GetSubrowExcelSheet<GathererReductionReward>()!;
 
         MaxItemId = ItemSheet.MaxBy(i => i.RowId).RowId;
+        EventItemCount = EventItemSheet.Count;
         
         HousingTerritory = TerritoryTypeSheet.Where(r => r.TerritoryIntendedUse.RowId is 13 or 14).Select(r => r.RowId).ToHashSet();
         RankedBnpcBase = NotoriousMonsterSheet.Where(n => n.Rank is 1 or 2 or 3).Select(n => n.RowId).ToHashSet();

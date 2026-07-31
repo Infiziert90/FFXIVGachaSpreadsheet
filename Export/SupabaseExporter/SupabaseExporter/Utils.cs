@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Runtime.CompilerServices;
+using System.Text;
 using Lumina.Excel.Sheets;
 using Lumina.Text.ReadOnly;
 using Newtonsoft.Json;
@@ -170,6 +171,88 @@ public static class Utils
             
             yield return (itemId, amount);
         }
+    }
+    
+    // From: https://github.com/goatcorp/Dalamud/blob/master/Dalamud/Utility/ItemUtil.cs#L48
+    /// <summary>Converts raw item ID to item ID with its classification.</summary>
+    /// <param name="rawItemId">Raw item ID.</param>
+    /// <returns>Item ID and its classification.</returns>
+    public static (uint ItemId, ItemKind Kind) GetBaseId(uint rawItemId)
+    {
+        if (IsEventItem(rawItemId)) return (rawItemId, ItemKind.EventItem); // EventItem IDs are NOT adjusted
+        if (IsHighQuality(rawItemId)) return (rawItemId - 1_000_000, ItemKind.Hq);
+        if (IsCollectible(rawItemId)) return (rawItemId - 500_000, ItemKind.Collectible);
+        return (rawItemId, ItemKind.Normal);
+    }
+    
+    /// <summary>
+    /// Checks if the item id belongs to a normal item.
+    /// </summary>
+    /// <param name="itemId">The item id to check.</param>
+    /// <returns><c>true</c> when the item id belongs to a normal item.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsNormalItem(uint itemId)
+    {
+        return itemId < 500_000;
+    }
+
+    /// <summary>
+    /// Checks if the item id belongs to a collectible item.
+    /// </summary>
+    /// <param name="itemId">The item id to check.</param>
+    /// <returns><c>true</c> when the item id belongs to a collectible item.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsCollectible(uint itemId)
+    {
+        return itemId is >= 500_000 and < 1_000_000;
+    }
+
+    /// <summary>
+    /// Checks if the item id belongs to a high quality item.
+    /// </summary>
+    /// <param name="itemId">The item id to check.</param>
+    /// <returns><c>true</c> when the item id belongs to a high quality item.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsHighQuality(uint itemId)
+    {
+        return itemId is >= 1_000_000 and < 2_000_000;
+    }
+
+    /// <summary>
+    /// Checks if the item id belongs to an event item.
+    /// </summary>
+    /// <param name="itemId">The item id to check.</param>
+    /// <returns><c>true</c> when the item id belongs to an event item.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsEventItem(uint itemId)
+    {
+        return itemId >= 2_000_000 && itemId - 2_000_000 < Sheets.EventItemCount;
+    }
+    
+    /// <summary>
+    /// Kinds of items that can be fetched from this payload.
+    /// </summary>
+    public enum ItemKind : uint
+    {
+        /// <summary>
+        /// Normal items.
+        /// </summary>
+        Normal,
+
+        /// <summary>
+        /// Collectible Items.
+        /// </summary>
+        Collectible = 500_000,
+
+        /// <summary>
+        /// High-Quality items.
+        /// </summary>
+        Hq = 1_000_000,
+
+        /// <summary>
+        /// Event/Key items.
+        /// </summary>
+        EventItem = 2_000_000,
     }
 }
 

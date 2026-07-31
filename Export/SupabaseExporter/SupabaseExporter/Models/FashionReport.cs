@@ -84,12 +84,20 @@ public class FashionReportModel : BaseModel
     {
         if (Items == string.Empty)
         {
-            if (ItemsArray.Any(i => i > 500_000))
-            {
-                Logger.Error($"Invalid item found, ID: {Id}");
-                return [];
-            }
-            return ItemsArray;
+            return ItemsArray
+                .Select(Utils.GetBaseId)
+                .Where(s =>
+                {
+                    if (s.Kind is not Utils.ItemKind.Normal and not Utils.ItemKind.Hq)
+                    {
+                        Logger.Error($"Invalid item id found, ID: {Id}");
+                        return false;
+                    }
+
+                    return true;
+                })
+                .Select(s => s.ItemId)
+                .ToArray();
         }
  
         var span = Items.Trim(['{', '}']).AsSpan();
@@ -98,13 +106,15 @@ public class FashionReportModel : BaseModel
         foreach (var range in span.Split(','))
         {
             var result = uint.Parse(span[range]);
-            if (result > 500_000)
+
+            var itemBase = Utils.GetBaseId(result);
+            if (itemBase.Kind is not Utils.ItemKind.Normal and not Utils.ItemKind.Hq)
             {
-                Logger.Error($"Invalid item found, ID: {Id}");
+                Logger.Error($"Invalid item id found, ID: {Id}");
                 return [];
             }
-
-            ItemsArray[counter] = result;
+            
+            ItemsArray[counter] = itemBase.ItemId;
             counter++;
         }
 
