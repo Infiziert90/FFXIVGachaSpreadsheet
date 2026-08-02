@@ -131,6 +131,13 @@
         </NavItem>
 
         <NavItem>
+            <NavLink href="https://discord.gg/cTWKQWCceU" target="_blank">
+                <Icon name="discord" style="font-size: 1.25rem;" />
+                <span class="visually-hidden">Discord</span>
+            </NavLink>
+        </NavItem>
+
+        <NavItem>
             <NavLink href="https://github.com/Infiziert90/FFXIVGachaSpreadsheet" target="_blank">
                 <Icon name="github" style="font-size: 1.25rem;" />
                 <span class="visually-hidden">GitHub</span>
