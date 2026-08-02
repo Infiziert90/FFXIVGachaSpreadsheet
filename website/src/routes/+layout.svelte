@@ -41,7 +41,7 @@
         <Container fluid={$layoutWidth === 'fluid'}>
             <div class="row gy-3 pt-3">
                 {@render children()}
-            </div>  
+            </div>
         </Container>
     </div>
 

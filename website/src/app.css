@@ -3,6 +3,8 @@
     --bs-body-font-family: "IBM Plex Sans JP", system-ui, -apple-system, "Segoe UI", sans-serif;
     --bs-font-monospace: "IBM Plex Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
 
+    --bs-tooltip-opacity: 1;
+    
     /* Border-radius — fully sharp */
     --bs-border-radius:      0;
     --bs-border-radius-sm:   0;
