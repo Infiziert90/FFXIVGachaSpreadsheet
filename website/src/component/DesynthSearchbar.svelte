@@ -164,10 +164,11 @@
                     }}
                     style="cursor: pointer;"
                 >
-                    <img 
-                        width="40" 
-                        height="40" 
-                        loading="lazy" 
+                    <img
+                        class="item-icon"
+                        width="40"
+                        height="40"
+                        loading="lazy"
                         src={getIconPath(ItemMappings[item.id].Icon, true)}
                         style="margin-right: 0.5rem; vertical-align: middle;"
                         alt=""
