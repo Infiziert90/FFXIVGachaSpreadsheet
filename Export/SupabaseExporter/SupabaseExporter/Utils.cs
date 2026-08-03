@@ -8,6 +8,7 @@ namespace SupabaseExporter;
 
 public static class Utils
 {
+    public static readonly int Patch755 = VersionToNumber("1.7.1.0");
     public static readonly int Patch750 = VersionToNumber("1.6.8.0");
     public static readonly int Patch740 = VersionToNumber("1.6.4.0");
     public static readonly int Patch730 = VersionToNumber("1.6.1.0");
@@ -23,6 +24,9 @@ public static class Utils
     public static string VersionToPatch(int version, UploadSourcePlugin source)
     {
         if (source == UploadSourcePlugin.Tracky) {
+            if (version >= Patch755)
+                return "7.55";    
+            
             if (version >= Patch750)
                 return "7.5";    
             

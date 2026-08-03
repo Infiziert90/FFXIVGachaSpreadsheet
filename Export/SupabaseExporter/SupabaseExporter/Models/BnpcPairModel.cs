@@ -19,6 +19,14 @@ public class BnpcPairModel : BaseModel
     [Column("name")]
     public uint NameId { get; set; }
 
+    [Name("model_chara")] 
+    [Column("model_chara")]
+    public uint ModelChara { get; set; }
+    
+    [Name("no_target")]
+    [Column("no_target")]
+    public bool NoTarget { get; set; }
+    
     [Name("territory")]
     [Column("territory")]
     public uint TerritoryId { get; set; }
@@ -54,6 +62,14 @@ public class BnpcPairModel : BaseModel
     [Name("enemy_type")]
     [Column("enemy_type")]
     public ushort Battalion { get; set; }
+    
+    [Name("foray_level")]
+    [Column("foray_level")]
+    public byte ForayLevel { get; set; }
+
+    [Name("foray_element")]
+    [Column("foray_element")]
+    public byte ForayElement { get; set; }
 
     [Name("hash")]
     [Column("hash")]
@@ -68,6 +84,8 @@ public sealed class BnpcPairMap : ClassMap<BnpcPairModel>
         Map(m => m.Battalion).Name("enemy_type");
         Map(m => m.BaseId).Name("base");
         Map(m => m.NameId).Name("name");
+        Map(m => m.ModelChara).Name("model_chara").Optional();
+        Map(m => m.NoTarget).Name("no_target").Optional();
         Map(m => m.TerritoryId).Name("territory");
         Map(m => m.MapId).Name("map");
         Map(m => m.LevelId).Name("level_id");
@@ -75,6 +93,8 @@ public sealed class BnpcPairMap : ClassMap<BnpcPairModel>
         Map(m => m.Y).Name("y");
         Map(m => m.Z).Name("z");
         Map(m => m.Level).Name("level");
+        Map(m => m.ForayLevel).Name("foray_level").Optional();
+        Map(m => m.ForayElement).Name("foray_element").Optional();
         Map(m => m.Hashed).Name("hash");
         
         Map(m => m.Version).Name("version").Optional();
