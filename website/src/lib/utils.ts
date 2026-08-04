@@ -164,11 +164,7 @@ export function getFormattedIconId(iconId: number): string {
  * @returns The padded number as a string
  */
 export function pad(num: number, size: number): string {
-    let numStr: string = num.toString().padStart(size, '0');
-    // while (numStr.length < size)
-    //     numStr = "0" + numStr;
-
-    return numStr;
+    return num.toString().padStart(size, '0');
 }
 
 export function getUniqueHash(obj: number[]): number

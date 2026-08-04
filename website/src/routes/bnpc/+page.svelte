@@ -17,6 +17,7 @@
     import PageSidebar from "../../component/PageSidebar.svelte";
     import { browser } from '$app/environment';
     import type {BnpcPairing, Pairing} from "$lib/structs/bnpc";
+    import {Input} from "@sveltestrap/sveltestrap";
 
     interface Props {
         content: BnpcPairing;
@@ -42,6 +43,8 @@
     let selectedMapId = $state({name: ''});
     let resolvedMapUrl = $state('');
     let selectedLocation: UniqueLocation = $state({Territory: 0, Map: 0});
+
+    let onlyNoTarget: boolean = $state(true);
 
     let map;
     let position;
@@ -209,6 +212,9 @@
     let textMarkersByMinZoom: { marker: object; minZoom: number }[] = [];
 
     function clearMarker(selectedMonster: number) {
+        if (!createdMarkersDict.hasOwnProperty(selectedMonster))
+            return;
+
         for (const marker of createdMarkersDict[selectedMonster]) {
             currentColorShift -= 1;
             map.removeLayer(marker);
@@ -258,7 +264,8 @@
         if (map === undefined)
             return;
 
-        const iconUrl = getIconPath(getFormattedIconId(63989));
+        // const iconUrl = getIconPath(getFormattedIconId(63989));
+        const iconUrl = getIconPath(getFormattedIconId(240027));
         const iconMarker = leaflet.icon({
             iconUrl: iconUrl,
 
@@ -270,22 +277,27 @@
         let indexes = names[selectedMonster];
         for (const idx of indexes) {
             for (const location of Object.values(pairs[idx].L).filter((l) => l.T === selectedLocation.Territory && l.M === selectedLocation.Map)) {
-                for (const worldPos of Object.values(location.P)) {
-                    let ingameCoords = convertToMapCoords(new Vector3(worldPos.X, worldPos.Y, worldPos.Z), location.M);
+                for (const pos of Object.values(location.P)) {
+                    if (onlyNoTarget && !pos.N)
+                        continue;
+
+                    let ingameCoords = convertToMapCoords(new Vector3(pos.P.X, pos.P.Y, pos.P.Z), location.M);
                     let coords = swapCoords(ingameCoords);
 
                     let marker = leaflet.marker([coords.X, coords.Y], {draggable: false, icon: iconMarker}).addTo(map);
-                    marker.bindPopup(`
-                                    ${SimpleBNpcNameSheet[pairs[idx].N]['En']}
-                                    <br>
-                                    Level: ${location.L}
-                                    <br>
-                                    X ${ingameCoords.X.toFixed(2)} Y ${ingameCoords.Y.toFixed(2)}
-                                    <br>
-                                    <br>
-                                    Base: ${pairs[idx].B}
-                                    <br>
-                                    Name: ${pairs[idx].N}`);
+
+                    let tooltip = `${SimpleBNpcNameSheet[pairs[idx].N]['En']}<br>`;
+                    if (location.FL === 0) {
+                        tooltip += `Level: ${location.L}<br>`;
+                    }
+                    else {
+                        tooltip += `Foray Level: ${location.FL}<br>`;
+                        tooltip += `Foray Element: ${location.FE}<br>`;
+                    }
+
+                    tooltip += `X ${ingameCoords.X.toFixed(2)} Y ${ingameCoords.Y.toFixed(2)}<br><br>`;
+                    tooltip += `Base: ${pairs[idx].B}<br>Name: ${pairs[idx].N}<br>Model: ${pairs[idx].M}`;
+                    marker.bindPopup(tooltip);
 
                     if (!(selectedMonster in createdMarkersDict))
                         createdMarkersDict[selectedMonster] = [marker]
@@ -453,6 +465,24 @@
         currentColorShift++;
         return currentColorShift.toString();
     }
+
+    function checkboxOptionsChanged() {
+        let oldMarkers = Object.entries(createdMarkersDict);
+
+        clearAllMonsterMarkers();
+
+        for (const [markerId, markerArray] of oldMarkers) {
+            let m = parseInt(markerId);
+
+            if (m >= 1_000_000 )
+                continue;
+
+            if (markerArray.length === 0)
+                continue;
+
+            createMarkers(parseInt(markerId))
+        }
+    }
 </script>
 <svelte:window on:resize={resizeMap} />
 
@@ -466,7 +496,10 @@
 
 <PageSidebar title="Housing filters" colClass="col-12 col-lg-2 order-0 order-lg-1 sticky-left-col">
     <div class="d-flex flex-column gap-2 max-w-100 overflow-x-hidden">
-        <h6>Map Selection:</h6>
+        <h6>Options:</h6>
+        <Input class="mb-0" type="checkbox" bind:checked={onlyNoTarget} label="Only Untargeted" on:change={() => checkboxOptionsChanged()}></Input>
+
+        <h6 class="mt-3">Map Selection:</h6>
         {#if selectedLocation.Map !== 0}
             <h6>{getMapName(selectedLocation.Map)}</h6>
         {/if}

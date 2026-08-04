@@ -14,7 +14,7 @@ public class BnpcPairs : IDisposable
     public BnpcPairs()
     {
         // Try to read internal cache to save up lots of processing
-        var data = ExportHandler.ReadDataJson("BnpcPairs.json");
+        var data = ExportHandler.ReadDataJson("BnpcPairsV2.json");
         if (data == string.Empty)
             return;
         
@@ -63,10 +63,20 @@ public class BnpcPairs : IDisposable
             // Both are sheet index, so a fixed uint number, but NameId has flag properties, so it goes into the millions at times
             var combinedId = ((ulong)record.BaseId << 32) + record.NameId;
             if (!CollectedData.BnpcPairings.ContainsKey(combinedId))
-                CollectedData.BnpcPairings[combinedId] = new BnpcPairing.Pairing(record.BaseId, record.NameId, record.ObjectKind, record.Battalion);
+                CollectedData.BnpcPairings[combinedId] = new BnpcPairing.Pairing(record.BaseId, record.NameId, record.ModelChara, record.ObjectKind, record.Battalion);
             
             var pairing = CollectedData.BnpcPairings[combinedId];
             pairing.Records += 1;
+
+            if (record.ModelChara > 0)
+            {
+                if (pairing.Model == 0)
+                    pairing.Model = record.ModelChara;
+                else
+                    if (pairing.Model != record.ModelChara)
+                        Logger.Warning($"Found Model mismatch! {record.Id} | {pairing.Model} | {record.ModelChara}");
+            }
+                
             
             pairing.Kind = record.ObjectKind; // We overwrite this every time because of old data having just 0 for it
             pairing.Battalion = record.Battalion;
@@ -77,12 +87,18 @@ public class BnpcPairs : IDisposable
             var location = pairing.Locations[record.LevelId];
             location.Records += 1;
             
+            if (record.ForayLevel > 0)
+                location.ForayLevel = record.ForayLevel;
+            
+            if (record.ForayElement > 0)
+                location.ForayElement = record.ForayElement;
+            
             var position = new Vector3(record.X, record.Y, record.Z);
 
             var found = -1;
             foreach (var (idx, existingPosition) in location.Positions.Index())
             {
-                var difV = existingPosition - position;
+                var difV = existingPosition.Pos - position;
                 var dis = Math.Sqrt(Math.Pow(difV.X, 2f) + Math.Pow(difV.Y, 2f) + Math.Pow(difV.Z, 2f));
                 
                 if (dis < (Sheets.RankedBnpcBase.Contains(record.BaseId) ? 50.0 : 20.0))
@@ -91,14 +107,12 @@ public class BnpcPairs : IDisposable
 
             if (found != -1)
             {
-                location.PositionCounts[found] += 1;
+                location.Positions[found].Count += 1;
+                location.Positions[found].NoTarget |= record.NoTarget;
             }
             else
             {
-                var newIdx = location.Positions.Count;
-                location.Positions.Add(position);
-                
-                location.PositionCounts[newIdx] = 1;
+                location.Positions.Add(new BnpcPairing.Position(position, record.NoTarget, 1));
             }
         }
     }
@@ -122,7 +136,7 @@ public class BnpcPairs : IDisposable
                 
         ExportHandler.WriteWebJson("BnpcPairsWeb.json", web);
         
-        ExportHandler.WriteDataJson("BnpcPairs.json", CollectedData);
+        ExportHandler.WriteDataJson("BnpcPairsV2.json", CollectedData);
         ExportHandler.WriteDataJson("BnpcPairsSimple.json", SimplePairs.Select(pair => pair.Value), true);
         Logger.Information("Done exporting data ...");
     }

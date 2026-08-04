@@ -107,7 +107,8 @@ public class Desynthesis2 : IDisposable
             var desynthTemp = CollectedData[record.Source];
             desynthTemp.Total += 1;
             
-            var patch = record.GetPatch;
+            var patch = "7.5";
+            // var patch = record.GetPatch;
             if (!desynthTemp.Patches.ContainsKey(patch))
                 desynthTemp.Patches[patch] = new DesynthSourceTemp.DesynthPatch();
             
