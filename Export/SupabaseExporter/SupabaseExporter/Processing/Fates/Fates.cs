@@ -1,6 +1,16 @@
-﻿using SupabaseExporter.Structures.Exports;
+﻿using Microsoft.EntityFrameworkCore.Query;
+using SupabaseExporter.Structures.Exports;
 
 namespace SupabaseExporter.Processing.Fates;
+
+public enum RewardType : byte {
+    FateReward = 0,
+    DynamicEventReward = 1,
+    TreasureHuntReward = 2,
+    GoldSaucerReward = 3,
+    MJIReward = 4,
+    WKSReward = 5,
+}
 
 public class Fates : IDisposable
 {
@@ -34,6 +44,9 @@ public class Fates : IDisposable
     {
         foreach (var record in data)
         {
+            if ((RewardType)record.Type is RewardType.TreasureHuntReward or RewardType.WKSReward or RewardType.MJIReward or RewardType.GoldSaucerReward)
+                continue;
+            
             if (!CollectedData.ContainsKey(record.Territory))
                 CollectedData[record.Territory] = [];
             
@@ -42,10 +55,22 @@ public class Fates : IDisposable
                 territory[record.Type] = [];
             
             var type = territory[record.Type];
-            if (!type.ContainsKey(record.Name))
-                type[record.Name] = new TempReward();
+
+            var fateName = string.Empty;
+            if (record.Name.Length == 0)
+            {
+                fateName = Sheets.FateSheet.GetRow(record.FateId).Name.ToString();
+            }
+            else
+            {
+                if (Sheets.EngagementNames.TryGetValue(record.Name, out var nameId))
+                    fateName = Sheets.DynamicEventSheet.GetRow(nameId).Name.ToString();
+            }
             
-            var rewards = type[record.Name];
+            if (!type.ContainsKey(fateName))
+                type[fateName] = new TempReward();
+            
+            var rewards = type[fateName];
             rewards.Records += 1;
             
             foreach (var (itemId, amount) in record.GetRewards())
