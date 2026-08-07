@@ -264,8 +264,7 @@
         if (map === undefined)
             return;
 
-        // const iconUrl = getIconPath(getFormattedIconId(63989));
-        const iconUrl = getIconPath(getFormattedIconId(240027));
+        const iconUrl = getIconPath(getFormattedIconId(63989));
         const iconMarker = leaflet.icon({
             iconUrl: iconUrl,
 
@@ -276,8 +275,8 @@
 
         let indexes = names[selectedMonster];
         for (const idx of indexes) {
-            for (const location of Object.values(pairs[idx].L).filter((l) => l.T === selectedLocation.Territory && l.M === selectedLocation.Map)) {
-                for (const pos of Object.values(location.P)) {
+            for (const [level, location] of Object.entries(pairs[idx].L).filter(([_, l]) => l.T === selectedLocation.Territory && l.M === selectedLocation.Map)) {
+                for (const pos of location.P) {
                     if (onlyNoTarget && !pos.N)
                         continue;
 
@@ -296,7 +295,7 @@
                     }
 
                     tooltip += `X ${ingameCoords.X.toFixed(2)} Y ${ingameCoords.Y.toFixed(2)}<br><br>`;
-                    tooltip += `Base: ${pairs[idx].B}<br>Name: ${pairs[idx].N}<br>Model: ${pairs[idx].M}`;
+                    tooltip += `Base: ${pairs[idx].B}<br>Name: ${pairs[idx].N}<br>Model: ${pairs[idx].M}<br>Layout: ${level}`;
                     marker.bindPopup(tooltip);
 
                     if (!(selectedMonster in createdMarkersDict))
@@ -496,12 +495,9 @@
 
 <PageSidebar title="Housing filters" colClass="col-12 col-lg-2 order-0 order-lg-1 sticky-left-col">
     <div class="d-flex flex-column gap-2 max-w-100 overflow-x-hidden">
-        <h6>Options:</h6>
-        <Input class="mb-0" type="checkbox" bind:checked={onlyNoTarget} label="Only Untargeted" on:change={() => checkboxOptionsChanged()}></Input>
-
-        <h6 class="mt-3">Map Selection:</h6>
+        <h6 class="m-0">Map Selection:</h6>
         {#if selectedLocation.Map !== 0}
-            <h6>{getMapName(selectedLocation.Map)}</h6>
+            <h6 class="m-0 mb-2">{getMapName(selectedLocation.Map)}</h6>
         {/if}
         <MapSearchbar
                 {uniqueLocations}
@@ -510,7 +506,10 @@
                 {tabElements}
         />
 
-        <div class="m-5"></div>
+        <div class="mt-1 mb-4">
+            <h6>Options:</h6>
+            <Input class="mb-0" type="checkbox" bind:checked={onlyNoTarget} label="Only Untargeted" on:change={() => checkboxOptionsChanged()}></Input>
+        </div>
 
         {#if selectedMapId.name !== ''}
             <h6>Monster Selection:</h6>

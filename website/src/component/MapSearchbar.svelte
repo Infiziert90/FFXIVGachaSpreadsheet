@@ -116,9 +116,9 @@
         >
     </div>
     {#if searchQuery.trim() === ''}
-        <p class="text-muted">Enter a search query to find a map</p>
+        <p class="text-muted m-0">Enter a search query to find a map</p>
     {:else if filteredArray.length === 0}
-        <p class="text-muted">No area found</p>
+        <p class="text-muted m-0">No area found</p>
     {:else}
         <ListGroup>
             {#each filteredArray as item}

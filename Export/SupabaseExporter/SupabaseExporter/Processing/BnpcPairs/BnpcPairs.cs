@@ -101,7 +101,7 @@ public class BnpcPairs : IDisposable
                 var difV = existingPosition.Pos - position;
                 var dis = Math.Sqrt(Math.Pow(difV.X, 2f) + Math.Pow(difV.Y, 2f) + Math.Pow(difV.Z, 2f));
                 
-                if (dis < (Sheets.RankedBnpcBase.Contains(record.BaseId) ? 50.0 : 20.0))
+                if (dis < (Sheets.RankedBnpcBase.Contains(record.BaseId) ? 50.0 : 25.0))
                     found = idx;
             }
 
