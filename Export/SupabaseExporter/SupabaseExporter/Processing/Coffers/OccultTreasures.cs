@@ -6,6 +6,8 @@ namespace SupabaseExporter.Processing.Coffers;
 
 public class OccultTreasures : CofferBase
 {
+    private HashSet<uint> IgnoreAmount = [51975, 51976];
+    
     public void ProcessAllData(Models.OccultTreasureModel[] treasureData, Models.OccultBunnyModel[] bunnyData)
     {
         Logger.Information("Processing occult data");
@@ -71,13 +73,16 @@ public class OccultTreasures : CofferBase
             }
             
             // Check all entries for erroneous data
-            foreach (var (i, (itemId, amount)) in treasure.GetRewards().Select((val, idx) => (idx, val)))
+            foreach (var (i, (itemId, amount)) in treasure.GetRewards().Index())
             {
                 if (i > 3)
                     Logger.Warning($"Weird length: {i} | {treasure.Id}");
                 
-                if (amount > 3)
-                    Logger.Error($"Invalid amount: {amount} {treasure.Id}");
+                if (!IgnoreAmount.Contains(itemId))
+                {
+                    if (amount > 3)
+                        Logger.Error($"Invalid amount: {amount} {treasure.Id}");
+                }
 
                 var item = Sheets.ItemSheet.GetRow(itemId);
                 if (item.Rarity >= 4)
@@ -126,13 +131,16 @@ public class OccultTreasures : CofferBase
             }
             
             // Check all entries for erroneous data
-            foreach (var (i, (itemId, amount)) in bunny.GetRewards().Select((val, idx) => (idx, val)))
+            foreach (var (i, (itemId, amount)) in bunny.GetRewards().Index())
             {
                 if (i > 5)
                     Logger.Warning($"Weird length: {i} | {bunny.Id}");
-                
-                if (amount > 10)
-                    Logger.Error($"Invalid amount: {amount} {bunny.Id}");
+
+                if (!IgnoreAmount.Contains(itemId))
+                {
+                    if (amount > 10)
+                        Logger.Error($"Invalid amount: {amount} {bunny.Id}");
+                }
 
                 var item = Sheets.ItemSheet.GetRow(itemId);
                 if (item.Rarity >= 4)
