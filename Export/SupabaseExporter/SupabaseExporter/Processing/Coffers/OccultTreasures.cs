@@ -6,7 +6,7 @@ namespace SupabaseExporter.Processing.Coffers;
 
 public class OccultTreasures : CofferBase
 {
-    private HashSet<uint> IgnoreAmount = [51975, 51976];
+    private HashSet<uint> IgnoreAmount = [51975, 51976, 45044, 45043];
     
     public void ProcessAllData(Models.OccultTreasureModel[] treasureData, Models.OccultBunnyModel[] bunnyData)
     {
