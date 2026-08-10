@@ -253,7 +253,7 @@
                                             {#each Object.values(pool.Rewards) as row}
                                                 {@const itemName = localizedItem(row.Id, $currentLanguage)}
                                                 {@const itemIcon = ItemMappings[row.Id].Icon}
-                                                {@const wikiUrl = getWikiUrl(itemName)}
+                                                {@const wikiUrl = getWikiUrl(ItemMappings[row.Id].En)}
                                                 {@const tooltipId = `tooltip-${sector.Id}-${tier}-${row.Id}`}
                                                 <tr>
                                                     <td class="text-truncate">

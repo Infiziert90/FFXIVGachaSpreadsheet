@@ -155,7 +155,7 @@
 
             if (column.isIcon === undefined || !column.isIcon) {
                 const name = localizedItem(row.Id, $currentLanguage);
-                const wikiName = name.replace(/\s+/g, '_');
+                const wikiName = ItemMappings[row.Id].En.replace(/\s+/g, '_');
 
                 return { name, wikiName, type: 0 };
             }
@@ -205,7 +205,7 @@
         -->
         {#snippet templateRender(cellContent: CellContent)}
             {#if cellContent.type === 0}
-                <a href={getWikiUrl(cellContent.name)} class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">{cellContent.name}</a>
+                <a href={getWikiUrl(cellContent.wikiName)} class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" target="_blank">{cellContent.name}</a>
             {:else if cellContent.type === 1}
                 <img width="40" height="40" loading="lazy" src={getIconPath(ItemMappings[cellContent.itemId].Icon, true)} alt="{localizedItem(cellContent.itemId, $currentLanguage)} Icon">
             {:else if cellContent.type === 2}
