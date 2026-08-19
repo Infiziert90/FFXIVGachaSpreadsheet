@@ -47,6 +47,10 @@ public class OccultBunnyModel : BaseModel
     
     public IEnumerable<(uint, uint)> GetRewards() 
         => Utils.PairIter(ProcessRewards());
+    
+    private static readonly HashSet<uint> Filter = [51975, 51976, 45044, 45043];
+    public IEnumerable<(uint, uint)> GetRewardsWithoutCoins() 
+        => Utils.PairIter(ProcessRewards()).Where(pair => !Filter.Contains(pair.Item1));
 
     private uint[] ProcessRewards()
     {

@@ -1,0 +1,7287 @@
+{
+  "1252": {
+    "1": {
+      "Calamity Bound": {
+        "Records": 875,
+        "Rewards": {
+          "Knowledge": 875,
+          "Phantom EXP": 875,
+          "Allagan Tomestone of Mathematics": 875,
+          "Allagan Tomestone of Mnemonics": 875,
+          "Enlightenment Silver Piece": 875
+        },
+        "AdditionalRewards": {
+          "Notes on the Cloister Demon": 343,
+          "Voidsent Contract": 89,
+          "Occult Earrings of Magic": 1
+        }
+      },
+      "On the Hunt": {
+        "Records": 703,
+        "Rewards": {
+          "Knowledge": 703,
+          "Phantom EXP": 703,
+          "Allagan Tomestone of Mathematics": 703,
+          "Allagan Tomestone of Mnemonics": 703,
+          "Enlightenment Silver Piece": 703
+        },
+        "AdditionalRewards": {
+          "Oracle's Soul Shard": 219
+        }
+      },
+      "Company of Stone": {
+        "Records": 626,
+        "Rewards": {
+          "Knowledge": 626,
+          "Phantom EXP": 626,
+          "Allagan Tomestone of Mathematics": 626,
+          "Allagan Tomestone of Mnemonics": 626,
+          "Enlightenment Silver Piece": 626
+        },
+        "AdditionalRewards": {
+          "Occult Necklace of Blood": 1
+        }
+      },
+      "Cursed Concern": {
+        "Records": 729,
+        "Rewards": {
+          "Knowledge": 729,
+          "Phantom EXP": 729,
+          "Allagan Tomestone of Mathematics": 729,
+          "Allagan Tomestone of Mnemonics": 729,
+          "Enlightenment Silver Piece": 729
+        },
+        "AdditionalRewards": {
+          "Notes on the Trade Tortoise": 273
+        }
+      },
+      "The Unbridled": {
+        "Records": 707,
+        "Rewards": {
+          "Knowledge": 707,
+          "Phantom EXP": 707,
+          "Allagan Tomestone of Mathematics": 707,
+          "Allagan Tomestone of Mnemonics": 707,
+          "Enlightenment Silver Piece": 707
+        },
+        "AdditionalRewards": {
+          "Notes on the Crescent Berserker": 294,
+          "Berserker's Soul Shard": 213
+        }
+      },
+      "Flame of Dusk": {
+        "Records": 701,
+        "Rewards": {
+          "Knowledge": 701,
+          "Phantom EXP": 701,
+          "Allagan Tomestone of Mathematics": 701,
+          "Allagan Tomestone of Mnemonics": 701,
+          "Enlightenment Silver Piece": 701
+        },
+        "AdditionalRewards": {
+          "Occult Bracelet of Magic": 2
+        }
+      },
+      "Crawling Death": {
+        "Records": 644,
+        "Rewards": {
+          "Knowledge": 644,
+          "Phantom EXP": 644,
+          "Allagan Tomestone of Mathematics": 644,
+          "Allagan Tomestone of Mnemonics": 644,
+          "Enlightenment Silver Piece": 644
+        },
+        "AdditionalRewards": {
+          "Occult Earrings of Magic": 1
+        }
+      },
+      "Eternal Watch": {
+        "Records": 609,
+        "Rewards": {
+          "Knowledge": 609,
+          "Phantom EXP": 609,
+          "Allagan Tomestone of Mathematics": 609,
+          "Allagan Tomestone of Mnemonics": 609,
+          "Enlightenment Silver Piece": 609
+        },
+        "AdditionalRewards": {
+          "Occult Necklace of Blood": 1
+        }
+      },
+      "From Times Bygone": {
+        "Records": 326,
+        "Rewards": {
+          "Knowledge": 326,
+          "Phantom EXP": 326,
+          "Allagan Tomestone of Mathematics": 326,
+          "Allagan Tomestone of Mnemonics": 326,
+          "Enlightenment Silver Piece": 326
+        },
+        "AdditionalRewards": {
+          "Notes on the Mythic Idol": 122
+        }
+      },
+      "With Extreme Prejudice": {
+        "Records": 676,
+        "Rewards": {
+          "Knowledge": 676,
+          "Phantom EXP": 676,
+          "Allagan Tomestone of Mathematics": 676,
+          "Allagan Tomestone of Mnemonics": 676,
+          "Enlightenment Silver Piece": 676
+        },
+        "AdditionalRewards": {
+          "Occult Bracelet of Blood": 1
+        }
+      },
+      "Trial by Claw": {
+        "Records": 683,
+        "Rewards": {
+          "Knowledge": 683,
+          "Phantom EXP": 683,
+          "Allagan Tomestone of Mathematics": 683,
+          "Allagan Tomestone of Mnemonics": 683,
+          "Enlightenment Silver Piece": 683
+        },
+        "AdditionalRewards": {
+          "Occult Bracelet of Blood": 1
+        }
+      },
+      "Noise Complaint": {
+        "Records": 480,
+        "Rewards": {
+          "Knowledge": 480,
+          "Phantom EXP": 480,
+          "Allagan Tomestone of Mathematics": 480,
+          "Allagan Tomestone of Mnemonics": 480,
+          "Enlightenment Silver Piece": 480
+        },
+        "AdditionalRewards": {}
+      },
+      "Shark Attack": {
+        "Records": 363,
+        "Rewards": {
+          "Knowledge": 363,
+          "Phantom EXP": 363,
+          "Allagan Tomestone of Mathematics": 363,
+          "Allagan Tomestone of Mnemonics": 363,
+          "Enlightenment Silver Piece": 363
+        },
+        "AdditionalRewards": {
+          "Notes on the Nymian Petalodus": 147,
+          "Occult Bracelet of Magic": 1
+        }
+      },
+      "The Black Regiment": {
+        "Records": 807,
+        "Rewards": {
+          "Knowledge": 807,
+          "Phantom EXP": 807,
+          "Allagan Tomestone of Mathematics": 807,
+          "Allagan Tomestone of Mnemonics": 807,
+          "Enlightenment Silver Piece": 807
+        },
+        "AdditionalRewards": {
+          "Ranger's Soul Shard": 254,
+          "Notes on Black Chocobos": 327
+        }
+      },
+      "Scourge of the Mind": {
+        "Records": 232,
+        "Rewards": {
+          "Knowledge": 232,
+          "Phantom EXP": 232,
+          "Allagan Tomestone of Mathematics": 232,
+          "Allagan Tomestone of Mnemonics": 232,
+          "Enlightenment Silver Piece": 232
+        },
+        "AdditionalRewards": {}
+      },
+      "": {
+        "Records": 14,
+        "Rewards": {
+          "Knowledge": 14,
+          "Phantom EXP": 14,
+          "Allagan Tomestone of Mathematics": 14,
+          "Allagan Tomestone of Mnemonics": 14,
+          "Enlightenment Silver Piece": 14
+        },
+        "AdditionalRewards": {
+          "Ranger's Soul Shard": 1,
+          "Notes on Black Chocobos": 1,
+          "Berserker's Soul Shard": 1,
+          "Oracle's Soul Shard": 1
+        }
+      }
+    },
+    "0": {
+      "A Delicate Balance": {
+        "Records": 2022,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Sworn to Soil": {
+        "Records": 1823,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "King of the Crescent": {
+        "Records": 2117,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "An Unending Duty": {
+        "Records": 1794,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Brain Drain": {
+        "Records": 1772,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Rough Waters": {
+        "Records": 1721,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Serving Darkness": {
+        "Records": 1766,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Golden Guardian": {
+        "Records": 2011,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Persistent Pots": {
+        "Records": 2414,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Notes on Persistent Pots": 449
+        }
+      },
+      "A Prying Eye": {
+        "Records": 1794,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Winged Terror": {
+        "Records": 1483,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Pleading Pots": {
+        "Records": 2587,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Notes on Persistent Pots": 526
+        }
+      },
+      "Fatal Allure": {
+        "Records": 1826,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "827": {
+    "0": {
+      "Bullheaded Berserker": {
+        "Records": 79,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Hydatos Lockbox": 76,
+          "Hydatos Crystal": 76,
+          "Molech's Horn": 1,
+          "Obscure Logogram": 4
+        }
+      },
+      "Crystalline Provenance": {
+        "Records": 55,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Hydatos Lockbox": 53,
+          "Hydatos Crystal": 53,
+          "Crystalline Scale": 34,
+          "Provenance Watcher Card": 15,
+          "Hydatos Cluster": 4
+        }
+      },
+      "Robber Barong": {
+        "Records": 42,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Hydatos Lockbox": 40,
+          "Hydatos Crystal": 40,
+          "Obscure Logogram": 2,
+          "Hydatos Cluster": 2
+        }
+      },
+      "Duty-free": {
+        "Records": 101,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Hydatos Lockbox": 100,
+          "Hydatos Crystal": 100,
+          "Dvergr Card": 20,
+          "Goldemar's Horn": 3
+        }
+      },
+      "Leukewarm Reception": {
+        "Records": 43,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Hydatos Lockbox": 41,
+          "Hydatos Crystal": 41,
+          "Hydatos Cluster": 2,
+          "Obscure Logogram": 1
+        }
+      },
+      "I Don't Want to Believe": {
+        "Records": 212,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Hydatos Lockbox": 206,
+          "Hydatos Crystal": 206,
+          "Obscure Logogram": 6
+        }
+      },
+      "Mad, Bad, and Fabulous to Know": {
+        "Records": 37,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Hydatos Lockbox": 36,
+          "Hydatos Crystal": 36,
+          "Obscure Logogram": 1,
+          "Hydatos Cluster": 1
+        }
+      },
+      "Fearful Symmetry": {
+        "Records": 45,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Hydatos Lockbox": 43,
+          "Hydatos Crystal": 43,
+          "Obscure Logogram": 1,
+          "Hydatos Cluster": 2
+        }
+      },
+      "Stone-cold Killer": {
+        "Records": 118,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Hydatos Lockbox": 116,
+          "Hydatos Crystal": 116,
+          "Obscure Logogram": 4,
+          "Ceto's Claw": 3
+        }
+      },
+      "Drink Me": {
+        "Records": 142,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Hydatos Lockbox": 136
+        }
+      },
+      "The Baldesion Arsenal: Expedition Support": {
+        "Records": 54,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Hydatos Lockbox": 53,
+          "Hydatos Crystal": 53
+        }
+      },
+      "From Tusk till Dawn": {
+        "Records": 38,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Hydatos Lockbox": 37,
+          "Hydatos Crystal": 37,
+          "Obscure Logogram": 4,
+          "Hydatos Cluster": 5
+        }
+      },
+      "Crawling Chaos": {
+        "Records": 41,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Hydatos Lockbox": 38,
+          "Hydatos Crystal": 38,
+          "Hydatos Cluster": 3
+        }
+      },
+      "I Ink, Therefore I Am": {
+        "Records": 35,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Hydatos Lockbox": 34,
+          "Hydatos Crystal": 34,
+          "Obscure Logogram": 1,
+          "Hydatos Cluster": 2
+        }
+      }
+    }
+  },
+  "1192": {
+    "0": {
+      "Canal Carnage": {
+        "Records": 1130,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Feed Me, Sentries": {
+        "Records": 1254,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Plumbers Don't Fear Slimes": {
+        "Records": 1050,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Slime to Die": {
+        "Records": 1151,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "No Loitering": {
+        "Records": 1164,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Seeds of Tomorrow": {
+        "Records": 1149,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Horse in the Round": {
+        "Records": 1332,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Mascot March": {
+        "Records": 1135,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Mascot Mayhem": {
+        "Records": 1167,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Scattered Memories": {
+        "Records": 1107,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Critical Corruption": {
+        "Records": 1190,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Invaders from Asyle": {
+        "Records": 1279,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Mascot Murder": {
+        "Records": 95,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Mica Magicog": 95
+        }
+      }
+    }
+  },
+  "155": {
+    "0": {
+      "Giant Seps": {
+        "Records": 51,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Turn Off Your Hearthlight": {
+        "Records": 13,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "He Taketh It with His Eyes": {
+        "Records": 13,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Behemoth Horn": 13
+        }
+      },
+      "Tower of Power": {
+        "Records": 27,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Roc of Ages": {
+        "Records": 41,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Front and Center": {
+        "Records": 9,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Bellyful": {
+        "Records": 46,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "What's on Your Mind": {
+        "Records": 14,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Taste of Fear": {
+        "Records": 37,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Simply Red": {
+        "Records": 15,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Eyes Have It": {
+        "Records": 26,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Allagan Bronze Piece": 4,
+          "Pudgy Puk": 17,
+          "Mega-Potion": 5
+        }
+      },
+      "The Four Winds": {
+        "Records": 41,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "In the Saint's Wake": {
+        "Records": 18,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Storm Caller": {
+        "Records": 30,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Does Anyone Hear It": {
+        "Records": 33,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Croc-y Road": {
+        "Records": 15,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Inspector Hatchet": {
+        "Records": 27,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Coming to a Head": {
+        "Records": 13,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Judge, Jury, and Executioner": {
+        "Records": 12,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Baa Baa Black Sheep": {
+        "Records": 14,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Gavial": {
+        "Records": 17,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Behold Now Behemoth": {
+        "Records": 7,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Twelve Ilms of Snow": {
+        "Records": 7,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "If This Wall Could Talk": {
+        "Records": 8,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Fire in the Distance": {
+        "Records": 13,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Svara's Flight": {
+        "Records": 10,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Svara's Fear": {
+        "Records": 9,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Svara's Fall": {
+        "Records": 10,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Freeze Is Coming": {
+        "Records": 11,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Riddle Me This": {
+        "Records": 6,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Whiteout": {
+        "Records": 11,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Log Up": {
+        "Records": 8,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Grey": {
+        "Records": 10,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Spring Forward, Fall Back": {
+        "Records": 6,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Bigger They Are": {
+        "Records": 4,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Wish Upon a Star": {
+        "Records": 1,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "180": {
+    "0": {
+      "Make It Rain": {
+        "Records": 206,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "I'm a Rock, Not a Number": {
+        "Records": 59,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Making the Rounds": {
+        "Records": 1392,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Titan Electrumshield": 1363
+        }
+      },
+      "The Miner in the Mirror": {
+        "Records": 286,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Titan Mythrilshield": 278
+        }
+      },
+      "Peryton, Perhaps": {
+        "Records": 58,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "When the Coeurl's Away": {
+        "Records": 37,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "By a Whisker": {
+        "Records": 53,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Stopping the Shakes": {
+        "Records": 287,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Fire in the Hole": {
+        "Records": 200,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Full Metal Alchemist": {
+        "Records": 1423,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Titan Steelshield": 1398
+        }
+      },
+      "Restless in O'Ghomoro": {
+        "Records": 63,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Overlooking the Obvious": {
+        "Records": 121,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Only Way Is Up": {
+        "Records": 65,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Schism": {
+        "Records": 151,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "152": {
+    "0": {
+      "The Enemy of My Enemy": {
+        "Records": 267,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Enmity of My Enemy": {
+        "Records": 163,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Everything's Better": {
+        "Records": 386,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Protecting the Patch": {
+        "Records": 202,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Ivy League": {
+        "Records": 159,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Jack of All Trades": {
+        "Records": 159,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Royal Rumble": {
+        "Records": 132,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Carrion Baggage": {
+        "Records": 208,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Wrench in the Works": {
+        "Records": 319,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Proto Armor Identification Key": 312
+        }
+      },
+      "Thunderstruck": {
+        "Records": 200,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Got Milkroot": {
+        "Records": 155,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Stopping the Spread": {
+        "Records": 171,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Squirrel Trapper's Wife": {
+        "Records": 173,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "What a Boar": {
+        "Records": 414,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Kafre's Tusk": 407
+        }
+      },
+      "Breaking Dawn": {
+        "Records": 384,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Steel Reign": {
+        "Records": 9,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Odin's Mantle": 9
+        }
+      },
+      "Lazy for You": {
+        "Records": 105,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Baby Bun": 82,
+          "Hi-Potion": 15,
+          "Allagan Bronze Piece": 6
+        }
+      },
+      "All Vine and No Popotoes": {
+        "Records": 151,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Handful of Dreams": {
+        "Records": 134,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Gale that Rocks the Cradle": {
+        "Records": 133,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Below His Station": {
+        "Records": 157,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "What Have You Done for Mead Lately": {
+        "Records": 134,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Bush Blade": {
+        "Records": 123,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Collecting Keepsakes": {
+        "Records": 111,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Now I See Bees I Won": {
+        "Records": 155,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "813": {
+    "0": {
+      "A Beast among Men": {
+        "Records": 126,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Draconian Measures": {
+        "Records": 92,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Toxic Nightshade": {
+        "Records": 15,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Cry Not Wolf": {
+        "Records": 57,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Don't Feed the Gremlins": {
+        "Records": 118,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Pick-up Sticks": {
+        "Records": 39,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Flowering Nightshade": {
+        "Records": 27,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Little Gate of Horrors": {
+        "Records": 122,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Looming Nightshade": {
+        "Records": 62,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Behind Anemone Lines": {
+        "Records": 83,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Calm a Chameleon": {
+        "Records": 68,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Creeping Nightshade": {
+        "Records": 61,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Subtle Nightshade": {
+        "Records": 46,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Economic Peril": {
+        "Records": 55,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Deadly Nightshade": {
+        "Records": 15,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "814": {
+    "0": {
+      "One-punch Mantis": {
+        "Records": 39,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Amity Village Horror": {
+        "Records": 66,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Not Today": {
+        "Records": 66,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Shadow over Stilltide": {
+        "Records": 87,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Knockout": {
+        "Records": 60,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Wright Stuff": {
+        "Records": 95,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Roadside Dinner": {
+        "Records": 56,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Bitter Barley": {
+        "Records": 53,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Season of Our Discord": {
+        "Records": 59,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Foes Most Formidable": {
+        "Records": 62,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "JELL-NO": {
+        "Records": 39,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Ironbeard Builders - Rebuilt": {
+        "Records": 45,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Ironbeard Builders - Resist": {
+        "Records": 28,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Ironbeard Builders - Revolt": {
+        "Records": 20,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Family Most Formidable": {
+        "Records": 40,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Finale Most Formidable": {
+        "Records": 47,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Formidable Cog": 42
+        }
+      }
+    }
+  },
+  "763": {
+    "0": {
+      "Morte Arthro": {
+        "Records": 387,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pagos Lockbox": 383,
+          "Pagos Crystal": 384,
+          "Blitzring": 5
+        }
+      },
+      "Louhi on Ice": {
+        "Records": 75,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pagos Lockbox": 74,
+          "Pagos Crystal": 74,
+          "Louhi's Ice": 74
+        }
+      },
+      "Third Impact": {
+        "Records": 32,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pagos Lockbox": 32,
+          "Pagos Crystal": 32
+        }
+      },
+      "Cairn Blight 451": {
+        "Records": 34,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pagos Lockbox": 34,
+          "Pagos Crystal": 34
+        }
+      },
+      "Does It Have to Be a Snowman": {
+        "Records": 37,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pagos Lockbox": 37,
+          "Pagos Crystal": 37
+        }
+      },
+      "Eye of Horus": {
+        "Records": 27,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pagos Lockbox": 27,
+          "Pagos Crystal": 27
+        }
+      },
+      "Ash the Magic Dragon": {
+        "Records": 47,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pagos Lockbox": 46,
+          "Pagos Crystal": 46
+        }
+      },
+      "The Wobbler in Darkness": {
+        "Records": 34,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pagos Lockbox": 34,
+          "Pagos Crystal": 34,
+          "Optical Hat": 2
+        }
+      },
+      "Conqueror Worm": {
+        "Records": 43,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pagos Lockbox": 42,
+          "Pagos Crystal": 42
+        }
+      },
+      "Cassie and the Copycats": {
+        "Records": 441,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pagos Lockbox": 439,
+          "Pagos Crystal": 440,
+          "Cassie Earring": 6
+        }
+      },
+      "Apocalypse Cow": {
+        "Records": 65,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pagos Lockbox": 63,
+          "Pagos Crystal": 63
+        }
+      },
+      "Brothers": {
+        "Records": 48,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pagos Lockbox": 45,
+          "Pagos Crystal": 45
+        }
+      },
+      "Cows for Concern": {
+        "Records": 54,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pagos Lockbox": 52,
+          "Pagos Crystal": 52
+        }
+      },
+      "Down the Rabbit Hole": {
+        "Records": 223,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pagos Lockbox": 221
+        }
+      },
+      "Disorder in the Court": {
+        "Records": 50,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pagos Lockbox": 49,
+          "Pagos Crystal": 49
+        }
+      },
+      "Melting Point": {
+        "Records": 7,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pagos Lockbox": 7,
+          "Pagos Crystal": 7
+        }
+      },
+      "Eye Scream for Ice Cream": {
+        "Records": 28,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pagos Lockbox": 28,
+          "Pagos Crystal": 28,
+          "Cold-warped Lockbox": 28
+        }
+      },
+      "Eternity": {
+        "Records": 29,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pagos Lockbox": 28,
+          "Pagos Crystal": 29,
+          "Yukinko Card": 3
+        }
+      },
+      "Curiouser and Curiouser": {
+        "Records": 25,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pagos Lockbox": 25
+        }
+      }
+    }
+  },
+  "401": {
+    "0": {
+      "Bones": {
+        "Records": 42,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Sound of Madness": {
+        "Records": 46,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Food Fight": {
+        "Records": 46,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Youth Must Be Severed": {
+        "Records": 24,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Rebel Yehl": {
+        "Records": 20,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Bismarcking Time": {
+        "Records": 31,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Come to My Window": {
+        "Records": 39,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Let There Be Acolytes": {
+        "Records": 24,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "This Is How We Gundu": {
+        "Records": 18,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Saved the Nests for Last": {
+        "Records": 35,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Long Way Down": {
+        "Records": 21,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Guano a Mano": {
+        "Records": 19,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Anzu Trois": {
+        "Records": 38,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "One Turned Over the Cloudkin's Nest": {
+        "Records": 25,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Disturbing Lack of Faith": {
+        "Records": 18,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Leech the Sky": {
+        "Records": 38,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Hearts Like Steel, Fists Like Thunder": {
+        "Records": 38,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "You Eat What You Aren't": {
+        "Records": 20,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Leather and Mace": {
+        "Records": 34,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Obey their Thirst": {
+        "Records": 18,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "On Dangerous Ground": {
+        "Records": 21,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Gold Rush Minecart": 15
+        }
+      },
+      "A Dream, Perchance to Eat": {
+        "Records": 28,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Fugitive": {
+        "Records": 15,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Mint Condition": {
+        "Records": 9,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Zuns on the Run": {
+        "Records": 2,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "795": {
+    "0": {
+      "Lost Epic": {
+        "Records": 56,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pyros Lockbox": 56,
+          "Pyros Crystal": 56,
+          "Penthesilea's Flame": 56
+        }
+      },
+      "Haunter of the Dark": {
+        "Records": 178,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pyros Lockbox": 177,
+          "Pyros Crystal": 176,
+          "Inimical Logogram": 11,
+          "Ying-Yang's Tissue": 3
+        }
+      },
+      "You Do Know Jack": {
+        "Records": 38,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pyros Lockbox": 38,
+          "Pyros Crystal": 38,
+          "Curative Logogram": 1
+        }
+      },
+      "Mister Bright-eyes": {
+        "Records": 39,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pyros Lockbox": 39,
+          "Pyros Crystal": 39,
+          "Protective Logogram": 5
+        }
+      },
+      "Put Up Your Dux": {
+        "Records": 21,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pyros Lockbox": 21,
+          "Pyros Crystal": 21,
+          "Inimical Logogram": 1
+        }
+      },
+      "Heavens' Warg": {
+        "Records": 217,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pyros Lockbox": 216,
+          "Pyros Crystal": 216,
+          "Protective Logogram": 20
+        }
+      },
+      "Thirty Whacks": {
+        "Records": 140,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pyros Lockbox": 140,
+          "Pyros Crystal": 140,
+          "Lamebrix's Dice": 4,
+          "Protective Logogram": 15
+        }
+      },
+      "Up and Batym": {
+        "Records": 16,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pyros Lockbox": 16,
+          "Pyros Crystal": 16,
+          "Inimical Logogram": 3
+        }
+      },
+      "On the Nonexistent": {
+        "Records": 18,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pyros Lockbox": 18,
+          "Pyros Crystal": 18,
+          "Inimical Logogram": 5
+        }
+      },
+      "Medias Res": {
+        "Records": 20,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pyros Lockbox": 19,
+          "Pyros Crystal": 20,
+          "Curative Logogram": 2
+        }
+      },
+      "Scorchpion King": {
+        "Records": 31,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pyros Lockbox": 31,
+          "Pyros Crystal": 31,
+          "Protective Logogram": 2
+        }
+      },
+      "Quiet, Please": {
+        "Records": 16,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pyros Lockbox": 16,
+          "Pyros Crystal": 16,
+          "Protective Logogram": 6
+        }
+      },
+      "Rondo Aetolus": {
+        "Records": 24,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pyros Lockbox": 24,
+          "Pyros Crystal": 24,
+          "Curative Logogram": 3
+        }
+      },
+      "Creepy Doll": {
+        "Records": 33,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pyros Lockbox": 33,
+          "Pyros Crystal": 33,
+          "Curative Logogram": 2
+        }
+      },
+      "We're All Mad Here": {
+        "Records": 151,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pyros Lockbox": 149
+        }
+      },
+      "Uncommon Nonsense": {
+        "Records": 18,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pyros Lockbox": 17
+        }
+      },
+      "High Voltage": {
+        "Records": 8,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pyros Lockbox": 8,
+          "Pyros Crystal": 8
+        }
+      },
+      "Dry Iris": {
+        "Records": 40,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pyros Lockbox": 40,
+          "Pyros Crystal": 40,
+          "Curative Logogram": 4
+        }
+      },
+      "Burning Hunger": {
+        "Records": 37,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pyros Lockbox": 37,
+          "Pyros Crystal": 37,
+          "Inimical Logogram": 4
+        }
+      }
+    }
+  },
+  "402": {
+    "0": {
+      "Harvest Moon": {
+        "Records": 65,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Put the Knives Down": {
+        "Records": 25,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Mystery Machine": {
+        "Records": 43,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "No Greater Goryshche": {
+        "Records": 32,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Phi Slamma Gamma South": {
+        "Records": 29,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Root of Evil": {
+        "Records": 53,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Life of Brain": {
+        "Records": 66,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Late Escape": {
+        "Records": 75,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Bug's Death": {
+        "Records": 50,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Do Spinners Dream of Electric Rooks": {
+        "Records": 77,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Phi Slamma Gamma East": {
+        "Records": 32,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Phi Slamma Gamma West": {
+        "Records": 32,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Room without Books": {
+        "Records": 32,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Still Ticking": {
+        "Records": 77,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Curiously Strong Things": {
+        "Records": 61,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Pet, Smart": {
+        "Records": 54,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Scared Sylla": {
+        "Records": 22,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Monster Mass": {
+        "Records": 44,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Rampant Speculation": {
+        "Records": 36,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Prey Online": {
+        "Records": 13,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Proto Ultima Exoplating": 13
+        }
+      },
+      "Out of Sight, Out of Mind": {
+        "Records": 13,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Yak It Up": {
+        "Records": 13,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "400": {
+    "0": {
+      "Corporal Pomishment": {
+        "Records": 37,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Rastaban Vibration": {
+        "Records": 67,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Darkscale Card": 58
+        }
+      },
+      "Sprite Club": {
+        "Records": 33,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Ain't Misbehaving": {
+        "Records": 47,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Aevis Has Left the Building": {
+        "Records": 33,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Asah, I Came, I Conquered": {
+        "Records": 40,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Mogicide": {
+        "Records": 72,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Darkscale Card": 68
+        }
+      },
+      "Say it Tulihand": {
+        "Records": 50,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Vouivre Believre": {
+        "Records": 33,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "As the World Burns": {
+        "Records": 44,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Don't Know Wyvern": {
+        "Records": 35,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "From Dusk till Gone": {
+        "Records": 51,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "How to Cane Your Dragon": {
+        "Records": 39,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Waugyl Waugyl Waugyl": {
+        "Records": 34,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Supper Time": {
+        "Records": 43,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Infamous": {
+        "Records": 22,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Wave Good-bye": {
+        "Records": 43,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Waiting for Fjalar to Stall": {
+        "Records": 45,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Whole Food": {
+        "Records": 48,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Glycon Air": {
+        "Records": 53,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Coin Toss": {
+        "Records": 30,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "It's the Moogle, Reinvented": {
+        "Records": 28,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Nuts": {
+        "Records": 26,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "End of the Rainbow": {
+        "Records": 50,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Darkscale Card": 28
+        }
+      },
+      "Darkscale Descendeth": {
+        "Records": 15,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Treehouse of the Spirits": {
+        "Records": 33,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Vedrfolnir Devoteth": {
+        "Records": 9,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Ishgardian Half Barding": 9
+        }
+      },
+      "Darkscale Disappeareth": {
+        "Records": 7,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Darkscale Devoureth": {
+        "Records": 9,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "397": {
+    "0": {
+      "Run, Riders, Run": {
+        "Records": 113,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "One Whiskey, One Goat, One Spear": {
+        "Records": 139,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "No Ifs, Ands, or Butts": {
+        "Records": 75,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Null and Void": {
+        "Records": 74,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Dawn of the Mylodons": {
+        "Records": 111,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Don of the Mylodons": {
+        "Records": 109,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Follow the Sleet": {
+        "Records": 55,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "What You See Is What You Get": {
+        "Records": 132,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Land of the Freeze": {
+        "Records": 123,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "True Convictions": {
+        "Records": 118,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Polar Express": {
+        "Records": 118,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "We Fought a Dzu": {
+        "Records": 38,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Behemoth Earring": 29
+        }
+      },
+      "Panic Rheum": {
+        "Records": 99,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Sugar, Sugar": {
+        "Records": 114,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Pico de Gallows": {
+        "Records": 82,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Sick Pack": {
+        "Records": 69,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "In Command": {
+        "Records": 92,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Requiem for a Dragon": {
+        "Records": 91,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Eye in the Sky": {
+        "Records": 124,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Sphenopalatine Ganglioneuralgia": {
+        "Records": 145,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Dung Deal": {
+        "Records": 83,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Apparent Trap": {
+        "Records": 93,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Unsilent Vigil": {
+        "Records": 90,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Stihi Situation": {
+        "Records": 116,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Dishonored": {
+        "Records": 71,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Abominable Me": {
+        "Records": 58,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "398": {
+    "0": {
+      "Glawackus On, Glawackus Off": {
+        "Records": 72,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Come to My Arms": {
+        "Records": 129,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Special Tarasque Force": {
+        "Records": 25,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Fat Chocobo Card": 15
+        }
+      },
+      "Run, Run Away": {
+        "Records": 95,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Hearing Voices": {
+        "Records": 55,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Bear Apparent": {
+        "Records": 91,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Whole Truth": {
+        "Records": 96,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Nothing but the Truth": {
+        "Records": 95,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Birds of a Feather": {
+        "Records": 62,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "El Miacid": {
+        "Records": 68,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Rite Stuff": {
+        "Records": 91,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Cerf's Up": {
+        "Records": 88,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Ladies First": {
+        "Records": 104,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Dead Meat": {
+        "Records": 89,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Drone Under": {
+        "Records": 68,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Ware the Maiden Fair": {
+        "Records": 99,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Who's the Moss": {
+        "Records": 57,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Migas Touch": {
+        "Records": 83,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Stamp the Yard": {
+        "Records": 69,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "By the Horns": {
+        "Records": 90,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Elephant in the Brume": {
+        "Records": 76,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Long Live the Coeurl": {
+        "Records": 22,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Coeurlregina Horn": 17
+        }
+      },
+      "Coeurls Chase Boys Chase Coeurls": {
+        "Records": 11,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Coeurlregina Horn": 11
+        }
+      },
+      "Coeurls Chase Boys": {
+        "Records": 7,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Coeurlregina Horn": 7
+        }
+      },
+      "The Mourning After": {
+        "Records": 27,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "399": {
+    "0": {
+      "The Bear Up There": {
+        "Records": 60,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Sun Bear, Sun Bear, What Do You Eat": {
+        "Records": 73,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Out of the Woodwork": {
+        "Records": 62,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Tome Raider": {
+        "Records": 37,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "On Melancholic Hill": {
+        "Records": 77,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Olympus Has Pollen": {
+        "Records": 89,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Infant Vangob": {
+        "Records": 85,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Gets the Red Out": {
+        "Records": 72,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Silkworm": {
+        "Records": 76,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Wild Wilde Death": {
+        "Records": 79,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Tarantula Hawk, Pro Stinger": {
+        "Records": 74,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Dobharch Did It for the Best": {
+        "Records": 88,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Toss 'Em Back": {
+        "Records": 70,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "How Do You Feed a Hungry Manlike Monster": {
+        "Records": 61,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Metal Gears Revengeance 2": {
+        "Records": 19,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Qiqirn Earring": 17
+        }
+      },
+      "Come Shells or High Water": {
+        "Records": 53,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Birds and the Bears": {
+        "Records": 82,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Morbol Man": {
+        "Records": 58,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Frog Days of Summer": {
+        "Records": 48,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Feed Me, See More": {
+        "Records": 76,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Toad Alone": {
+        "Records": 72,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Ratel and Hum": {
+        "Records": 64,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Makes the Very Best...Nests": {
+        "Records": 42,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Cockatrice Block": {
+        "Records": 38,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Pop Goes the Whizzle": {
+        "Records": 63,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Revenge of the Vengeful Revengeance": {
+        "Records": 59,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Metal Gears Rising": {
+        "Records": 39,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Metal Gears Revengeance": {
+        "Records": 27,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Poroggo Stuck": {
+        "Records": 22,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "141": {
+    "0": {
+      "A Warm Welcome": {
+        "Records": 154,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Cold-blooded": {
+        "Records": 155,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Cracked": {
+        "Records": 168,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Wrecked Rats": {
+        "Records": 161,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Big Time": {
+        "Records": 152,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "For the Queen": {
+        "Records": 167,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Leaving the Nest": {
+        "Records": 165,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Survivor Rats": {
+        "Records": 153,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Something to Prove": {
+        "Records": 159,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Like an Eft out of Water": {
+        "Records": 139,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Few Arrows Short of a Quiver": {
+        "Records": 147,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Orobon Part Two: The Spawning": {
+        "Records": 136,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Let them Eat Cactus": {
+        "Records": 157,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "1188": {
+    "0": {
+      "Caphunter, Mushroom Muncher": {
+        "Records": 666,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Ruffling Feathers": {
+        "Records": 778,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Toucalibri at That Game": {
+        "Records": 671,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Feathery Dustup": {
+        "Records": 929,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Sting Operation": {
+        "Records": 824,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Pama-yawa Dilemma": {
+        "Records": 937,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Crocs of the Creek": {
+        "Records": 684,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Tegu or Not Tegu": {
+        "Records": 821,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Bandit Tax, Paid in Full": {
+        "Records": 842,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Reeds in Need": {
+        "Records": 804,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Sayona Your Prayers": {
+        "Records": 904,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Combing the Area": {
+        "Records": 667,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Mole Patrol": {
+        "Records": 649,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Borne on the Backs of Burrowers": {
+        "Records": 573,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Tax Dodging": {
+        "Records": 731,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Putting the Fun in Fungicide": {
+        "Records": 661,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "There's Always a Bigger Beast": {
+        "Records": 849,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "This Kills the Craklaw": {
+        "Records": 655,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "138": {
+    "0": {
+      "In the Sac": {
+        "Records": 74,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Watch Your Tongue": {
+        "Records": 527,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Coral Necklace": 464
+        }
+      },
+      "Tail of a Whale": {
+        "Records": 339,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Coral Band": 326
+        }
+      },
+      "Sharknado": {
+        "Records": 608,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Coral Armband": 588
+        }
+      },
+      "Making Waves": {
+        "Records": 233,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Last Straw": {
+        "Records": 102,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Between Aurochs": {
+        "Records": 117,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The King's Justice": {
+        "Records": 56,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Shredding Wheat": {
+        "Records": 98,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Goblin Chain": {
+        "Records": 58,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "(I Just) Died in Six Arms Tonight": {
+        "Records": 99,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Tender Buttons": {
+        "Records": 94,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Gauging North Tidegate": {
+        "Records": 214,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Gauging South Tidegate": {
+        "Records": 212,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Breaching South Tidegate": {
+        "Records": 253,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Iron Contra Affair": {
+        "Records": 43,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Don't Call Him a Fishback": {
+        "Records": 70,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Breaching North Tidegate": {
+        "Records": 237,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Dead Man's Rest": {
+        "Records": 49,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Barometz Soup": {
+        "Records": 107,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Tryp Fantastic": {
+        "Records": 69,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Absolutely, Positively": {
+        "Records": 44,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Letters from Tidegate": {
+        "Records": 22,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "817": {
+    "0": {
+      "Nest of Kin": {
+        "Records": 60,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "We Are Venom": {
+        "Records": 81,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Picking Up the Pieces": {
+        "Records": 55,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Pluck of the Draw": {
+        "Records": 50,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Queen of the Harpies": {
+        "Records": 57,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Six Fulm Turkeys": {
+        "Records": 80,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Attack the Block": {
+        "Records": 67,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The End of the Sentry": {
+        "Records": 47,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Monkeying Around": {
+        "Records": 40,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Tojil War": {
+        "Records": 33,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Tojil Annihilation": {
+        "Records": 30,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Tojil Carnage": {
+        "Records": 30,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Shot Through the Hart": {
+        "Records": 32,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Barking Mad": {
+        "Records": 45,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "I'll Be Bark": {
+        "Records": 87,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Dark Matters": {
+        "Records": 74,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Tojil Eclipse": {
+        "Records": 27,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Creepy Crawlers": {
+        "Records": 47,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Attack of the Killer Tomatl": {
+        "Records": 68,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "1191": {
+    "0": {
+      "Anger Issues": {
+        "Records": 1038,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Old Stampeding Grounds": {
+        "Records": 776,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Ware the Wolves": {
+        "Records": 922,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "(Got My Eye) Set on You": {
+        "Records": 861,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "It's Super Defective": {
+        "Records": 1342,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Running of the Katobleps": {
+        "Records": 1233,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Days of Thunder": {
+        "Records": 1000,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Domo Arigato": {
+        "Records": 1395,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Mi Casa Es Mi Casa": {
+        "Records": 891,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Mr. Roboto": {
+        "Records": 1296,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Hack the Planet": {
+        "Records": 1034,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "print('I hate snakes')": {
+        "Records": 807,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "To Each His Drone": {
+        "Records": 875,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Scythe to an Axe Fight": {
+        "Records": 1065,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Pulling the Wool": {
+        "Records": 842,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "When It's So Salvage": {
+        "Records": 656,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "License to Dill": {
+        "Records": 921,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "612": {
+    "0": {
+      "The Evil Seed": {
+        "Records": 68,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Beyond the Wall Orchestrion Roll": 56
+        }
+      },
+      "Thank You for Not Mossling": {
+        "Records": 49,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Really Don't Keratyrannos": {
+        "Records": 48,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Death Beckons": {
+        "Records": 40,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Spiderweb Chronicles": {
+        "Records": 66,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Unbearable": {
+        "Records": 49,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "M Bop": {
+        "Records": 49,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Pop the Trunk": {
+        "Records": 54,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Raisin' Hell": {
+        "Records": 52,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Bold This Way": {
+        "Records": 45,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Pain in the Neck": {
+        "Records": 22,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Ananta and Her Sisters": {
+        "Records": 39,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Flappy Berda": {
+        "Records": 61,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Tele-tale Hunt": {
+        "Records": 44,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Yes, This Is Dogs": {
+        "Records": 76,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Showing the Recruits What For": {
+        "Records": 29,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Antlion's Share": {
+        "Records": 25,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Get Sharp": {
+        "Records": 28,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Mail Must Get Through": {
+        "Records": 41,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Dizzy Miss Grizzly": {
+        "Records": 33,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Secret Life of Plants": {
+        "Records": 62,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Roid Rage": {
+        "Records": 47,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Double Dhara": {
+        "Records": 26,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Morning After": {
+        "Records": 51,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Keeping the Peace": {
+        "Records": 31,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Diakka Round": {
+        "Records": 79,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Showing the Officers What For": {
+        "Records": 25,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Showing the Commanders What For": {
+        "Records": 26,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Keeping More Peace": {
+        "Records": 8,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "960": {
+    "0": {
+      "Far from the Madding Horde": {
+        "Records": 81,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Dead Inside": {
+        "Records": 108,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Omicron Recall: Comms Expansion": {
+        "Records": 62,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Wings of Glory": {
+        "Records": 80,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Staring into the Void": {
+        "Records": 90,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Sound and Fury": {
+        "Records": 84,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Fallen from Grace": {
+        "Records": 104,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Nevermore": {
+        "Records": 105,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Omicron Recall: Secure Connection": {
+        "Records": 28,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "(No) Wind beneath Our Wings": {
+        "Records": 83,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Beacons of Lost Hope": {
+        "Records": 99,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Only Just Begun": {
+        "Records": 68,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Omicron Recall: Killing Order": {
+        "Records": 56,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Chi Bolt": 54
+        }
+      }
+    }
+  },
+  "818": {
+    "0": {
+      "The Head, the Tail, the Whole Damned Thing": {
+        "Records": 30,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Archaeotania's Horn": 25
+        }
+      },
+      "My Friend's Enemy Is Anemone of Mine": {
+        "Records": 186,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Nets Best Thing": {
+        "Records": 175,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Natural Prawn Killers": {
+        "Records": 193,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Seashells He Sells": {
+        "Records": 29,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Pearls Apart": {
+        "Records": 51,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Hydrozoan of the Enders": {
+        "Records": 154,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Devil in the Deep Blue Sea": {
+        "Records": 87,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Lot to Swallow": {
+        "Records": 133,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Coral Support": {
+        "Records": 55,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Low Coral Fiber": {
+        "Records": 44,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Where Has the Dagon": {
+        "Records": 59,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Ondo of Blood": {
+        "Records": 54,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Lookin' Back on the Track": {
+        "Records": 51,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Nothing Like a Trappin' Life": {
+        "Records": 9,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "1190": {
+    "0": {
+      "The Serpentlord Seethes": {
+        "Records": 165,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Ttokrrone Scale": 162
+        }
+      },
+      "Dhara Dared": {
+        "Records": 778,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Breaking the Jaw": {
+        "Records": 1136,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Ain't What I Herd": {
+        "Records": 952,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "You Are What You Drink": {
+        "Records": 831,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Raptor Runs Through It": {
+        "Records": 934,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "That's Me and the Porter": {
+        "Records": 755,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Tortoise of a Tale": {
+        "Records": 968,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Serpentlord Speaks": {
+        "Records": 1144,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Claw and Order": {
+        "Records": 778,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Helms off to the Bull": {
+        "Records": 1012,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Serpentlord Stirs": {
+        "Records": 1279,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Nopal Hunters": {
+        "Records": 777,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Serpentlord Sires": {
+        "Records": 834,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Gonna Have Me Some Fur": {
+        "Records": 630,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Serpentlord Suffers": {
+        "Records": 794,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Dead Never Die": {
+        "Records": 760,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "135": {
+    "0": {
+      "Don't Drink the Water": {
+        "Records": 166,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Away in a Bilge Hold": {
+        "Records": 108,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Under the Bridge": {
+        "Records": 172,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "I Melt with You": {
+        "Records": 173,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "You Call That a Toad": {
+        "Records": 185,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Caving In": {
+        "Records": 88,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "One Prince": {
+        "Records": 148,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "In the Name of Love": {
+        "Records": 90,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Enter Beastman": {
+        "Records": 172,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Fight the Flower": {
+        "Records": 162,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "One Pickman Enters": {
+        "Records": 174,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Man of the Flour": {
+        "Records": 134,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "148": {
+    "0": {
+      "The Sting": {
+        "Records": 286,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Mother Scorned": {
+        "Records": 295,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "My Baby Green": {
+        "Records": 268,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Spirithold Run": {
+        "Records": 327,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Lady Killer": {
+        "Records": 275,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Clever Girls": {
+        "Records": 196,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Something in the Water": {
+        "Records": 312,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Lindwurm Has Turned": {
+        "Records": 228,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Sleep Tight": {
+        "Records": 315,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Revenant Things": {
+        "Records": 285,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "There's Something about Lou": {
+        "Records": 357,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Love Is in the Air": {
+        "Records": 282,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "One Enchanted Eve": {
+        "Records": 201,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Bleeding Green": {
+        "Records": 265,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Training Day": {
+        "Records": 118,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Leader of the Pack": {
+        "Records": 276,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "In Spite of It All": {
+        "Records": 293,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Asipatra Attacks": {
+        "Records": 302,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Lethe on My Mind": {
+        "Records": 306,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Alux of the Draw": {
+        "Records": 260,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Steel Reign": {
+        "Records": 7,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Odin's Mantle": 7
+        }
+      },
+      "What's Your Poison": {
+        "Records": 214,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "If I Only Had a Soul": {
+        "Records": 195,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "1187": {
+    "0": {
+      "Fire Suppression": {
+        "Records": 730,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "So Long, Suckers": {
+        "Records": 846,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Birds Up": {
+        "Records": 767,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Pasture Expiration Date": {
+        "Records": 678,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Gust Stop Already": {
+        "Records": 749,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Claws and Effect": {
+        "Records": 784,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "By Your Powers Combined": {
+        "Records": 761,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Wolf Parade": {
+        "Records": 701,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Too Irate to Migrate": {
+        "Records": 886,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Young Volcanoes": {
+        "Records": 794,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Salty Showdown": {
+        "Records": 666,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Valiant Duel": {
+        "Records": 737,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Megamaguey Mayhem": {
+        "Records": 897,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Weeding the Garden": {
+        "Records": 826,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Big Storm Coming": {
+        "Records": 749,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Ratels So Ravenous": {
+        "Records": 868,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Panaq Attack": {
+        "Records": 733,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Lay Off the Horns": {
+        "Records": 757,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "957": {
+    "0": {
+      "Devout Pilgrims vs. the Jungle Lizards": {
+        "Records": 43,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Devout Pilgrims vs. the Apalala": {
+        "Records": 31,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Return of the Tyrant": {
+        "Records": 57,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Mesmerizing Moths": {
+        "Records": 56,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Full Petal Alchemist: Perilous Pickings": {
+        "Records": 50,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Swipe Eft": {
+        "Records": 49,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "I Am the Valras": {
+        "Records": 34,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Devout Pilgrims vs. Daivadipa": {
+        "Records": 45,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Daivadipa's Bead": 45
+        }
+      },
+      "The Accursed Kanabhuti": {
+        "Records": 63,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Stalkers in the Shroud": {
+        "Records": 67,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "When Gaja Go Gaga": {
+        "Records": 47,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Peek-a-Bhujamga": {
+        "Records": 45,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Of Claws and Gall": {
+        "Records": 34,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Full Petal Alchemist: Risky Return": {
+        "Records": 32,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Shiver and Shock": {
+        "Records": 36,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Monkeys on Your Back": {
+        "Records": 34,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Little Nanka That Could": {
+        "Records": 21,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "958": {
+    "0": {
+      "Trespassers Will Be Eaten": {
+        "Records": 61,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Man with the Golden Son": {
+        "Records": 50,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Artificial Malevolence: 15 Minutes to Comply": {
+        "Records": 75,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Snowball's Chance": {
+        "Records": 43,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Not Yeti": {
+        "Records": 61,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Artificial Malevolence: The Drone Army": {
+        "Records": 36,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Bit of a Problem": {
+        "Records": 49,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Roses Are Red, Violence Is Due": {
+        "Records": 66,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Nettle Gear Solid": {
+        "Records": 53,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Rocker, Roller, Out-of-controller": {
+        "Records": 50,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Exterminate, Exterminate": {
+        "Records": 53,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Stray Dog Strut": {
+        "Records": 55,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Parts Unknown": {
+        "Records": 43,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Amazing Crates": {
+        "Records": 47,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Artificial Malevolence: Unmanned Aerial Villains": {
+        "Records": 22,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Artificial Malevolence: Mighty Metatron": {
+        "Records": 22,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "1189": {
+    "0": {
+      "My Star": {
+        "Records": 929,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Stabbing Gutward": {
+        "Records": 1083,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Trial by Firedance": {
+        "Records": 1070,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Sick, Ornery Wivres": {
+        "Records": 689,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Departed": {
+        "Records": 766,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Fruit of the Problem": {
+        "Records": 926,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Could've Found Something Bigger": {
+        "Records": 1125,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Porting Is Such Sweet Sorrow": {
+        "Records": 670,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "La Selva se lo Llevó": {
+        "Records": 1088,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Moths Are Tough": {
+        "Records": 901,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "I Ain't Afraid of No Ghost": {
+        "Records": 596,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Najool of Denial": {
+        "Records": 792,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Spawning": {
+        "Records": 778,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Stick it to the Mantis": {
+        "Records": 830,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Fright or Flight": {
+        "Records": 518,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Escape Shroom": {
+        "Records": 678,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "815": {
+    "0": {
+      "Bayawak Attack": {
+        "Records": 98,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Harbingers of Bloom": {
+        "Records": 113,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Pray Destroy the Waking Sands": {
+        "Records": 111,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Anti-eruption Measures": {
+        "Records": 52,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Bloody Simple": {
+        "Records": 61,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Tolba No. 1": {
+        "Records": 115,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Odd Couple": {
+        "Records": 56,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Let's Dance (with Swords)": {
+        "Records": 70,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Baddie Longlegs": {
+        "Records": 57,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Scavengers Hunted": {
+        "Records": 33,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Reptilian Roadblock": {
+        "Records": 12,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Cactus Makes Perfect": {
+        "Records": 13,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Theft from Above": {
+        "Records": 11,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Sand and Deliver": {
+        "Records": 6,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Elderblade": {
+        "Records": 4,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Armadillo Peccadillo": {
+        "Records": 4,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "This Time, It's Personal": {
+        "Records": 3,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "816": {
+    "0": {
+      "Hedge Mazed": {
+        "Records": 83,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Weave 'Em and Weep": {
+        "Records": 116,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Locus Terribilis": {
+        "Records": 99,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Frog Standard": {
+        "Records": 47,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Fuath of Habit": {
+        "Records": 54,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Mad Magic": {
+        "Records": 104,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Bear Necessities": {
+        "Records": 108,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Once Upon a Time": {
+        "Records": 83,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Twice Upon a Time": {
+        "Records": 44,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Thrice Upon a Time": {
+        "Records": 35,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Great Daens": {
+        "Records": 37,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Back and Fuath": {
+        "Records": 31,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Brute Fuath": {
+        "Records": 16,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Breaking the Fuath Wall": {
+        "Records": 9,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Go Fuath a Conqueror": {
+        "Records": 11,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Fuath to Be Reckoned With": {
+        "Records": 14,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "146": {
+    "0": {
+      "The Corpse Bribe": {
+        "Records": 75,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Taken": {
+        "Records": 325,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Revenge of the Worms": {
+        "Records": 158,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Return to Cinder": {
+        "Records": 291,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Fallen Corpses Writhe in Style": {
+        "Records": 295,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Hunters and the Hunted": {
+        "Records": 183,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Bump and Grind": {
+        "Records": 82,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Fish out of Water": {
+        "Records": 166,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Blood, Augur, Hex, Magicks": {
+        "Records": 206,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Children of the Sands": {
+        "Records": 172,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Spark off the Bench": {
+        "Records": 188,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Bigger than Life": {
+        "Records": 90,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Soul Man": {
+        "Records": 51,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Diamond in the Rough": {
+        "Records": 67,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "From Point A": {
+        "Records": 77,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Quenching the Flame": {
+        "Records": 258,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Flamefang Choker": 248
+        }
+      },
+      "Full of Rigor Mortis": {
+        "Records": 75,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Adventures in Throat Slitting": {
+        "Records": 85,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "An Inconvenient Truth": {
+        "Records": 225,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "He's a Firestarter": {
+        "Records": 162,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Run Like a Flame": {
+        "Records": 167,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Heroes of the 2nd": {
+        "Records": 334,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Gyve Talk": {
+        "Records": 184,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Downwind": {
+        "Records": 207,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Book of Pride": {
+        "Records": 92,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Tempered, Tempered": {
+        "Records": 79,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Harder, Bigger, Faster, Stronger": {
+        "Records": 106,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Call Me, Mayhaps": {
+        "Records": 65,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Future Shock": {
+        "Records": 57,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "156": {
+    "0": {
+      "Home Is Where the Horn Is": {
+        "Records": 36,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Mud about You": {
+        "Records": 19,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "One Giant Leap": {
+        "Records": 8,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Black and Nburu": {
+        "Records": 56,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "V for Vinedetta": {
+        "Records": 22,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Another Day, Another Demon": {
+        "Records": 16,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Gone with the Shadow": {
+        "Records": 44,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Good to Be Bud": {
+        "Records": 48,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Standing Guard": {
+        "Records": 20,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Another Notch on the Torch": {
+        "Records": 45,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Among Giants": {
+        "Records": 17,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "That's What Adventurers Are For": {
+        "Records": 16,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Toll Collector": {
+        "Records": 19,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Prodigal Son": {
+        "Records": 1,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "134": {
+    "0": {
+      "Yellow-bellied Greenbacks": {
+        "Records": 157,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Orange Boxes": {
+        "Records": 142,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Shearing Is Caring": {
+        "Records": 197,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Boy Who Cried Jackal": {
+        "Records": 208,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Truth Is out There": {
+        "Records": 219,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Crying over Spilled Salt": {
+        "Records": 166,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "On the Lamb": {
+        "Records": 164,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Hello, Work": {
+        "Records": 150,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Sister Crustacean": {
+        "Records": 193,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Menuis at Work": {
+        "Records": 130,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Go Wespe": {
+        "Records": 216,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Overnight Migration": {
+        "Records": 146,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Taking It to the Streams": {
+        "Records": 169,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Mad, Mad, Mad Sergeant": {
+        "Records": 180,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Thwack-a-Mole": {
+        "Records": 139,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "145": {
+    "0": {
+      "Manifest Destiny": {
+        "Records": 190,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Desert Rose": {
+        "Records": 174,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Deep in the Heart of Sagolii": {
+        "Records": 147,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Almost Paradise": {
+        "Records": 104,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "License to Quill": {
+        "Records": 116,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Westward Bound": {
+        "Records": 146,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Simple Minds": {
+        "Records": 91,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Spare the Hair": {
+        "Records": 200,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Bad Hair Day": {
+        "Records": 145,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Man Rides Through": {
+        "Records": 129,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Quartz Coupling": {
+        "Records": 144,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Men Who See Goats": {
+        "Records": 135,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Big Bagoly Theory": {
+        "Records": 133,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Attack on Highbridge: Prelude": {
+        "Records": 118,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Attack on Highbridge: Act I": {
+        "Records": 140,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Grim Undertakings": {
+        "Records": 110,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Bazaar Blood Triangle": {
+        "Records": 90,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Attack on Highbridge: Act II": {
+        "Records": 135,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Attack on Highbridge: Act III": {
+        "Records": 116,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Attack on Highbridge: Denouement": {
+        "Records": 127,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Bad Camp": {
+        "Records": 125,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "620": {
+    "0": {
+      "Rattle and Humbaba": {
+        "Records": 14,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Ala Mhigan Barding": 13
+        }
+      },
+      "The Magitek Is Back": {
+        "Records": 8,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Diceman Cometh": {
+        "Records": 29,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Barbershoppe": {
+        "Records": 30,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "You Don't Know Jack": {
+        "Records": 39,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Beat Boxes": {
+        "Records": 14,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Day of the Griffins": {
+        "Records": 15,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Breakneck": {
+        "Records": 37,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Moth to a Flame": {
+        "Records": 13,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Churlish Chapuli": {
+        "Records": 14,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Home on the Range": {
+        "Records": 12,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Of Mice and Men": {
+        "Records": 11,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Slaughterwife-five": {
+        "Records": 40,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Forget-me-not": {
+        "Records": 11,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Mouth for Water": {
+        "Records": 7,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Attack of the Groans": {
+        "Records": 13,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Winging It": {
+        "Records": 16,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "5-year Energy": {
+        "Records": 32,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Stuck in the Muud": {
+        "Records": 25,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Fletching Returns": {
+        "Records": 11,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Down with the Sickness": {
+        "Records": 10,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Das Bhoot": {
+        "Records": 15,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Venting": {
+        "Records": 19,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Child's Plague": {
+        "Records": 13,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Love Me, Tindalos": {
+        "Records": 11,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Days of Fluturini Past": {
+        "Records": 14,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Resist, Die, Repeat": {
+        "Records": 7,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A New Leaf": {
+        "Records": 6,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Eat Big or Go Home": {
+        "Records": 14,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Salad Days": {
+        "Records": 4,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Bone to Pick": {
+        "Records": 4,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "And the Bandits Played On": {
+        "Records": 4,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "732": {
+    "0": {
+      "To the Mat": {
+        "Records": 66,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Anemos Lockbox": 65,
+          "Anemos Crystal": 65
+        }
+      },
+      "I Amarok": {
+        "Records": 51,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Anemos Lockbox": 51,
+          "Anemos Crystal": 51
+        }
+      },
+      "Short Serket 2": {
+        "Records": 56,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Anemos Lockbox": 55,
+          "Anemos Crystal": 54,
+          "Scorpion Harness": 7,
+          "Wind-up Mithra": 2
+        }
+      },
+      "The Killing of a Sacred Bombardier": {
+        "Records": 40,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Anemos Lockbox": 40,
+          "Anemos Crystal": 40
+        }
+      },
+      "Don't Judge Me, Morbol": {
+        "Records": 53,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Anemos Lockbox": 52,
+          "Anemos Crystal": 52
+        }
+      },
+      "When You Ride Alone": {
+        "Records": 55,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Anemos Lockbox": 54,
+          "Anemos Crystal": 54
+        }
+      },
+      "Wail in the Willows": {
+        "Records": 71,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Pazuzu's Feather": 71,
+          "Anemos Lockbox": 71,
+          "Anemos Crystal": 56,
+          "Altar to Pazuzu": 15
+        }
+      },
+      "Prove Your Amemettle": {
+        "Records": 45,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Anemos Lockbox": 45,
+          "Anemos Crystal": 45
+        }
+      },
+      "Unsafety Dance": {
+        "Records": 27,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Anemos Lockbox": 27,
+          "Anemos Crystal": 27
+        }
+      },
+      "One Missed Callisto": {
+        "Records": 39,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Anemos Lockbox": 38,
+          "Anemos Crystal": 38
+        }
+      },
+      "Sing, Muse": {
+        "Records": 73,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Anemos Lockbox": 71,
+          "Anemos Crystal": 71
+        }
+      },
+      "Simurghasbord": {
+        "Records": 71,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Anemos Lockbox": 69,
+          "Anemos Crystal": 69,
+          "Strider Boots": 16
+        }
+      },
+      "By Numbers": {
+        "Records": 45,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Anemos Lockbox": 43,
+          "Anemos Crystal": 43
+        }
+      },
+      "Wine and Honey": {
+        "Records": 52,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Anemos Lockbox": 51,
+          "Anemos Crystal": 51,
+          "Wind-up Fafnir": 6
+        }
+      },
+      " Drama Lamashtu": {
+        "Records": 45,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Anemos Lockbox": 45,
+          "Anemos Crystal": 45
+        }
+      },
+      "Caym What May": {
+        "Records": 49,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Anemos Lockbox": 49,
+          "Anemos Crystal": 49
+        }
+      },
+      "The Swarm Never Sets": {
+        "Records": 30,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Anemos Lockbox": 29,
+          "Anemos Crystal": 29,
+          "Emperor Hairpin": 6
+        }
+      },
+      "Disinherit the Wind": {
+        "Records": 23,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Anemos Lockbox": 23,
+          "Anemos Crystal": 23
+        }
+      },
+      "Teles House": {
+        "Records": 16,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Anemos Lockbox": 15,
+          "Anemos Crystal": 15
+        }
+      },
+      "The Shadow over Anemos": {
+        "Records": 26,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Anemos Lockbox": 26,
+          "Anemos Crystal": 26,
+          "The Prince of Anemos": 1
+        }
+      }
+    }
+  },
+  "153": {
+    "0": {
+      "To Whom the Toll Goes": {
+        "Records": 165,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Stag Parting": {
+        "Records": 144,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Breaching the Hive": {
+        "Records": 128,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Clearing the Hive": {
+        "Records": 133,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Hunted": {
+        "Records": 189,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Steel Reign": {
+        "Records": 13,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Odin's Mantle": 13
+        }
+      },
+      "What Gored Before": {
+        "Records": 489,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Tale of Two-tails": {
+        "Records": 84,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Negotiators": {
+        "Records": 154,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Hide and Seek": {
+        "Records": 121,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Fate Is a Fecal Mistress": {
+        "Records": 92,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Coeurl King": {
+        "Records": 99,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "To Train a Tortoise": {
+        "Records": 103,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Conspiracy Theory": {
+        "Records": 165,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Rogue on the Water": {
+        "Records": 89,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Kickin' It with the Kedtraps": {
+        "Records": 197,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Eft for Dead": {
+        "Records": 106,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Another Round": {
+        "Records": 126,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Robbin' Goblins": {
+        "Records": 138,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Defending the Hive": {
+        "Records": 57,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Keeping the Hive": {
+        "Records": 38,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "956": {
+    "0": {
+      "The Hills Are Alive": {
+        "Records": 59,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Residual Complications": {
+        "Records": 46,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Wasted XIV": {
+        "Records": 44,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Incident Files: Seeds of Chaos": {
+        "Records": 69,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Homecrawling": {
+        "Records": 62,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Incident Files: Steamed Vegetable": {
+        "Records": 52,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Frailty of Life": {
+        "Records": 59,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Bite the Pellet": {
+        "Records": 71,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Breakfast, Lunch, and Dinner": {
+        "Records": 61,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Let It Grow": {
+        "Records": 62,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Sheaves on the Wind": {
+        "Records": 38,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Incident Files: Elemental Attraction": {
+        "Records": 31,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Empty the Nest": {
+        "Records": 55,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Acid in Flight, Shepherd's Fright": {
+        "Records": 48,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Moisture Farming": {
+        "Records": 28,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Incident Files: Ice of the Tiger": {
+        "Records": 23,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "920": {
+    "1": {
+      "The Hunt for Red Choctober": {
+        "Records": 52,
+        "Rewards": {
+          "Mettle": 52
+        },
+        "AdditionalRewards": {
+          "Southern Front Lockbox": 52,
+          "Bozjan Coin": 47
+        }
+      },
+      "The Baying of the Hound(s)": {
+        "Records": 43,
+        "Rewards": {
+          "Mettle": 43
+        },
+        "AdditionalRewards": {
+          "Southern Front Lockbox": 43,
+          "Bozjan Coin": 38
+        }
+      },
+      "The Fires of War": {
+        "Records": 23,
+        "Rewards": {
+          "Mettle": 23
+        },
+        "AdditionalRewards": {
+          "Southern Front Lockbox": 23,
+          "Bozjan Coin": 19
+        }
+      },
+      "Rise of the Robots": {
+        "Records": 28,
+        "Rewards": {
+          "Mettle": 28
+        },
+        "AdditionalRewards": {
+          "Southern Front Lockbox": 28,
+          "Bozjan Coin": 25,
+          "Field Notes on Sicinius": 28
+        }
+      },
+      "Patriot Games": {
+        "Records": 18,
+        "Rewards": {
+          "Mettle": 18
+        },
+        "AdditionalRewards": {
+          "Southern Front Lockbox": 18,
+          "Bozjan Coin": 13
+        }
+      },
+      "Metal Fox Chaos": {
+        "Records": 60,
+        "Rewards": {
+          "Mettle": 60
+        },
+        "AdditionalRewards": {
+          "Southern Front Lockbox": 60,
+          "Bozjan Coin": 57,
+          "Forgotten Fragment of Resolve": 60
+        }
+      },
+      "Vigil for the Lost": {
+        "Records": 108,
+        "Rewards": {
+          "Mettle": 108
+        },
+        "AdditionalRewards": {
+          "Southern Front Lockbox": 108,
+          "Bozjan Coin": 97
+        }
+      },
+      "The Shadow of Death's Hand": {
+        "Records": 64,
+        "Rewards": {
+          "Mettle": 64
+        },
+        "AdditionalRewards": {
+          "Southern Front Lockbox": 64,
+          "Bozjan Coin": 55,
+          "Garlean Synthetic Fabric": 1
+        }
+      },
+      "The Final Furlong": {
+        "Records": 29,
+        "Rewards": {
+          "Mettle": 29
+        },
+        "AdditionalRewards": {
+          "Southern Front Lockbox": 29,
+          "Bozjan Coin": 22,
+          "Field Notes on Llofii": 29
+        }
+      },
+      "Trampled under Hoof": {
+        "Records": 49,
+        "Rewards": {
+          "Mettle": 49
+        },
+        "AdditionalRewards": {
+          "Southern Front Lockbox": 49,
+          "Bozjan Coin": 47,
+          "Forgotten Fragment of Resolve": 48,
+          "Garlean Synthetic Fabric": 1
+        }
+      },
+      "Where Strode the Behemoth": {
+        "Records": 50,
+        "Rewards": {
+          "Mettle": 50
+        },
+        "AdditionalRewards": {
+          "Southern Front Lockbox": 50,
+          "Bozjan Coin": 48,
+          "Forgotten Fragment of Resolve": 50
+        }
+      },
+      "Kill It with Fire": {
+        "Records": 61,
+        "Rewards": {
+          "Mettle": 61
+        },
+        "AdditionalRewards": {
+          "Southern Front Lockbox": 61,
+          "Bozjan Coin": 54,
+          "Field Notes on Clarricie": 61
+        }
+      },
+      "Beast of Man": {
+        "Records": 4,
+        "Rewards": {
+          "Mettle": 4
+        },
+        "AdditionalRewards": {
+          "Southern Front Lockbox": 4,
+          "Field Notes on Lyon": 4,
+          "Bozjan Coin": 4
+        }
+      },
+      "And the Flames Went Higher": {
+        "Records": 4,
+        "Rewards": {
+          "Mettle": 4
+        },
+        "AdditionalRewards": {
+          "Southern Front Lockbox": 4,
+          "Field Notes on Sartauvoir": 4,
+          "Bozjan Coin": 4
+        }
+      },
+      "Aces High": {
+        "Records": 12,
+        "Rewards": {
+          "Mettle": 12
+        },
+        "AdditionalRewards": {
+          "Southern Front Lockbox": 12,
+          "Field Notes on Dabog": 12,
+          "Bozjan Coin": 12
+        }
+      }
+    },
+    "0": {
+      "My Family and Other Animals": {
+        "Records": 45,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 38,
+          "Forgotten Fragment of Compassion": 34,
+          "Southern Front Lockbox": 8
+        }
+      },
+      "For Absent Friends": {
+        "Records": 39,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 35,
+          "Field Notes on Dyunbu": 11,
+          "Forgotten Fragment of Compassion": 27
+        }
+      },
+      "Of Steel and Flame": {
+        "Records": 56,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 52,
+          "Forgotten Fragment of Compassion": 52,
+          "Field Notes on Sartauvoir": 4
+        }
+      },
+      "Murder Death Kill": {
+        "Records": 68,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 59,
+          "Forgotten Fragment of Compassion": 62,
+          "Field Notes on Dabog": 5
+        }
+      },
+      "The Beasts Must Die": {
+        "Records": 77,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 51,
+          "Forgotten Fragment of Skill": 38,
+          "Field Notes on Xeven": 34
+        }
+      },
+      "No Camping Allowed": {
+        "Records": 81,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 49,
+          "Field Notes on Dyunbu": 15,
+          "Forgotten Fragment of Awakening": 53,
+          "Southern Front Lockbox": 4
+        }
+      },
+      "Can Carnivorous Plants Bloom Even on a Battlefield?": {
+        "Records": 56,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 37,
+          "Forgotten Fragment of Preparation": 21,
+          "Field Notes on Stanik": 32
+        }
+      },
+      "Heavy Boots of Lead": {
+        "Records": 98,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 65,
+          "Forgotten Fragment of Care": 68,
+          "Field Notes on Sicinius": 23,
+          "Garlean Synthetic Fabric": 1
+        }
+      },
+      "Seeq and Destroy": {
+        "Records": 117,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 73,
+          "Forgotten Fragment of Skill": 81,
+          "Southern Front Lockbox": 33
+        }
+      },
+      "The Monster Mash": {
+        "Records": 95,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 62,
+          "Forgotten Fragment of Awakening": 48,
+          "Field Notes on Hernais": 44,
+          "Garlean Synthetic Fabric": 1
+        }
+      },
+      "Scavengers of Man's Sorrow": {
+        "Records": 70,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 39,
+          "Field Notes on Blaz": 31,
+          "Forgotten Fragment of Care": 34
+        }
+      },
+      "Sneak & Spell": {
+        "Records": 90,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 56,
+          "Forgotten Fragment of Skill": 61,
+          "Southern Front Lockbox": 24
+        }
+      },
+      "Brought to Heal": {
+        "Records": 75,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 46,
+          "Southern Front Lockbox": 4,
+          "Forgotten Fragment of Preparation": 53,
+          "Field Notes on Dyunbu": 15
+        }
+      },
+      "Unrest for the Wicked": {
+        "Records": 58,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 35,
+          "Forgotten Fragment of Preparation": 43,
+          "Southern Front Lockbox": 14
+        }
+      },
+      "None of Them Knew They Were Robots": {
+        "Records": 66,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 33,
+          "Forgotten Fragment of Preparation": 30,
+          "Field Notes on Aggie": 33
+        }
+      },
+      "Conflicting with the First Law": {
+        "Records": 44,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 26,
+          "Forgotten Fragment of Skill": 27,
+          "Field Notes on Isolde": 12,
+          "Garlean Synthetic Fabric": 1
+        }
+      },
+      "Parts and Recreation": {
+        "Records": 69,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 44,
+          "Forgotten Fragment of Care": 50,
+          "Southern Front Lockbox": 18
+        }
+      },
+      "Desperately Seeking Something": {
+        "Records": 47,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 37,
+          "Forgotten Fragment of Compassion": 34,
+          "Southern Front Lockbox": 13
+        }
+      },
+      "The Element of Supplies": {
+        "Records": 72,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 49,
+          "Forgotten Fragment of Awakening": 52,
+          "Southern Front Lockbox": 14
+        }
+      },
+      "Supplies Party": {
+        "Records": 54,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 47,
+          "Forgotten Fragment of Compassion": 31,
+          "Field Notes on Stanik": 22
+        }
+      },
+      "Demonstrably Demonic": {
+        "Records": 28,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 24,
+          "Forgotten Fragment of Compassion": 19,
+          "Southern Front Lockbox": 8,
+          "Garlean Synthetic Fabric": 1
+        }
+      },
+      "Let Slip the Dogs of War": {
+        "Records": 33,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 31,
+          "Field Notes on Isolde": 11,
+          "Forgotten Fragment of Compassion": 22
+        }
+      },
+      "Help Wanted": {
+        "Records": 37,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 24,
+          "Forgotten Fragment of Awakening": 24,
+          "Southern Front Lockbox": 12
+        }
+      },
+      "The War Against the Machines": {
+        "Records": 20,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 18,
+          "Forgotten Fragment of Compassion": 13,
+          "Field Notes on Xeven": 6
+        }
+      },
+      "Waste the Rainbow": {
+        "Records": 23,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 20,
+          "Forgotten Fragment of Compassion": 20,
+          "Field Notes on Clarricie": 2
+        }
+      },
+      "The Wild Bunch": {
+        "Records": 39,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 31,
+          "Forgotten Fragment of Compassion": 30,
+          "Southern Front Lockbox": 9
+        }
+      },
+      "All Pets Are Off": {
+        "Records": 33,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 25,
+          "Field Notes on Marsak": 19,
+          "Forgotten Fragment of Preparation": 13
+        }
+      },
+      "Red (Chocobo) Alert": {
+        "Records": 28,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 22,
+          "Forgotten Fragment of Care": 21,
+          "Southern Front Lockbox": 3
+        }
+      },
+      "Unicorn Flakes": {
+        "Records": 16,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 12,
+          "Forgotten Fragment of Awakening": 14,
+          "Field Notes on Clarricie": 2
+        }
+      },
+      "Pyromancer Supreme": {
+        "Records": 43,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 31,
+          "Forgotten Fragment of Care": 23,
+          "Field Notes on Velibor": 18,
+          "Garlean Synthetic Fabric": 1
+        }
+      },
+      "More Machine Now than Man": {
+        "Records": 43,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 37,
+          "Forgotten Fragment of Skill": 23,
+          "Field Notes on Bajsaljen": 20
+        }
+      },
+      "I'm a Mechanical Man": {
+        "Records": 14,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Bozjan Coin": 11,
+          "Forgotten Fragment of Compassion": 11,
+          "Southern Front Lockbox": 2
+        }
+      }
+    }
+  },
+  "959": {
+    "0": {
+      "Lepus Lamentorum: Dynamite Disaster": {
+        "Records": 66,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Tech Support Cull": {
+        "Records": 58,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Cactus What You Preach": {
+        "Records": 75,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Mantids on the Moon": {
+        "Records": 85,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Head Empty, Only Thoughts": {
+        "Records": 74,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Strolling Stones": {
+        "Records": 79,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "What a Thrill": {
+        "Records": 40,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Scrapping the Scrapers": {
+        "Records": 46,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Stones of Silence": {
+        "Records": 83,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Droids Gone Wild": {
+        "Records": 62,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Hunger Strikes": {
+        "Records": 68,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "One Giant Weep": {
+        "Records": 67,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Taking Care of the Caretakers": {
+        "Records": 44,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Lepus Lamentorum: Cleaner Catastrophe": {
+        "Records": 17,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Lepus Lamentorum: Crazy Contraption": {
+        "Records": 8,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "613": {
+    "0": {
+      "Never Say Daimyo": {
+        "Records": 24,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Liquid Flame Orchestrion Roll": 19
+        }
+      },
+      "Princess, Princess": {
+        "Records": 34,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Clean Bill of Health": {
+        "Records": 31,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Uncivil Serpents": {
+        "Records": 46,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Double Dream Clams": {
+        "Records": 54,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Pool Party": {
+        "Records": 58,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Independence Ray": {
+        "Records": 51,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Soak Up the Sun": {
+        "Records": 62,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Lay of the Lang": {
+        "Records": 27,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Quoth the Raven": {
+        "Records": 58,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Red Cliff": {
+        "Records": 21,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Kill the Messenger": {
+        "Records": 16,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Big Banquet Theory": {
+        "Records": 16,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The F-bomb": {
+        "Records": 34,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Raise the Red Flag": {
+        "Records": 39,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Sailor Marooned": {
+        "Records": 45,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Coral High Ground": {
+        "Records": 8,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "There Be Dragonflies": {
+        "Records": 39,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Ranging Bull": {
+        "Records": 12,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Crab Mentality": {
+        "Records": 23,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Wet": {
+        "Records": 17,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Jumping the Shark": {
+        "Records": 15,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Another One Bites the Dust": {
+        "Records": 9,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Turtle Power": {
+        "Records": 9,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Bilge-hold Jin": {
+        "Records": 5,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Days of Plunder": {
+        "Records": 5,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Forever Younglier": {
+        "Records": 4,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Agni's Philosophy": {
+        "Records": 19,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Ray Band": {
+        "Records": 8,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Treasure Island": {
+        "Records": 7,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "614": {
+    "0": {
+      "Curiosity Killed the Catfish": {
+        "Records": 20,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Kidomaru": 17
+        }
+      },
+      "The Long and Rhino Road": {
+        "Records": 21,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Linquan Continental": {
+        "Records": 32,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Mister Whiskers": {
+        "Records": 19,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Scared Straightheart": {
+        "Records": 11,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Wolves of a Feather": {
+        "Records": 11,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Goodwill Hunterling": {
+        "Records": 11,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "More to Offer": {
+        "Records": 27,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Freedom Flies": {
+        "Records": 24,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Virgin Homicides": {
+        "Records": 26,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Deep Red Sea": {
+        "Records": 19,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "To Catch a Weasel": {
+        "Records": 17,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Crying Wolves": {
+        "Records": 12,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Stay of Eggsecution": {
+        "Records": 24,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Get Ready for a Nu Wave": {
+        "Records": 23,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Raze the Red Lantern": {
+        "Records": 16,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Outfoxed": {
+        "Records": 12,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Sassho-seki Fragment": 12
+        }
+      },
+      "Foxy Lady": {
+        "Records": 15,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Sassho-seki Fragment": 13
+        }
+      },
+      "Tora Tora Tora": {
+        "Records": 13,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "In One Basket": {
+        "Records": 17,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Tiger Need": {
+        "Records": 17,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Tsurubebi Snugly": {
+        "Records": 22,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Killer Apsaras": {
+        "Records": 11,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Motherly Love": {
+        "Records": 21,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Footing the Bills": {
+        "Records": 19,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Rice and Shine": {
+        "Records": 15,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Dead to Rites: Kiyofusa": {
+        "Records": 14,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Oneblade Wonder": {
+        "Records": 8,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Très Bian": {
+        "Records": 19,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Dead to Rites: Koja": {
+        "Records": 16,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Leave the Meters Running": {
+        "Records": 22,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "This Is a Da, This Is a Peng": {
+        "Records": 12,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Ragoh to Extremes": {
+        "Records": 14,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Long Hands, Long Fingers": {
+        "Records": 11,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Mada's Ilk": {
+        "Records": 13,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Fish to Fry": {
+        "Records": 2,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Tisket, a Tasket": {
+        "Records": 2,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Falling Drown": {
+        "Records": 1,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "975": {
+    "0": {
+      "Deadly Divination": {
+        "Records": 32,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 29,
+          "Forgotten Fragment of History": 3
+        }
+      },
+      "Another Pilot Episode": {
+        "Records": 10,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 9,
+          "Forgotten Fragment of History": 1
+        }
+      },
+      "Attack of the Machines": {
+        "Records": 123,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Forgotten Fragment of Tenacity": 12,
+          "Zadnor Lockbox": 111
+        }
+      },
+      "Breaking the Ice": {
+        "Records": 38,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 34,
+          "Forgotten Fragment of History": 2
+        }
+      },
+      "Mean-spirited": {
+        "Records": 19,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Field Notes on Yamatsumi": 9,
+          "Zadnor Lockbox": 10
+        }
+      },
+      "A Relic Unleashed": {
+        "Records": 32,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 27,
+          "Field Notes on Kosyu": 5
+        }
+      },
+      "When Mages Rage": {
+        "Records": 126,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 111,
+          "Forgotten Fragment of Tenacity": 8,
+          "Garlean Synthetic Fabric": 1
+        }
+      },
+      "Still Only Counts as One": {
+        "Records": 99,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 90,
+          "Forgotten Fragment of Tenacity": 8
+        }
+      },
+      "Seeq and You Will Find": {
+        "Records": 132,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Field Notes on Daguza": 57,
+          "Zadnor Lockbox": 68,
+          "Garlean Synthetic Fabric": 2
+        }
+      },
+      "The Student Becalms the Master": {
+        "Records": 116,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Field Notes on Lovro": 19,
+          "Zadnor Lockbox": 89,
+          "Garlean Synthetic Fabric": 1
+        }
+      },
+      "Hypertuned Havoc": {
+        "Records": 26,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 24
+        }
+      },
+      "Attack of the Supersoldiers": {
+        "Records": 31,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 22,
+          "Field Notes on Meryall": 9
+        }
+      },
+      "Supersoldier Rising": {
+        "Records": 45,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Field Notes on Dabog, Part II": 1,
+          "Zadnor Lockbox": 44
+        }
+      },
+      "Parts and Parcel": {
+        "Records": 30,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Field Notes on Oboro": 16,
+          "Zadnor Lockbox": 14
+        }
+      },
+      "An Immoral Dilemma": {
+        "Records": 13,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 11,
+          "Field Notes on Llofii, Part II": 2
+        }
+      },
+      "Meet the Puppetmaster": {
+        "Records": 30,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 20,
+          "Field Notes on Gilbrisbert": 10
+        }
+      },
+      "A Wrench in the Reconnaissance Effort": {
+        "Records": 27,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 22,
+          "Forgotten Fragment of History": 3
+        }
+      },
+      "Of Beasts and Braggadocio": {
+        "Records": 28,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 14,
+          "Field Notes on Atori": 13
+        }
+      },
+      "Challenge Accepted": {
+        "Records": 42,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 19,
+          "Field Notes on Pagaga": 21,
+          "Garlean Synthetic Fabric": 1
+        }
+      },
+      "Demented Mentor": {
+        "Records": 31,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 25,
+          "Field Notes on Lovro": 5
+        }
+      },
+      "Th'uban the Terrible": {
+        "Records": 44,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 42,
+          "Forgotten Fragment of Moonlight": 1
+        }
+      },
+      "A Just Pursuit": {
+        "Records": 33,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 24,
+          "Field Notes on Tsubame": 8
+        }
+      },
+      "The Beasts Are Back": {
+        "Records": 17,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Field Notes on Atori": 8,
+          "Zadnor Lockbox": 8
+        }
+      },
+      "Sever the Strings": {
+        "Records": 27,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 22,
+          "Field Notes on Kosyu": 5
+        }
+      },
+      "Tanking Up": {
+        "Records": 8,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 8
+        }
+      },
+      "An End to Atrocities": {
+        "Records": 12,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 5,
+          "Field Notes on Fabineau": 7
+        }
+      }
+    },
+    "1": {
+      "A Familiar Face": {
+        "Records": 29,
+        "Rewards": {
+          "Mettle": 29
+        },
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 29,
+          "Bozjan Mythril Coin": 25,
+          "Garlean Synthetic Fabric": 1
+        }
+      },
+      "Time to Burn": {
+        "Records": 14,
+        "Rewards": {
+          "Mettle": 14
+        },
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 14,
+          "Bozjan Platinum Coin": 11
+        }
+      },
+      "The Broken Blade": {
+        "Records": 2,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 2,
+          "Field Notes on Dabog, Part II": 2
+        }
+      },
+      "Here Comes the Cavalry": {
+        "Records": 13,
+        "Rewards": {
+          "Mettle": 13
+        },
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 13
+        }
+      },
+      "Feeling the Burn": {
+        "Records": 34,
+        "Rewards": {
+          "Mettle": 34
+        },
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 34,
+          "Forgotten Fragment of Tenacity": 34
+        }
+      },
+      "There Would Be Blood": {
+        "Records": 18,
+        "Rewards": {
+          "Mettle": 18
+        },
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 18
+        }
+      },
+      "On Serpents' Wings": {
+        "Records": 17,
+        "Rewards": {
+          "Mettle": 17
+        },
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 17
+        }
+      },
+      "With Diremite and Main": {
+        "Records": 19,
+        "Rewards": {
+          "Mettle": 16
+        },
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 19
+        }
+      },
+      "Looks to Die For": {
+        "Records": 15,
+        "Rewards": {
+          "Mettle": 11
+        },
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 15,
+          "Forgotten Fragment of Tenacity": 15,
+          "Garlean Synthetic Fabric": 1
+        }
+      },
+      "Worn to a Shadow": {
+        "Records": 21,
+        "Rewards": {
+          "Mettle": 20
+        },
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 21,
+          "Forgotten Fragment of Tenacity": 21
+        }
+      },
+      "From Beyond the Grave": {
+        "Records": 16,
+        "Rewards": {
+          "Mettle": 13
+        },
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 16,
+          "Field Notes on Llofii, Part II": 7,
+          "Bozjan Mythril Coin": 12
+        }
+      },
+      "Lean, Mean, Magitek Machines": {
+        "Records": 20,
+        "Rewards": {
+          "Mettle": 17
+        },
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 20,
+          "Forgotten Fragment of Tenacity": 20
+        }
+      },
+      "Never Cry Wolf": {
+        "Records": 30,
+        "Rewards": {
+          "Mettle": 27
+        },
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 30
+        }
+      },
+      "Head of the Snake": {
+        "Records": 3,
+        "Rewards": {
+          "Mettle": 2
+        },
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 3,
+          "Field Notes on Menenius, Part II": 3
+        }
+      },
+      "Taking the Lyon's Share": {
+        "Records": 2,
+        "Rewards": {
+          "Mettle": 1
+        },
+        "AdditionalRewards": {
+          "Zadnor Lockbox": 2,
+          "Field Notes on Lyon, Part II": 2
+        }
+      }
+    }
+  },
+  "621": {
+    "0": {
+      "A Horse Outside": {
+        "Records": 20,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Ixion Horn": 20
+        }
+      },
+      "Tall Tale": {
+        "Records": 23,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Phoebad Card": 22
+        }
+      },
+      "Dude, Where's My Karya": {
+        "Records": 48,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Dusk till Abaddon": {
+        "Records": 22,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Who's Phoebad": {
+        "Records": 33,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Yabby Hunters": {
+        "Records": 43,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "To Leech His Own": {
+        "Records": 41,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Smell That Leeched Her Heart": {
+        "Records": 37,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Kingsgrave": {
+        "Records": 19,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Enemy Territory": {
+        "Records": 42,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "One Bad Mother Chukwa": {
+        "Records": 40,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "About Face": {
+        "Records": 29,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Ancelot's Fear": {
+        "Records": 18,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Ancelot's Folly": {
+        "Records": 15,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Ancelot's Finale": {
+        "Records": 13,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Pounding Salt": {
+        "Records": 37,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Tellus a Tale": {
+        "Records": 46,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Par for the Course": {
+        "Records": 40,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Off Their Yabby": {
+        "Records": 32,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "I Can Feel the Earth Move": {
+        "Records": 25,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "No Time Is a Good Time": {
+        "Records": 33,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Sob Story": {
+        "Records": 56,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Lalla Land": {
+        "Records": 33,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "OK, Golem": {
+        "Records": 34,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Sisyphus Cooling": {
+        "Records": 36,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Mazeless Runner": {
+        "Records": 22,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Foul Bachelor Frogamander": {
+        "Records": 37,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Minotaurs on My Mind": {
+        "Records": 37,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Dive In": {
+        "Records": 22,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Sip When I'm Dead": {
+        "Records": 23,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Give Bees a Chance": {
+        "Records": 18,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Fate No Morpho": {
+        "Records": 18,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Taking Kurrea Business": {
+        "Records": 52,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "When It Pains It Pours": {
+        "Records": 20,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Old Bucket of Boruta": {
+        "Records": 24,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "1346": {
+    "1": {
+      "Imbalanced Diet": {
+        "Records": 7492,
+        "Rewards": {
+          "Knowledge": 7492,
+          "Phantom EXP": 7492,
+          "Allagan Tomestone of Mathematics": 7492,
+          "Allagan Tomestone of Mnemonics": 7492,
+          "Enlightenment Silver Obol": 7492
+        },
+        "AdditionalRewards": {
+          "Notes on Algol": 2878,
+          "Occult Earrings of Magic": 4,
+          "Occult Earrings of Blood": 4
+        }
+      },
+      "Forbidden Folios": {
+        "Records": 8132,
+        "Rewards": {
+          "Knowledge": 8132,
+          "Phantom EXP": 8132,
+          "Allagan Tomestone of Mathematics": 8132,
+          "Allagan Tomestone of Mnemonics": 8132,
+          "Enlightenment Silver Obol": 8132
+        },
+        "AdditionalRewards": {
+          "Notes on Arbatel": 3302,
+          "Occult Bracelet of Magic": 7,
+          "Occult Bracelet of Blood": 6
+        }
+      },
+      "Dark Artistry": {
+        "Records": 8387,
+        "Rewards": {
+          "Knowledge": 8387,
+          "Phantom EXP": 8387,
+          "Allagan Tomestone of Mathematics": 8387,
+          "Allagan Tomestone of Mnemonics": 8387,
+          "Enlightenment Silver Obol": 8387
+        },
+        "AdditionalRewards": {
+          "Notes on the Phantom Necromancer": 3328,
+          "Necromancer's Soul Shard": 2530,
+          "Occult Necklace of Blood": 7,
+          "Occult Necklace of Magic": 7
+        }
+      },
+      "Accept No Imitators": {
+        "Records": 7675,
+        "Rewards": {
+          "Knowledge": 7675,
+          "Phantom EXP": 7675,
+          "Allagan Tomestone of Mathematics": 7675,
+          "Allagan Tomestone of Mnemonics": 7675,
+          "Enlightenment Silver Obol": 7675
+        },
+        "AdditionalRewards": {
+          "Notes on the Metamorph": 3058,
+          "Occult Earrings of Magic": 7,
+          "Occult Earrings of Blood": 9
+        }
+      },
+      "A Beast Unleashed": {
+        "Records": 6864,
+        "Rewards": {
+          "Knowledge": 6864,
+          "Phantom EXP": 6864,
+          "Allagan Tomestone of Mathematics": 6864,
+          "Allagan Tomestone of Mnemonics": 6864,
+          "Enlightenment Silver Obol": 6864
+        },
+        "AdditionalRewards": {
+          "Occult Bracelet of Magic": 5,
+          "Occult Bracelet of Blood": 7
+        }
+      },
+      "Quarried Away": {
+        "Records": 7310,
+        "Rewards": {
+          "Knowledge": 7310,
+          "Phantom EXP": 7310,
+          "Allagan Tomestone of Mathematics": 7310,
+          "Allagan Tomestone of Mnemonics": 7310,
+          "Enlightenment Silver Obol": 7310
+        },
+        "AdditionalRewards": {
+          "Notes on the Alabaster Blade": 2972,
+          "Occult Earrings of Magic": 2,
+          "Occult Earrings of Blood": 5
+        }
+      },
+      "Familiar Tactics": {
+        "Records": 6855,
+        "Rewards": {
+          "Knowledge": 6855,
+          "Phantom EXP": 6855,
+          "Allagan Tomestone of Mathematics": 6855,
+          "Allagan Tomestone of Mnemonics": 6855,
+          "Enlightenment Silver Obol": 6855
+        },
+        "AdditionalRewards": {
+          "Occult Bracelet of Magic": 4,
+          "Occult Bracelet of Blood": 1
+        }
+      },
+      "Tiny Terror": {
+        "Records": 6807,
+        "Rewards": {
+          "Knowledge": 6807,
+          "Phantom EXP": 6807,
+          "Allagan Tomestone of Mathematics": 6807,
+          "Allagan Tomestone of Mnemonics": 6807,
+          "Enlightenment Silver Obol": 6807
+        },
+        "AdditionalRewards": {
+          "Notes on the Tiny Mage": 2652,
+          "Occult Bracelet of Magic": 8,
+          "Occult Bracelet of Blood": 8
+        }
+      },
+      "Ahead of the Competition": {
+        "Records": 6665,
+        "Rewards": {
+          "Knowledge": 6665,
+          "Phantom EXP": 6665,
+          "Allagan Tomestone of Mathematics": 6665,
+          "Allagan Tomestone of Mnemonics": 6665,
+          "Enlightenment Silver Obol": 6665
+        },
+        "AdditionalRewards": {
+          "Occult Bracelet of Magic": 4,
+          "Occult Bracelet of Blood": 2
+        }
+      },
+      "Lost on the Wind": {
+        "Records": 6851,
+        "Rewards": {
+          "Knowledge": 6851,
+          "Phantom EXP": 6851,
+          "Allagan Tomestone of Mathematics": 6851,
+          "Allagan Tomestone of Mnemonics": 6851,
+          "Enlightenment Silver Obol": 6851
+        },
+        "AdditionalRewards": {
+          "Notes on the Abductor": 2760,
+          "Occult Necklace of Blood": 7,
+          "Occult Necklace of Magic": 7
+        }
+      },
+      "Appalling Behavior": {
+        "Records": 7693,
+        "Rewards": {
+          "Knowledge": 7693,
+          "Phantom EXP": 7693,
+          "Allagan Tomestone of Mathematics": 7693,
+          "Allagan Tomestone of Mnemonics": 7693,
+          "Enlightenment Silver Obol": 7693
+        },
+        "AdditionalRewards": {
+          "Notes on the Pallmagia": 3006,
+          "Blue Mage's Soul Shard": 2281,
+          "Occult Earrings of Blood": 4,
+          "Occult Earrings of Magic": 4
+        }
+      },
+      "Cursed Resurgence": {
+        "Records": 3163,
+        "Rewards": {
+          "Knowledge": 3163,
+          "Phantom EXP": 3163,
+          "Allagan Tomestone of Mathematics": 3163,
+          "Allagan Tomestone of Mnemonics": 3163,
+          "Enlightenment Silver Obol": 3163
+        },
+        "AdditionalRewards": {
+          "Notes on the Claret Dragon": 1238,
+          "Occult Necklace of Blood": 2,
+          "Occult Necklace of Magic": 1
+        }
+      },
+      "Doubled Trouble": {
+        "Records": 5840,
+        "Rewards": {
+          "Knowledge": 5840,
+          "Phantom EXP": 5840,
+          "Allagan Tomestone of Mathematics": 5840,
+          "Allagan Tomestone of Mnemonics": 5840,
+          "Enlightenment Silver Obol": 5840
+        },
+        "AdditionalRewards": {
+          "Notes on Conjured Calofisteri": 2363,
+          "Occult Necklace of Magic": 5,
+          "Occult Necklace of Blood": 2
+        }
+      },
+      "Web of Terror": {
+        "Records": 1830,
+        "Rewards": {
+          "Knowledge": 1830,
+          "Phantom EXP": 1830,
+          "Allagan Tomestone of Mathematics": 1830,
+          "Allagan Tomestone of Mnemonics": 1830,
+          "Enlightenment Silver Obol": 1830
+        },
+        "AdditionalRewards": {
+          "Occult Necklace of Blood": 2,
+          "Occult Necklace of Magic": 1
+        }
+      },
+      "Many Mouths to Feed": {
+        "Records": 815,
+        "Rewards": {
+          "Knowledge": 815,
+          "Phantom EXP": 815,
+          "Allagan Tomestone of Mathematics": 815,
+          "Allagan Tomestone of Mnemonics": 815,
+          "Enlightenment Silver Obol": 815
+        },
+        "AdditionalRewards": {
+          "Occult Earrings of Magic": 2,
+          "Occult Earrings of Blood": 2
+        }
+      }
+    },
+    "0": {
+      "Daylight Pottery": {
+        "Records": 21603,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Notes on Persistent Pots": 4226
+        }
+      },
+      "Raging Thrall": {
+        "Records": 22557,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Thunderregnum": {
+        "Records": 24159,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Allure of the Occult": {
+        "Records": 23813,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Inconstant Gardener": {
+        "Records": 23630,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "In a Pot of Bother": {
+        "Records": 18975,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Notes on Persistent Pots": 3560
+        }
+      },
+      "Waved Away": {
+        "Records": 23409,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Gale-force Encounter": {
+        "Records": 22145,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Shoreline Showdown": {
+        "Records": 23666,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Territorial Dispute": {
+        "Records": 20853,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Rotten Affair": {
+        "Records": 22185,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Scale Model": {
+        "Records": 22292,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Eye to Eye": {
+        "Records": 21009,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "154": {
+    "0": {
+      "Dschubba Snacks": {
+        "Records": 181,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Air Supply": {
+        "Records": 207,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Rude Awakening": {
+        "Records": 223,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Micromanaging": {
+        "Records": 137,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Hare Today": {
+        "Records": 168,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Waiting for a Moon to Fall": {
+        "Records": 180,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "That Which Binds Us": {
+        "Records": 94,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "It Ziz What It Is": {
+        "Records": 141,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Smells Like Tree Spirit": {
+        "Records": 201,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "No Birds Allowed": {
+        "Records": 129,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Breaking Bud": {
+        "Records": 207,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Don't Disturb This Grove": {
+        "Records": 214,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Big Issue": {
+        "Records": 84,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Magical Fruit": {
+        "Records": 101,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Steel Reign": {
+        "Records": 7,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Odin's Mantle": 7
+        }
+      }
+    }
+  },
+  "147": {
+    "0": {
+      "The Red Baron": {
+        "Records": 19,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Ceruleum Road": {
+        "Records": 49,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Just a Sip": {
+        "Records": 42,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Reverse Engineering": {
+        "Records": 6,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "East Meets Worst": {
+        "Records": 35,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Under the Nails": {
+        "Records": 18,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Twinkle, Twinkle Little Trap": {
+        "Records": 30,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Core Blimey": {
+        "Records": 17,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Dark Devices - The Plea": {
+        "Records": 8,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Dark Devices - The Bait": {
+        "Records": 7,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Knock on Steel": {
+        "Records": 10,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Dark Devices - The Switch": {
+        "Records": 6,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Dark Devices - The End": {
+        "Records": 6,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "With One Eye Open": {
+        "Records": 19,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Go, Go, Gorgimera": {
+        "Records": 10,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Infant Imp": 9,
+          "Mega-Potion": 1
+        }
+      },
+      "Boom Goes the Ceruleum": {
+        "Records": 8,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "139": {
+    "0": {
+      "Nine-ilm Snails": {
+        "Records": 145,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Giant Enemy Crab": {
+        "Records": 163,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Poor Maid's Misfortune": {
+        "Records": 105,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Road More Traveled": {
+        "Records": 156,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Hop, Skip, and a Jump": {
+        "Records": 155,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Surprise": {
+        "Records": 167,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Shell Shocked": {
+        "Records": 171,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Poor Maid's Mishap": {
+        "Records": 98,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Simurgh Is the Word": {
+        "Records": 146,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Truth in Faerie Tales": {
+        "Records": 149,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Peeping Ja": {
+        "Records": 122,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Poor Maid's Mess": {
+        "Records": 38,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "622": {
+    "0": {
+      "A Tall Order": {
+        "Records": 93,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Khan Artist": {
+        "Records": 60,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Burn After Evening": {
+        "Records": 43,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Not Just a Tribute": {
+        "Records": 118,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Hook, Line, and Stinker": {
+        "Records": 96,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Duck and Cover": {
+        "Records": 83,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "More than You Chaochu": {
+        "Records": 80,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "They Shall Not Want": {
+        "Records": 62,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Walk Through the Valley": {
+        "Records": 51,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Good Day to Mate": {
+        "Records": 96,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Rock for Food": {
+        "Records": 52,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Good Day to Die": {
+        "Records": 68,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Purbol Reign": {
+        "Records": 88,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Wham, Bam, Thank You, Mammoth": {
+        "Records": 38,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Mammoth Card": 30
+        }
+      },
+      "Man to Mangas": {
+        "Records": 87,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Hat's Off": {
+        "Records": 63,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Fangover": {
+        "Records": 49,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Eat You Better": {
+        "Records": 98,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Dataqi Chronicles: Deprivation": {
+        "Records": 40,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The State of Reunion": {
+        "Records": 74,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Dataqi Chronicles: Deterrence": {
+        "Records": 30,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Hey, Manzasiri": {
+        "Records": 47,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Don't You Mean Kirata": {
+        "Records": 50,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Live for the Mettle": {
+        "Records": 94,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Killing Dzo": {
+        "Records": 49,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Dataqi Chronicles: Departures": {
+        "Records": 16,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Cold Comes the Wind": {
+        "Records": 56,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Dataqi Chronicles: Duty": {
+        "Records": 33,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Buzzkill": {
+        "Records": 52,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Fired": {
+        "Records": 58,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Feel the Noise": {
+        "Records": 46,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Dataqi Chronicles: Desperation": {
+        "Records": 12,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Dataqi Chronicles: Distress": {
+        "Records": 8,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Dataqi Chronicles: Displacement": {
+        "Records": 6,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Get Out the Vochu": {
+        "Records": 57,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Wooly Boys": {
+        "Records": 5,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Dataqi Chronicles: Distractions": {
+        "Records": 18,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Razing the Baras": {
+        "Records": 44,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Dataqi Chronicles: Diplomacy": {
+        "Records": 3,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Dataqi Chronicles: Decimation": {
+        "Records": 3,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Dataqi Chronicles: Divergence": {
+        "Records": 4,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Dataqi Chronicles: Declarations": {
+        "Records": 5,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Dataqi Chronicles: Dominion": {
+        "Records": 6,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Dataqi Standard": 6
+        }
+      }
+    }
+  },
+  "140": {
+    "0": {
+      "Dog Eat Dog": {
+        "Records": 185,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Bubble Trouble": {
+        "Records": 154,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Please Hammers, Don't Hurt Them": {
+        "Records": 91,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Juggernaut Down": {
+        "Records": 61,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Pound for Pound": {
+        "Records": 156,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Copied Peistes": {
+        "Records": 150,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Doomed": {
+        "Records": 112,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Bigger Fish to Fry": {
+        "Records": 148,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Staying Dead": {
+        "Records": 64,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Things that Make You Go Home": {
+        "Records": 112,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "A Matter of Rust": {
+        "Records": 101,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Needles to Slay": {
+        "Records": 98,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "There Might Be Giants": {
+        "Records": 64,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Tripped Up by the Fruit of Another": {
+        "Records": 36,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "He's Got Legs": {
+        "Records": 62,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Cores": {
+        "Records": 66,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Villain": {
+        "Records": 111,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Deface the Facts": {
+        "Records": 74,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "137": {
+    "0": {
+      "Them": {
+        "Records": 4,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Careless Whiskers": {
+        "Records": 12,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Ho Ho Ho": {
+        "Records": 8,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Say My Name": {
+        "Records": 7,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Jewels of the Isle": {
+        "Records": 20,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "It's Not Lupus": {
+        "Records": 28,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Smallshell": 17,
+          "Hi-Potion": 8,
+          "Allagan Bronze Piece": 3
+        }
+      },
+      "Closing Time": {
+        "Records": 10,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "9 to 5": {
+        "Records": 5,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Crab and Go": {
+        "Records": 7,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "No Lip": {
+        "Records": 7,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Finding Wine": {
+        "Records": 3,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Thrill of the Hunt": {
+        "Records": 4,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Just a Matter of Rut": {
+        "Records": 17,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Cliff Hanger": {
+        "Records": 5,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Consigned, Sealed, and Undelivered": {
+        "Records": 7,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Follow the Light": {
+        "Records": 29,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Thirst": {
+        "Records": 1,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Sweeter than Honey": {
+        "Records": 1,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Long Way Home": {
+        "Records": 1,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Pelican Briefing": {
+        "Records": 1,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "961": {
+    "0": {
+      "Ophion-mania": {
+        "Records": 97,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "The Rustling of Murderous Leaves": {
+        "Records": 93,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Why Did It Have to Be Medusae?": {
+        "Records": 101,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "King of the Hill": {
+        "Records": 109,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "You Hurt My Researcher, Prepare to Die": {
+        "Records": 82,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Drawing the Thunderstroke": {
+        "Records": 91,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "There's a Snake in My Water Supply!": {
+        "Records": 94,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Eurydike: All Bark, No Bite": {
+        "Records": 98,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Grand Designs: Aigokeros": {
+        "Records": 74,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Grand Designs: Io": {
+        "Records": 69,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Butterfly Kisses of Death ": {
+        "Records": 91,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Grand Designs: Unknown Execution": {
+        "Records": 38,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Grand Designs: The Newest of New": {
+        "Records": 38,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Nature's Staunch Protector": {
+        "Records": 65,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "So Sorry, Sokles": {
+        "Records": 73,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  },
+  "886": {
+    "0": {
+      "Toy Hunter": {
+        "Records": 7,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Fête Present": 6
+        }
+      },
+      "Presents of Mind": {
+        "Records": 8,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Fête Present": 8
+        }
+      },
+      "A Twist of Fête": {
+        "Records": 6,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Fête Present": 5
+        }
+      },
+      "Made of Softer Stuff": {
+        "Records": 6,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Fête Present": 6
+        }
+      },
+      "Shear-a-Yak": {
+        "Records": 5,
+        "Rewards": {},
+        "AdditionalRewards": {
+          "Fête Present": 5
+        }
+      }
+    }
+  },
+  "1319": {
+    "0": {
+      "Grandma Laurel Activation Protocols": {
+        "Records": 2,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      },
+      "Core Shroud Beautification": {
+        "Records": 6,
+        "Rewards": {},
+        "AdditionalRewards": {}
+      }
+    }
+  }
+}

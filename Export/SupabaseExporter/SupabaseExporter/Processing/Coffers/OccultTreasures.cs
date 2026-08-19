@@ -121,7 +121,7 @@ public class OccultTreasures : CofferBase
             if (!patches.ContainsKey(patch))
                 patches[patch] = new CofferTemp();
 
-            patches[patch].AddMultiRecordWithAmount(bunny.GetRewards());
+            patches[patch].AddMultiRecordWithAmount(bunny.GetRewardsWithoutCoins());
 
             var pos = new Vector3(bunny.ChestX, bunny.ChestY, bunny.ChestZ);
             if (pos == Vector3.Zero)
@@ -131,7 +131,7 @@ public class OccultTreasures : CofferBase
             }
             
             // Check all entries for erroneous data
-            foreach (var (i, (itemId, amount)) in bunny.GetRewards().Index())
+            foreach (var (i, (itemId, amount)) in bunny.GetRewardsWithoutCoins().Index())
             {
                 if (i > 5)
                     Logger.Warning($"Weird length: {i} | {bunny.Id}");
