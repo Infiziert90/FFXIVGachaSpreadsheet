@@ -24,7 +24,6 @@ export const navCategories: NavCategory[] = [
             { label: 'Eureka Bunnies',          href: '/bunny/',     icon: 61833 },
             { label: 'Deep Dungeons',           href: '/deep/',      icon: 61824 },
             { label: 'Desynthesis',             href: '/desynth/',   icon: 120   },
-            { label: 'Desynthesis V2',          href: '/desynth2/',  icon: 120   },
             { label: 'Reduction',               href: '/reduction/', icon: 121   },
             { label: 'Occult',                  href: '/occult/',    icon: 61851 },
             { label: 'Loot',                    href: '/loot/',      icon: 61801 },
@@ -36,7 +35,8 @@ export const navCategories: NavCategory[] = [
         id: 'submarine',
         items: [
             { label: 'Sector Overview', href: '/submarine/', icon: 63191 },
-            { label: 'Item Search', href: '/submarineSearch/', icon: 63192 }
+            { label: 'Item Search', href: '/submarineSearch/', icon: 63192 },
+            { label: 'Build Finder', href: '/submarineShip/', icon: 63193 }
         ]
     },
     {

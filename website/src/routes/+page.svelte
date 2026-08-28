@@ -15,8 +15,8 @@
     <h1 class="text-body-emphasis text-center mb-5">Stats & Tools</h1>
 
     {#each navCategories as category}
-        <h3 class="text-center mt-4">{category.label}</h3>
-        <div class="row row-cols-1 row-cols-md-3 g-4 mb-5 justify-content-center">
+        <h3 class="text-center mt-5">{category.label}</h3>
+        <div class="row row-cols-1 row-cols-md-3 g-4 pb-5 justify-content-center">
             {#each category.items as item}
                 <CardLink cardTitle={item.label} cardIcon={item.icon} cardLink={item.href} />
             {/each}

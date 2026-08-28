@@ -1,21 +1,23 @@
 ﻿<script lang="ts">
     import { page } from '$app/state';
     import { replaceState } from "$app/navigation";
-    import type {DesynthBase, DesynthesisBase, DesynthHistory} from "$lib/interfaces";
+    import type {DesynthesisBase} from "$lib/interfaces";
     import {onMount} from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
     import {NameObtainedMinChanceSetup, RewardDesynthSpecial} from "$lib/table";
     import DesynthSearchbar from "../../component/DesynthSearchbar.svelte";
-    import {tryGetDesynthSearchParams} from "$lib/searchParamHelper";
     import PageSidebar from "../../component/PageSidebar.svelte";
+    import {type DesynthBase2, isSource, type RewardHistory, type SourceHistory} from "$lib/structs/desynthesis";
+    import {Alert} from "@sveltestrap/sveltestrap";
     import {pad} from "$lib/utils";
-    import {loadDesynth} from "$lib/loadHelpers";
-    import type {Reward} from "$lib/structs/reward";
+    import {loadDesynth2} from "$lib/loadHelpers";
+    import {tryGetDesynthSearchParams} from "$lib/searchParamHelper";
+    import {SimpleJobSheet} from "$lib/sheets/simplifiedSheets";
     import {localizedItem} from "$lib/localization";
     import {currentLanguage} from "$lib/stores/language";
 
     interface Props {
-        content: DesynthesisBase;
+        content: DesynthBase2;
     }
 
     // html elements
@@ -24,18 +26,18 @@
 
     let { data }: Props = $props();
 
+    const loadedSplits: string[] = [];
+
+    const desynthesisData: DesynthBase2 = {Patches: {}};
     const desynthesisBase: DesynthesisBase = data.content;
 
-    // Loaded at runtime
-    const loadedSplits: string[] = [];
-    const desynthBase: DesynthBase = {Sources: {}, Rewards: {}};
-
     // Table data
-    let tableItems: Reward[] = $state([]);
+    let tableItems: SourceHistory | RewardHistory | undefined = $state(undefined);
 
     // Stats
     let titleStats = $state('');
     let totalStats = $state('');
+    let totalStats2 = $state('');
     let selectedStats = $state('');
 
     // Selected item tracking
@@ -45,11 +47,12 @@
     let sourceParam = $state(0);
     let rewardParam = $state(0);
 
-    let searchType = $state(0);
+    let searchKey: number = $state(0);
+    let errorKey: string = $state('');
 
     // Set default meta data
     let title = $state('Desynthesis');
-    let description = $state('Possibilities for desynthesis materials.');
+    let description = $state('An overview of all possibilities for desynthesis materials.');
 
     // Override defaults with URL parameters if they exist
     let desynthSearchParams = tryGetDesynthSearchParams(page.url.searchParams);
@@ -91,24 +94,33 @@
         }
 
         // Update search type
-        searchType = statsType;
-        let usedData = searchType === 0 ? desynthBase.Sources : desynthBase.Rewards;
+        searchKey = statsType;
 
-        const selection = await tryGetDesynth(usedData, id);
-        if (selection === undefined) return;
+        const selection = await tryGetDesynth(searchKey, id);
+        if (selection === undefined) {
+            errorKey = 'Unable to find item!'
+            return;
+        }
 
         // Update selected tracking
         selectedId = id;
 
         // Update table data
-        tableItems = selection.history.Rewards;
+        tableItems = selection;
 
         // Update stats
         titleStats = `${localizedItem(id, $currentLanguage)} Stats`;
-        if (statsType === 0)
-            totalStats = `Desynths: ${selection.history.Records.toLocaleString()}`;
-        else
-            totalStats = `Received: ${selection.history.Records.toLocaleString()}`;
+        if (isSource(selection)) {
+            let s = selection as SourceHistory;
+
+            totalStats = `Above: ${s.A.toLocaleString()}`;
+            totalStats2 = `Below: ${s.B.toLocaleString()}`;
+        } else {
+            let s = selection as RewardHistory;
+
+            totalStats = `Received: ${s.Records.toLocaleString()}`;
+            totalStats2 = ``;
+        }
         selectedStats = ` `;
 
         // Update button highlighting in accordion
@@ -124,29 +136,28 @@
         window.scrollTo(0, 0);
 
         // Set the new title
-        let titleAddition = searchType === 1 ? 'Source Search' : 'Reward Search';
+        let titleAddition = searchKey === 0 ? 'Source Search' : 'Reward Search';
         document.title = `Desynthesis - ${titleAddition}`
-    }
-
-    interface DesynthSelection {
-        history: DesynthHistory;
     }
 
     /**
      * Try to get the specific venture and task.
-     * @param data - Dictionary to search through
+     * @param searchType - The search type to resolve
      * @param requestedId - The item id to resolve
      * @returns Desynth selection if successful, undefined otherwise.
      */
-    async function tryGetDesynth(data: Record<number, DesynthHistory>, requestedId: number): Promise<DesynthSelection | undefined> {
+    async function tryGetDesynth(searchType: number, requestedId: number): Promise<SourceHistory | RewardHistory | undefined> {
         // load split data if not already in memory
         await loadSplitData(requestedId);
 
         // Find the history for the selected id
-        const history = data[requestedId]
+        const selectedPatch = desynthesisData.Patches['7.5'];
+        let selectedSearchData = searchType === 0 ? selectedPatch.Sources : selectedPatch.Rewards;
+
+        let history = selectedSearchData[requestedId]
         if (!history) return undefined;
 
-        return { history };
+        return history;
     }
 
     async function loadSplitData(itemId: number) {
@@ -154,13 +165,18 @@
         if (loadedSplits.includes(paddedSplitId)) return;
 
         loadedSplits.push(paddedSplitId);
-        let split = await loadDesynth(`/data/desynthesis/${paddedSplitId}.json`, fetch);
+        let split = await loadDesynth2(`/data/desynthesis2/${paddedSplitId}.json`, fetch);
+        for (const [patch, patchData] of Object.entries(split.content.Patches)) {
+            if (!(patch in desynthesisData.Patches))
+                desynthesisData.Patches[patch] = {Records: 0, Sources: {}, Rewards: {}};
 
-        for (const [sourceId, history] of Object.entries(split.content.Sources))
-            desynthBase.Sources[sourceId] = history;
+            desynthesisData.Patches[patch].Records = patchData.Records;
+            for (const [sourceId, history] of Object.entries(patchData.Sources))
+                desynthesisData.Patches[patch].Sources[sourceId] = history;
 
-        for (const [rewardId, history] of Object.entries(split.content.Rewards))
-            desynthBase.Rewards[rewardId] = history;
+            for (const [rewardId, history] of Object.entries(patchData.Rewards))
+                desynthesisData.Patches[patch].Rewards[rewardId] = history;
+        }
     }
 </script>
 
@@ -171,8 +187,7 @@
     <meta name="description" content={description} />
     <meta property="og:description" content={description} />
 </svelte:head>
-
-{#if tableItems.length > 0}
+{#if tableItems !== undefined}
     <PageSidebar>
         <DesynthSearchbar
                 {desynthesisBase}
@@ -188,28 +203,60 @@
                     <strong>{titleStats}</strong>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">{totalStats}</li>
+                    <li class="list-group-item">{totalStats}<br>{totalStats2}</li>
                     <li class="list-group-item">{selectedStats}</li>
                 </ul>
             </div>
         </div>
     </div>
     <div class="col-12 col-lg-7 order-0 order-lg-2">
+        {#if errorKey.length > 0}
+            <Alert content={errorKey} color="danger" dismissible/>
+        {/if}
         <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
-            {#if tableItems.length > 0}
-                <DropsTable items={tableItems} columns={searchType === 0 ? NameObtainedMinChanceSetup : RewardDesynthSpecial} />
+            {#if isSource(tableItems)}
+                {#if tableItems.Above.length > 0 || tableItems.Below.length > 0}
+                    <div class="container mb-5 p-2 rounded border tier-anchor" style="background-color: var(--bs-tertiary-bg);">
+                        <h4>{`${SimpleJobSheet[tableItems.Job].NameEnglish} ≥ ${tableItems.ILvl}`}</h4>
+                        {#if tableItems.Above.length > 0}
+                            <DropsTable items={tableItems.Above} columns={NameObtainedMinChanceSetup} />
+                        {:else}
+                            <p>No above data for the selected item.</p>
+                        {/if}
+                    </div>
+
+                    <div class="container mb-5 p-2 rounded border tier-anchor" style="background-color: var(--bs-tertiary-bg);">
+                        <h4>Below</h4>
+                        {#if tableItems.Below.length > 0}
+                            <DropsTable items={tableItems.Below} columns={NameObtainedMinChanceSetup} />
+                        {:else}
+                            <p>No below data for the selected item.</p>
+                        {/if}
+                    </div>
+                {:else}
+                    <Alert content="No source data for the selected item." color="danger" dismissible/>
+                {/if}
             {:else}
-                <p>No data for selected item.</p>
+                {#if tableItems.Rewards.length > 0}
+                    <div class="container mb-5 p-2 rounded border tier-anchor" style="background-color: var(--bs-tertiary-bg);">
+                        <h4>Received From</h4>
+                        <DropsTable items={tableItems.Rewards} columns={RewardDesynthSpecial} />
+                    </div>
+                {:else}
+                    <Alert content="No reward data for the selected item." color="danger" dismissible/>
+                {/if}
             {/if}
         </div>
     </div>
 {:else}
-    <div class="col-12">
-        <DesynthSearchbar
-                {desynthesisBase}
-                {selectedId}
-                {onButtonClick}
-                {tabElements}
-        />
-    </div>
+<div class="col-3"></div>
+<div class="col-6">
+    <DesynthSearchbar
+            {desynthesisBase}
+            {selectedId}
+            {onButtonClick}
+            {tabElements}
+    />
+</div>
+<div class="col-3"></div>
 {/if}
