@@ -131,7 +131,7 @@
         </NavItem>
 
         <NavItem>
-            <NavLink href="https://discord.gg/cTWKQWCceU" target="_blank">
+            <NavLink href="https://discord.gg/dQPedbFuxd" target="_blank">
                 <Icon name="discord" style="font-size: 1.25rem;" />
                 <span class="visually-hidden">Discord</span>
             </NavLink>

@@ -20,7 +20,7 @@
 
     <p>If you need help or find invalid data, please contact me in the Tracky <a href="https://discord.com/channels/581875019861328007/1143510564165926992" rel="nofollow">Support Channel</a> on the XIV Launcher & Dalamud server [<a href="https://discord.gg/3NMcUV5" rel="nofollow" class="link-opacity-75 link-info"><img src="https://camo.githubusercontent.com/ac8298a8ee46ec0b13a2502a94b72b4f0ecc69e30447ad75f8eca2786a733cd2/68747470733a2f2f646973636f72646170702e636f6d2f6170692f6775696c64732f3538313837353031393836313332383030372f7769646765742e706e673f7374796c653d736869656c64" alt="Discord Shield" data-canonical-src="https://discordapp.com/api/guilds/581875019861328007/widget.png?style=shield" style="max-width: 100%;"></a>].</p>
 
-    <p>You can also join the website's own <a href="https://discord.gg/cTWKQWCceU" rel="nofollow">Discord server</a>!</p>
+    <p>You can also join the website's own <a href="https://discord.gg/dQPedbFuxd" rel="nofollow">Discord server</a>!</p>
 
     <p class="mt-5">A special thanks goes to <a href="https://github.com/krz0001" rel="nofollow">krz</a> for all the help with this website!</p>
 </div>
