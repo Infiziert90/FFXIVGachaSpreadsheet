@@ -27,10 +27,7 @@ public class GuildleveAssignmentsProcessor : IDisposable
     {
         foreach (var assignmentGrouping in data.GroupBy(m => m.RowId))
         {
-            var result = new LeveIssuer()
-            {
-                GuildleveAssignmentId = assignmentGrouping.Key,
-            };
+            var result = new LeveIssuer { GuildleveAssignmentId = assignmentGrouping.Key, };
 
             if (TryFindENpcByDataId(assignmentGrouping.Key, out var enpcBaseId, out var levelId))
             {
@@ -42,11 +39,8 @@ public class GuildleveAssignmentsProcessor : IDisposable
             {
                 if (!result.Categories.TryGetValue(categoryGrouping.Key, out var categoryEntry))
                 {
-                    categoryEntry = new LeveAssignmentCategory()
-                    {
-                        CategoryId = categoryGrouping.Key
-                    };
-
+                    categoryEntry = new LeveAssignmentCategory { CategoryId = categoryGrouping.Key, };
+                    
                     result.Categories.Add(categoryGrouping.Key, categoryEntry);
                 }
 
@@ -54,12 +48,9 @@ public class GuildleveAssignmentsProcessor : IDisposable
                 {
                     if (!categoryEntry.Types.TryGetValue(indexGrouping.Key, out var typeEntry))
                     {
-                        typeEntry = new LeveAssignmentCategoryType()
-                        {
-                            CategoryIndex = indexGrouping.Key,
-                        };
+                        typeEntry = new LeveAssignmentCategoryType { CategoryIndex = indexGrouping.Key, };
 
-                        categoryEntry.Types.Add(categoryGrouping.Key, typeEntry);
+                        categoryEntry.Types.Add(indexGrouping.Key, typeEntry);
                     }
 
                     foreach (var leveId in indexGrouping.SelectMany(model => model.LeveIds))
