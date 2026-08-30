@@ -9,6 +9,7 @@ using SupabaseExporter.Processing.Coffers;
 using SupabaseExporter.Processing.Desynthesis;
 using SupabaseExporter.Processing.FashionReport;
 using SupabaseExporter.Processing.Fates;
+using SupabaseExporter.Processing.GuildleveAssignments;
 using SupabaseExporter.Processing.Reduction;
 using SupabaseExporter.Processing.Submarines;
 using SupabaseExporter.Processing.Ventures;
@@ -30,6 +31,7 @@ public class DatabaseContext : DbContext
     public DbSet<BnpcPairModel> BnpcPairs { get; set; }
     public DbSet<ReductionModel> Reductions { get; set; }
     public DbSet<FashionReportModel> FashionReport { get; set; }
+    public DbSet<GuildleveAssignmentsModel> GuildleveAssignments { get; set; }
     public DbSet<FateRewardModel> FateReward { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -134,6 +136,13 @@ public static class EntryPoint
         {
             var fateProcessor = new Fates();
             fateProcessor.ProcessAllData(fateResult);
+        }
+        
+        var guildleveAssignmentsResult = await exporter.LoadGuildleveAssignmentsData(context);
+        if (guildleveAssignmentsResult.Length > 0)
+        {
+            using var processor = new GuildleveAssignmentsProcessor();
+            processor.ProcessAllData(guildleveAssignmentsResult);
         }
         
         // Generate json with all icon paths
@@ -353,7 +362,22 @@ public class Exporter
 
         return result.ToArray();
     }
-    
+
+    public async Task<GuildleveAssignmentsModel[]> LoadGuildleveAssignmentsData(DatabaseContext context)
+    {
+        Logger.Information("Exporting leve issuer data");
+        var result = await context.GuildleveAssignments.OrderBy(l => l.Id).ToListAsync();
+
+        Logger.Information($"Rows found: {result.Count:N0}");
+        if (result.Count == 0)
+        {
+            Logger.Warning("No records found");
+            return [];
+        }
+
+        return result.ToArray();
+    }
+
     public async Task<FateRewardModel[]> LoadFateData(DatabaseContext context)
     {
         Logger.Information("Exporting fate data");
