@@ -137,14 +137,10 @@ public static class EntryPoint
             var fateProcessor = new Fates();
             fateProcessor.ProcessAllData(fateResult);
         }
-        
-        var guildleveAssignmentsResult = await exporter.LoadGuildleveAssignmentsData(context);
-        if (guildleveAssignmentsResult.Length > 0)
-        {
-            using var processor = new GuildleveAssignmentsProcessor();
-            processor.ProcessAllData(guildleveAssignmentsResult);
-        }
-        
+
+        using (var processor = new GuildleveAssignmentsProcessor())
+            await processor.ProcessAllData(context);
+
         // Generate json with all icon paths
         MappingHelper.ExportMappingFile();
         ExportHandler.WriteTimestamp();
@@ -352,21 +348,6 @@ public class Exporter
     {
         Logger.Information("Exporting fashion report data");
         var result = await context.FashionReport.OrderBy(l => l.Id).ToListAsync();
-
-        Logger.Information($"Rows found: {result.Count:N0}");
-        if (result.Count == 0)
-        {
-            Logger.Warning("No records found");
-            return [];
-        }
-
-        return result.ToArray();
-    }
-
-    public async Task<GuildleveAssignmentsModel[]> LoadGuildleveAssignmentsData(DatabaseContext context)
-    {
-        Logger.Information("Exporting leve issuer data");
-        var result = await context.GuildleveAssignments.OrderBy(l => l.Id).ToListAsync();
 
         Logger.Information($"Rows found: {result.Count:N0}");
         if (result.Count == 0)

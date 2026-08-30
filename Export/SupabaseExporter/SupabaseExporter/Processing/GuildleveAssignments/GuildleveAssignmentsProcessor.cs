@@ -1,5 +1,5 @@
 ﻿using Lumina.Extensions;
-using SupabaseExporter.Models;
+using Microsoft.EntityFrameworkCore;
 using SupabaseExporter.Structures.Exports;
 
 namespace SupabaseExporter.Processing.GuildleveAssignments;
@@ -9,10 +9,10 @@ public class GuildleveAssignmentsProcessor : IDisposable
     private readonly Dictionary<uint, LeveIssuer> ProcessedData = new();
     private readonly Dictionary<uint, (uint ENpcBaseId, uint LevelId)> ENpcCache = [];
 
-    public void ProcessAllData(GuildleveAssignmentsModel[] data)
+    public async Task ProcessAllData(DatabaseContext context)
     {
         Logger.Information("Processing leve data");
-        Process(data);
+        await Process(context);
         Export();
     }
 
@@ -23,42 +23,48 @@ public class GuildleveAssignmentsProcessor : IDisposable
         GC.Collect();
     }
 
-    private void Process(GuildleveAssignmentsModel[] data)
+    private async Task Process(DatabaseContext context)
     {
-        foreach (var assignmentGrouping in data.GroupBy(m => m.RowId))
+        LeveIssuer? currentIssuer = null;
+
+        var stream = context.GuildleveAssignments
+            .OrderBy(m => m.RowId)
+            .ThenBy(m => m.CategoryRowId)
+            .ThenBy(m => m.CategoryIndex)
+            .AsNoTracking()
+            .AsAsyncEnumerable();
+
+        await foreach (var row in stream)
         {
-            var result = new LeveIssuer { GuildleveAssignmentId = assignmentGrouping.Key, };
-
-            if (TryFindENpcByDataId(assignmentGrouping.Key, out var enpcBaseId, out var levelId))
+            if (currentIssuer == null || currentIssuer.GuildleveAssignmentId != row.RowId)
             {
-                result.ENpcBaseId = enpcBaseId;
-                result.LevelId = levelId;
-            }
+                currentIssuer = new LeveIssuer { GuildleveAssignmentId = row.RowId };
 
-            foreach (var categoryGrouping in assignmentGrouping.GroupBy(m => m.CategoryRowId))
-            {
-                if (!result.Categories.TryGetValue(categoryGrouping.Key, out var categoryEntry))
+                if (TryFindENpcByDataId(row.RowId, out var enpcBaseId, out var levelId))
                 {
-                    categoryEntry = new LeveAssignmentCategory { CategoryId = categoryGrouping.Key, };
-                    
-                    result.Categories.Add(categoryGrouping.Key, categoryEntry);
+                    currentIssuer.ENpcBaseId = enpcBaseId;
+                    currentIssuer.LevelId = levelId;
                 }
 
-                foreach (var indexGrouping in categoryGrouping.GroupBy(m => m.CategoryIndex))
-                {
-                    if (!categoryEntry.Types.TryGetValue(indexGrouping.Key, out var typeEntry))
-                    {
-                        typeEntry = new LeveAssignmentCategoryType { CategoryIndex = indexGrouping.Key, };
-
-                        categoryEntry.Types.Add(indexGrouping.Key, typeEntry);
-                    }
-
-                    foreach (var leveId in indexGrouping.SelectMany(model => model.LeveIds))
-                        typeEntry.LeveIds.Add(leveId);
-                }
+                ProcessedData.Add(currentIssuer.GuildleveAssignmentId, currentIssuer);
             }
 
-            ProcessedData.Add(result.GuildleveAssignmentId, result);
+            if (!currentIssuer.Categories.TryGetValue(row.CategoryRowId, out var categoryEntry))
+            {
+                categoryEntry = new LeveAssignmentCategory { CategoryId = row.CategoryRowId };
+                currentIssuer.Categories.Add(row.CategoryRowId, categoryEntry);
+            }
+
+            if (!categoryEntry.Types.TryGetValue(row.CategoryIndex, out var typeEntry))
+            {
+                typeEntry = new LeveAssignmentCategoryType { CategoryIndex = row.CategoryIndex };
+                categoryEntry.Types.Add(row.CategoryIndex, typeEntry);
+            }
+
+            foreach (var leveId in row.LeveIds)
+            {
+                typeEntry.LeveIds.Add(leveId);
+            }
         }
     }
 
