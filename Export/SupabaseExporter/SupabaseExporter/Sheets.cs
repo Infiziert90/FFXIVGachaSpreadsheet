@@ -43,6 +43,9 @@ public static class Sheets
     public static readonly ExcelSheet<Fate> FateSheet;
     public static readonly ExcelSheet<DynamicEvent> DynamicEventSheet;
     
+    public static readonly ExcelSheet<ENpcBase> ENpcBaseSheet;
+    public static readonly ExcelSheet<Level> LevelSheet;
+    
     // Other Languages
     public static readonly ExcelSheet<Item> ItemSheetFrench;
     public static readonly ExcelSheet<Item> ItemSheetGerman;
@@ -188,6 +191,9 @@ public static class Sheets
         HousingMapMarkerSheet = Lumina.GetSubrowExcelSheet<HousingMapMarkerInfo>()!;
         WorldSheet = Lumina.GetExcelSheet<World>()!;
         WorldDCGroupSheet = Lumina.GetExcelSheet<WorldDCGroupType>()!;
+        
+        ENpcBaseSheet = Lumina.GetExcelSheet<ENpcBase>()!;
+        LevelSheet = Lumina.GetExcelSheet<Level>()!;
         
         FateSheet = Lumina.GetExcelSheet<Fate>()!;
         DynamicEventSheet = Lumina.GetExcelSheet<DynamicEvent>()!;
