@@ -31,6 +31,7 @@ public class GuildleveAssignmentsProcessor : IDisposable
             .OrderBy(m => m.RowId)
             .ThenBy(m => m.CategoryRowId)
             .ThenBy(m => m.CategoryIndex)
+            .AsNoTracking()
             .AsAsyncEnumerable();
 
         await foreach (var row in stream)
