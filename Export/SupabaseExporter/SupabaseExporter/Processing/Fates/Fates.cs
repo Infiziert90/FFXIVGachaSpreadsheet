@@ -39,6 +39,12 @@ public class Fates : IDisposable
             if ((RewardType)record.Type is RewardType.TreasureHuntReward or RewardType.WKSReward or RewardType.MJIReward or RewardType.GoldSaucerReward)
                 continue;
 
+            if (record.Success != 1)
+                continue;
+
+            if (record.Medal != 3 && record.Medal != 0)
+                continue;
+
             var terri = Sheets.TerritoryTypeSheet.GetRow(record.Territory);
             if (!CollectedData.Expansions.ContainsKey(terri.ExVersion.RowId))
                 CollectedData.Expansions[terri.ExVersion.RowId] = new FateRewardTemp.Expansion(terri.ExVersion.RowId);
@@ -77,6 +83,30 @@ public class Fates : IDisposable
             
             var fate = type.Fates[fateId];
             fate.Records += 1;
+
+            if (record.FateTokenTypeItemId != 0 && record.FateTokenTypeItemId < Sheets.MaxItemId)
+            {
+                if (!fate.Rewards.ContainsKey(record.FateTokenTypeItemId))
+                    fate.Rewards[record.FateTokenTypeItemId] = new FateRewardTemp.RewardTemp();
+
+                fate.Rewards[record.FateTokenTypeItemId].AddRewardRecord(record.FateTokenTypeAmount);
+            }
+            
+            if (record.GCSealsAmount != 0)
+            {
+                if (!fate.Rewards.ContainsKey(20))
+                    fate.Rewards[20] = new FateRewardTemp.RewardTemp();
+
+                fate.Rewards[20].AddRewardRecord(record.GCSealsAmount);
+            }
+            
+            if (record.CurrencyAmount != 0)
+            {
+                if (!fate.Rewards.ContainsKey(1))
+                    fate.Rewards[1] = new FateRewardTemp.RewardTemp();
+
+                fate.Rewards[1].AddRewardRecord(record.CurrencyAmount);
+            }
             
             foreach (var (itemId, amount) in record.GetRewards())
             {

@@ -27,6 +27,7 @@ export const navCategories: NavCategory[] = [
             { label: 'Reduction',               href: '/reduction/', icon: 121   },
             { label: 'Occult',                  href: '/occult/',    icon: 61851 },
             { label: 'Loot',                    href: '/loot/',      icon: 61801 },
+            { label: 'Fate',                    href: '/fate/',      icon: 60502 },
             { label: 'Logograms and Fragments', href: '/logofrag/',  icon: 61837 },
         ]
     },

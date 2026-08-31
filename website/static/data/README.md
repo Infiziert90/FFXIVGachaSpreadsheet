@@ -62,12 +62,6 @@ List<BnpcSimple>
 ```
 
 
-# BnpcPairsWeb.json
-> OUTDATED  
-> This version has been replaced by an even more shrunk down version for the website.  
-> It will be deleted with the release of 7.56
-
-
 # ChestDrops.json
 > OUTDATED: Use ChestDropsV2.json  
 > Going to be removed with 8.0 !  
