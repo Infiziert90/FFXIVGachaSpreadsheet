@@ -26,4 +26,7 @@ public record Reward(uint Id, long Amount, [property: JsonConverter(typeof(LessP
     
     public static Reward FromReduceReward(uint itemId, long total, ReduceTemp.ReductionReward temp) =>
         new(itemId, temp.Amount, temp.Amount / (double)total, temp.Total, temp.Min, temp.Max);
+    
+    public static Reward FromFateReward(uint itemId, long total, FateRewardTemp.RewardTemp temp) =>
+        new(itemId, temp.Amount, temp.Amount / (double)total, temp.Total, temp.Min, temp.Max);
 }

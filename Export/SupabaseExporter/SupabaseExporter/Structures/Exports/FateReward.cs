@@ -2,17 +2,25 @@
 
 public class FateReward
 {
-    public List<Territory> Territories = [];
+    public List<Expansion> Expansions = [];
+
+    public class Expansion
+    {
+        public uint Id;
+        public long Records;
+
+        public List<Territory> Territories = [];
+    }
     
     public class Territory
     {
         public uint Id;
         public long Records;
 
-        public List<Type> Types = [];
+        public List<FateType> FateTypes = [];
     }
 
-    public class Type
+    public class FateType
     {
         public byte Id;
         public long Records;
@@ -26,6 +34,5 @@ public class FateReward
         public long Records;
         
         public List<Reward> Rewards = [];
-        public List<Reward> AdditionalRewards = [];
     }
 }

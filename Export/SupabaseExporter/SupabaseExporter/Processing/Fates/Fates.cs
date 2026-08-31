@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Query;
-using SupabaseExporter.Structures.Exports;
+﻿using SupabaseExporter.Structures.Exports;
 
 namespace SupabaseExporter.Processing.Fates;
 
@@ -14,15 +13,8 @@ public enum RewardType : byte {
 
 public class Fates : IDisposable
 {
-    class TempReward
-    {
-        public long Records;
-        public Dictionary<string, long> Rewards = [];
-        public Dictionary<string, long> AdditionalRewards = [];
-    }
-    
-    private readonly Dictionary<uint, Dictionary<byte, Dictionary<string, TempReward>>> CollectedData = new();
-    private readonly Reduce ProcessData = new();
+    private readonly FateRewardTemp CollectedData = new();
+    private readonly FateReward ProcessedData = new();
     
     public void ProcessAllData(Models.FateRewardModel[] data)
     {
@@ -35,8 +27,8 @@ public class Fates : IDisposable
     
     public void Dispose()
     {
-        CollectedData.Clear();
-        ProcessData.Jobs.Clear();
+        CollectedData.Expansions.Clear();
+        ProcessedData.Expansions.Clear();
         GC.Collect();
     }
     
@@ -46,32 +38,45 @@ public class Fates : IDisposable
         {
             if ((RewardType)record.Type is RewardType.TreasureHuntReward or RewardType.WKSReward or RewardType.MJIReward or RewardType.GoldSaucerReward)
                 continue;
-            
-            if (!CollectedData.ContainsKey(record.Territory))
-                CollectedData[record.Territory] = [];
-            
-            var territory =  CollectedData[record.Territory];
-            if (!territory.ContainsKey(record.Type))
-                territory[record.Type] = [];
-            
-            var type = territory[record.Type];
 
-            var fateName = string.Empty;
-            if (record.Name.Length == 0)
+            var terri = Sheets.TerritoryTypeSheet.GetRow(record.Territory);
+            if (!CollectedData.Expansions.ContainsKey(terri.ExVersion.RowId))
+                CollectedData.Expansions[terri.ExVersion.RowId] = new FateRewardTemp.Expansion(terri.ExVersion.RowId);
+
+            var expansion = CollectedData.Expansions[terri.ExVersion.RowId];
+            expansion.Records += 1;
+            if (!expansion.Territories.ContainsKey(record.Territory))
+                expansion.Territories[record.Territory] = new FateRewardTemp.Territory(record.Territory);
+            
+            var territory = expansion.Territories[record.Territory];
+            territory.Records += 1;
+            if (!territory.FateTypes.ContainsKey(record.Type))
+                territory.FateTypes[record.Type] = new FateRewardTemp.FateType(record.Type);
+            
+            var type = territory.FateTypes[record.Type];
+            type.Records += 1;
+
+            var fateId = record.FateId;
+            if (record.Name.Length != 0)
             {
-                fateName = Sheets.FateSheet.GetRow(record.FateId).Name.ToString();
+                if (!Sheets.EngagementNames.TryGetValue(record.Name, out fateId))
+                {
+                    Logger.Error($"Invalid CE name, ID: {record.Id}");
+                    continue;
+                }
             }
-            else
+
+            if (fateId == 0)
             {
-                if (Sheets.EngagementNames.TryGetValue(record.Name, out var nameId))
-                    fateName = Sheets.DynamicEventSheet.GetRow(nameId).Name.ToString();
+                Logger.Error($"Invalid fate id, ID: {record.Id}");
+                continue;
             }
             
-            if (!type.ContainsKey(fateName))
-                type[fateName] = new TempReward();
+            if (!type.Fates.ContainsKey(fateId))
+                type.Fates[fateId] = new FateRewardTemp.Fate(fateId);
             
-            var rewards = type[fateName];
-            rewards.Records += 1;
+            var fate = type.Fates[fateId];
+            fate.Records += 1;
             
             foreach (var (itemId, amount) in record.GetRewards())
             {
@@ -81,14 +86,10 @@ public class Fates : IDisposable
                     continue;
                 }
                 
-                MappingHelper.AddItem(itemId);
-                
-                var item = Sheets.ItemSheet.GetRow(itemId);
-                var name = item.Name.ToString();
-                if (!rewards.Rewards.ContainsKey(name))
-                    rewards.Rewards[name] = 0;
+                if (!fate.Rewards.ContainsKey(itemId))
+                    fate.Rewards[itemId] = new FateRewardTemp.RewardTemp();
 
-                rewards.Rewards[name] += 1;
+                fate.Rewards[itemId].AddRewardRecord(amount);
             }
             
             foreach (var (itemId, amount) in record.GetAdditionalRewards())
@@ -99,26 +100,60 @@ public class Fates : IDisposable
                     continue;
                 }
                 
-                MappingHelper.AddItem(itemId);
-                
-                var item = Sheets.ItemSheet.GetRow(itemId);
-                var name = item.Name.ToString();
-                if (!rewards.AdditionalRewards.ContainsKey(name))
-                    rewards.AdditionalRewards[name] = 0;
+                if (!fate.Rewards.ContainsKey(itemId))
+                    fate.Rewards[itemId] = new FateRewardTemp.RewardTemp();
 
-                rewards.AdditionalRewards[name] += 1;
+                fate.Rewards[itemId].AddRewardRecord(amount);
             }
         }
     }
 
     private void Combine()
     {
+        foreach (var expansionTemp in CollectedData.Expansions.Values)
+        {
+            var expansion = new FateReward.Expansion {Id = expansionTemp.Id, Records = expansionTemp.Records};
+            
+            foreach (var territoryTemp in expansionTemp.Territories.Values)
+            {
+                var territory = new FateReward.Territory {Id = territoryTemp.Id, Records = territoryTemp.Records};
+
+                foreach (var fateTypeTemp in territoryTemp.FateTypes.Values)
+                {
+                    var fateType = new FateReward.FateType {Id = fateTypeTemp.Id, Records = fateTypeTemp.Records};
+                    
+                    foreach (var fateTemp in fateTypeTemp.Fates.Values)
+                    {
+                        var fate = new FateReward.Fate {Id = fateTemp.Id, Records = fateTemp.Records};
+                        
+                        foreach (var (rewardId, rewardTemp) in fateTemp.Rewards)
+                        {
+                            fate.Rewards.Add(Reward.FromFateReward(rewardId, fateTemp.Records, rewardTemp));
+                            MappingHelper.AddItem(rewardId);
+                        }
+                        
+                        fate.Rewards = fate.Rewards.OrderBy(r => r.Id).ToList();
+                        fateType.Fates.Add(fate);
+                    }
+                    
+                    fateType.Fates = fateType.Fates.OrderBy(t => t.Id).ToList();
+                    territory.FateTypes.Add(fateType);
+                }
+                
+                territory.FateTypes = territory.FateTypes.OrderBy(t => t.Id).ToList();
+                expansion.Territories.Add(territory);
+            }
+            
+            expansion.Territories = expansion.Territories.OrderBy(s => s.Id).ToList();
+            ProcessedData.Expansions.Add(expansion);
+        }
         
+        ProcessedData.Expansions = ProcessedData.Expansions.OrderBy(s => s.Id).ToList();
     }
     
     private void Export()
     {
-        ExportHandler.WriteDataJson("FateReward.json", CollectedData, withIndent: true);
+        ExportHandler.WriteDataJson("FateReward.json", ProcessedData, withIndent: true);
         Logger.Information("Done exporting data ...");
     }
 }

@@ -15,6 +15,7 @@ public static class Sheets
     public static readonly ExcelSheet<Treasure> TreasureSheet;
     public static readonly ExcelSheet<ClassJob> ClassJobSheet;
     public static readonly ExcelSheet<EventItem> EventItemSheet;
+    public static readonly ExcelSheet<ExVersion> ExVersionSheet;
     public static readonly ExcelSheet<ContentType> ContentTypeSheet;
     public static readonly ExcelSheet<RetainerTask> RetainerTaskSheet;
     public static readonly ExcelSheet<GCSupplyDutyReward> GCSupplySheet;
@@ -176,6 +177,7 @@ public static class Sheets
         TreasureSheet = Lumina.GetExcelSheet<Treasure>()!;
         ClassJobSheet = Lumina.GetExcelSheet<ClassJob>()!;
         EventItemSheet = Lumina.GetExcelSheet<EventItem>()!;
+        ExVersionSheet = Lumina.GetExcelSheet<ExVersion>()!;
         ContentTypeSheet = Lumina.GetExcelSheet<ContentType>()!;
         RetainerTaskSheet = Lumina.GetExcelSheet<RetainerTask>()!;
         GCSupplySheet = Lumina.GetExcelSheet<GCSupplyDutyReward>()!;

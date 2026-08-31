@@ -128,6 +128,26 @@ export function tryGetDutyLootSearchParams(searchParams: URLSearchParams): DutyL
     return { categoryId, expansionId, headerId, dutyId };
 }
 
+interface FateSearchParams {
+    expansionId: number,
+    territoryId: number,
+    fateTypeId: number,
+}
+
+/**
+ * Tries to read expansion, territory and fate type from URL parameters
+ * @param searchParams - The URL search parameters to read from
+ * @returns FateSearchParams if successful, undefined otherwise.
+ */
+export function tryGetFateSearchParams(searchParams: URLSearchParams): FateSearchParams | undefined {
+    const expansionId = tryGetParam('ex', searchParams);
+    const territoryId = tryGetParam('terri', searchParams);
+    const fateTypeId = tryGetParam('type', searchParams);
+
+    if (expansionId === undefined || territoryId === undefined || fateTypeId === undefined) return undefined;
+    return { expansionId, territoryId, fateTypeId };
+}
+
 /**
  * Tries to get the specified parameter from the URL search parameters.
  * @param param - The parameter to read from the URL

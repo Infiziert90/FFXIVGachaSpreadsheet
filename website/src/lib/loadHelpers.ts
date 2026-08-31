@@ -5,6 +5,7 @@ import type {DesynthBase2} from "$lib/structs/desynthesis";
 import type {Coffer} from "$lib/structs/coffer";
 import type {ChestDrop} from "$lib/structs/chestDrop";
 import type {BnpcPairing} from "$lib/structs/bnpc";
+import type {FateReward} from "$lib/structs/fate";
 
 type Fetch = typeof fetch;
 
@@ -164,6 +165,24 @@ export async function loadBnpc(path: string, fetch: Fetch): Promise<{content: Bn
         const res: BnpcPairing = await fetch(path, initHeaders)
             .then(responseCompressedHandler)
             .then((data: BnpcPairing) => {
+                return data;
+            });
+
+        if (!res) {
+            throw new Error(`${path} resource is invalid.`);
+        }
+
+        return {content: res};
+    } catch (err) {
+        logAndThrow(`Failed to load ${path} data set.`, err)
+    }
+}
+
+export async function loadFate(path: string, fetch: Fetch): Promise<{content: FateReward}> {
+    try {
+        const res: FateReward = await fetch(path, initHeaders)
+            .then(responseHandler)
+            .then((data: FateReward) => {
                 return data;
             });
 

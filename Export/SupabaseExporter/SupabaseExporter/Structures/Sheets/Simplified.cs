@@ -9,6 +9,7 @@ public class SimplifiedSheets
     
     private readonly Dictionary<uint, MapRow> SimpleMap;
     private readonly Dictionary<uint, TerritoryRow> SimpleTerritory;
+    private readonly Dictionary<uint, ExVersionRow> SimpleExVersion;
     
     private readonly Dictionary<uint, SubMapRow> SimpleSubMap;
     private readonly Dictionary<uint, SubRankRow> SimpleSubRank;
@@ -23,6 +24,9 @@ public class SimplifiedSheets
     private readonly Dictionary<uint, WorldDCGroupRow> SimpleWorldDcGroup;
     
     private readonly Dictionary<uint, Dictionary<uint, ReductionRewardRow>> SimpleReductionReward;
+    
+    private readonly Dictionary<uint, FateRow> SimpleFate;
+    private readonly Dictionary<uint, DynamicEventRow> SimpleDynamicEvent;
 
     public SimplifiedSheets()
     {
@@ -30,6 +34,7 @@ public class SimplifiedSheets
         
         SimpleMap = MapSheet.Select(MapRow.From).ToDictionary(r => r.RowId, r => r);
         SimpleTerritory = TerritoryTypeSheet.Select(TerritoryRow.From).ToDictionary(r => r.RowId, r => r);
+        SimpleExVersion = ExVersionSheet.Select(ExVersionRow.From).ToDictionary(r => r.RowId, r => r);
         
         SimpleSubMap = SubmarineMapSheet.Select(SubMapRow.From).ToDictionary(r => r.RowId, r => r);
         SimpleSubRank = SubmarineRankSheet.Select(SubRankRow.From).ToDictionary(r => r.RowId, r => r);
@@ -44,6 +49,9 @@ public class SimplifiedSheets
         SimpleWorldDcGroup = WorldDCGroupSheet.Select(WorldDCGroupRow.From).ToDictionary(r => r.RowId, r => r);
         
         SimpleReductionReward = GathererReductionRewardSheet.ToDictionary(baseRow => baseRow.RowId, baseRow => baseRow.Select(ReductionRewardRow.From).ToDictionary(subRow => subRow.RowId, subRow => subRow));
+        
+        SimpleFate = FateSheet.Select(FateRow.From).ToDictionary(r => r.RowId, r => r);
+        SimpleDynamicEvent = DynamicEventSheet.Select(DynamicEventRow.From).ToDictionary(r => r.RowId, r => r);
     }
 
     public void Export()
@@ -52,6 +60,7 @@ public class SimplifiedSheets
         
         ExportHandler.WriteSheetJson("map.json", SimpleMap);
         ExportHandler.WriteSheetJson("territory.json", SimpleTerritory);
+        ExportHandler.WriteSheetJson("exVersion.json", SimpleExVersion);
         
         ExportHandler.WriteSheetJson("subMap.json", SimpleSubMap);
         ExportHandler.WriteSheetJson("subRank.json", SimpleSubRank);
@@ -66,6 +75,9 @@ public class SimplifiedSheets
         ExportHandler.WriteSheetJson("worldDCGroup.json", SimpleWorldDcGroup);
         
         ExportHandler.WriteSheetJson("reductionReward.json", SimpleReductionReward);
+        
+        ExportHandler.WriteSheetJson("fate.json", SimpleFate);
+        ExportHandler.WriteSheetJson("dynamicEvent.json", SimpleDynamicEvent);
     }
 }
 
@@ -82,6 +94,17 @@ public struct TerritoryRow(TerritoryType territoryType)
     public PlaceRow PlaceNameZone = new(territoryType.PlaceNameZone.Value);
     
     public static TerritoryRow From(TerritoryType territoryType) => new(territoryType);
+}
+
+[Serializable]
+public struct ExVersionRow(ExVersion exVersion)
+{
+    public uint RowId = exVersion.RowId;
+
+    public string Name = exVersion.Name.ToString();
+    public uint Icon = exVersion.Icon;
+    
+    public static ExVersionRow From(ExVersion exVersion) => new(exVersion);
 }
 
 [Serializable]
@@ -269,4 +292,26 @@ public struct JobRow(ClassJob job)
     public string Abbreviation = job.Abbreviation.ToString();
     
     public static JobRow From(ClassJob job) => new(job);
+}
+
+[Serializable]
+public struct FateRow(Fate fate)
+{
+    public uint RowId = fate.RowId;
+
+    public string Name = fate.Name.ToString();
+    public uint MapIcon = fate.MapIcon;
+    
+    public static FateRow From(Fate fate) => new(fate);
+}
+
+[Serializable]
+public struct DynamicEventRow(DynamicEvent dynamicEvent)
+{
+    public uint RowId = dynamicEvent.RowId;
+
+    public string Name = dynamicEvent.Name.ToString();
+    public uint MapIcon = dynamicEvent.EventType.ValueNullable?.IconObjective0 ?? 0;
+    
+    public static DynamicEventRow From(DynamicEvent dynamicEvent) => new(dynamicEvent);
 }

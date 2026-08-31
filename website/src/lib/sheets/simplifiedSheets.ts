@@ -12,6 +12,9 @@ import type {JobRow} from "$lib/sheets/structure/job";
 import type {SubRankRow} from "$lib/sheets/structure/submarines/subRank";
 import type {SubPartRow} from "$lib/sheets/structure/submarines/subPart";
 import type {SubMapRow} from "$lib/sheets/structure/submarines/subMap";
+import type {ExVersionRow} from "$lib/sheets/structure/exVersion";
+import type {FateRow} from "$lib/sheets/structure/fate";
+import type {DynamicEventRow} from "$lib/sheets/structure/dynamicEvent";
 
 type Fetch = typeof fetch;
 
@@ -19,6 +22,7 @@ export const SimpleJobSheet: Record<number, JobRow> = {};
 
 export const SimpleMapSheet: Record<number, MapRow> = {};
 export const SimpleTerritorySheet: Record<number, TerritoryRow> = {};
+export const SimpleExVersion: Record<number, ExVersionRow> = {};
 
 export const SimpleSubMapSheet: Record<number, SubMapRow> = {};
 export const SimpleSubRankSheet: Record<number, SubRankRow> = {};
@@ -35,6 +39,9 @@ export const SimpleWorld: Record<number, WorldRow> = {};
 export const SimpleWorldDCGroup: Record<number, WorldDCGroupRow> = {};
 
 export const SimpleReductionReward: Record<number, Record<number, ReductionRewardRow>> = {};
+
+export const SimpleFate: Record<number, FateRow> = {};
+export const SimpleDynamicEvent: Record<number, DynamicEventRow> = {};
 
 export async function LoadJobSheet(fetch: Fetch) {
     if (Object.keys(SimpleJobSheet).length > 0)
@@ -78,6 +85,21 @@ export async function LoadTerritorySheet(fetch: Fetch) {
         })
         .catch((err) => {
             logAndThrow('Error loading territory data.', err);
+        });
+}
+
+export async function LoadExVersionSheet(fetch: Fetch) {
+    if (Object.keys(SimpleExVersion).length > 0)
+        return;
+
+    return await fetch('/sheets/exVersion.json', { method: 'GET' })
+        .then(responseHandler)
+        .then((data: Record<number, ExVersionRow>) => {
+            for (const row of Object.values(data))
+                SimpleExVersion[row.RowId] = row;
+        })
+        .catch((err) => {
+            logAndThrow('Error loading exversion data.', err);
         });
 }
 
@@ -243,5 +265,35 @@ export async function LoadReductionRewardSheet(fetch: Fetch) {
         })
         .catch((err) => {
             logAndThrow('Error loading reduction reward data.', err);
+        });
+}
+
+export async function LoadFateSheet(fetch: Fetch) {
+    if (Object.keys(SimpleFate).length > 0)
+        return;
+
+    return await fetch('/sheets/fate.json', { method: 'GET' })
+        .then(responseHandler)
+        .then((data: Record<number, FateRow>) => {
+            for (const [rowId, subRow] of Object.entries(data))
+                SimpleFate[parseInt(rowId)] = subRow;
+        })
+        .catch((err) => {
+            logAndThrow('Error loading fate data.', err);
+        });
+}
+
+export async function LoadDynamicEventSheet(fetch: Fetch) {
+    if (Object.keys(SimpleDynamicEvent).length > 0)
+        return;
+
+    return await fetch('/sheets/dynamicEvent.json', { method: 'GET' })
+        .then(responseHandler)
+        .then((data: Record<number, DynamicEventRow>) => {
+            for (const [rowId, subRow] of Object.entries(data))
+                SimpleDynamicEvent[parseInt(rowId)] = subRow;
+        })
+        .catch((err) => {
+            logAndThrow('Error loading dynamic event data.', err);
         });
 }
