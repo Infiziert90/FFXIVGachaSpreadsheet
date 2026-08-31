@@ -40,7 +40,7 @@
 
     // Set default meta data
     let title = $state('Fate');
-    let description = $state('An overview if all fates and critical engagements for any region.');
+    let description = $state('An overview of all fates and critical engagements in any region.');
 
     // Override defaults with URL parameters if they exist
     let fateSearchParams = tryGetFateSearchParams(page.url.searchParams);
