@@ -53,7 +53,7 @@
         const selection = tryGetFates(expansion, territory, fateType);
         if (selection !== undefined) {
             title = `Fate - ${SimpleTerritorySheet[selection.territory.Id].PlaceName}`;
-            description = `A list of all ${selection.fateType.Id === 0 ? 'fates' : 'critical engagements'} and their drops table.`;
+            description = `A list of all ${selection.fateType.Id === 0 ? 'fates' : 'critical engagements'} and their drop table.`;
         }
     }
 
