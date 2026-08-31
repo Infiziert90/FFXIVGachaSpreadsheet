@@ -52,7 +52,7 @@
         // svelte-ignore state_referenced_locally
         const selection = tryGetFates(expansion, territory, fateType);
         if (selection !== undefined) {
-            title = `Fate - ${SimpleTerritorySheet[selection.territory.Id].PlaceName}`;
+            title = `Fate - ${SimpleTerritorySheet[selection.territory.Id].PlaceName.Name}`;
             description = `A list of all ${selection.fateType.Id === 0 ? 'fates' : 'critical engagements'} and their drop table.`;
         }
     }
@@ -101,7 +101,7 @@
         window.scrollTo(0, 0);
 
         // Set the new title
-        document.title = `Fate - ${SimpleTerritorySheet[selection.territory.Id].PlaceName}`;
+        document.title = `Fate - ${SimpleTerritorySheet[selection.territory.Id].PlaceName.Name}`;
     }
 
     interface FateSelection {
