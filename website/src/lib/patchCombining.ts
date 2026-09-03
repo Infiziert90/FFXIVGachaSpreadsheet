@@ -151,11 +151,10 @@ function processItem(item: Reward, data: Record<string, CofferContent>, selected
     let processedReward: Reward = {Id: item.Id, Amount: 0, Total: 0, Max: 0, Min: 0, Pct: 0};
     for (const patch of selectedPatches) {
         let processingPatch = data[patch.toString()];
+        sumOfAllRecords += processingPatch.Total;
 
         let reward = processingPatch.Items.find(e => e.Id === item.Id);
         if (reward === undefined) continue;
-
-        sumOfAllRecords += processingPatch.Total;
 
         processedReward.Amount += reward.Amount;
         processedReward.Total += reward.Total;
@@ -167,6 +166,7 @@ function processItem(item: Reward, data: Record<string, CofferContent>, selected
         processedReward.Max = Math.max(processedReward.Max, reward.Max);
     }
 
+    console.log(`${item.Id}: ${processedReward.Amount} / ${sumOfAllRecords}`)
     processedReward.Pct = processedReward.Amount / sumOfAllRecords;
     return processedReward;
 }
@@ -178,10 +178,10 @@ function processLoot(chestId: number, item: Reward, data: Record<string, Chest[]
         let chest = data[patch.toString()].find(c => c.Id === chestId);
         if (chest === undefined) continue;
 
+        sumOfAllRecords += chest.Records;
+
         let reward = chest.Rewards.find(e => e.Id === item.Id);
         if (reward === undefined) continue;
-
-        sumOfAllRecords += chest.Records;
 
         processedReward.Amount += reward.Amount;
         processedReward.Total += reward.Total;
@@ -202,12 +202,11 @@ function processVentureTask(item: Reward, data: Record<string, VentureContent>, 
     let processedReward: Reward = {Id: item.Id, Amount: 0, Total: 0, Max: 0, Min: 0, Pct: 0};
     for (const patch of selectedPatches) {
         let processingPatch = data[patch.toString()];
+        sumOfAllRecords += processingPatch.Total;
 
         let currentData = isPrimary ? processingPatch.Primaries : processingPatch.Secondaries;
         let reward = currentData.find(e => e.Id === item.Id);
         if (reward === undefined) continue;
-
-        sumOfAllRecords += processingPatch.Total;
 
         processedReward.Amount += reward.Amount;
         processedReward.Total += reward.Total;
