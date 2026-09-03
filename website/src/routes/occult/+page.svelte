@@ -3,7 +3,7 @@
     import {replaceState} from "$app/navigation";
     import {onMount} from "svelte";
     import DropsTable from "../../component/DropsTable.svelte";
-    import {FullColumnSetup} from "$lib/table";
+    import {NameObtainedMinChanceSetup} from "$lib/table";
     import CofferAccordion from "../../component/CofferAccordion.svelte";
     import {tryGetCoffer} from "$lib/cofferHelper";
     import PageSidebar from "../../component/PageSidebar.svelte";
@@ -185,7 +185,7 @@
 <div class="col-12 col-lg-7 order-0 order-lg-2">
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
         {#if tableItems.length > 0}
-            <DropsTable items={tableItems} columns={FullColumnSetup} />
+            <DropsTable items={tableItems} columns={NameObtainedMinChanceSetup} />
         {:else}
             <p>No data found</p>
         {/if}

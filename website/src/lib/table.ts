@@ -15,6 +15,7 @@ export interface ColumnTemplate {
 
     templateRenderer?: Function;
     valueRenderer?: Function;
+    chanceRenderer?: Function;
     field?: keyof Reward;
 
     classExtension?: string[];
@@ -70,14 +71,14 @@ const ChanceTemplate: ColumnTemplate = {
     header: 'Chance',
     field: 'Pct',
     defaultSort: 'asc',
-    valueRenderer: (row: Reward) => `${(row.Pct * 100).toFixed(2)}%`,
+    chanceRenderer: (row: Reward) => `${(row.Pct * 100).toFixed(2)}%`,
     classExtension: ['percentage', 'text-end']
 };
 
 const ChanceNoDefaultSortTemplate: ColumnTemplate = {
     header: 'Chance',
     field: 'Pct',
-    valueRenderer: (row: Reward) => `${(row.Pct * 100).toFixed(2)}%`,
+    chanceRenderer: (row: Reward) => `${(row.Pct * 100).toFixed(2)}%`,
     classExtension: ['percentage', 'text-end']
 };
 
@@ -131,6 +132,7 @@ export interface SubColumnTemplate {
 
     templateRenderer?: Function;
     valueRenderer?: Function;
+    chanceRenderer?: Function;
     field?: keyof ItemDetail;
 
     classExtension?: string[];
@@ -181,7 +183,7 @@ const SubOptimalTemplate: SubColumnTemplate = {
 const SubDropRateTemplate: SubColumnTemplate = {
     header: 'Drop Chance',
     field: 'T3Rate',
-    valueRenderer: (row: ItemDetail) => `${row.T3Rate}%`,
+    chanceRenderer: (row: ItemDetail) => `${row.T3Rate}%`,
     classExtension: ['percentage', 'text-end'],
     sortable: false
 };

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Table, Icon } from '@sveltestrap/sveltestrap';
+    import { Table, Icon, Tooltip } from '@sveltestrap/sveltestrap';
     import type { ColumnTemplate } from "$lib/table";
     import { getIconPath, getWikiUrl } from "$lib/utils";
     import type { Reward } from "$lib/structs/reward";
@@ -137,6 +137,8 @@
 
         itemId?: number;
 
+        chance?: number;
+
         content?: string;
 
         type: number;
@@ -164,6 +166,8 @@
         } else if (column.valueRenderer) {
             // Custom value renderer (returns plain text)
             return { content: column.valueRenderer(row), type: 2 }
+        } else if (column.chanceRenderer) {
+            return { content: column.chanceRenderer(row), chance: parseFloat((row.Pct * 100).toFixed(6)), itemId: row.Id, type: 3 }
         } else if (column.field) {
             // Direct field access, convert to string
             // Type assertion: column.field is validated to be a key of Reward
@@ -210,6 +214,13 @@
                 <img width="40" height="40" loading="lazy" src={getIconPath(ItemMappings[cellContent.itemId].Icon, true)} alt="{localizedItem(cellContent.itemId, $currentLanguage)} Icon">
             {:else if cellContent.type === 2}
                 {cellContent.content}
+            {:else if cellContent.type === 3}
+                <p id="T-tooltip-{cellContent.itemId}" class="m-0 p-0">{cellContent.content}</p>
+                <Tooltip target="T-tooltip-{cellContent.itemId}" placement="right">
+                    <div class="d-flex flex-row align-items-center">
+                        <h6 class="text-black m-0 p-0">{cellContent.chance}%</h6>
+                    </div>
+                </Tooltip>
             {/if}
         {/snippet}
 

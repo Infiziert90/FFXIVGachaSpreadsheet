@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Table, Icon } from '@sveltestrap/sveltestrap';
+    import {Table, Icon, Tooltip} from '@sveltestrap/sveltestrap';
     import type {ItemDetail} from "$lib/interfaces";
     import type {SubColumnTemplate} from "$lib/table";
     import { getIconPath } from "$lib/utils";
@@ -139,6 +139,9 @@
 
         itemId?: number;
 
+        sectorId?: number;
+        chance?: number;
+
         content?: string;
 
         type: number;
@@ -163,6 +166,8 @@
         } else if (column.valueRenderer) {
             // Custom value renderer (returns plain text)
             return { content: column.valueRenderer(row), type: 2 }
+        } else if (column.chanceRenderer) {
+            return { content: column.chanceRenderer(row), chance: parseFloat(row.T3Rate), sectorId: row.Sector, itemId: row.Id, type: 3 }
         } else if (column.field) {
             // Direct field access, convert to string
             // Type assertion: column.field is validated to be a key of Reward
@@ -210,6 +215,13 @@
                 <img width="40" height="40" loading="lazy" src={getIconPath(ItemMappings[cellContent.itemId].Icon, true)} alt="{localizedItem(cellContent.itemId, $currentLanguage)} Icon">
             {:else if cellContent.type === 2}
                 {cellContent.content}
+            {:else if cellContent.type === 3}
+                <p id="T-tooltip-{cellContent.itemId}-{cellContent.sectorId}" class="m-0 p-0">{cellContent.content}</p>
+                <Tooltip target="T-tooltip-{cellContent.itemId}-{cellContent.sectorId}" placement="right">
+                    <div class="d-flex flex-row align-items-center">
+                        <h6 class="text-black m-0 p-0">{cellContent.chance}%</h6>
+                    </div>
+                </Tooltip>
             {/if}
         {/snippet}
 

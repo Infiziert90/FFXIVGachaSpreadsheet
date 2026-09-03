@@ -12,6 +12,7 @@
     import {replaceState} from "$app/navigation";
     import {localizedItem} from "$lib/localization";
     import {currentLanguage} from "$lib/stores/language";
+    import DesynthSearchbar from "../../component/DesynthSearchbar.svelte";
 
     interface Props {
         data: { content: SubLoot };
@@ -145,7 +146,8 @@
         </div>
     </div>
 {:else}
-    <div class="col-12">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6 col-12">
         <ItemSearchbar
                 items={Array.from(searchItems)}
                 {selectedId}
@@ -153,4 +155,5 @@
                 {tabElements}
         />
     </div>
+    <div class="col-lg-3"></div>
 {/if}

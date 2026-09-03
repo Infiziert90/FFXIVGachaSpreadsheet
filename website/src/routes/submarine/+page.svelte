@@ -127,7 +127,9 @@
 
     interface RateData {
         poolHitRate: string;
+        poolHitChance: number;
         t3Rate: string;
+        t3Chance: number;
     }
 
     function getRateData(reward: PoolReward, poolRecords: number, tier: number, sector: Sector): RateData {
@@ -137,7 +139,7 @@
         let onHit = reward.Amount / poolRecords * 100;
         let capableHit = reward.WasT3 / sector.T3Capable * 100;
 
-        return {poolHitRate: onHit.toFixed(2), t3Rate: capableHit.toFixed(2)};
+        return {poolHitRate: onHit.toFixed(2), poolHitChance: parseFloat(onHit.toFixed(6)), t3Rate: capableHit.toFixed(2), t3Chance: parseFloat(capableHit.toFixed(6))};
     }
 
     function getStars(stars: number) {
@@ -255,6 +257,8 @@
                                                 {@const itemIcon = ItemMappings[row.Id].Icon}
                                                 {@const wikiUrl = getWikiUrl(ItemMappings[row.Id].En)}
                                                 {@const tooltipId = `tooltip-${sector.Id}-${tier}-${row.Id}`}
+                                                {@const poolHitRateTooltipId = `poolHitRate-${sector.Id}-${tier}-${row.Id}`}
+                                                {@const t3RateTooltipId = `t3Rate-${sector.Id}-${tier}-${row.Id}`}
                                                 <tr>
                                                     <td class="text-truncate">
                                                         <span class="d-inline-block text-truncate" style="max-width: 100%;">
@@ -269,8 +273,22 @@
                                                     </td>
                                                     {#if dropChanceView}
                                                         {@const rateData = getRateData(row, pool.Records, idx+1, sector)}
-                                                        <td class="text-center">{rateData.poolHitRate}%</td>
-                                                        <td class="text-end">{rateData.t3Rate}%</td>
+                                                        <td class="text-center">
+                                                            <p id={poolHitRateTooltipId} class="m-0 p-0">{rateData.poolHitRate}%</p>
+                                                            <Tooltip target={poolHitRateTooltipId} placement="right">
+                                                                <div class="d-flex flex-row align-items-center">
+                                                                    <h6 class="text-black m-0 p-0">{rateData.poolHitChance}%</h6>
+                                                                </div>
+                                                            </Tooltip>
+                                                        </td>
+                                                        <td class="text-end">
+                                                            <p id={t3RateTooltipId} class="m-0 p-0">{rateData.t3Rate}%</p>
+                                                            <Tooltip target={t3RateTooltipId} placement="right">
+                                                                <div class="d-flex flex-row align-items-center">
+                                                                    <h6 class="text-black m-0 p-0">{rateData.t3Chance}%</h6>
+                                                                </div>
+                                                            </Tooltip>
+                                                        </td>
                                                     {:else}
                                                         <td class="text-center"><span class="text-nowrap">{row.MinMax['Poor'][0]} - {row.MinMax['Poor'][1]}</span></td>
                                                         <td class="text-center"><span class="text-nowrap">{row.MinMax['Normal'][0]} - {row.MinMax['Normal'][1]}</span></td>

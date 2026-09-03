@@ -249,8 +249,8 @@
         </div>
     </div>
 {:else}
-<div class="col-3"></div>
-<div class="col-6">
+<div class="col-lg-3"></div>
+<div class="col-lg-6 col-12">
     <DesynthSearchbar
             {desynthesisBase}
             {selectedId}
@@ -258,5 +258,5 @@
             {tabElements}
     />
 </div>
-<div class="col-3"></div>
+<div class="col-lg-3"></div>
 {/if}
