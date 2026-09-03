@@ -2,7 +2,7 @@
     import { page } from '$app/state';
     import {replaceState} from "$app/navigation";
     import {onMount} from "svelte";
-    import {NameObtainedChanceSetup} from "$lib/table";
+    import {NameObtainedMinChanceSetup} from "$lib/table";
     import {tryGetFateSearchParams} from "$lib/searchParamHelper";
     import DropsTable from "../../component/DropsTable.svelte";
     import PageSidebar from "../../component/PageSidebar.svelte";
@@ -160,7 +160,7 @@
 </div>
 <div class="col-12 col-lg-7 order-0 order-lg-2">
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
-        {#each tables as fateTableData}
+        {#each tables as fateTableData, index}
             <div id="fate-{fateTableData.Id}" class="container mb-5 p-2 rounded border tier-anchor" style="background-color: var(--bs-tertiary-bg);">
                 {#if fateType === 0}
                     <h4>{SimpleFate[fateTableData.Id].Name}</h4>
@@ -168,7 +168,7 @@
                     <h4>{SimpleDynamicEvent[fateTableData.Id].Name}</h4>
                 {/if}
                 <p>Records: {fateTableData.Records}</p>
-                <DropsTable items={fateTableData.Rewards} columns={NameObtainedChanceSetup} />
+                <DropsTable items={fateTableData.Rewards} columns={NameObtainedMinChanceSetup} index={index} />
             </div>
         {/each}
     </div>
