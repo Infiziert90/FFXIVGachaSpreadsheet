@@ -1,8 +1,11 @@
 ﻿<script lang="ts">
     import Collapse from "./Collapse.svelte";
+    import TreeSearchInput from "./TreeSearchInput.svelte";
     import { Icon } from "@sveltestrap/sveltestrap";
     import { getIconPath } from "$lib/utils";
-    import type {ChestDrop, Expansion, Header} from "$lib/structs/chestDrop";
+    import { iconIdToPath, getExpansionStyle } from "$lib/expansionStyles";
+    import { createTreeState, getPath, filterLeaves, filterLevel } from "$lib/treeNodes.svelte";
+    import type {ChestDrop, Expansion, Header, Duty} from "$lib/structs/chestDrop";
 
     interface Props {
         chestDropData: ChestDrop[];
@@ -15,23 +18,7 @@
 
     let { chestDropData, category, expansion, header, duty, openTab }: Props = $props();
 
-    /**
-     * Converts an icon ID to the XIVAPI asset path format
-     * @param iconId - The numeric icon ID from the game
-     * @returns Asset path string in format "XXXXXX/XXXXXX"
-     */
-    function iconIdToPath(iconId: number): string {
-        const paddedId = iconId.toString().padStart(6, '0');
-        const folder = paddedId.substring(0, 3) + '000';
-        return `${folder}/${paddedId}`;
-    }
-
     interface CategoryStyle {
-        icon: string;
-        hue: number;
-    }
-
-    interface ExpansionStyle {
         icon: string;
         hue: number;
     }
@@ -45,6 +32,7 @@
         'Trial': { icon: iconIdToPath(60834), hue: 2 },
         'Treasure Hunts': { icon: iconIdToPath(60838), hue: 199 },
         'Treasure Hunt': { icon: iconIdToPath(60838), hue: 199 },
+        'V&C Dungeon Finder': { icon: iconIdToPath(61846), hue: 262 },
         'Chaotic Alliance Raids': { icon: iconIdToPath(60855), hue: 280 },
         'Chaotic Alliance Raid': { icon: iconIdToPath(60855), hue: 280 },
         'Open World': { icon: iconIdToPath(60857), hue: 46 },
@@ -60,105 +48,40 @@
         'Savage': { icon: iconIdToPath(61808), hue: 270 },
     };
 
-    const expansionStyles: Record<string, ExpansionStyle> = {
-        // ARR
-        'A Realm Reborn': { icon: iconIdToPath(61875), hue: 236 },
-        'ARR': { icon: iconIdToPath(61875), hue: 236 },
-        '2.x': { icon: iconIdToPath(61875), hue: 236 },
-        
-        // HW
-        'Heavensward': { icon: iconIdToPath(61876), hue: 225 },
-        'HW': { icon: iconIdToPath(61876), hue: 225 },
-        '3.x': { icon: iconIdToPath(61876), hue: 225 },
-        
-        // SB
-        'Stormblood': { icon: iconIdToPath(61877), hue: 348 },
-        'SB': { icon: iconIdToPath(61877), hue: 348 },
-        '4.x': { icon: iconIdToPath(61877), hue: 348 },
-        
-        // ShB
-        'Shadowbringers': { icon: iconIdToPath(61878), hue: 260 },
-        'ShB': { icon: iconIdToPath(61878), hue: 260 },
-        '5.x': { icon: iconIdToPath(61878), hue: 260 },
-        
-        // EW
-        'Endwalker': { icon: iconIdToPath(61879), hue: 51 },
-        'EW': { icon: iconIdToPath(61879), hue: 51 },
-        'Endw': { icon: iconIdToPath(61879), hue: 51 },
-        '6.x': { icon: iconIdToPath(61879), hue: 51 },
-        
-        // DT
-        'Dawntrail': { icon: iconIdToPath(61880), hue: 39 },
-        'DT': { icon: iconIdToPath(61880), hue: 39 },
-        '7.x': { icon: iconIdToPath(61880), hue: 39 },
-    };
-
     function getCategoryStyle(categoryName: string, categoryId: number): CategoryStyle | null {
         return categoryStyles[categoryName] || categoryStyles[categoryId] || null;
     }
 
-    function getExpansionStyle(expansionName: string): ExpansionStyle | null {
-        return expansionStyles[expansionName] || null;
-    }
-
-    let openNodes = $state<Set<string>>(new Set());
+    // Search state
+    let searchQuery = $state('');
+    const trimmedQuery = $derived(searchQuery.trim().toLowerCase());
+    const isSearching = $derived(trimmedQuery !== '');
 
     /**
-     * Generates a unique path identifier for a tree node
-     * @param parentPath - Path of the parent node (empty string for root)
-     * @param id - The ID of the current node
-     * @param level - The type/level of the node in the hierarchy
-     * @returns Unique path string for the node
+     * Filters the duty/header/expansion/category tree down to nodes whose name
+     * matches the query, or that have a matching descendant. If a node's own
+     * name matches, all of its children are kept as-is (no further filtering).
      */
-    function getPath(parentPath: string, id: number, level: 'category' | 'expansion' | 'header'): string {
-        return parentPath ? `${parentPath}/${level}-${id}` : `${level}-${id}`;
+    function filterDuties(duties: Duty[], query: string): Duty[] {
+        return filterLeaves(duties, query, d => d.Name || '');
     }
 
-    const isCategory = (path: string): boolean => path.startsWith('category-') && !path.includes('/');
-
-    function closeAllCategories(nodes: Set<string>): Set<string> {
-        return new Set(Array.from(nodes).filter(path => !isCategory(path)));
+    function filterHeaders(headers: Header[], query: string): Header[] {
+        return filterLevel(headers, query, h => h.Name || '', h => h.Duties, (h, Duties) => ({ ...h, Duties }), filterDuties);
     }
 
-    function toggleNode(path: string) {
-        const newOpenNodes = new Set(openNodes);
-        
-        // If already open, close it
-        if (newOpenNodes.delete(path)) {
-            openNodes = newOpenNodes;
-            return;
-        }
-        
-        // If opening a category, close all other categories first
-        if (isCategory(path)) {
-            const filtered = closeAllCategories(newOpenNodes);
-            filtered.add(path);
-            openNodes = filtered;
-            return;
-        }
-        
-        // For non-category nodes, just toggle normally
-        newOpenNodes.add(path);
-        openNodes = newOpenNodes;
+    function filterExpansions(expansions: Expansion[], query: string): Expansion[] {
+        return filterLevel(expansions, query, e => e.Name || '', e => e.Headers, (e, Headers) => ({ ...e, Headers }), filterHeaders);
     }
 
-    function openNodeExclusive(path: string) {
-        const newOpenNodes = new Set(openNodes);
-        
-        // If opening a category, close all other categories first
-        if (isCategory(path)) {
-            const filtered = closeAllCategories(newOpenNodes);
-            filtered.add(path);
-            openNodes = filtered;
-            return;
-        }
-        
-        // For non-category nodes, just add them
-        newOpenNodes.add(path);
-        openNodes = newOpenNodes;
+    function filterCategories(categories: ChestDrop[], query: string): ChestDrop[] {
+        return filterLevel(categories, query, c => c.Name || '', c => c.Expansions, (c, Expansions) => ({ ...c, Expansions }), filterExpansions);
     }
 
-    const isOpen = (path: string): boolean => openNodes.has(path);
+    const filteredData = $derived(isSearching ? filterCategories(chestDropData, trimmedQuery) : chestDropData);
+
+    const tree = createTreeState();
+    const { isOpen } = tree;
 
     /**
      * Ensures the path to the current selection is open.
@@ -170,21 +93,21 @@
         if (!categoryEntry) return;
 
         const categoryPath = getPath('', category, 'category');
-        openNodeExclusive(categoryPath);
+        tree.openExclusive(categoryPath);
 
         const expansionEntry = categoryEntry.Expansions.find(e => e.Id === expansion);
         if (!expansionEntry) return;
 
         const expansionPath = getPath(categoryPath, expansion, 'expansion');
-        openNodeExclusive(expansionPath);
+        tree.openExclusive(expansionPath);
 
         // Auto-open if only one header exists
         if (expansionEntry.Headers.length === 1) {
             const headerPath = getPath(expansionPath, expansionEntry.Headers[0].Id, 'header');
-            openNodeExclusive(headerPath);
+            tree.openExclusive(headerPath);
         } else {
             const headerPath = getPath(expansionPath, header, 'header');
-            openNodeExclusive(headerPath);
+            tree.openExclusive(headerPath);
         }
     }
 
@@ -203,15 +126,23 @@
     });
 </script>
 
-<div class="loot-tree w-100">
-    {#each chestDropData as chestDropEntry}
-        {@render renderCategory(chestDropEntry, '')}
-    {/each}
+<div class="d-flex flex-column gap-2 w-100">
+    <TreeSearchInput bind:value={searchQuery} placeholder="Search duties..." ariaLabel="Search duties" />
+
+    <div class="loot-tree w-100">
+        {#if isSearching && filteredData.length === 0}
+            <p class="text-muted m-0 p-2">No duty found</p>
+        {:else}
+            {#each filteredData as chestDropEntry (chestDropEntry.Id)}
+                {@render renderCategory(chestDropEntry, '')}
+            {/each}
+        {/if}
+    </div>
 </div>
 
 {#snippet renderCategory(chestDropEntry: ChestDrop, parentPath: string)}
     {@const path = getPath(parentPath, chestDropEntry.Id, 'category')}
-    {@const open = isOpen(path)}
+    {@const open = isSearching || isOpen(path)}
 
         {@const categoryStyle = getCategoryStyle(chestDropEntry.Name, chestDropEntry.Id)}
         <div
@@ -220,8 +151,8 @@
                 style={categoryStyle ? `--node-hue: ${categoryStyle.hue}` : ''}
                 role="button"
                 tabindex="0"
-                onclick={() => toggleNode(path)}
-                onkeydown={(e) => e.key === 'Enter' && toggleNode(path)}
+                onclick={() => tree.toggle(path)}
+                onkeydown={(e) => e.key === 'Enter' && tree.toggle(path)}
         >
             <span class="tree-icon d-inline-flex align-items-center">
                 <Icon name={open ? 'chevron-down' : 'chevron-right'} />
@@ -238,9 +169,9 @@
             </span>
         </div>
 
-        <Collapse isOpen={open} style={categoryStyle ? `--node-hue: ${categoryStyle.hue}` : ''}>
+        <Collapse isOpen={open} animate={!isSearching} style={categoryStyle ? `--node-hue: ${categoryStyle.hue}` : ''}>
             <div class="tree-indent">
-                {#each chestDropEntry.Expansions as expansionEntry}
+                {#each chestDropEntry.Expansions as expansionEntry (expansionEntry.Id)}
                     {@render renderExpansion(expansionEntry, path, chestDropEntry.Id)}
                 {/each}
             </div>
@@ -249,7 +180,7 @@
 
 {#snippet renderExpansion(expansionEntry: Expansion, parentPath: string, categoryId: number)}
     {@const path = getPath(parentPath, expansionEntry.Id, 'expansion')}
-    {@const open = isOpen(path)}
+    {@const open = isSearching || isOpen(path)}
     {@const hasSingleHeader = expansionEntry.Headers.length === 1}
 
         {@const expansionStyle = getExpansionStyle(expansionEntry.Name)}
@@ -259,8 +190,8 @@
                 style={expansionStyle ? `--node-hue: ${expansionStyle.hue}` : ''}
                 role="button"
                 tabindex="0"
-                onclick={() => toggleNode(path)}
-                onkeydown={(e) => e.key === 'Enter' && toggleNode(path)}
+                onclick={() => tree.toggle(path)}
+                onkeydown={(e) => e.key === 'Enter' && tree.toggle(path)}
         >
             <span class="tree-icon d-inline-flex align-items-center">
                 <Icon name={open ? 'chevron-down' : 'chevron-right'} />
@@ -277,11 +208,11 @@
             </span>
         </div>
 
-        <Collapse isOpen={open} style={expansionStyle ? `--node-hue: ${expansionStyle.hue}` : ''}>
+        <Collapse isOpen={open} animate={!isSearching} style={expansionStyle ? `--node-hue: ${expansionStyle.hue}` : ''}>
             <div class="tree-indent">
                 {#if hasSingleHeader}
                     {@const headerEntry = expansionEntry.Headers[0]}
-                    {#each headerEntry.Duties as dutyEntry}
+                    {#each headerEntry.Duties as dutyEntry (dutyEntry.Id)}
                         <button
                                 id="{categoryId}{expansionEntry.Id}{headerEntry.Id}{dutyEntry.Id}-tab"
                                 class="tree-node-element w-100 text-start border-0"
@@ -292,7 +223,7 @@
                         </button>
                     {/each}
                 {:else}
-                    {#each expansionEntry.Headers as headerEntry}
+                    {#each expansionEntry.Headers as headerEntry (headerEntry.Id)}
                         {@render renderHeader(headerEntry, path, categoryId, expansionEntry.Id)}
                     {/each}
                 {/if}
@@ -305,14 +236,14 @@
     {@const hasMultipleDuties = headerEntry.Duties.length > 1}
 
     {#if hasMultipleDuties}
-        {@const open = isOpen(path)}
+        {@const open = isSearching || isOpen(path)}
             <div
                 class="tree-node-folder d-flex align-items-center gap-2 user-select-none"
                 data-open={open ? 'true' : 'false'}
                 role="button"
                 tabindex="0"
-                onclick={() => toggleNode(path)}
-                onkeydown={(e) => e.key === 'Enter' && toggleNode(path)}
+                onclick={() => tree.toggle(path)}
+                onkeydown={(e) => e.key === 'Enter' && tree.toggle(path)}
                 style="--node-hue: 216"
             >
                 <span class="tree-icon d-inline-flex align-items-center">
@@ -320,9 +251,9 @@
                 </span>
                 <span class="tree-label flex-grow-1">{headerEntry.Name || headerEntry.Id}</span>
             </div>
-            <Collapse isOpen={open} style="--node-hue: 216">
+            <Collapse isOpen={open} animate={!isSearching} style="--node-hue: 216">
                 <div class="tree-indent">
-                    {#each headerEntry.Duties as dutyEntry}
+                    {#each headerEntry.Duties as dutyEntry (dutyEntry.Id)}
                         <button
                                 id="{categoryId}{expansionId}{headerEntry.Id}{dutyEntry.Id}-tab"
                                 class="tree-node-element w-100 text-start border-0"
@@ -335,7 +266,7 @@
                 </div>
             </Collapse>
     {:else}
-        {#each headerEntry.Duties as dutyEntry}
+        {#each headerEntry.Duties as dutyEntry (dutyEntry.Id)}
             <button
                     id="{categoryId}{expansionId}{headerEntry.Id}{dutyEntry.Id}-tab"
                     class="tree-node-element w-100 text-start border-0"
