@@ -166,7 +166,6 @@ function processItem(item: Reward, data: Record<string, CofferContent>, selected
         processedReward.Max = Math.max(processedReward.Max, reward.Max);
     }
 
-    console.log(`${item.Id}: ${processedReward.Amount} / ${sumOfAllRecords}`)
     processedReward.Pct = processedReward.Amount / sumOfAllRecords;
     return processedReward;
 }

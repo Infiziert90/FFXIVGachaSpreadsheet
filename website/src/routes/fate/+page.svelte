@@ -13,6 +13,7 @@
         SimpleTerritorySheet
     } from "$lib/sheets/simplifiedSheets.ts";
     import FateAccordion from "../../component/FateAccordion.svelte";
+    import type {Reward} from "$lib/structs/reward";
 
     interface Props {
         data: { content: FateReward };
@@ -27,6 +28,7 @@
 
     // Table data
     let tables: Fate[] = $state([]);
+    let region: Fate = $state({Id: 0, Records: 0, Rewards: []});
 
     // Stats
     let titleStats = $state('');
@@ -91,6 +93,7 @@
 
         // Update table data
         tables = selection.fateType.Fates;
+        combineTerritoryOverview(selection);
 
         // Update stats display
         titleStats = `${SimpleTerritorySheet[selection.territory.Id].PlaceName.Name}`;
@@ -132,6 +135,55 @@
 
         return { expansion: fateExpansion, territory: fateTerritory, fateType: fateType };
     }
+
+    /**
+     * Combine all data for this territory into a single region overview.
+     * @param selection - The FateSelection
+     * @returns Fills the region field.
+     */
+    export function combineTerritoryOverview(selection: FateSelection)
+    {
+        region = {Id: 0, Records: 0, Rewards: []};
+
+        let rewardArray: Reward[] = [];
+
+        const processedItems = new Set<number>();
+        region.Records = selection.fateType.Records;
+        for (const territoryFate of selection.fateType.Fates) {
+            for (const reward of territoryFate.Rewards) {
+                if (!processedItems.has(reward.Id)) {
+                    processedItems.add(reward.Id);
+
+                    rewardArray.push(processItem(reward, selection.fateType.Fates));
+                }
+            }
+        }
+
+        region.Rewards = rewardArray;
+
+        function processItem(item: Reward, data: Fate[]) {
+            let sumOfAllRecords = 0;
+            let processedReward: Reward = {Id: item.Id, Amount: 0, Total: 0, Max: 0, Min: 0, Pct: 0};
+            for (const tempFate of data) {
+                let containsItem = tempFate.Rewards.find(e => e.Id === item.Id)
+                if (containsItem === undefined) continue;
+
+                sumOfAllRecords += tempFate.Records;
+
+                processedReward.Amount += containsItem.Amount;
+                processedReward.Total += containsItem.Total;
+                if (processedReward.Min === 0) {
+                    processedReward.Min = containsItem.Min;
+                } else {
+                    processedReward.Min = Math.min(processedReward.Min, containsItem.Min);
+                }
+                processedReward.Max = Math.max(processedReward.Max, containsItem.Max);
+            }
+
+            processedReward.Pct = processedReward.Amount / sumOfAllRecords;
+            return processedReward;
+        }
+    }
 </script>
 
 <svelte:head>
@@ -160,6 +212,12 @@
 </div>
 <div class="col-12 col-lg-7 order-0 order-lg-2">
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
+        <div id="fate-region" class="container mb-5 p-2 rounded border tier-anchor" style="background-color: var(--bs-tertiary-bg);">
+            <h4>Region Overview</h4>
+            <p>Records: {region.Records.toLocaleString()}</p>
+            <DropsTable items={region.Rewards} columns={NameObtainedMinChanceSetup} index={9999} />
+        </div>
+
         {#each tables as fateTableData, index}
             <div id="fate-{fateTableData.Id}" class="container mb-5 p-2 rounded border tier-anchor" style="background-color: var(--bs-tertiary-bg);">
                 {#if fateType === 0}
@@ -167,7 +225,7 @@
                 {:else}
                     <h4>{SimpleDynamicEvent[fateTableData.Id].Name}</h4>
                 {/if}
-                <p>Records: {fateTableData.Records}</p>
+                <p>Records: {fateTableData.Records.toLocaleString()}</p>
                 <DropsTable items={fateTableData.Rewards} columns={NameObtainedMinChanceSetup} index={index} />
             </div>
         {/each}
