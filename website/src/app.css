@@ -677,21 +677,11 @@ img.item-icon {
     initial-value: 0;
 }
 
-/*
- * Two separate animations (rather than one keyframe ramping over 10%/90% of the
- * total scroll distance) so each fade ramps over a fixed 3rem of actual scroll
- * distance near its edge. A percentage-based ramp reaches full strength almost
- * instantly on short lists (e.g. 10% of a 200px scroll range is only 20px),
- * making the fade appear even while still very close to the edge.
- */
-@keyframes top-fade-in {
-    from { --top-fade: 0; }
-    to   { --top-fade: 3rem; }
-}
-
-@keyframes bottom-fade-out {
-    from { --bottom-fade: 3rem; }
-    to   { --bottom-fade: 0; }
+@keyframes scrollfade {
+    0%        { --top-fade: 0; }
+    10%, 100% { --top-fade: 3rem; }
+    0%, 90%   { --bottom-fade: 3rem; }
+    100%      { --bottom-fade: 0; }
 }
 
 /* Loot Tree Styles */
@@ -876,9 +866,8 @@ img.item-icon {
                 #0000,
                 #ffff var(--top-fade) calc(100% - var(--bottom-fade)),
                 #0000);
-        animation: top-fade-in linear both, bottom-fade-out linear both;
-        animation-timeline: --scrollfade, --scrollfade;
-        animation-range: 0px 3rem, calc(100% - 3rem) 100%;
+        animation: scrollfade;
+        animation-timeline: --scrollfade;
         scroll-timeline: --scrollfade y;
         padding-bottom: 0.25rem;
     }
