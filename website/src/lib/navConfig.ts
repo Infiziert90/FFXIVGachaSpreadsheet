@@ -24,10 +24,10 @@ export const navCategories: NavCategory[] = [
             { label: 'Eureka Bunnies',          href: '/bunny/',     icon: 61833 },
             { label: 'Deep Dungeons',           href: '/deep/',      icon: 61824 },
             { label: 'Desynthesis',             href: '/desynth/',   icon: 120   },
-            { label: 'Reduction',               href: '/reduction/', icon: 121   },
+            { label: 'Reductions',              href: '/reduction/', icon: 121   },
             { label: 'Occult',                  href: '/occult/',    icon: 61851 },
             { label: 'Loot',                    href: '/loot/',      icon: 61801 },
-            { label: 'Fate',                    href: '/fate/',      icon: 60502 },
+            { label: 'Fates',                   href: '/fate/',      icon: 60502 },
             { label: 'Logograms and Fragments', href: '/logofrag/',  icon: 61837 },
         ]
     },
@@ -45,7 +45,7 @@ export const navCategories: NavCategory[] = [
         id: 'maps',
         items: [
             { label: 'Monster Locations', href: '/bnpc/',        icon: 61837 },
-            { label: 'Housing Info',      href: '/housing/',     icon: 60756 },
+            { label: 'Housing Wards',     href: '/housing/',     icon: 60756 },
             { label: 'Open Plots',        href: '/housingOpen/', icon: 60758 }
         ]
     }
