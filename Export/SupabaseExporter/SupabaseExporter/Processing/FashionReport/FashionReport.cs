@@ -39,6 +39,7 @@ public class FashionReport : IDisposable
             var score = record.Score;
             var slots = SetSlots(record);
             var isValid = true;
+            var dyeCount = 0;
 
             if (!CollectedSolutions.ContainsKey(record.WeekNum))
                 CollectedSolutions[record.WeekNum] = new FashionDyeTemp();
@@ -60,6 +61,11 @@ public class FashionReport : IDisposable
                 // Purposely ignoring all other stamp types
                 // 9u - (slot.Stamp * 2),
                 score -= slot.Stamp is 0 or 5 ? (IsLeftSide(slot.Id) ? 10u : 8u) : 2u;
+
+                if (slot.Dyes.Item1 != 0)
+                    dyeCount += 1;
+                if (slot.Dyes.Item2 != 0)
+                    dyeCount += 1;
             }
 
             if (!isValid)
@@ -78,8 +84,12 @@ public class FashionReport : IDisposable
                 
                 var weightSlot = weightSlots[slot.Id];
                 
-                var weight = slot.IsDualDyed ? score / 2f : score;
-                weightSlot.Update(slot.Dyes, weight);
+                if (dyeCount > 0)
+                {
+                    var weight = (float)Math.Pow((float)score / dyeCount, 2);
+                    // var weight = (float)(score / dyeCount);
+                    weightSlot.Update(slot.Dyes, weight);
+                }
             }
         }
     }

@@ -18,6 +18,10 @@ public class FashionDyeTemp
                 if (stainId == 0)
                     continue;
 
+                // Fuck Soot Black
+                if (stainId == 6)
+                    weight *= 0.66f;
+
                 if (!Dyes.ContainsKey(stainId))
                     Dyes[stainId] = new DyeDataTemp();
 
