@@ -132,12 +132,6 @@ public class FateRewardModel : BaseModel
                 Logger.Error($"Invalid length found, ID: {Id}");
                 return [];
             }
-            
-            if (RewardsArray.Any(reward => reward > 1_000_000))
-            {
-                Logger.Error($"Invalid treasure result found, ID: {Id}");
-                return [];
-            }
 
             return RewardsArray;
         }
@@ -154,7 +148,9 @@ public class FateRewardModel : BaseModel
             }
             
             var result = uint.Parse(span[range]);
-            if (result > 1_000_000)
+            
+            // Only check Item ID to not be above 1_000_000
+            if (counter % 2 == 0 && result > 1_000_000)
             {
                 Logger.Error($"Invalid treasure result found, ID: {Id}");
                 return [];
@@ -177,12 +173,6 @@ public class FateRewardModel : BaseModel
                 Logger.Error($"Invalid length found, ID: {Id}");
                 return [];
             }
-            
-            if (AdditionalRewardsArray.Any(reward => reward > 1_000_000))
-            {
-                Logger.Error($"Invalid treasure result found, ID: {Id}");
-                return [];
-            }
 
             return AdditionalRewardsArray;
         }
@@ -199,7 +189,7 @@ public class FateRewardModel : BaseModel
             }
             
             var result = uint.Parse(span[range]);
-            if (result > 1_000_000)
+            if (counter % 2 == 0 && result > 1_000_000)
             {
                 Logger.Error($"Invalid treasure result found, ID: {Id}");
                 return [];

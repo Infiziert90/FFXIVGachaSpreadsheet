@@ -110,6 +110,9 @@ public class Fates : IDisposable
             
             foreach (var (itemId, amount) in record.GetRewards())
             {
+                if (itemId == 0)
+                    continue;
+                
                 if (itemId > Sheets.MaxItemId)
                 {
                     Logger.Error($"Invalid reward found, ID: {record.Id}");
@@ -124,6 +127,9 @@ public class Fates : IDisposable
             
             foreach (var (itemId, amount) in record.GetAdditionalRewards())
             {
+                if (itemId == 0)
+                    continue;
+                
                 if (itemId > Sheets.MaxItemId)
                 {
                     Logger.Error($"Invalid additional reward found, ID: {record.Id}");
