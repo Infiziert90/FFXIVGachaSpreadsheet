@@ -17,7 +17,7 @@
     import PageSidebar from "../../component/PageSidebar.svelte";
     import { browser } from '$app/environment';
     import type {BnpcPairing, Pairing} from "$lib/structs/bnpc";
-    import {Input} from "@sveltestrap/sveltestrap";
+    import {Alert, Input} from "@sveltestrap/sveltestrap";
 
     interface Props {
         content: BnpcPairing;
@@ -26,7 +26,6 @@
     // html elements
     let tabContentElement: HTMLDivElement = $state() as HTMLDivElement;
     let tabElements: {[key: string]: HTMLButtonElement} = $state({});
-    let tabMonsterElements: {[key: string]: HTMLButtonElement} = $state({});
 
     let { data }: Props = $props();
     let pairingData: BnpcPairing = data.content;
@@ -45,6 +44,7 @@
     let selectedLocation: UniqueLocation = $state({Territory: 0, Map: 0});
 
     let onlyNoTarget: boolean = $state(true);
+    let targetError: boolean = $state(false);
 
     let map;
     let position;
@@ -273,6 +273,7 @@
             className: `colorShift${getColorShift()}`
         });
 
+        let placedCheck = false;
         let indexes = names[selectedMonster];
         for (const idx of indexes) {
             for (const [level, location] of Object.entries(pairs[idx].L).filter(([_, l]) => l.T === selectedLocation.Territory && l.M === selectedLocation.Map)) {
@@ -280,6 +281,7 @@
                     if (onlyNoTarget && !pos.N)
                         continue;
 
+                    placedCheck = true;
                     let ingameCoords = convertToMapCoords(new Vector3(pos.P.X, pos.P.Y, pos.P.Z), location.M);
                     let coords = swapCoords(ingameCoords);
 
@@ -305,6 +307,8 @@
                 }
             }
         }
+
+        targetError = !placedCheck;
 
         // Check if we already placed all map markers
         if (Object.keys(createdMarkersDict).some(key => key > 1_000_000))
@@ -526,9 +530,11 @@
     </div>
 </PageSidebar>
 <div class="col-12 col-lg-10 order-0 order-lg-2">
-    <h1 class="text-center">Work in Progress, feedback and ideas welcome</h1>
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
         {#if selectedMapId.name !== ''}
+            {#if targetError && onlyNoTarget}
+                <Alert content="No markers placed, disable 'Only Untargeted' and try again" color="warning" dismissible="true"></Alert>
+            {/if}
             <div class="map" style="height:1024px;" use:mapAction />
         {/if}
     </div>

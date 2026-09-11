@@ -35,9 +35,9 @@ export const navCategories: NavCategory[] = [
         label: 'Submarines',
         id: 'submarine',
         items: [
-            { label: 'Sector Overview', href: '/submarine/', icon: 63191 },
-            { label: 'Item Search', href: '/submarineSearch/', icon: 63192 },
-            { label: 'Build Finder', href: '/submarineShip/', icon: 63193 }
+            { label: 'Sector Overview',     href: '/submarine/',        icon: 63191 },
+            { label: 'Item Search',         href: '/submarineSearch/',  icon: 63192 },
+            { label: 'Build Finder',        href: '/submarineShip/',    icon: 63193 }
         ]
     },
     {
