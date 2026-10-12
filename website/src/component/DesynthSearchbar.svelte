@@ -115,7 +115,7 @@
             }
             else if (desynthSearchParams.rewardId > 0) {
                 searchType = 'rewards';
-                searchQuery = localizedItem(desynthSearchParams.sourceId, $currentLanguage);
+                searchQuery = localizedItem(desynthSearchParams.rewardId, $currentLanguage);
             }
         }
 
