@@ -213,7 +213,7 @@
 <div class="col-12 col-lg-7 order-0 order-lg-2">
     <div id="tabcontent" class="table-responsive" bind:this={tabContentElement}>
         <div id="fate-region" class="container mb-5 p-2 rounded border tier-anchor" style="background-color: var(--bs-tertiary-bg);">
-            <h4>Region Overview</h4>
+            <h4>{titleStats} Overview</h4>
             <p>Records: {region.Records.toLocaleString()}</p>
             <DropsTable items={region.Rewards} columns={NameObtainedMinChanceSetup} index={9999} />
         </div>
