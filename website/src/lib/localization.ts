@@ -30,9 +30,7 @@ export function localizedBNpcName(nameId: number, language: string, fallback = "
         return fallback;
     }
 
-    // The bNpcNames sheet uses "Jp" while the language store uses "Ja"
-    const key = language === 'Ja' ? 'Jp' : language;
-    return names[key] || names['En'] || fallback;
+    return names[language] ?? names.En ?? fallback;
 }
 
 /**
