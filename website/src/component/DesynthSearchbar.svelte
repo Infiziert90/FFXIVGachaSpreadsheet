@@ -3,7 +3,7 @@
     import { page } from '$app/state';
     import { Button, ButtonGroup, ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
     import type {DesynthesisBase} from "$lib/interfaces";
-    import { getIconPath } from '$lib/utils';
+    import { getIconPath, getMatchScore } from '$lib/utils';
     import {tryGetDesynthSearchParams} from "$lib/searchParamHelper";
     import {localizedItem} from "$lib/localization";
     import {currentLanguage} from "$lib/stores/language";
@@ -34,32 +34,6 @@
     // Get the current array based on search type
     const currentArray = $derived(searchType === 'sources' ? allSourcesArray : allRewardsArray);
     const currentStatsType = $derived(searchType === 'sources' ? 0 : 1);
-
-    // Intelligent filtering function
-    function getMatchScore(itemName: string, query: string): number {
-        const lowerName = itemName.toLowerCase();
-        const lowerQuery = query.toLowerCase();
-        
-        // Exact match gets highest score
-        if (lowerName === lowerQuery) return 1000;
-        
-        // Starts with query gets high score
-        if (lowerName.startsWith(lowerQuery)) return 500;
-        
-        // Contains query gets medium score
-        if (lowerName.includes(lowerQuery)) return 100;
-        
-        // Fuzzy match: check if all query characters appear in order
-        let queryIndex = 0;
-        for (let i = 0; i < lowerName.length && queryIndex < lowerQuery.length; i++) {
-            if (lowerName[i] === lowerQuery[queryIndex]) {
-                queryIndex++;
-            }
-        }
-        if (queryIndex === lowerQuery.length) return 50;
-        
-        return 0;
-    }
 
     // Filter array with intelligent matching and sorting, limit to first 25 results
     const filteredArray = $derived(

@@ -1,7 +1,7 @@
 <script lang="ts">
     import {onMount, tick} from 'svelte';
     import { ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
-    import { getIconPath } from '$lib/utils';
+    import { getIconPath, getMatchScore } from '$lib/utils';
     import {tryGetSubmarineSearchSearchParams} from "$lib/searchParamHelper.ts";
     import {page} from "$app/state";
     import {localizedItem} from "$lib/localization";
@@ -19,32 +19,6 @@
 
     // Search state
     let searchQuery = $state('');
-
-    // Intelligent filtering function
-    function getMatchScore(itemName: string, query: string): number {
-        const lowerName = itemName.toLowerCase();
-        const lowerQuery = query.toLowerCase();
-        
-        // Exact match gets highest score
-        if (lowerName === lowerQuery) return 1000;
-        
-        // Starts with query gets high score
-        if (lowerName.startsWith(lowerQuery)) return 500;
-        
-        // Contains query gets medium score
-        if (lowerName.includes(lowerQuery)) return 100;
-        
-        // Fuzzy match: check if all query characters appear in order
-        let queryIndex = 0;
-        for (let i = 0; i < lowerName.length && queryIndex < lowerQuery.length; i++) {
-            if (lowerName[i] === lowerQuery[queryIndex]) {
-                queryIndex++;
-            }
-        }
-        if (queryIndex === lowerQuery.length) return 50;
-        
-        return 0;
-    }
 
     // Filter array with intelligent matching and sorting, limit to first 25 results
     const filteredArray = $derived(

@@ -45,6 +45,7 @@ export const navCategories: NavCategory[] = [
         id: 'maps',
         items: [
             { label: 'Monster Locations', href: '/bnpc/',        icon: 61837 },
+            { label: 'Monster Search',    href: '/bnpcSearch/',  icon: 63989 },
             { label: 'Housing Wards',     href: '/housing/',     icon: 60756 },
             { label: 'Open Plots',        href: '/housingOpen/', icon: 60758 }
         ]
