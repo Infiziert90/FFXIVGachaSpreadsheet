@@ -124,6 +124,37 @@ export function getWikiUrl(itemName: string): string {
 }
 
 /**
+ * Scores how well a name matches a search query, used to rank searchbar results.
+ * @param name - The name to match against
+ * @param query - The user search query
+ * @returns 1000 for exact, 500 for prefix, 100 for substring, 50 for in-order fuzzy match, 0 otherwise
+ */
+export function getMatchScore(name: string, query: string): number {
+    const lowerName = name.toLowerCase();
+    const lowerQuery = query.toLowerCase();
+
+    // Exact match gets highest score
+    if (lowerName === lowerQuery) return 1000;
+
+    // Starts with query gets high score
+    if (lowerName.startsWith(lowerQuery)) return 500;
+
+    // Contains query gets medium score
+    if (lowerName.includes(lowerQuery)) return 100;
+
+    // Fuzzy match: check if all query characters appear in order
+    let queryIndex = 0;
+    for (let i = 0; i < lowerName.length && queryIndex < lowerQuery.length; i++) {
+        if (lowerName[i] === lowerQuery[queryIndex]) {
+            queryIndex++;
+        }
+    }
+    if (queryIndex === lowerQuery.length) return 50;
+
+    return 0;
+}
+
+/**
  * Generate a valid GameTora url for the house review and pictures
  * @param map - The map id
  * @param plot - The plot number

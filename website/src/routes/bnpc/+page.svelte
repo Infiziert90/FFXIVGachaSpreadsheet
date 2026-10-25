@@ -18,6 +18,8 @@
     import { browser } from '$app/environment';
     import type {BnpcPairing, Pairing} from "$lib/structs/bnpc";
     import {Alert, Input} from "@sveltestrap/sveltestrap";
+    import {page} from "$app/state";
+    import {tryGetBnpcMapParams} from "$lib/searchParamHelper";
 
     interface Props {
         content: BnpcPairing;
@@ -50,7 +52,7 @@
     let position;
 
     let names: Record<number, number[]> = $state({});
-    let deduplicateNames: Record<number, number> = $state({});
+    let deduplicateNames: Record<string, number> = $state({});
 
     let pairs: Pairing[];
 
@@ -81,14 +83,51 @@
 
         await tick();
 
-        let locationIdx = uniqueLocations.findIndex(u => u.Territory === 134 && u.Map === 15);
+        // Override the default map with URL parameters if they exist
+        let mapParams = tryGetBnpcMapParams(page.url.searchParams);
+        let locationIdx = -1;
+        if (mapParams !== undefined) {
+            locationIdx = uniqueLocations.findIndex(u => u.Territory === mapParams.territoryId && u.Map === mapParams.mapId);
+        }
+
+        if (locationIdx === -1) {
+            locationIdx = uniqueLocations.findIndex(u => u.Territory === 134 && u.Map === 15);
+        }
+
         if (locationIdx === -1) {
             logAndThrow("Unable to find default map.", undefined);
         }
 
         selectedId = locationIdx;
         await onButtonClick(uniqueLocations[locationIdx], false)
+
+        if (mapParams?.nameId !== undefined) {
+            selectMonsterByNameId(mapParams.nameId);
+        }
     })
+
+    /**
+     * Preselects a monster in the dropdown and places its markers, used when linked from the monster search
+     */
+    function selectMonsterByNameId(nameId: number) {
+        let evaluatedName = SimpleBNpcNameSheet[nameId]?.['En'];
+        if (evaluatedName === undefined || !(evaluatedName in deduplicateNames))
+            return;
+
+        let selectedMonster = deduplicateNames[evaluatedName];
+        let optionIndex = Object.values(optionsToId).indexOf(selectedMonster);
+        if (optionIndex === -1)
+            return;
+
+        // Some monsters only have targeted positions on this map, show those instead of an empty map
+        let hasUntargeted = names[selectedMonster].some(idx => Object.values(pairs[idx].L)
+            .some(l => l.T === selectedLocation.Territory && l.M === selectedLocation.Map && l.P.some(pos => pos.N)));
+        if (!hasUntargeted)
+            onlyNoTarget = false;
+
+        selectedOptions = [nameOptions[optionIndex]];
+        createMarkers(selectedMonster);
+    }
 
     function fillPairs(location: UniqueLocation) {
         selectedOptions = []; // Reset the multiselect array
@@ -470,20 +509,15 @@
     }
 
     function checkboxOptionsChanged() {
-        let oldMarkers = Object.entries(createdMarkersDict);
-
         clearAllMonsterMarkers();
 
-        for (const [markerId, markerArray] of oldMarkers) {
-            let m = parseInt(markerId);
-
-            if (m >= 1_000_000 )
+        // Rebuild from the selection, a monster filtered down to zero markers must come back when the filter is lifted
+        for (const option of selectedOptions) {
+            let optionIndex = nameOptions.indexOf(option.toString());
+            if (optionIndex === -1)
                 continue;
 
-            if (markerArray.length === 0)
-                continue;
-
-            createMarkers(parseInt(markerId))
+            createMarkers(optionsToId[optionIndex]);
         }
     }
 </script>

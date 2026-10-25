@@ -148,6 +148,42 @@ export function tryGetFateSearchParams(searchParams: URLSearchParams): FateSearc
     return { expansionId, territoryId, fateTypeId };
 }
 
+interface BnpcSearchParams {
+    nameId: number,
+}
+
+/**
+ * Tries to read the monster name from the URL parameters.
+ * @param searchParams - The URL search parameters to read from
+ * @returns Bnpc search parameters if successful, undefined otherwise.
+ */
+export function tryGetBnpcSearchParams(searchParams: URLSearchParams): BnpcSearchParams | undefined {
+    const nameId = tryGetParam('name', searchParams);
+
+    if (nameId === undefined) return undefined;
+    return { nameId };
+}
+
+interface BnpcMapParams {
+    territoryId: number,
+    mapId: number,
+    nameId: number | undefined,
+}
+
+/**
+ * Tries to read territory, map and an optional monster name from the URL parameters.
+ * @param searchParams - The URL search parameters to read from
+ * @returns Bnpc map parameters if successful, undefined otherwise.
+ */
+export function tryGetBnpcMapParams(searchParams: URLSearchParams): BnpcMapParams | undefined {
+    const territoryId = tryGetParam('territory', searchParams);
+    const mapId = tryGetParam('map', searchParams);
+    const nameId = tryGetParam('name', searchParams);
+
+    if (territoryId === undefined || mapId === undefined) return undefined;
+    return { territoryId, mapId, nameId };
+}
+
 /**
  * Tries to get the specified parameter from the URL search parameters.
  * @param param - The parameter to read from the URL

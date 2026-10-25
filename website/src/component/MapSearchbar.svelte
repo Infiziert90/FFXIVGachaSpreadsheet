@@ -3,6 +3,7 @@
     import { ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
     import type {UniqueLocation} from "$lib/interfaces";
     import {SimpleMapSheet, SimpleTerritorySheet} from "$lib/sheets/simplifiedSheets";
+    import {getMatchScore} from "$lib/utils";
 
     interface Props {
         uniqueLocations: UniqueLocation[];
@@ -25,32 +26,6 @@
 
     // Get the current array based on search type
     const currentArray = $derived(allSourcesArray);
-
-    // Intelligent filtering function
-    function getMatchScore(itemName: string, query: string): number {
-        const lowerName = itemName.toLowerCase();
-        const lowerQuery = query.toLowerCase();
-        
-        // Exact match gets highest score
-        if (lowerName === lowerQuery) return 1000;
-        
-        // Starts with query gets high score
-        if (lowerName.startsWith(lowerQuery)) return 500;
-        
-        // Contains query gets medium score
-        if (lowerName.includes(lowerQuery)) return 100;
-        
-        // Fuzzy match: check if all query characters appear in order
-        let queryIndex = 0;
-        for (let i = 0; i < lowerName.length && queryIndex < lowerQuery.length; i++) {
-            if (lowerName[i] === lowerQuery[queryIndex]) {
-                queryIndex++;
-            }
-        }
-        if (queryIndex === lowerQuery.length) return 50;
-        
-        return 0;
-    }
 
     // Filter array with intelligent matching and sorting, limit to first 25 results
     const filteredArray = $derived(
