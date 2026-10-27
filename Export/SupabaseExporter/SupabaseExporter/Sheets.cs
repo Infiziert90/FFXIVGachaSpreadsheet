@@ -22,6 +22,7 @@ public static class Sheets
     public static readonly ExcelSheet<TerritoryType> TerritoryTypeSheet;
     public static readonly ExcelSheet<NotoriousMonster> NotoriousMonsterSheet;
     public static readonly ExcelSheet<ItemUICategory> ItemUICategorySheet;
+    public static readonly ExcelSheet<FateTokenType> FateTokenTypeSheet;
     
     public static readonly ExcelSheet<FishParameter> FishParameterSheet;
     public static readonly ExcelSheet<GatheringItem> GathererItemSheet;
@@ -193,6 +194,7 @@ public static class Sheets
         HousingMapMarkerSheet = Lumina.GetSubrowExcelSheet<HousingMapMarkerInfo>()!;
         WorldSheet = Lumina.GetExcelSheet<World>()!;
         WorldDCGroupSheet = Lumina.GetExcelSheet<WorldDCGroupType>()!;
+        FateTokenTypeSheet = Lumina.GetExcelSheet<FateTokenType>()!;
         
         ENpcBaseSheet = Lumina.GetExcelSheet<ENpcBase>()!;
         LevelSheet = Lumina.GetExcelSheet<Level>()!;

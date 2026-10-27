@@ -84,6 +84,15 @@ public class Fates : IDisposable
             var fate = type.Fates[fateId];
             fate.Records += 1;
 
+            if (record.FateTokenTypeId != 0)
+            {
+                var row = Sheets.FateTokenTypeSheet.GetRow(record.FateTokenTypeId);
+                if (!fate.Rewards.ContainsKey(row.Currency.RowId))
+                    fate.Rewards[row.Currency.RowId] = new FateRewardTemp.RewardTemp();
+
+                fate.Rewards[row.Currency.RowId].AddRewardRecord(record.FateTokenTypeAmount);
+            }
+            
             if (record.FateTokenTypeItemId != 0 && record.FateTokenTypeItemId < Sheets.MaxItemId)
             {
                 if (!fate.Rewards.ContainsKey(record.FateTokenTypeItemId))
