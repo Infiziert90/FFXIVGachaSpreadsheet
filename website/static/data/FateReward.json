@@ -2,33 +2,33 @@
   "Expansions": [
     {
       "Id": 0,
-      "Records": 170493,
+      "Records": 170514,
       "Territories": [
         {
           "Id": 134,
-          "Records": 8424,
+          "Records": 8431,
           "FateTypes": [
             {
               "Id": 0,
-              "Records": 8424,
+              "Records": 8431,
               "Fates": [
                 {
                   "Id": 220,
-                  "Records": 573,
+                  "Records": 574,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 573,
+                      "Amount": 574,
                       "Pct": 1.0,
-                      "Total": 9158,
+                      "Total": 9174,
                       "Min": 14,
                       "Max": 16
                     },
                     {
                       "Id": 20,
-                      "Amount": 545,
-                      "Pct": 0.951134,
-                      "Total": 25050,
+                      "Amount": 546,
+                      "Pct": 0.95122,
+                      "Total": 25096,
                       "Min": 41,
                       "Max": 46
                     }
@@ -146,21 +146,21 @@
                 },
                 {
                   "Id": 227,
-                  "Records": 526,
+                  "Records": 527,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 526,
+                      "Amount": 527,
                       "Pct": 1.0,
-                      "Total": 3156,
+                      "Total": 3162,
                       "Min": 6,
                       "Max": 6
                     },
                     {
                       "Id": 20,
-                      "Amount": 500,
-                      "Pct": 0.95057,
-                      "Total": 8500,
+                      "Amount": 501,
+                      "Pct": 0.950664,
+                      "Total": 8517,
                       "Min": 17,
                       "Max": 17
                     }
@@ -168,21 +168,21 @@
                 },
                 {
                   "Id": 229,
-                  "Records": 430,
+                  "Records": 431,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 430,
+                      "Amount": 431,
                       "Pct": 1.0,
-                      "Total": 7700,
+                      "Total": 7718,
                       "Min": 4,
                       "Max": 18
                     },
                     {
                       "Id": 20,
-                      "Amount": 424,
-                      "Pct": 0.986047,
-                      "Total": 21519,
+                      "Amount": 425,
+                      "Pct": 0.986079,
+                      "Total": 21570,
                       "Min": 12,
                       "Max": 51
                     }
@@ -190,21 +190,21 @@
                 },
                 {
                   "Id": 231,
-                  "Records": 753,
+                  "Records": 754,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 753,
+                      "Amount": 754,
                       "Pct": 1.0,
-                      "Total": 15018,
+                      "Total": 15038,
                       "Min": 16,
                       "Max": 20
                     },
                     {
                       "Id": 20,
-                      "Amount": 751,
-                      "Pct": 0.997344,
-                      "Total": 42706,
+                      "Amount": 752,
+                      "Pct": 0.997347,
+                      "Total": 42763,
                       "Min": 46,
                       "Max": 57
                     }
@@ -212,21 +212,21 @@
                 },
                 {
                   "Id": 233,
-                  "Records": 631,
+                  "Records": 632,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 631,
+                      "Amount": 632,
                       "Pct": 1.0,
-                      "Total": 17486,
+                      "Total": 17514,
                       "Min": 16,
                       "Max": 28
                     },
                     {
                       "Id": 20,
-                      "Amount": 630,
-                      "Pct": 0.998415,
-                      "Total": 49898,
+                      "Amount": 631,
+                      "Pct": 0.998418,
+                      "Total": 49978,
                       "Min": 46,
                       "Max": 80
                     }
@@ -234,21 +234,21 @@
                 },
                 {
                   "Id": 235,
-                  "Records": 700,
+                  "Records": 701,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 700,
+                      "Amount": 701,
                       "Pct": 1.0,
-                      "Total": 16670,
+                      "Total": 16694,
                       "Min": 12,
                       "Max": 24
                     },
                     {
                       "Id": 20,
-                      "Amount": 698,
-                      "Pct": 0.997143,
-                      "Total": 47832,
+                      "Amount": 699,
+                      "Pct": 0.997147,
+                      "Total": 47901,
                       "Min": 35,
                       "Max": 69
                     }
@@ -278,21 +278,21 @@
                 },
                 {
                   "Id": 238,
-                  "Records": 706,
+                  "Records": 707,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 706,
+                      "Amount": 707,
                       "Pct": 1.0,
-                      "Total": 19510,
+                      "Total": 19538,
                       "Min": 16,
                       "Max": 28
                     },
                     {
                       "Id": 20,
-                      "Amount": 705,
-                      "Pct": 0.998584,
-                      "Total": 55693,
+                      "Amount": 706,
+                      "Pct": 0.998586,
+                      "Total": 55773,
                       "Min": 46,
                       "Max": 80
                     }
@@ -1902,29 +1902,29 @@
         },
         {
           "Id": 140,
-          "Records": 6465,
+          "Records": 6470,
           "FateTypes": [
             {
               "Id": 0,
-              "Records": 6465,
+              "Records": 6470,
               "Fates": [
                 {
                   "Id": 342,
-                  "Records": 339,
+                  "Records": 340,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 339,
+                      "Amount": 340,
                       "Pct": 1.0,
-                      "Total": 3386,
+                      "Total": 3396,
                       "Min": 6,
                       "Max": 10
                     },
                     {
                       "Id": 20,
-                      "Amount": 333,
-                      "Pct": 0.982301,
-                      "Total": 9313,
+                      "Amount": 334,
+                      "Pct": 0.982353,
+                      "Total": 9341,
                       "Min": 17,
                       "Max": 28
                     }
@@ -1932,21 +1932,21 @@
                 },
                 {
                   "Id": 343,
-                  "Records": 357,
+                  "Records": 358,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 357,
+                      "Amount": 358,
                       "Pct": 1.0,
-                      "Total": 4282,
+                      "Total": 4294,
                       "Min": 10,
                       "Max": 12
                     },
                     {
                       "Id": 20,
-                      "Amount": 353,
-                      "Pct": 0.988796,
-                      "Total": 11997,
+                      "Amount": 354,
+                      "Pct": 0.988827,
+                      "Total": 12031,
                       "Min": 29,
                       "Max": 34
                     }
@@ -2086,21 +2086,21 @@
                 },
                 {
                   "Id": 350,
-                  "Records": 581,
+                  "Records": 582,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 581,
+                      "Amount": 582,
                       "Pct": 1.0,
-                      "Total": 11596,
+                      "Total": 11616,
                       "Min": 14,
                       "Max": 20
                     },
                     {
                       "Id": 20,
-                      "Amount": 568,
-                      "Pct": 0.977625,
-                      "Total": 32312,
+                      "Amount": 569,
+                      "Pct": 0.977663,
+                      "Total": 32369,
                       "Min": 40,
                       "Max": 57
                     }
@@ -2130,21 +2130,21 @@
                 },
                 {
                   "Id": 353,
-                  "Records": 607,
+                  "Records": 608,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 607,
+                      "Amount": 608,
                       "Pct": 1.0,
-                      "Total": 15726,
+                      "Total": 15752,
                       "Min": 14,
                       "Max": 26
                     },
                     {
                       "Id": 20,
-                      "Amount": 599,
-                      "Pct": 0.98682,
-                      "Total": 44172,
+                      "Amount": 600,
+                      "Pct": 0.986842,
+                      "Total": 44246,
                       "Min": 40,
                       "Max": 74
                     }
@@ -2240,21 +2240,21 @@
                 },
                 {
                   "Id": 361,
-                  "Records": 542,
+                  "Records": 543,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 542,
+                      "Amount": 543,
                       "Pct": 1.0,
-                      "Total": 10798,
+                      "Total": 10818,
                       "Min": 12,
                       "Max": 20
                     },
                     {
                       "Id": 20,
-                      "Amount": 537,
-                      "Pct": 0.990775,
-                      "Total": 30495,
+                      "Amount": 538,
+                      "Pct": 0.990792,
+                      "Total": 30552,
                       "Min": 35,
                       "Max": 57
                     }
@@ -2638,11 +2638,11 @@
         },
         {
           "Id": 145,
-          "Records": 10007,
+          "Records": 10008,
           "FateTypes": [
             {
               "Id": 0,
-              "Records": 10007,
+              "Records": 10008,
               "Fates": [
                 {
                   "Id": 191,
@@ -2954,21 +2954,21 @@
                 },
                 {
                   "Id": 409,
-                  "Records": 652,
+                  "Records": 653,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 652,
+                      "Amount": 653,
                       "Pct": 1.0,
-                      "Total": 33180,
+                      "Total": 33232,
                       "Min": 36,
                       "Max": 52
                     },
                     {
                       "Id": 20,
-                      "Amount": 649,
-                      "Pct": 0.995399,
-                      "Total": 94728,
+                      "Amount": 650,
+                      "Pct": 0.995406,
+                      "Total": 94877,
                       "Min": 104,
                       "Max": 149
                     }
@@ -4698,11 +4698,11 @@
         },
         {
           "Id": 152,
-          "Records": 11687,
+          "Records": 11689,
           "FateTypes": [
             {
               "Id": 0,
-              "Records": 11687,
+              "Records": 11689,
               "Fates": [
                 {
                   "Id": 143,
@@ -4750,21 +4750,21 @@
                 },
                 {
                   "Id": 149,
-                  "Records": 672,
+                  "Records": 674,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 672,
+                      "Amount": 674,
                       "Pct": 1.0,
-                      "Total": 22760,
+                      "Total": 22828,
                       "Min": 16,
                       "Max": 34
                     },
                     {
                       "Id": 20,
-                      "Amount": 671,
-                      "Pct": 0.998512,
-                      "Total": 64897,
+                      "Amount": 673,
+                      "Pct": 0.998516,
+                      "Total": 65091,
                       "Min": 63,
                       "Max": 97
                     }
@@ -7176,11 +7176,11 @@
         },
         {
           "Id": 156,
-          "Records": 5459,
+          "Records": 5465,
           "FateTypes": [
             {
               "Id": 0,
-              "Records": 5459,
+              "Records": 5465,
               "Fates": [
                 {
                   "Id": 512,
@@ -7206,21 +7206,21 @@
                 },
                 {
                   "Id": 514,
-                  "Records": 298,
+                  "Records": 299,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 298,
+                      "Amount": 299,
                       "Pct": 1.0,
-                      "Total": 26034,
+                      "Total": 26122,
                       "Min": 72,
                       "Max": 88
                     },
                     {
                       "Id": 20,
-                      "Amount": 298,
+                      "Amount": 299,
                       "Pct": 1.0,
-                      "Total": 74875,
+                      "Total": 75128,
                       "Min": 207,
                       "Max": 253
                     }
@@ -7250,21 +7250,21 @@
                 },
                 {
                   "Id": 517,
-                  "Records": 499,
+                  "Records": 500,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 499,
+                      "Amount": 500,
                       "Pct": 1.0,
-                      "Total": 43726,
+                      "Total": 43814,
                       "Min": 70,
                       "Max": 88
                     },
                     {
                       "Id": 20,
-                      "Amount": 499,
+                      "Amount": 500,
                       "Pct": 1.0,
-                      "Total": 125735,
+                      "Total": 125988,
                       "Min": 202,
                       "Max": 253
                     }
@@ -7338,21 +7338,21 @@
                 },
                 {
                   "Id": 523,
-                  "Records": 285,
+                  "Records": 286,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 285,
+                      "Amount": 286,
                       "Pct": 1.0,
-                      "Total": 25408,
+                      "Total": 25496,
                       "Min": 80,
                       "Max": 90
                     },
                     {
                       "Id": 20,
-                      "Amount": 285,
+                      "Amount": 286,
                       "Pct": 1.0,
-                      "Total": 72870,
+                      "Total": 73123,
                       "Min": 230,
                       "Max": 258
                     }
@@ -7426,21 +7426,21 @@
                 },
                 {
                   "Id": 527,
-                  "Records": 715,
+                  "Records": 716,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 715,
+                      "Amount": 716,
                       "Pct": 1.0,
-                      "Total": 64780,
+                      "Total": 64872,
                       "Min": 18,
                       "Max": 92
                     },
                     {
                       "Id": 20,
-                      "Amount": 715,
+                      "Amount": 716,
                       "Pct": 1.0,
-                      "Total": 186006,
+                      "Total": 186270,
                       "Min": 52,
                       "Max": 264
                     }
@@ -7470,21 +7470,21 @@
                 },
                 {
                   "Id": 530,
-                  "Records": 346,
+                  "Records": 348,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 346,
+                      "Amount": 348,
                       "Pct": 1.0,
-                      "Total": 30154,
+                      "Total": 30330,
                       "Min": 12,
                       "Max": 88
                     },
                     {
                       "Id": 20,
-                      "Amount": 346,
+                      "Amount": 348,
                       "Pct": 1.0,
-                      "Total": 86709,
+                      "Total": 87215,
                       "Min": 35,
                       "Max": 253
                     }
@@ -7842,7 +7842,7 @@
     },
     {
       "Id": 1,
-      "Records": 27867,
+      "Records": 27871,
       "Territories": [
         {
           "Id": 397,
@@ -8438,11 +8438,11 @@
         },
         {
           "Id": 398,
-          "Records": 4867,
+          "Records": 4868,
           "FateTypes": [
             {
               "Id": 0,
-              "Records": 4867,
+              "Records": 4868,
               "Fates": [
                 {
                   "Id": 818,
@@ -8622,21 +8622,21 @@
                 },
                 {
                   "Id": 826,
-                  "Records": 228,
+                  "Records": 229,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 228,
+                      "Amount": 229,
                       "Pct": 1.0,
-                      "Total": 23698,
+                      "Total": 23802,
                       "Min": 94,
                       "Max": 104
                     },
                     {
                       "Id": 20,
-                      "Amount": 228,
+                      "Amount": 229,
                       "Pct": 1.0,
-                      "Total": 68133,
+                      "Total": 68432,
                       "Min": 271,
                       "Max": 299
                     }
@@ -9780,11 +9780,11 @@
         },
         {
           "Id": 400,
-          "Records": 3087,
+          "Records": 3088,
           "FateTypes": [
             {
               "Id": 0,
-              "Records": 3087,
+              "Records": 3088,
               "Fates": [
                 {
                   "Id": 725,
@@ -10118,21 +10118,21 @@
                 },
                 {
                   "Id": 747,
-                  "Records": 137,
+                  "Records": 138,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 137,
+                      "Amount": 138,
                       "Pct": 1.0,
-                      "Total": 15070,
+                      "Total": 15180,
                       "Min": 110,
                       "Max": 110
                     },
                     {
                       "Id": 20,
-                      "Amount": 137,
+                      "Amount": 138,
                       "Pct": 1.0,
-                      "Total": 43292,
+                      "Total": 43608,
                       "Min": 316,
                       "Max": 316
                     }
@@ -11010,11 +11010,11 @@
         },
         {
           "Id": 402,
-          "Records": 3618,
+          "Records": 3620,
           "FateTypes": [
             {
               "Id": 0,
-              "Records": 3618,
+              "Records": 3620,
               "Fates": [
                 {
                   "Id": 877,
@@ -11438,21 +11438,21 @@
                 },
                 {
                   "Id": 895,
-                  "Records": 115,
+                  "Records": 116,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 115,
+                      "Amount": 116,
                       "Pct": 1.0,
-                      "Total": 13570,
+                      "Total": 13688,
                       "Min": 118,
                       "Max": 118
                     },
                     {
                       "Id": 20,
-                      "Amount": 115,
+                      "Amount": 116,
                       "Pct": 1.0,
-                      "Total": 38985,
+                      "Total": 39324,
                       "Min": 339,
                       "Max": 339
                     }
@@ -11460,21 +11460,21 @@
                 },
                 {
                   "Id": 897,
-                  "Records": 275,
+                  "Records": 276,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 275,
+                      "Amount": 276,
                       "Pct": 1.0,
-                      "Total": 32434,
+                      "Total": 32552,
                       "Min": 102,
                       "Max": 118
                     },
                     {
                       "Id": 20,
-                      "Amount": 275,
+                      "Amount": 276,
                       "Pct": 1.0,
-                      "Total": 93180,
+                      "Total": 93519,
                       "Min": 294,
                       "Max": 339
                     }
@@ -11698,7 +11698,7 @@
     },
     {
       "Id": 2,
-      "Records": 42378,
+      "Records": 42386,
       "Territories": [
         {
           "Id": 612,
@@ -17522,11 +17522,11 @@
         },
         {
           "Id": 795,
-          "Records": 6792,
+          "Records": 6798,
           "FateTypes": [
             {
               "Id": 0,
-              "Records": 6792,
+              "Records": 6798,
               "Fates": [
                 {
                   "Id": 1388,
@@ -17838,36 +17838,36 @@
                 },
                 {
                   "Id": 1398,
-                  "Records": 777,
+                  "Records": 778,
                   "Rewards": [
                     {
                       "Id": 24011,
-                      "Amount": 73,
-                      "Pct": 0.093951,
-                      "Total": 73,
+                      "Amount": 74,
+                      "Pct": 0.095116,
+                      "Total": 74,
                       "Min": 1,
                       "Max": 1
                     },
                     {
                       "Id": 24124,
-                      "Amount": 774,
-                      "Pct": 0.996139,
-                      "Total": 20124,
+                      "Amount": 775,
+                      "Pct": 0.996144,
+                      "Total": 20150,
                       "Min": 26,
                       "Max": 26
                     },
                     {
                       "Id": 24141,
-                      "Amount": 774,
-                      "Pct": 0.996139,
-                      "Total": 4644,
+                      "Amount": 775,
+                      "Pct": 0.996144,
+                      "Total": 4650,
                       "Min": 6,
                       "Max": 6
                     },
                     {
                       "Id": 24285,
                       "Amount": 20,
-                      "Pct": 0.02574,
+                      "Pct": 0.025707,
                       "Total": 20,
                       "Min": 1,
                       "Max": 1
@@ -17974,36 +17974,36 @@
                 },
                 {
                   "Id": 1402,
-                  "Records": 936,
+                  "Records": 937,
                   "Rewards": [
                     {
                       "Id": 24014,
                       "Amount": 79,
-                      "Pct": 0.084402,
+                      "Pct": 0.084312,
                       "Total": 79,
                       "Min": 1,
                       "Max": 1
                     },
                     {
                       "Id": 24124,
-                      "Amount": 926,
-                      "Pct": 0.989316,
-                      "Total": 31484,
+                      "Amount": 927,
+                      "Pct": 0.989328,
+                      "Total": 31518,
                       "Min": 34,
                       "Max": 34
                     },
                     {
                       "Id": 24141,
-                      "Amount": 927,
-                      "Pct": 0.990385,
-                      "Total": 7416,
+                      "Amount": 928,
+                      "Pct": 0.990395,
+                      "Total": 7424,
                       "Min": 8,
                       "Max": 8
                     },
                     {
                       "Id": 24286,
                       "Amount": 18,
-                      "Pct": 0.019231,
+                      "Pct": 0.01921,
                       "Total": 18,
                       "Min": 1,
                       "Max": 1
@@ -18012,36 +18012,36 @@
                 },
                 {
                   "Id": 1403,
-                  "Records": 995,
+                  "Records": 996,
                   "Rewards": [
                     {
                       "Id": 24011,
                       "Amount": 95,
-                      "Pct": 0.095477,
+                      "Pct": 0.095382,
                       "Total": 95,
                       "Min": 1,
                       "Max": 1
                     },
                     {
                       "Id": 24124,
-                      "Amount": 978,
-                      "Pct": 0.982915,
-                      "Total": 39120,
+                      "Amount": 979,
+                      "Pct": 0.982932,
+                      "Total": 39160,
                       "Min": 40,
                       "Max": 40
                     },
                     {
                       "Id": 24141,
-                      "Amount": 979,
-                      "Pct": 0.98392,
-                      "Total": 8811,
+                      "Amount": 980,
+                      "Pct": 0.983936,
+                      "Total": 8820,
                       "Min": 9,
                       "Max": 9
                     },
                     {
                       "Id": 24287,
                       "Amount": 18,
-                      "Pct": 0.01809,
+                      "Pct": 0.018072,
                       "Total": 18,
                       "Min": 1,
                       "Max": 1
@@ -18050,29 +18050,29 @@
                 },
                 {
                   "Id": 1404,
-                  "Records": 387,
+                  "Records": 388,
                   "Rewards": [
                     {
                       "Id": 24123,
-                      "Amount": 381,
-                      "Pct": 0.984496,
-                      "Total": 1143,
+                      "Amount": 382,
+                      "Pct": 0.984536,
+                      "Total": 1146,
                       "Min": 3,
                       "Max": 3
                     },
                     {
                       "Id": 24124,
-                      "Amount": 381,
-                      "Pct": 0.984496,
-                      "Total": 15240,
+                      "Amount": 382,
+                      "Pct": 0.984536,
+                      "Total": 15280,
                       "Min": 40,
                       "Max": 40
                     },
                     {
                       "Id": 24141,
-                      "Amount": 382,
-                      "Pct": 0.98708,
-                      "Total": 3438,
+                      "Amount": 383,
+                      "Pct": 0.987113,
+                      "Total": 3447,
                       "Min": 9,
                       "Max": 9
                     }
@@ -18080,13 +18080,13 @@
                 },
                 {
                   "Id": 1407,
-                  "Records": 727,
+                  "Records": 729,
                   "Rewards": [
                     {
                       "Id": 24141,
-                      "Amount": 727,
+                      "Amount": 729,
                       "Pct": 1.0,
-                      "Total": 1454,
+                      "Total": 1458,
                       "Min": 2,
                       "Max": 2
                     }
@@ -18112,11 +18112,11 @@
         },
         {
           "Id": 827,
-          "Records": 6300,
+          "Records": 6302,
           "FateTypes": [
             {
               "Id": 0,
-              "Records": 6300,
+              "Records": 6302,
               "Fates": [
                 {
                   "Id": 1412,
@@ -18158,36 +18158,36 @@
                 },
                 {
                   "Id": 1413,
-                  "Records": 233,
+                  "Records": 234,
                   "Rewards": [
                     {
                       "Id": 24807,
-                      "Amount": 233,
+                      "Amount": 234,
                       "Pct": 1.0,
-                      "Total": 1165,
+                      "Total": 1170,
                       "Min": 5,
                       "Max": 5
                     },
                     {
                       "Id": 24809,
                       "Amount": 13,
-                      "Pct": 0.055794,
+                      "Pct": 0.055556,
                       "Total": 13,
                       "Min": 1,
                       "Max": 1
                     },
                     {
                       "Id": 24848,
-                      "Amount": 233,
+                      "Amount": 234,
                       "Pct": 1.0,
-                      "Total": 932,
+                      "Total": 936,
                       "Min": 4,
                       "Max": 4
                     },
                     {
                       "Id": 24905,
                       "Amount": 24,
-                      "Pct": 0.103004,
+                      "Pct": 0.102564,
                       "Total": 24,
                       "Min": 1,
                       "Max": 1
@@ -18234,36 +18234,36 @@
                 },
                 {
                   "Id": 1415,
-                  "Records": 226,
+                  "Records": 227,
                   "Rewards": [
                     {
                       "Id": 24807,
-                      "Amount": 226,
+                      "Amount": 227,
                       "Pct": 1.0,
-                      "Total": 1356,
+                      "Total": 1362,
                       "Min": 6,
                       "Max": 6
                     },
                     {
                       "Id": 24809,
                       "Amount": 8,
-                      "Pct": 0.035398,
+                      "Pct": 0.035242,
                       "Total": 8,
                       "Min": 1,
                       "Max": 1
                     },
                     {
                       "Id": 24848,
-                      "Amount": 226,
+                      "Amount": 227,
                       "Pct": 1.0,
-                      "Total": 1130,
+                      "Total": 1135,
                       "Min": 5,
                       "Max": 5
                     },
                     {
                       "Id": 24905,
                       "Amount": 23,
-                      "Pct": 0.10177,
+                      "Pct": 0.101322,
                       "Total": 23,
                       "Min": 1,
                       "Max": 1
@@ -18626,15 +18626,15 @@
     },
     {
       "Id": 3,
-      "Records": 69196,
+      "Records": 69206,
       "Territories": [
         {
           "Id": 813,
-          "Records": 5096,
+          "Records": 5097,
           "FateTypes": [
             {
               "Id": 0,
-              "Records": 5096,
+              "Records": 5097,
               "Fates": [
                 {
                   "Id": 1496,
@@ -18836,21 +18836,21 @@
                 },
                 {
                   "Id": 1505,
-                  "Records": 380,
+                  "Records": 381,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 380,
+                      "Amount": 381,
                       "Pct": 1.0,
-                      "Total": 53920,
+                      "Total": 54062,
                       "Min": 122,
                       "Max": 142
                     },
                     {
                       "Id": 26807,
-                      "Amount": 380,
+                      "Amount": 381,
                       "Pct": 1.0,
-                      "Total": 5304,
+                      "Total": 5319,
                       "Min": 12,
                       "Max": 48
                     }
@@ -22836,11 +22836,11 @@
         },
         {
           "Id": 975,
-          "Records": 13875,
+          "Records": 13884,
           "FateTypes": [
             {
               "Id": 0,
-              "Records": 10707,
+              "Records": 10714,
               "Fates": [
                 {
                   "Id": 1717,
@@ -23290,12 +23290,12 @@
                 },
                 {
                   "Id": 1734,
-                  "Records": 895,
+                  "Records": 896,
                   "Rewards": [
                     {
                       "Id": 32201,
                       "Amount": 5,
-                      "Pct": 0.005587,
+                      "Pct": 0.00558,
                       "Total": 5,
                       "Min": 1,
                       "Max": 1
@@ -23303,16 +23303,16 @@
                     {
                       "Id": 33775,
                       "Amount": 91,
-                      "Pct": 0.101676,
+                      "Pct": 0.101562,
                       "Total": 91,
                       "Min": 1,
                       "Max": 1
                     },
                     {
                       "Id": 33797,
-                      "Amount": 799,
-                      "Pct": 0.892737,
-                      "Total": 799,
+                      "Amount": 800,
+                      "Pct": 0.892857,
+                      "Total": 800,
                       "Min": 1,
                       "Max": 1
                     }
@@ -23410,12 +23410,12 @@
                 },
                 {
                   "Id": 1738,
-                  "Records": 1187,
+                  "Records": 1189,
                   "Rewards": [
                     {
                       "Id": 32201,
                       "Amount": 3,
-                      "Pct": 0.002527,
+                      "Pct": 0.002523,
                       "Total": 3,
                       "Min": 1,
                       "Max": 1
@@ -23423,16 +23423,16 @@
                     {
                       "Id": 33775,
                       "Amount": 121,
-                      "Pct": 0.101938,
+                      "Pct": 0.101766,
                       "Total": 121,
                       "Min": 1,
                       "Max": 1
                     },
                     {
                       "Id": 33797,
-                      "Amount": 1063,
-                      "Pct": 0.895535,
-                      "Total": 1063,
+                      "Amount": 1065,
+                      "Pct": 0.895711,
+                      "Total": 1065,
                       "Min": 1,
                       "Max": 1
                     }
@@ -23440,20 +23440,20 @@
                 },
                 {
                   "Id": 1739,
-                  "Records": 214,
+                  "Records": 215,
                   "Rewards": [
                     {
                       "Id": 33797,
-                      "Amount": 203,
-                      "Pct": 0.948598,
-                      "Total": 203,
+                      "Amount": 204,
+                      "Pct": 0.948837,
+                      "Total": 204,
                       "Min": 1,
                       "Max": 1
                     },
                     {
                       "Id": 33810,
                       "Amount": 11,
-                      "Pct": 0.051402,
+                      "Pct": 0.051163,
                       "Total": 11,
                       "Min": 1,
                       "Max": 1
@@ -23462,28 +23462,28 @@
                 },
                 {
                   "Id": 1740,
-                  "Records": 268,
+                  "Records": 269,
                   "Rewards": [
                     {
                       "Id": 32201,
                       "Amount": 1,
-                      "Pct": 0.003731,
+                      "Pct": 0.003717,
                       "Total": 1,
                       "Min": 1,
                       "Max": 1
                     },
                     {
                       "Id": 33797,
-                      "Amount": 187,
-                      "Pct": 0.697761,
-                      "Total": 187,
+                      "Amount": 188,
+                      "Pct": 0.698885,
+                      "Total": 188,
                       "Min": 1,
                       "Max": 1
                     },
                     {
                       "Id": 33802,
                       "Amount": 80,
-                      "Pct": 0.298507,
+                      "Pct": 0.297398,
                       "Total": 80,
                       "Min": 1,
                       "Max": 1
@@ -23492,28 +23492,28 @@
                 },
                 {
                   "Id": 1741,
-                  "Records": 968,
+                  "Records": 969,
                   "Rewards": [
                     {
                       "Id": 32201,
                       "Amount": 7,
-                      "Pct": 0.007231,
+                      "Pct": 0.007224,
                       "Total": 7,
                       "Min": 1,
                       "Max": 1
                     },
                     {
                       "Id": 33797,
-                      "Amount": 781,
-                      "Pct": 0.806818,
-                      "Total": 781,
+                      "Amount": 782,
+                      "Pct": 0.807018,
+                      "Total": 782,
                       "Min": 1,
                       "Max": 1
                     },
                     {
                       "Id": 33803,
                       "Amount": 180,
-                      "Pct": 0.18595,
+                      "Pct": 0.185759,
                       "Total": 180,
                       "Min": 1,
                       "Max": 1
@@ -23522,12 +23522,12 @@
                 },
                 {
                   "Id": 1742,
-                  "Records": 1027,
+                  "Records": 1028,
                   "Rewards": [
                     {
                       "Id": 32201,
                       "Amount": 3,
-                      "Pct": 0.002921,
+                      "Pct": 0.002918,
                       "Total": 3,
                       "Min": 1,
                       "Max": 1
@@ -23535,16 +23535,16 @@
                     {
                       "Id": 33775,
                       "Amount": 98,
-                      "Pct": 0.095424,
+                      "Pct": 0.095331,
                       "Total": 98,
                       "Min": 1,
                       "Max": 1
                     },
                     {
                       "Id": 33797,
-                      "Amount": 926,
-                      "Pct": 0.901655,
-                      "Total": 926,
+                      "Amount": 927,
+                      "Pct": 0.901751,
+                      "Total": 927,
                       "Min": 1,
                       "Max": 1
                     }
@@ -23554,7 +23554,7 @@
             },
             {
               "Id": 1,
-              "Records": 3168,
+              "Records": 3170,
               "Fates": [
                 {
                   "Id": 17,
@@ -23588,37 +23588,37 @@
                 },
                 {
                   "Id": 18,
-                  "Records": 389,
+                  "Records": 390,
                   "Rewards": [
                     {
                       "Id": 30363,
-                      "Amount": 389,
+                      "Amount": 390,
                       "Pct": 1.0,
-                      "Total": 236317500,
+                      "Total": 236992500,
                       "Min": 0,
                       "Max": 1350000
                     },
                     {
                       "Id": 32201,
                       "Amount": 5,
-                      "Pct": 0.012853,
+                      "Pct": 0.012821,
                       "Total": 5,
                       "Min": 1,
                       "Max": 1
                     },
                     {
                       "Id": 33775,
-                      "Amount": 388,
-                      "Pct": 0.997429,
-                      "Total": 3880,
+                      "Amount": 389,
+                      "Pct": 0.997436,
+                      "Total": 3890,
                       "Min": 10,
                       "Max": 10
                     },
                     {
                       "Id": 33797,
-                      "Amount": 388,
-                      "Pct": 0.997429,
-                      "Total": 776,
+                      "Amount": 389,
+                      "Pct": 0.997436,
+                      "Total": 778,
                       "Min": 2,
                       "Max": 2
                     }
@@ -24004,37 +24004,37 @@
                 },
                 {
                   "Id": 30,
-                  "Records": 179,
+                  "Records": 180,
                   "Rewards": [
                     {
                       "Id": 30363,
-                      "Amount": 179,
+                      "Amount": 180,
                       "Pct": 1.0,
-                      "Total": 127620000,
+                      "Total": 128295000,
                       "Min": 0,
                       "Max": 1350000
                     },
                     {
                       "Id": 32201,
                       "Amount": 4,
-                      "Pct": 0.022346,
+                      "Pct": 0.022222,
                       "Total": 4,
                       "Min": 1,
                       "Max": 1
                     },
                     {
                       "Id": 33775,
-                      "Amount": 179,
+                      "Amount": 180,
                       "Pct": 1.0,
-                      "Total": 1790,
+                      "Total": 1800,
                       "Min": 10,
                       "Max": 10
                     },
                     {
                       "Id": 33797,
-                      "Amount": 179,
+                      "Amount": 180,
                       "Pct": 1.0,
-                      "Total": 358,
+                      "Total": 360,
                       "Min": 2,
                       "Max": 2
                     }
@@ -24078,33 +24078,33 @@
     },
     {
       "Id": 4,
-      "Records": 34289,
+      "Records": 34304,
       "Territories": [
         {
           "Id": 956,
-          "Records": 5566,
+          "Records": 5581,
           "FateTypes": [
             {
               "Id": 0,
-              "Records": 5566,
+              "Records": 5581,
               "Fates": [
                 {
                   "Id": 1743,
-                  "Records": 465,
+                  "Records": 467,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 465,
+                      "Amount": 467,
                       "Pct": 1.0,
-                      "Total": 74384,
+                      "Total": 74704,
                       "Min": 150,
                       "Max": 160
                     },
                     {
                       "Id": 26807,
-                      "Amount": 465,
+                      "Amount": 467,
                       "Pct": 1.0,
-                      "Total": 10092,
+                      "Total": 10124,
                       "Min": 14,
                       "Max": 56
                     }
@@ -24112,21 +24112,21 @@
                 },
                 {
                   "Id": 1744,
-                  "Records": 344,
+                  "Records": 345,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 344,
+                      "Amount": 345,
                       "Pct": 1.0,
-                      "Total": 55694,
+                      "Total": 55856,
                       "Min": 150,
                       "Max": 162
                     },
                     {
                       "Id": 26807,
-                      "Amount": 344,
+                      "Amount": 345,
                       "Pct": 1.0,
-                      "Total": 5838,
+                      "Total": 5863,
                       "Min": 14,
                       "Max": 56
                     }
@@ -24134,21 +24134,21 @@
                 },
                 {
                   "Id": 1745,
-                  "Records": 375,
+                  "Records": 377,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 375,
+                      "Amount": 377,
                       "Pct": 1.0,
-                      "Total": 59916,
+                      "Total": 60236,
                       "Min": 86,
                       "Max": 160
                     },
                     {
                       "Id": 26807,
-                      "Amount": 375,
+                      "Amount": 377,
                       "Pct": 1.0,
-                      "Total": 6637,
+                      "Total": 6686,
                       "Min": 14,
                       "Max": 56
                     }
@@ -24156,21 +24156,21 @@
                 },
                 {
                   "Id": 1746,
-                  "Records": 406,
+                  "Records": 408,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 406,
+                      "Amount": 408,
                       "Pct": 1.0,
-                      "Total": 65728,
+                      "Total": 66052,
                       "Min": 160,
                       "Max": 162
                     },
                     {
                       "Id": 26807,
-                      "Amount": 406,
+                      "Amount": 408,
                       "Pct": 1.0,
-                      "Total": 6862,
+                      "Total": 6905,
                       "Min": 14,
                       "Max": 56
                     }
@@ -24178,21 +24178,21 @@
                 },
                 {
                   "Id": 1747,
-                  "Records": 442,
+                  "Records": 443,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 442,
+                      "Amount": 443,
                       "Pct": 1.0,
-                      "Total": 70716,
+                      "Total": 70876,
                       "Min": 156,
                       "Max": 160
                     },
                     {
                       "Id": 26807,
-                      "Amount": 442,
+                      "Amount": 443,
                       "Pct": 1.0,
-                      "Total": 7723,
+                      "Total": 7737,
                       "Min": 14,
                       "Max": 60
                     }
@@ -24200,21 +24200,21 @@
                 },
                 {
                   "Id": 1748,
-                  "Records": 400,
+                  "Records": 401,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 400,
+                      "Amount": 401,
                       "Pct": 1.0,
-                      "Total": 64758,
+                      "Total": 64920,
                       "Min": 160,
                       "Max": 162
                     },
                     {
                       "Id": 26807,
-                      "Amount": 400,
+                      "Amount": 401,
                       "Pct": 1.0,
-                      "Total": 6947,
+                      "Total": 6961,
                       "Min": 14,
                       "Max": 56
                     }
@@ -24266,21 +24266,21 @@
                 },
                 {
                   "Id": 1751,
-                  "Records": 244,
+                  "Records": 245,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 244,
+                      "Amount": 245,
                       "Pct": 1.0,
-                      "Total": 41422,
+                      "Total": 41592,
                       "Min": 160,
                       "Max": 170
                     },
                     {
                       "Id": 26807,
-                      "Amount": 244,
+                      "Amount": 245,
                       "Pct": 1.0,
-                      "Total": 4371,
+                      "Total": 4399,
                       "Min": 14,
                       "Max": 56
                     }
@@ -24288,21 +24288,21 @@
                 },
                 {
                   "Id": 1752,
-                  "Records": 178,
+                  "Records": 179,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 178,
+                      "Amount": 179,
                       "Pct": 1.0,
-                      "Total": 30220,
+                      "Total": 30390,
                       "Min": 160,
                       "Max": 170
                     },
                     {
                       "Id": 26807,
-                      "Amount": 178,
+                      "Amount": 179,
                       "Pct": 1.0,
-                      "Total": 3097,
+                      "Total": 3111,
                       "Min": 14,
                       "Max": 60
                     }
@@ -24310,21 +24310,21 @@
                 },
                 {
                   "Id": 1753,
-                  "Records": 344,
+                  "Records": 345,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 344,
+                      "Amount": 345,
                       "Pct": 1.0,
-                      "Total": 60284,
+                      "Total": 60460,
                       "Min": 86,
                       "Max": 176
                     },
                     {
                       "Id": 26807,
-                      "Amount": 344,
+                      "Amount": 345,
                       "Pct": 1.0,
-                      "Total": 6067,
+                      "Total": 6081,
                       "Min": 14,
                       "Max": 70
                     }
@@ -24354,21 +24354,21 @@
                 },
                 {
                   "Id": 1755,
-                  "Records": 328,
+                  "Records": 329,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 328,
+                      "Amount": 329,
                       "Pct": 1.0,
-                      "Total": 57504,
+                      "Total": 57680,
                       "Min": 160,
                       "Max": 176
                     },
                     {
                       "Id": 26807,
-                      "Amount": 328,
+                      "Amount": 329,
                       "Pct": 1.0,
-                      "Total": 5507,
+                      "Total": 5532,
                       "Min": 14,
                       "Max": 56
                     }
@@ -24376,21 +24376,21 @@
                 },
                 {
                   "Id": 1756,
-                  "Records": 409,
+                  "Records": 410,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 409,
+                      "Amount": 410,
                       "Pct": 1.0,
-                      "Total": 71698,
+                      "Total": 71874,
                       "Min": 86,
                       "Max": 176
                     },
                     {
                       "Id": 26807,
-                      "Amount": 409,
+                      "Amount": 410,
                       "Pct": 1.0,
-                      "Total": 7190,
+                      "Total": 7211,
                       "Min": 14,
                       "Max": 60
                     }
@@ -24398,21 +24398,21 @@
                 },
                 {
                   "Id": 1757,
-                  "Records": 408,
+                  "Records": 409,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 408,
+                      "Amount": 409,
                       "Pct": 1.0,
-                      "Total": 71572,
+                      "Total": 71748,
                       "Min": 160,
                       "Max": 176
                     },
                     {
                       "Id": 26807,
-                      "Amount": 408,
+                      "Amount": 409,
                       "Pct": 1.0,
-                      "Total": 7080,
+                      "Total": 7094,
                       "Min": 14,
                       "Max": 56
                     }
@@ -26252,7 +26252,7 @@
     },
     {
       "Id": 5,
-      "Records": 813743,
+      "Records": 813897,
       "Territories": [
         {
           "Id": 1187,
@@ -26664,29 +26664,29 @@
         },
         {
           "Id": 1188,
-          "Records": 32242,
+          "Records": 32274,
           "FateTypes": [
             {
               "Id": 0,
-              "Records": 32242,
+              "Records": 32274,
               "Fates": [
                 {
                   "Id": 1924,
-                  "Records": 1676,
+                  "Records": 1679,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 1676,
+                      "Amount": 1679,
                       "Pct": 1.0,
-                      "Total": 301614,
+                      "Total": 302154,
                       "Min": 158,
                       "Max": 180
                     },
                     {
                       "Id": 26807,
-                      "Amount": 1676,
+                      "Amount": 1679,
                       "Pct": 1.0,
-                      "Total": 35448,
+                      "Total": 35504,
                       "Min": 16,
                       "Max": 64
                     }
@@ -26694,21 +26694,21 @@
                 },
                 {
                   "Id": 1925,
-                  "Records": 2106,
+                  "Records": 2108,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 2106,
+                      "Amount": 2108,
                       "Pct": 1.0,
-                      "Total": 383218,
+                      "Total": 383582,
                       "Min": 160,
                       "Max": 182
                     },
                     {
                       "Id": 26807,
-                      "Amount": 2106,
+                      "Amount": 2108,
                       "Pct": 1.0,
-                      "Total": 42272,
+                      "Total": 42308,
                       "Min": 16,
                       "Max": 80
                     }
@@ -26716,21 +26716,21 @@
                 },
                 {
                   "Id": 1926,
-                  "Records": 2089,
+                  "Records": 2091,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 2089,
+                      "Amount": 2091,
                       "Pct": 1.0,
-                      "Total": 376014,
+                      "Total": 376374,
                       "Min": 174,
                       "Max": 180
                     },
                     {
                       "Id": 26807,
-                      "Amount": 2089,
+                      "Amount": 2091,
                       "Pct": 1.0,
-                      "Total": 41676,
+                      "Total": 41724,
                       "Min": 16,
                       "Max": 80
                     }
@@ -26738,21 +26738,21 @@
                 },
                 {
                   "Id": 1927,
-                  "Records": 1838,
+                  "Records": 1840,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 1838,
+                      "Amount": 1840,
                       "Pct": 1.0,
-                      "Total": 330814,
+                      "Total": 331174,
                       "Min": 170,
                       "Max": 180
                     },
                     {
                       "Id": 26807,
-                      "Amount": 1838,
+                      "Amount": 1840,
                       "Pct": 1.0,
-                      "Total": 36620,
+                      "Total": 36652,
                       "Min": 16,
                       "Max": 68
                     }
@@ -26760,21 +26760,21 @@
                 },
                 {
                   "Id": 1928,
-                  "Records": 1628,
+                  "Records": 1630,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 1628,
+                      "Amount": 1630,
                       "Pct": 1.0,
-                      "Total": 293020,
+                      "Total": 293380,
                       "Min": 170,
                       "Max": 180
                     },
                     {
                       "Id": 26807,
-                      "Amount": 1628,
+                      "Amount": 1630,
                       "Pct": 1.0,
-                      "Total": 34584,
+                      "Total": 34624,
                       "Min": 16,
                       "Max": 80
                     }
@@ -26782,21 +26782,21 @@
                 },
                 {
                   "Id": 1929,
-                  "Records": 2304,
+                  "Records": 2306,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 2304,
+                      "Amount": 2306,
                       "Pct": 1.0,
-                      "Total": 419212,
+                      "Total": 419576,
                       "Min": 152,
                       "Max": 182
                     },
                     {
                       "Id": 26807,
-                      "Amount": 2304,
+                      "Amount": 2306,
                       "Pct": 1.0,
-                      "Total": 46208,
+                      "Total": 46256,
                       "Min": 16,
                       "Max": 80
                     }
@@ -26804,21 +26804,21 @@
                 },
                 {
                   "Id": 1930,
-                  "Records": 2217,
+                  "Records": 2219,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 2217,
+                      "Amount": 2219,
                       "Pct": 1.0,
-                      "Total": 403424,
+                      "Total": 403788,
                       "Min": 170,
                       "Max": 182
                     },
                     {
                       "Id": 26807,
-                      "Amount": 2217,
+                      "Amount": 2219,
                       "Pct": 1.0,
-                      "Total": 43776,
+                      "Total": 43808,
                       "Min": 16,
                       "Max": 68
                     }
@@ -26826,21 +26826,21 @@
                 },
                 {
                   "Id": 1931,
-                  "Records": 1371,
+                  "Records": 1373,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 1371,
+                      "Amount": 1373,
                       "Pct": 1.0,
-                      "Total": 246724,
+                      "Total": 247084,
                       "Min": 158,
                       "Max": 180
                     },
                     {
                       "Id": 26807,
-                      "Amount": 1371,
+                      "Amount": 1373,
                       "Pct": 1.0,
-                      "Total": 29488,
+                      "Total": 29520,
                       "Min": 16,
                       "Max": 80
                     }
@@ -26848,21 +26848,21 @@
                 },
                 {
                   "Id": 1932,
-                  "Records": 1493,
+                  "Records": 1495,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 1493,
+                      "Amount": 1495,
                       "Pct": 1.0,
-                      "Total": 271658,
+                      "Total": 272022,
                       "Min": 172,
                       "Max": 182
                     },
                     {
                       "Id": 26807,
-                      "Amount": 1493,
+                      "Amount": 1495,
                       "Pct": 1.0,
-                      "Total": 32072,
+                      "Total": 32112,
                       "Min": 16,
                       "Max": 80
                     }
@@ -26870,21 +26870,21 @@
                 },
                 {
                   "Id": 1933,
-                  "Records": 2101,
+                  "Records": 2103,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 2101,
+                      "Amount": 2103,
                       "Pct": 1.0,
-                      "Total": 386406,
+                      "Total": 386774,
                       "Min": 160,
                       "Max": 184
                     },
                     {
                       "Id": 26807,
-                      "Amount": 2101,
+                      "Amount": 2103,
                       "Pct": 1.0,
-                      "Total": 41584,
+                      "Total": 41632,
                       "Min": 16,
                       "Max": 80
                     }
@@ -26892,21 +26892,21 @@
                 },
                 {
                   "Id": 1934,
-                  "Records": 1739,
+                  "Records": 1741,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 1739,
+                      "Amount": 1741,
                       "Pct": 1.0,
-                      "Total": 319796,
+                      "Total": 320164,
                       "Min": 170,
                       "Max": 184
                     },
                     {
                       "Id": 26807,
-                      "Amount": 1739,
+                      "Amount": 1741,
                       "Pct": 1.0,
-                      "Total": 34856,
+                      "Total": 34900,
                       "Min": 16,
                       "Max": 80
                     }
@@ -26914,21 +26914,21 @@
                 },
                 {
                   "Id": 1935,
-                  "Records": 1865,
+                  "Records": 1866,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 1865,
+                      "Amount": 1866,
                       "Pct": 1.0,
-                      "Total": 343010,
+                      "Total": 343194,
                       "Min": 162,
                       "Max": 184
                     },
                     {
                       "Id": 26807,
-                      "Amount": 1865,
+                      "Amount": 1866,
                       "Pct": 1.0,
-                      "Total": 37176,
+                      "Total": 37196,
                       "Min": 16,
                       "Max": 80
                     }
@@ -26936,21 +26936,21 @@
                 },
                 {
                   "Id": 1936,
-                  "Records": 1642,
+                  "Records": 1643,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 1642,
+                      "Amount": 1643,
                       "Pct": 1.0,
-                      "Total": 301982,
+                      "Total": 302166,
                       "Min": 172,
                       "Max": 184
                     },
                     {
                       "Id": 26807,
-                      "Amount": 1642,
+                      "Amount": 1643,
                       "Pct": 1.0,
-                      "Total": 38216,
+                      "Total": 38240,
                       "Min": 16,
                       "Max": 80
                     }
@@ -26958,21 +26958,21 @@
                 },
                 {
                   "Id": 1937,
-                  "Records": 1060,
+                  "Records": 1061,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 1060,
+                      "Amount": 1061,
                       "Pct": 1.0,
-                      "Total": 194900,
+                      "Total": 195084,
                       "Min": 172,
                       "Max": 184
                     },
                     {
                       "Id": 26807,
-                      "Amount": 1060,
+                      "Amount": 1061,
                       "Pct": 1.0,
-                      "Total": 19644,
+                      "Total": 19664,
                       "Min": 16,
                       "Max": 64
                     }
@@ -26980,21 +26980,21 @@
                 },
                 {
                   "Id": 1938,
-                  "Records": 2229,
+                  "Records": 2231,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 2229,
+                      "Amount": 2231,
                       "Pct": 1.0,
-                      "Total": 409972,
+                      "Total": 410340,
                       "Min": 172,
                       "Max": 184
                     },
                     {
                       "Id": 26807,
-                      "Amount": 2229,
+                      "Amount": 2231,
                       "Pct": 1.0,
-                      "Total": 44676,
+                      "Total": 44708,
                       "Min": 16,
                       "Max": 80
                     }
@@ -27002,21 +27002,21 @@
                 },
                 {
                   "Id": 1939,
-                  "Records": 2026,
+                  "Records": 2028,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 2026,
+                      "Amount": 2028,
                       "Pct": 1.0,
-                      "Total": 372636,
+                      "Total": 373004,
                       "Min": 160,
                       "Max": 184
                     },
                     {
                       "Id": 26807,
-                      "Amount": 2026,
+                      "Amount": 2028,
                       "Pct": 1.0,
-                      "Total": 40528,
+                      "Total": 40564,
                       "Min": 16,
                       "Max": 68
                     }
@@ -27024,21 +27024,21 @@
                 },
                 {
                   "Id": 1940,
-                  "Records": 1422,
+                  "Records": 1423,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 1422,
+                      "Amount": 1423,
                       "Pct": 1.0,
-                      "Total": 261496,
+                      "Total": 261680,
                       "Min": 170,
                       "Max": 184
                     },
                     {
                       "Id": 26807,
-                      "Amount": 1422,
+                      "Amount": 1423,
                       "Pct": 1.0,
-                      "Total": 33512,
+                      "Total": 33532,
                       "Min": 16,
                       "Max": 80
                     }
@@ -27046,21 +27046,21 @@
                 },
                 {
                   "Id": 1941,
-                  "Records": 1436,
+                  "Records": 1437,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 1436,
+                      "Amount": 1437,
                       "Pct": 1.0,
-                      "Total": 264100,
+                      "Total": 264284,
                       "Min": 170,
                       "Max": 184
                     },
                     {
                       "Id": 26807,
-                      "Amount": 1436,
+                      "Amount": 1437,
                       "Pct": 1.0,
-                      "Total": 27028,
+                      "Total": 27052,
                       "Min": 16,
                       "Max": 64
                     }
@@ -27072,11 +27072,11 @@
         },
         {
           "Id": 1189,
-          "Records": 29951,
+          "Records": 29953,
           "FateTypes": [
             {
               "Id": 0,
-              "Records": 29951,
+              "Records": 29953,
               "Fates": [
                 {
                   "Id": 1895,
@@ -27234,21 +27234,21 @@
                 },
                 {
                   "Id": 1902,
-                  "Records": 1275,
+                  "Records": 1276,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 1275,
+                      "Amount": 1276,
                       "Pct": 1.0,
-                      "Total": 239592,
+                      "Total": 239780,
                       "Min": 180,
                       "Max": 188
                     },
                     {
                       "Id": 26807,
-                      "Amount": 1275,
+                      "Amount": 1276,
                       "Pct": 1.0,
-                      "Total": 25000,
+                      "Total": 25036,
                       "Min": 16,
                       "Max": 80
                     }
@@ -27388,21 +27388,21 @@
                 },
                 {
                   "Id": 1909,
-                  "Records": 1748,
+                  "Records": 1749,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 1748,
+                      "Amount": 1749,
                       "Pct": 1.0,
-                      "Total": 328414,
+                      "Total": 328602,
                       "Min": 180,
                       "Max": 188
                     },
                     {
                       "Id": 26807,
-                      "Amount": 1748,
+                      "Amount": 1749,
                       "Pct": 1.0,
-                      "Total": 34988,
+                      "Total": 35032,
                       "Min": 16,
                       "Max": 80
                     }
@@ -27830,29 +27830,29 @@
         },
         {
           "Id": 1191,
-          "Records": 46215,
+          "Records": 46243,
           "FateTypes": [
             {
               "Id": 0,
-              "Records": 46215,
+              "Records": 46243,
               "Fates": [
                 {
                   "Id": 1942,
-                  "Records": 3635,
+                  "Records": 3637,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 3635,
+                      "Amount": 3637,
                       "Pct": 1.0,
-                      "Total": 703150,
+                      "Total": 703538,
                       "Min": 42,
                       "Max": 194
                     },
                     {
                       "Id": 26807,
-                      "Amount": 3635,
+                      "Amount": 3637,
                       "Pct": 1.0,
-                      "Total": 88816,
+                      "Total": 88868,
                       "Min": 16,
                       "Max": 84
                     }
@@ -27860,21 +27860,21 @@
                 },
                 {
                   "Id": 1943,
-                  "Records": 3317,
+                  "Records": 3319,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 3317,
+                      "Amount": 3319,
                       "Pct": 1.0,
-                      "Total": 641542,
+                      "Total": 641930,
                       "Min": 40,
                       "Max": 194
                     },
                     {
                       "Id": 26807,
-                      "Amount": 3317,
+                      "Amount": 3319,
                       "Pct": 1.0,
-                      "Total": 62772,
+                      "Total": 62804,
                       "Min": 16,
                       "Max": 80
                     }
@@ -27882,21 +27882,21 @@
                 },
                 {
                   "Id": 1944,
-                  "Records": 2799,
+                  "Records": 2801,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 2799,
+                      "Amount": 2801,
                       "Pct": 1.0,
-                      "Total": 541144,
+                      "Total": 541532,
                       "Min": 26,
                       "Max": 194
                     },
                     {
                       "Id": 26807,
-                      "Amount": 2799,
+                      "Amount": 2801,
                       "Pct": 1.0,
-                      "Total": 55664,
+                      "Total": 55704,
                       "Min": 16,
                       "Max": 84
                     }
@@ -27904,21 +27904,21 @@
                 },
                 {
                   "Id": 1945,
-                  "Records": 2608,
+                  "Records": 2610,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 2608,
+                      "Amount": 2610,
                       "Pct": 1.0,
-                      "Total": 504052,
+                      "Total": 504440,
                       "Min": 40,
                       "Max": 194
                     },
                     {
                       "Id": 26807,
-                      "Amount": 2608,
+                      "Amount": 2610,
                       "Pct": 1.0,
-                      "Total": 52256,
+                      "Total": 52288,
                       "Min": 16,
                       "Max": 80
                     }
@@ -27926,21 +27926,21 @@
                 },
                 {
                   "Id": 1946,
-                  "Records": 2729,
+                  "Records": 2730,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 2729,
+                      "Amount": 2730,
                       "Pct": 1.0,
-                      "Total": 528130,
+                      "Total": 528324,
                       "Min": 52,
                       "Max": 194
                     },
                     {
                       "Id": 26807,
-                      "Amount": 2729,
+                      "Amount": 2730,
                       "Pct": 1.0,
-                      "Total": 54796,
+                      "Total": 54812,
                       "Min": 16,
                       "Max": 84
                     }
@@ -27948,21 +27948,21 @@
                 },
                 {
                   "Id": 1947,
-                  "Records": 2837,
+                  "Records": 2838,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 2837,
+                      "Amount": 2838,
                       "Pct": 1.0,
-                      "Total": 548912,
+                      "Total": 549106,
                       "Min": 38,
                       "Max": 194
                     },
                     {
                       "Id": 26807,
-                      "Amount": 2837,
+                      "Amount": 2838,
                       "Pct": 1.0,
-                      "Total": 56064,
+                      "Total": 56080,
                       "Min": 16,
                       "Max": 84
                     }
@@ -27970,21 +27970,21 @@
                 },
                 {
                   "Id": 1948,
-                  "Records": 2954,
+                  "Records": 2957,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 2954,
+                      "Amount": 2957,
                       "Pct": 1.0,
-                      "Total": 572524,
+                      "Total": 573106,
                       "Min": 44,
                       "Max": 194
                     },
                     {
                       "Id": 26807,
-                      "Amount": 2954,
+                      "Amount": 2957,
                       "Pct": 1.0,
-                      "Total": 58736,
+                      "Total": 58800,
                       "Min": 16,
                       "Max": 80
                     }
@@ -27992,21 +27992,21 @@
                 },
                 {
                   "Id": 1949,
-                  "Records": 2340,
+                  "Records": 2341,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 2340,
+                      "Amount": 2341,
                       "Pct": 1.0,
-                      "Total": 451580,
+                      "Total": 451774,
                       "Min": 48,
                       "Max": 194
                     },
                     {
                       "Id": 26807,
-                      "Amount": 2340,
+                      "Amount": 2341,
                       "Pct": 1.0,
-                      "Total": 46220,
+                      "Total": 46240,
                       "Min": 16,
                       "Max": 80
                     }
@@ -28014,21 +28014,21 @@
                 },
                 {
                   "Id": 1950,
-                  "Records": 3767,
+                  "Records": 3769,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 3767,
+                      "Amount": 3769,
                       "Pct": 1.0,
-                      "Total": 735594,
+                      "Total": 735986,
                       "Min": 38,
                       "Max": 196
                     },
                     {
                       "Id": 26807,
-                      "Amount": 3767,
+                      "Amount": 3769,
                       "Pct": 1.0,
-                      "Total": 91712,
+                      "Total": 91768,
                       "Min": 16,
                       "Max": 84
                     }
@@ -28036,21 +28036,21 @@
                 },
                 {
                   "Id": 1951,
-                  "Records": 3577,
+                  "Records": 3579,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 3577,
+                      "Amount": 3579,
                       "Pct": 1.0,
-                      "Total": 699010,
+                      "Total": 699402,
                       "Min": 42,
                       "Max": 196
                     },
                     {
                       "Id": 26807,
-                      "Amount": 3577,
+                      "Amount": 3579,
                       "Pct": 1.0,
-                      "Total": 68180,
+                      "Total": 68216,
                       "Min": 16,
                       "Max": 80
                     }
@@ -28058,21 +28058,21 @@
                 },
                 {
                   "Id": 1952,
-                  "Records": 2115,
+                  "Records": 2116,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 2115,
+                      "Amount": 2116,
                       "Pct": 1.0,
-                      "Total": 413660,
+                      "Total": 413856,
                       "Min": 52,
                       "Max": 196
                     },
                     {
                       "Id": 26807,
-                      "Amount": 2115,
+                      "Amount": 2116,
                       "Pct": 1.0,
-                      "Total": 42296,
+                      "Total": 42312,
                       "Min": 16,
                       "Max": 84
                     }
@@ -28080,21 +28080,21 @@
                 },
                 {
                   "Id": 1953,
-                  "Records": 2270,
+                  "Records": 2272,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 2270,
+                      "Amount": 2272,
                       "Pct": 1.0,
-                      "Total": 443686,
+                      "Total": 444078,
                       "Min": 40,
                       "Max": 196
                     },
                     {
                       "Id": 26807,
-                      "Amount": 2270,
+                      "Amount": 2272,
                       "Pct": 1.0,
-                      "Total": 44448,
+                      "Total": 44504,
                       "Min": 16,
                       "Max": 80
                     }
@@ -28102,21 +28102,21 @@
                 },
                 {
                   "Id": 1954,
-                  "Records": 2416,
+                  "Records": 2417,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 2416,
+                      "Amount": 2417,
                       "Pct": 1.0,
-                      "Total": 472442,
+                      "Total": 472638,
                       "Min": 42,
                       "Max": 196
                     },
                     {
                       "Id": 26807,
-                      "Amount": 2416,
+                      "Amount": 2417,
                       "Pct": 1.0,
-                      "Total": 47604,
+                      "Total": 47620,
                       "Min": 16,
                       "Max": 84
                     }
@@ -28124,21 +28124,21 @@
                 },
                 {
                   "Id": 1955,
-                  "Records": 2485,
+                  "Records": 2487,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 2485,
+                      "Amount": 2487,
                       "Pct": 1.0,
-                      "Total": 485726,
+                      "Total": 486118,
                       "Min": 44,
                       "Max": 196
                     },
                     {
                       "Id": 26807,
-                      "Amount": 2485,
+                      "Amount": 2487,
                       "Pct": 1.0,
-                      "Total": 48648,
+                      "Total": 48680,
                       "Min": 16,
                       "Max": 68
                     }
@@ -28146,21 +28146,21 @@
                 },
                 {
                   "Id": 1956,
-                  "Records": 2346,
+                  "Records": 2347,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 2346,
+                      "Amount": 2347,
                       "Pct": 1.0,
-                      "Total": 459258,
+                      "Total": 459454,
                       "Min": 46,
                       "Max": 196
                     },
                     {
                       "Id": 26807,
-                      "Amount": 2346,
+                      "Amount": 2347,
                       "Pct": 1.0,
-                      "Total": 46120,
+                      "Total": 46144,
                       "Min": 16,
                       "Max": 84
                     }
@@ -28190,21 +28190,21 @@
                 },
                 {
                   "Id": 1958,
-                  "Records": 2320,
+                  "Records": 2323,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 2320,
+                      "Amount": 2323,
                       "Pct": 1.0,
-                      "Total": 453388,
+                      "Total": 453976,
                       "Min": 20,
                       "Max": 196
                     },
                     {
                       "Id": 26807,
-                      "Amount": 2320,
+                      "Amount": 2323,
                       "Pct": 1.0,
-                      "Total": 45868,
+                      "Total": 45940,
                       "Min": 16,
                       "Max": 80
                     }
@@ -28216,29 +28216,29 @@
         },
         {
           "Id": 1192,
-          "Records": 33838,
+          "Records": 33845,
           "FateTypes": [
             {
               "Id": 0,
-              "Records": 33838,
+              "Records": 33845,
               "Fates": [
                 {
                   "Id": 1911,
-                  "Records": 3204,
+                  "Records": 3205,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 3204,
+                      "Amount": 3205,
                       "Pct": 1.0,
-                      "Total": 631740,
+                      "Total": 631938,
                       "Min": 18,
                       "Max": 198
                     },
                     {
                       "Id": 26807,
-                      "Amount": 3204,
+                      "Amount": 3205,
                       "Pct": 1.0,
-                      "Total": 60696,
+                      "Total": 60716,
                       "Min": 16,
                       "Max": 80
                     }
@@ -28400,21 +28400,21 @@
                 },
                 {
                   "Id": 1919,
-                  "Records": 3365,
+                  "Records": 3367,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 3365,
+                      "Amount": 3367,
                       "Pct": 1.0,
-                      "Total": 664678,
+                      "Total": 665074,
                       "Min": 16,
                       "Max": 198
                     },
                     {
                       "Id": 26807,
-                      "Amount": 3365,
+                      "Amount": 3367,
                       "Pct": 1.0,
-                      "Total": 64096,
+                      "Total": 64128,
                       "Min": 16,
                       "Max": 68
                     }
@@ -28422,21 +28422,21 @@
                 },
                 {
                   "Id": 1920,
-                  "Records": 2658,
+                  "Records": 2660,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 2658,
+                      "Amount": 2660,
                       "Pct": 1.0,
-                      "Total": 524438,
+                      "Total": 524834,
                       "Min": 10,
                       "Max": 198
                     },
                     {
                       "Id": 26807,
-                      "Amount": 2658,
+                      "Amount": 2660,
                       "Pct": 1.0,
-                      "Total": 63540,
+                      "Total": 63600,
                       "Min": 16,
                       "Max": 84
                     }
@@ -28444,21 +28444,21 @@
                 },
                 {
                   "Id": 1921,
-                  "Records": 2846,
+                  "Records": 2848,
                   "Rewards": [
                     {
                       "Id": 1,
-                      "Amount": 2846,
+                      "Amount": 2848,
                       "Pct": 1.0,
-                      "Total": 562140,
+                      "Total": 562536,
                       "Min": 30,
                       "Max": 198
                     },
                     {
                       "Id": 26807,
-                      "Amount": 2846,
+                      "Amount": 2848,
                       "Pct": 1.0,
-                      "Total": 52632,
+                      "Total": 52672,
                       "Min": 16,
                       "Max": 80
                     }
@@ -28522,21 +28522,21 @@
         },
         {
           "Id": 1252,
-          "Records": 70232,
+          "Records": 70299,
           "FateTypes": [
             {
               "Id": 0,
-              "Records": 52310,
+              "Records": 52360,
               "Fates": [
                 {
                   "Id": 1962,
-                  "Records": 3488,
+                  "Records": 3493,
                   "Rewards": [
                     {
                       "Id": 45043,
-                      "Amount": 3488,
+                      "Amount": 3493,
                       "Pct": 1.0,
-                      "Total": 244160,
+                      "Total": 244510,
                       "Min": 70,
                       "Max": 70
                     }
@@ -28544,13 +28544,13 @@
                 },
                 {
                   "Id": 1963,
-                  "Records": 4040,
+                  "Records": 4044,
                   "Rewards": [
                     {
                       "Id": 45043,
-                      "Amount": 4040,
+                      "Amount": 4044,
                       "Pct": 1.0,
-                      "Total": 282800,
+                      "Total": 283080,
                       "Min": 70,
                       "Max": 70
                     }
@@ -28558,13 +28558,13 @@
                 },
                 {
                   "Id": 1964,
-                  "Records": 4154,
+                  "Records": 4156,
                   "Rewards": [
                     {
                       "Id": 45043,
-                      "Amount": 4154,
+                      "Amount": 4156,
                       "Pct": 1.0,
-                      "Total": 290780,
+                      "Total": 290920,
                       "Min": 70,
                       "Max": 70
                     }
@@ -28572,13 +28572,13 @@
                 },
                 {
                   "Id": 1965,
-                  "Records": 2919,
+                  "Records": 2922,
                   "Rewards": [
                     {
                       "Id": 45043,
-                      "Amount": 2919,
+                      "Amount": 2922,
                       "Pct": 1.0,
-                      "Total": 204330,
+                      "Total": 204540,
                       "Min": 70,
                       "Max": 70
                     }
@@ -28586,13 +28586,13 @@
                 },
                 {
                   "Id": 1966,
-                  "Records": 3702,
+                  "Records": 3708,
                   "Rewards": [
                     {
                       "Id": 45043,
-                      "Amount": 3702,
+                      "Amount": 3708,
                       "Pct": 1.0,
-                      "Total": 259140,
+                      "Total": 259560,
                       "Min": 70,
                       "Max": 70
                     }
@@ -28600,13 +28600,13 @@
                 },
                 {
                   "Id": 1967,
-                  "Records": 3592,
+                  "Records": 3594,
                   "Rewards": [
                     {
                       "Id": 45043,
-                      "Amount": 3592,
+                      "Amount": 3594,
                       "Pct": 1.0,
-                      "Total": 251440,
+                      "Total": 251580,
                       "Min": 70,
                       "Max": 70
                     }
@@ -28614,13 +28614,13 @@
                 },
                 {
                   "Id": 1968,
-                  "Records": 3954,
+                  "Records": 3962,
                   "Rewards": [
                     {
                       "Id": 45043,
-                      "Amount": 3954,
+                      "Amount": 3962,
                       "Pct": 1.0,
-                      "Total": 276780,
+                      "Total": 277340,
                       "Min": 70,
                       "Max": 70
                     }
@@ -28628,13 +28628,13 @@
                 },
                 {
                   "Id": 1969,
-                  "Records": 3538,
+                  "Records": 3542,
                   "Rewards": [
                     {
                       "Id": 45043,
-                      "Amount": 3538,
+                      "Amount": 3542,
                       "Pct": 1.0,
-                      "Total": 247660,
+                      "Total": 247940,
                       "Min": 70,
                       "Max": 70
                     }
@@ -28642,13 +28642,13 @@
                 },
                 {
                   "Id": 1970,
-                  "Records": 3584,
+                  "Records": 3587,
                   "Rewards": [
                     {
                       "Id": 45043,
-                      "Amount": 3584,
+                      "Amount": 3587,
                       "Pct": 1.0,
-                      "Total": 250880,
+                      "Total": 251090,
                       "Min": 70,
                       "Max": 70
                     }
@@ -28656,13 +28656,13 @@
                 },
                 {
                   "Id": 1971,
-                  "Records": 3738,
+                  "Records": 3740,
                   "Rewards": [
                     {
                       "Id": 45043,
-                      "Amount": 3738,
+                      "Amount": 3740,
                       "Pct": 1.0,
-                      "Total": 261660,
+                      "Total": 261800,
                       "Min": 70,
                       "Max": 70
                     }
@@ -28670,13 +28670,13 @@
                 },
                 {
                   "Id": 1972,
-                  "Records": 3524,
+                  "Records": 3530,
                   "Rewards": [
                     {
                       "Id": 45043,
-                      "Amount": 3524,
+                      "Amount": 3530,
                       "Pct": 1.0,
-                      "Total": 246680,
+                      "Total": 247100,
                       "Min": 70,
                       "Max": 70
                     }
@@ -28684,20 +28684,20 @@
                 },
                 {
                   "Id": 1976,
-                  "Records": 5903,
+                  "Records": 5905,
                   "Rewards": [
                     {
                       "Id": 45043,
-                      "Amount": 5903,
+                      "Amount": 5905,
                       "Pct": 1.0,
-                      "Total": 413210,
+                      "Total": 413350,
                       "Min": 70,
                       "Max": 70
                     },
                     {
                       "Id": 47738,
                       "Amount": 1166,
-                      "Pct": 0.197527,
+                      "Pct": 0.19746,
                       "Total": 1166,
                       "Min": 1,
                       "Max": 1
@@ -28706,21 +28706,21 @@
                 },
                 {
                   "Id": 1977,
-                  "Records": 6174,
+                  "Records": 6177,
                   "Rewards": [
                     {
                       "Id": 45043,
-                      "Amount": 6174,
+                      "Amount": 6177,
                       "Pct": 1.0,
-                      "Total": 432180,
+                      "Total": 432390,
                       "Min": 70,
                       "Max": 70
                     },
                     {
                       "Id": 47738,
-                      "Amount": 1252,
-                      "Pct": 0.202786,
-                      "Total": 1252,
+                      "Amount": 1253,
+                      "Pct": 0.202849,
+                      "Total": 1253,
                       "Min": 1,
                       "Max": 1
                     }
@@ -28730,7 +28730,7 @@
             },
             {
               "Id": 1,
-              "Records": 17922,
+              "Records": 17939,
               "Fates": [
                 {
                   "Id": 33,
@@ -28780,68 +28780,68 @@
                 },
                 {
                   "Id": 34,
-                  "Records": 1530,
+                  "Records": 1533,
                   "Rewards": [
                     {
                       "Id": 48,
-                      "Amount": 1530,
+                      "Amount": 1533,
                       "Pct": 1.0,
-                      "Total": 30600,
+                      "Total": 30660,
                       "Min": 20,
                       "Max": 20
                     },
                     {
                       "Id": 49,
-                      "Amount": 1530,
+                      "Amount": 1533,
                       "Pct": 1.0,
-                      "Total": 15300,
+                      "Total": 15330,
                       "Min": 10,
                       "Max": 10
                     },
                     {
                       "Id": 45041,
-                      "Amount": 1530,
+                      "Amount": 1533,
                       "Pct": 1.0,
-                      "Total": 55176010,
+                      "Total": 55333730,
                       "Min": 0,
                       "Max": 130210
                     },
                     {
                       "Id": 45042,
-                      "Amount": 1530,
+                      "Amount": 1533,
                       "Pct": 1.0,
-                      "Total": 587040,
+                      "Total": 588480,
                       "Min": 0,
                       "Max": 480
                     },
                     {
                       "Id": 45043,
-                      "Amount": 1530,
+                      "Amount": 1533,
                       "Pct": 1.0,
-                      "Total": 306000,
+                      "Total": 306600,
                       "Min": 200,
                       "Max": 200
                     },
                     {
                       "Id": 47732,
-                      "Amount": 634,
-                      "Pct": 0.414379,
-                      "Total": 634,
+                      "Amount": 636,
+                      "Pct": 0.414873,
+                      "Total": 636,
                       "Min": 1,
                       "Max": 1
                     },
                     {
                       "Id": 47752,
-                      "Amount": 478,
-                      "Pct": 0.312418,
-                      "Total": 478,
+                      "Amount": 479,
+                      "Pct": 0.312459,
+                      "Total": 479,
                       "Min": 1,
                       "Max": 1
                     },
                     {
                       "Id": 49826,
                       "Amount": 1,
-                      "Pct": 0.000654,
+                      "Pct": 0.000652,
                       "Total": 1,
                       "Min": 1,
                       "Max": 1
@@ -28850,6 +28850,76 @@
                 },
                 {
                   "Id": 35,
+                  "Records": 1362,
+                  "Rewards": [
+                    {
+                      "Id": 48,
+                      "Amount": 1362,
+                      "Pct": 1.0,
+                      "Total": 27240,
+                      "Min": 20,
+                      "Max": 20
+                    },
+                    {
+                      "Id": 49,
+                      "Amount": 1362,
+                      "Pct": 1.0,
+                      "Total": 13620,
+                      "Min": 10,
+                      "Max": 10
+                    },
+                    {
+                      "Id": 45041,
+                      "Amount": 1362,
+                      "Pct": 1.0,
+                      "Total": 47956200,
+                      "Min": 0,
+                      "Max": 130210
+                    },
+                    {
+                      "Id": 45042,
+                      "Amount": 1362,
+                      "Pct": 1.0,
+                      "Total": 492960,
+                      "Min": 0,
+                      "Max": 480
+                    },
+                    {
+                      "Id": 45043,
+                      "Amount": 1362,
+                      "Pct": 1.0,
+                      "Total": 272400,
+                      "Min": 200,
+                      "Max": 200
+                    },
+                    {
+                      "Id": 47730,
+                      "Amount": 564,
+                      "Pct": 0.414097,
+                      "Total": 564,
+                      "Min": 1,
+                      "Max": 1
+                    },
+                    {
+                      "Id": 47751,
+                      "Amount": 398,
+                      "Pct": 0.292217,
+                      "Total": 398,
+                      "Min": 1,
+                      "Max": 1
+                    },
+                    {
+                      "Id": 49826,
+                      "Amount": 1,
+                      "Pct": 0.000734,
+                      "Total": 1,
+                      "Min": 1,
+                      "Max": 1
+                    }
+                  ]
+                },
+                {
+                  "Id": 36,
                   "Records": 1360,
                   "Rewards": [
                     {
@@ -28872,7 +28942,7 @@
                       "Id": 45041,
                       "Amount": 1360,
                       "Pct": 1.0,
-                      "Total": 47911200,
+                      "Total": 44449850,
                       "Min": 0,
                       "Max": 130210
                     },
@@ -28880,7 +28950,7 @@
                       "Id": 45042,
                       "Amount": 1360,
                       "Pct": 1.0,
-                      "Total": 492000,
+                      "Total": 483840,
                       "Min": 0,
                       "Max": 480
                     },
@@ -28893,79 +28963,9 @@
                       "Max": 200
                     },
                     {
-                      "Id": 47730,
-                      "Amount": 564,
-                      "Pct": 0.414706,
-                      "Total": 564,
-                      "Min": 1,
-                      "Max": 1
-                    },
-                    {
-                      "Id": 47751,
-                      "Amount": 398,
-                      "Pct": 0.292647,
-                      "Total": 398,
-                      "Min": 1,
-                      "Max": 1
-                    },
-                    {
                       "Id": 49826,
                       "Amount": 1,
                       "Pct": 0.000735,
-                      "Total": 1,
-                      "Min": 1,
-                      "Max": 1
-                    }
-                  ]
-                },
-                {
-                  "Id": 36,
-                  "Records": 1356,
-                  "Rewards": [
-                    {
-                      "Id": 48,
-                      "Amount": 1356,
-                      "Pct": 1.0,
-                      "Total": 27120,
-                      "Min": 20,
-                      "Max": 20
-                    },
-                    {
-                      "Id": 49,
-                      "Amount": 1356,
-                      "Pct": 1.0,
-                      "Total": 13560,
-                      "Min": 10,
-                      "Max": 10
-                    },
-                    {
-                      "Id": 45041,
-                      "Amount": 1356,
-                      "Pct": 1.0,
-                      "Total": 44261270,
-                      "Min": 0,
-                      "Max": 130210
-                    },
-                    {
-                      "Id": 45042,
-                      "Amount": 1356,
-                      "Pct": 1.0,
-                      "Total": 481920,
-                      "Min": 0,
-                      "Max": 480
-                    },
-                    {
-                      "Id": 45043,
-                      "Amount": 1356,
-                      "Pct": 1.0,
-                      "Total": 271200,
-                      "Min": 200,
-                      "Max": 200
-                    },
-                    {
-                      "Id": 49826,
-                      "Amount": 1,
-                      "Pct": 0.000737,
                       "Total": 1,
                       "Min": 1,
                       "Max": 1
@@ -28973,7 +28973,7 @@
                     {
                       "Id": 49831,
                       "Amount": 2,
-                      "Pct": 0.001475,
+                      "Pct": 0.001471,
                       "Total": 2,
                       "Min": 1,
                       "Max": 1
@@ -29214,52 +29214,52 @@
                 },
                 {
                   "Id": 41,
-                  "Records": 704,
+                  "Records": 707,
                   "Rewards": [
                     {
                       "Id": 48,
-                      "Amount": 704,
+                      "Amount": 707,
                       "Pct": 1.0,
-                      "Total": 14080,
+                      "Total": 14140,
                       "Min": 20,
                       "Max": 20
                     },
                     {
                       "Id": 49,
-                      "Amount": 704,
+                      "Amount": 707,
                       "Pct": 1.0,
-                      "Total": 7040,
+                      "Total": 7070,
                       "Min": 10,
                       "Max": 10
                     },
                     {
                       "Id": 45041,
-                      "Amount": 704,
+                      "Amount": 707,
                       "Pct": 1.0,
-                      "Total": 23073870,
+                      "Total": 23246080,
                       "Min": 0,
                       "Max": 130210
                     },
                     {
                       "Id": 45042,
-                      "Amount": 704,
+                      "Amount": 707,
                       "Pct": 1.0,
-                      "Total": 255840,
+                      "Total": 256800,
                       "Min": 0,
                       "Max": 480
                     },
                     {
                       "Id": 45043,
-                      "Amount": 704,
+                      "Amount": 707,
                       "Pct": 1.0,
-                      "Total": 140800,
+                      "Total": 141400,
                       "Min": 200,
                       "Max": 200
                     },
                     {
                       "Id": 47731,
                       "Amount": 275,
-                      "Pct": 0.390625,
+                      "Pct": 0.388967,
                       "Total": 275,
                       "Min": 1,
                       "Max": 1
@@ -29267,7 +29267,7 @@
                     {
                       "Id": 49833,
                       "Amount": 1,
-                      "Pct": 0.00142,
+                      "Pct": 0.001414,
                       "Total": 1,
                       "Min": 1,
                       "Max": 1
@@ -29276,52 +29276,52 @@
                 },
                 {
                   "Id": 42,
-                  "Records": 1308,
+                  "Records": 1309,
                   "Rewards": [
                     {
                       "Id": 48,
-                      "Amount": 1308,
+                      "Amount": 1309,
                       "Pct": 1.0,
-                      "Total": 26160,
+                      "Total": 26180,
                       "Min": 20,
                       "Max": 20
                     },
                     {
                       "Id": 49,
-                      "Amount": 1308,
+                      "Amount": 1309,
                       "Pct": 1.0,
-                      "Total": 13080,
+                      "Total": 13090,
                       "Min": 10,
                       "Max": 10
                     },
                     {
                       "Id": 45041,
-                      "Amount": 1308,
+                      "Amount": 1309,
                       "Pct": 1.0,
-                      "Total": 47081730,
+                      "Total": 47105130,
                       "Min": 0,
                       "Max": 130210
                     },
                     {
                       "Id": 45042,
-                      "Amount": 1308,
+                      "Amount": 1309,
                       "Pct": 1.0,
-                      "Total": 496800,
+                      "Total": 497280,
                       "Min": 0,
                       "Max": 480
                     },
                     {
                       "Id": 45043,
-                      "Amount": 1308,
+                      "Amount": 1309,
                       "Pct": 1.0,
-                      "Total": 261600,
+                      "Total": 261800,
                       "Min": 200,
                       "Max": 200
                     },
                     {
                       "Id": 47757,
                       "Amount": 397,
-                      "Pct": 0.303517,
+                      "Pct": 0.303285,
                       "Total": 397,
                       "Min": 1,
                       "Max": 1
@@ -29330,52 +29330,52 @@
                 },
                 {
                   "Id": 43,
-                  "Records": 1357,
+                  "Records": 1359,
                   "Rewards": [
                     {
                       "Id": 48,
-                      "Amount": 1357,
+                      "Amount": 1359,
                       "Pct": 1.0,
-                      "Total": 27140,
+                      "Total": 27180,
                       "Min": 20,
                       "Max": 20
                     },
                     {
                       "Id": 49,
-                      "Amount": 1357,
+                      "Amount": 1359,
                       "Pct": 1.0,
-                      "Total": 13570,
+                      "Total": 13590,
                       "Min": 10,
                       "Max": 10
                     },
                     {
                       "Id": 45041,
-                      "Amount": 1357,
+                      "Amount": 1359,
                       "Pct": 1.0,
-                      "Total": 44259920,
+                      "Total": 44328320,
                       "Min": 0,
                       "Max": 130210
                     },
                     {
                       "Id": 45042,
-                      "Amount": 1357,
+                      "Amount": 1359,
                       "Pct": 1.0,
-                      "Total": 498240,
+                      "Total": 499200,
                       "Min": 0,
                       "Max": 480
                     },
                     {
                       "Id": 45043,
-                      "Amount": 1357,
+                      "Amount": 1359,
                       "Pct": 1.0,
-                      "Total": 271400,
+                      "Total": 271800,
                       "Min": 200,
                       "Max": 200
                     },
                     {
                       "Id": 49828,
                       "Amount": 2,
-                      "Pct": 0.001474,
+                      "Pct": 0.001472,
                       "Total": 2,
                       "Min": 1,
                       "Max": 1
@@ -29500,52 +29500,52 @@
                 },
                 {
                   "Id": 46,
-                  "Records": 1227,
+                  "Records": 1229,
                   "Rewards": [
                     {
                       "Id": 48,
-                      "Amount": 1227,
+                      "Amount": 1229,
                       "Pct": 1.0,
-                      "Total": 24540,
+                      "Total": 24580,
                       "Min": 20,
                       "Max": 20
                     },
                     {
                       "Id": 49,
-                      "Amount": 1227,
+                      "Amount": 1229,
                       "Pct": 1.0,
-                      "Total": 12270,
+                      "Total": 12290,
                       "Min": 10,
                       "Max": 10
                     },
                     {
                       "Id": 45041,
-                      "Amount": 1227,
+                      "Amount": 1229,
                       "Pct": 1.0,
-                      "Total": 40640590,
+                      "Total": 40708990,
                       "Min": 0,
                       "Max": 130210
                     },
                     {
                       "Id": 45042,
-                      "Amount": 1227,
+                      "Amount": 1229,
                       "Pct": 1.0,
-                      "Total": 446880,
+                      "Total": 447840,
                       "Min": 0,
                       "Max": 480
                     },
                     {
                       "Id": 45043,
-                      "Amount": 1227,
+                      "Amount": 1229,
                       "Pct": 1.0,
-                      "Total": 245400,
+                      "Total": 245800,
                       "Min": 200,
                       "Max": 200
                     },
                     {
                       "Id": 49827,
                       "Amount": 1,
-                      "Pct": 0.000815,
+                      "Pct": 0.000814,
                       "Total": 1,
                       "Min": 1,
                       "Max": 1
@@ -29553,7 +29553,7 @@
                     {
                       "Id": 49832,
                       "Amount": 1,
-                      "Pct": 0.000815,
+                      "Pct": 0.000814,
                       "Total": 1,
                       "Min": 1,
                       "Max": 1
@@ -29620,29 +29620,29 @@
         },
         {
           "Id": 1346,
-          "Records": 526422,
+          "Records": 526440,
           "FateTypes": [
             {
               "Id": 0,
-              "Records": 395971,
+              "Records": 395988,
               "Fates": [
                 {
                   "Id": 2072,
-                  "Records": 31074,
+                  "Records": 31077,
                   "Rewards": [
                     {
                       "Id": 47738,
-                      "Amount": 6312,
-                      "Pct": 0.203128,
-                      "Total": 6312,
+                      "Amount": 6313,
+                      "Pct": 0.203141,
+                      "Total": 6313,
                       "Min": 1,
                       "Max": 1
                     },
                     {
                       "Id": 51975,
-                      "Amount": 31074,
+                      "Amount": 31077,
                       "Pct": 1.0,
-                      "Total": 2175180,
+                      "Total": 2175390,
                       "Min": 70,
                       "Max": 70
                     }
@@ -29650,21 +29650,21 @@
                 },
                 {
                   "Id": 2073,
-                  "Records": 27599,
+                  "Records": 27600,
                   "Rewards": [
                     {
                       "Id": 47738,
                       "Amount": 5431,
-                      "Pct": 0.196782,
+                      "Pct": 0.196775,
                       "Total": 5431,
                       "Min": 1,
                       "Max": 1
                     },
                     {
                       "Id": 51975,
-                      "Amount": 27599,
+                      "Amount": 27600,
                       "Pct": 1.0,
-                      "Total": 1931930,
+                      "Total": 1932000,
                       "Min": 70,
                       "Max": 70
                     }
@@ -29672,13 +29672,13 @@
                 },
                 {
                   "Id": 2074,
-                  "Records": 30692,
+                  "Records": 30693,
                   "Rewards": [
                     {
                       "Id": 51975,
-                      "Amount": 30692,
+                      "Amount": 30693,
                       "Pct": 1.0,
-                      "Total": 2148440,
+                      "Total": 2148510,
                       "Min": 70,
                       "Max": 70
                     }
@@ -29686,13 +29686,13 @@
                 },
                 {
                   "Id": 2075,
-                  "Records": 27766,
+                  "Records": 27767,
                   "Rewards": [
                     {
                       "Id": 51975,
-                      "Amount": 27766,
+                      "Amount": 27767,
                       "Pct": 1.0,
-                      "Total": 1943620,
+                      "Total": 1943690,
                       "Min": 70,
                       "Max": 70
                     }
@@ -29714,13 +29714,13 @@
                 },
                 {
                   "Id": 2077,
-                  "Records": 31829,
+                  "Records": 31830,
                   "Rewards": [
                     {
                       "Id": 51975,
-                      "Amount": 31829,
+                      "Amount": 31830,
                       "Pct": 1.0,
-                      "Total": 2228030,
+                      "Total": 2228100,
                       "Min": 70,
                       "Max": 70
                     }
@@ -29728,13 +29728,13 @@
                 },
                 {
                   "Id": 2078,
-                  "Records": 32258,
+                  "Records": 32259,
                   "Rewards": [
                     {
                       "Id": 51975,
-                      "Amount": 32258,
+                      "Amount": 32259,
                       "Pct": 1.0,
-                      "Total": 2258060,
+                      "Total": 2258130,
                       "Min": 70,
                       "Max": 70
                     }
@@ -29742,13 +29742,13 @@
                 },
                 {
                   "Id": 2079,
-                  "Records": 31806,
+                  "Records": 31808,
                   "Rewards": [
                     {
                       "Id": 51975,
-                      "Amount": 31806,
+                      "Amount": 31808,
                       "Pct": 1.0,
-                      "Total": 2226420,
+                      "Total": 2226560,
                       "Min": 70,
                       "Max": 70
                     }
@@ -29756,13 +29756,13 @@
                 },
                 {
                   "Id": 2080,
-                  "Records": 28292,
+                  "Records": 28294,
                   "Rewards": [
                     {
                       "Id": 51975,
-                      "Amount": 28292,
+                      "Amount": 28294,
                       "Pct": 1.0,
-                      "Total": 1980440,
+                      "Total": 1980580,
                       "Min": 70,
                       "Max": 70
                     }
@@ -29770,13 +29770,13 @@
                 },
                 {
                   "Id": 2081,
-                  "Records": 29897,
+                  "Records": 29898,
                   "Rewards": [
                     {
                       "Id": 51975,
-                      "Amount": 29897,
+                      "Amount": 29898,
                       "Pct": 1.0,
-                      "Total": 2092790,
+                      "Total": 2092860,
                       "Min": 70,
                       "Max": 70
                     }
@@ -29784,13 +29784,13 @@
                 },
                 {
                   "Id": 2082,
-                  "Records": 29911,
+                  "Records": 29913,
                   "Rewards": [
                     {
                       "Id": 51975,
-                      "Amount": 29911,
+                      "Amount": 29913,
                       "Pct": 1.0,
-                      "Total": 2093770,
+                      "Total": 2093910,
                       "Min": 70,
                       "Max": 70
                     }
@@ -29798,13 +29798,13 @@
                 },
                 {
                   "Id": 2083,
-                  "Records": 30234,
+                  "Records": 30236,
                   "Rewards": [
                     {
                       "Id": 51975,
-                      "Amount": 30234,
+                      "Amount": 30236,
                       "Pct": 1.0,
-                      "Total": 2116380,
+                      "Total": 2116520,
                       "Min": 70,
                       "Max": 70
                     }
@@ -29828,7 +29828,7 @@
             },
             {
               "Id": 1,
-              "Records": 130451,
+              "Records": 130452,
               "Fates": [
                 {
                   "Id": 49,
@@ -30586,37 +30586,37 @@
                 },
                 {
                   "Id": 60,
-                  "Records": 9755,
+                  "Records": 9756,
                   "Rewards": [
                     {
                       "Id": 48,
-                      "Amount": 9755,
+                      "Amount": 9756,
                       "Pct": 1.0,
-                      "Total": 195100,
+                      "Total": 195120,
                       "Min": 20,
                       "Max": 20
                     },
                     {
                       "Id": 49,
-                      "Amount": 9755,
+                      "Amount": 9756,
                       "Pct": 1.0,
-                      "Total": 97550,
+                      "Total": 97560,
                       "Min": 10,
                       "Max": 10
                     },
                     {
                       "Id": 45041,
-                      "Amount": 9755,
+                      "Amount": 9756,
                       "Pct": 1.0,
-                      "Total": 905986400,
+                      "Total": 906246820,
                       "Min": 0,
                       "Max": 260420
                     },
                     {
                       "Id": 45042,
-                      "Amount": 9755,
+                      "Amount": 9756,
                       "Pct": 1.0,
-                      "Total": 5369760,
+                      "Total": 5370480,
                       "Min": 0,
                       "Max": 720
                     },
@@ -30638,16 +30638,16 @@
                     },
                     {
                       "Id": 51975,
-                      "Amount": 9755,
+                      "Amount": 9756,
                       "Pct": 1.0,
-                      "Total": 1951000,
+                      "Total": 1951200,
                       "Min": 200,
                       "Max": 200
                     },
                     {
                       "Id": 51980,
                       "Amount": 3815,
-                      "Pct": 0.391081,
+                      "Pct": 0.391041,
                       "Total": 3815,
                       "Min": 1,
                       "Max": 1
