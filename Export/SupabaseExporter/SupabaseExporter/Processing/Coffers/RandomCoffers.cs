@@ -5,7 +5,7 @@ namespace SupabaseExporter.Processing.Coffers;
 
 public class RandomCoffers : CofferBase
 {
-    private static readonly uint[] ValidCoffers = [32161, 36635, 36636, 41667, 52450];
+    private static readonly uint[] ValidCoffers = [32161, 36635, 36636, 41667, 52450, 33441, 51268];
     
     public void ProcessAllData(Models.RandomCofferModel[] data)
     {

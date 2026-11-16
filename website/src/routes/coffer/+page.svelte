@@ -53,8 +53,8 @@
         // svelte-ignore state_referenced_locally
         const selection = tryGetCoffer(cofferData, territory, coffer);
         if (selection !== undefined) {
-            title = `Random Coffers - ${selection.coffer.Name}`;
-            description = `Possibilities for ${selection.variant.Name}`;
+            title = `Random Coffers - ${selection.variant.Name}`;
+            description = `All possibilities for this coffer.`;
         }
     }
 
